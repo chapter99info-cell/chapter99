@@ -1,4 +1,3 @@
-import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import {
   callAppsScript,
   errorResponse,
@@ -21,7 +20,7 @@ type BatchExpensesResponse = {
   expenseRows: Array<ExpenseRow & { receiptUrl?: string }>;
 };
 
-serve(async (req) => {
+Deno.serve(async (req) => {
   const optionsResponse = handleOptions(req);
   if (optionsResponse) {
     return optionsResponse;
