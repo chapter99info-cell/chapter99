@@ -1,0 +1,10 @@
+project_id = "chapter99"
+
+[functions.send-twilio-sms]
+verify_jwt = true
+
+[functions.send-resend-email]
+verify_jwt = true
+
+[functions.asset-expiry-check]
+verify_jwt = true
