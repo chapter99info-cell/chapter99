@@ -5,7 +5,7 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ['dist', 'node_modules', 'supabase/functions'],
+    ignores: ['dist', 'node_modules', 'public/sw.js', 'supabase/functions'],
   },
   {
     files: ['**/*.{ts,tsx}'],
