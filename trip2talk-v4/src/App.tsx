@@ -97,11 +97,12 @@ function PinEntry({ onSuccess }: { onSuccess: (r: PinRole) => void }) {
 }
 
 export default function App() {
-  const [role, setRole] = useState<PinRole | null>(null);
+  const [role, setRole] = useState<PinRole | null>(() => {
+    const saved = sessionStorage.getItem('t2t_role') as PinRole | null;
+    return saved && (saved === 'public' || Object.values(PIN_MAP).includes(saved)) ? saved : null;
+  });
 
   useEffect(() => {
-    const saved = sessionStorage.getItem('t2t_role') as PinRole | null;
-    if (saved && (saved === 'public' || Object.values(PIN_MAP).includes(saved))) setRole(saved);
     registerAutoSync((result) => console.log('[AutoSync]', result));
   }, []);
 
