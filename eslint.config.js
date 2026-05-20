@@ -13,4 +13,14 @@ export default tseslint.config(
       globals: globals.browser,
     },
   },
+  {
+    files: ["public/sw.js"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      globals: {
+        ...globals.serviceworker,
+        fetch: "readonly",
+      },
+    },
+  },
 );
