@@ -24,3 +24,4 @@ Apply the SQL files in order:
 2. `supabase/01-schema-tours-staff.sql`
 3. `supabase/02-schema-crm-safety.sql`
 4. `supabase/03-schema-alerts.sql`
+5. `supabase/16-booking-therapist-slots.sql`
