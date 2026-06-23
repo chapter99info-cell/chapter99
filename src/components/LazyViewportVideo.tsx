@@ -1,6 +1,8 @@
 import { forwardRef, useEffect, useRef } from 'react'
 
-type LazyViewportVideoProps = React.VideoHTMLAttributes<HTMLVideoElement>
+type LazyViewportVideoProps = React.VideoHTMLAttributes<HTMLVideoElement> & {
+  priority?: boolean
+}
 
 function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
   return (value: T | null) => {
@@ -15,7 +17,7 @@ function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
 }
 
 const LazyViewportVideo = forwardRef<HTMLVideoElement, LazyViewportVideoProps>(
-  function LazyViewportVideo({ autoPlay, preload: _preload, ...props }, forwardedRef) {
+  function LazyViewportVideo({ autoPlay, preload: _preload, priority, ...props }, forwardedRef) {
     const localRef = useRef<HTMLVideoElement>(null)
     const shouldAutoplay = Boolean(autoPlay)
 
@@ -44,9 +46,9 @@ const LazyViewportVideo = forwardRef<HTMLVideoElement, LazyViewportVideoProps>(
       <video
         {...props}
         ref={mergeRefs(localRef, forwardedRef)}
-        autoPlay={false}
-        preload="none"
-        {...({ loading: 'lazy' } as React.VideoHTMLAttributes<HTMLVideoElement>)}
+        autoPlay={priority ? shouldAutoplay : false}
+        preload={priority ? 'auto' : 'none'}
+        {...(priority ? {} : ({ loading: 'lazy' } as React.VideoHTMLAttributes<HTMLVideoElement>))}
       />
     )
   },

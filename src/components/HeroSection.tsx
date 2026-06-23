@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 import LazyViewportVideo from './LazyViewportVideo'
-import { useMouseScrubVideo } from '../hooks/useMouseScrubVideo'
 import { useTypewriter } from '../hooks/useTypewriter'
 
 const VIDEO_URL =
-  'https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/hf_20260623_011229_0975c984-b9e4-4913-af12-a588218640e1.mp4'
+  'https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/chapter99hero.mp4'
 
 const TYPEWRITER_TEXT =
   'Glad you stopped in. Good taste tends to find us. Now, what are we building?'
@@ -97,7 +96,6 @@ function BrandMarquee() {
 }
 
 export default function HeroSection() {
-  const videoRef = useMouseScrubVideo()
   const { displayed, done } = useTypewriter(TYPEWRITER_TEXT)
   const [pillsVisible, setPillsVisible] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -124,12 +122,16 @@ export default function HeroSection() {
         style={{ height: 'calc(100vh - 96px)' }}
       >
         <LazyViewportVideo
-          ref={videoRef}
+          priority
           className="absolute inset-0 z-0 h-full w-full object-cover"
           style={{ objectPosition: '70% center' }}
           src={VIDEO_URL}
+          autoPlay
           muted
+          loop
           playsInline
+          crossOrigin="anonymous"
+          preload="auto"
         />
 
         <div className="absolute inset-0 z-[1] bg-black/45" />
@@ -202,9 +204,6 @@ export default function HeroSection() {
               </button>
             </div>
 
-            <p className="mt-4 text-xs text-white/40 md:mt-6">
-              เลื่อนเมาส์ซ้าย–ขวาเพื่อสำรวจวิดีโอ
-            </p>
           </div>
 
           <BrandMarquee />
