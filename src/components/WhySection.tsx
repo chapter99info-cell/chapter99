@@ -1,5 +1,18 @@
 const VIDEO_URL =
-  'https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Chapter99_Food__Media_httpss.mj.runApezOPLNaAc_food_phot.mp4'
+  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260604_125109_19424216-4e2a-4560-b9f2-f1b5f6eb2c2e.mp4'
+
+const POSTER_URL =
+  'https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/chapter99-hero.jpg'
+
+function handleVideoError(e: React.SyntheticEvent<HTMLVideoElement>) {
+  const video = e.currentTarget
+  video.style.display = 'none'
+  const img = document.createElement('img')
+  img.src = POSTER_URL
+  img.className = video.className
+  img.alt = 'Chapter99 F&B photography'
+  video.parentNode?.insertBefore(img, video)
+}
 
 export default function WhySection() {
   return (
@@ -22,10 +35,14 @@ export default function WhySection() {
           <video
             className="absolute inset-0 h-full w-full object-cover"
             src={VIDEO_URL}
+            poster={POSTER_URL}
             autoPlay
             muted
             loop
             playsInline
+            crossOrigin="anonymous"
+            preload="auto"
+            onError={handleVideoError}
           />
         </div>
       </div>
