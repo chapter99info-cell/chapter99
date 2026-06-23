@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter99 — Thai Business Agency Sydney</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #161616;
+    --surface: #1a1a1a;
+    --surface2: #222222;
+    --gold: #c9a96e;
+    --gold2: #e8c98a;
+    --gold3: #f5e4c0;
+    --cream: #f2ede4;
+    --text: #e8e3da;
+    --text2: #9a9590;
+    --text3: #5a5550;
+    --accent: #c9a96e;
+    --red: #e05c5c;
+    --border: rgba(201,169,110,0.15);
+    --border2: rgba(255,255,255,0.06);
+    --glow: rgba(201,169,110,0.2);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sarabun', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 32px; height: 32px;
+    border: 1px solid rgba(201,169,110,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.15s ease;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 24px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s;
+  }
+  nav.scrolled { border-color: var(--border2); }
+
+  .logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: var(--cream);
+    text-decoration: none;
+  }
+  .logo sup {
+    font-size: 10px;
+    color: var(--gold);
+    vertical-align: super;
+    margin-left: 1px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text2);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--cream); }
+
+  .nav-cta {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--gold);
+    padding: 10px 24px;
+    border: none;
+    cursor: none;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold2); transform: translateY(-1px); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(201,169,110,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(201,169,110,0.04) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(201,169,110,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,169,110,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-badge-pill {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    background: rgba(201,169,110,0.05);
+  }
+  .hero-badge-dot {
+    width: 5px; height: 5px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  .hero-badge-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text2);
+    letter-spacing: 1px;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  .hero-headline {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+  }
+  .hero-headline h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(56px, 8vw, 120px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -2px;
+    color: var(--cream);
+    margin-bottom: 0;
+  }
+  .hero-headline h1 em {
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-sub {
+    position: relative;
+    z-index: 2;
+    margin-top: 32px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .hero-desc {
+    max-width: 480px;
+  }
+  .hero-desc p {
+    font-family: 'Sarabun', sans-serif;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text2);
+  }
+  .hero-desc strong { color: var(--cream); font-weight: 600; }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .btn-primary {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--gold);
+    padding: 16px 32px;
+    text-decoration: none;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold2);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  .btn-primary:hover::after { transform: translateX(0); }
+  .btn-primary span { position: relative; z-index: 1; }
+
+  .btn-ghost {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text2);
+    background: transparent;
+    border: 1px solid var(--border2);
+    padding: 16px 32px;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .btn-ghost:hover { color: var(--cream); border-color: var(--border); }
+
+  /* Scrolling ticker */
+  .ticker {
+    background: var(--gold);
+    padding: 10px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .ticker-inner {
+    display: flex;
+    gap: 0;
+    animation: ticker 30s linear infinite;
+    width: max-content;
+  }
+  .ticker-item {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--bg);
+    padding: 0 32px;
+    white-space: nowrap;
+  }
+  .ticker-sep {
+    color: rgba(10,10,10,0.3);
+    padding: 0 8px;
+  }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ─── SECTIONS ─── */
+  section { position: relative; z-index: 2; }
+
+  .section-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--cream);
+    letter-spacing: -1px;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+  }
+
+  /* ─── ABOUT / QUOTE ─── */
+  .about {
+    padding: 120px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-quote {
+    position: relative;
+  }
+  .about-quote blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3vw, 32px);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.4;
+    position: relative;
+    padding-left: 32px;
+    border-left: 2px solid var(--gold);
+  }
+  .about-quote cite {
+    display: block;
+    margin-top: 20px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text2);
+    padding-left: 32px;
+    font-style: normal;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+  .stat-card {
+    background: var(--surface);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .stat-card:hover { background: var(--surface2); }
+  .stat-card:hover::before { opacity: 1; }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-num sup { font-size: 24px; }
+  .stat-label {
+    font-family: 'Sarabun', sans-serif;
+    font-size: 14px;
+    color: var(--text2);
+    font-weight: 300;
+  }
+
+  /* ─── SERVICES ─── */
+  .services {
+    padding: 120px 48px;
+    background: var(--bg2);
+  }
+
+  .services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 64px;
+  }
+  .services-header p {
+    max-width: 380px;
+    font-size: 15px;
+    color: var(--text2);
+    line-height: 1.7;
+  }
+
+  .services-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .service-row {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: center;
+    gap: 32px;
+    padding: 28px 32px;
+    background: var(--surface);
+    transition: all 0.4s ease;
+    cursor: none;
+    position: relative;
+    overflow: hidden;
+    border-left: 2px solid transparent;
+  }
+  .service-row::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(201,169,110,0.04), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .service-row:hover {
+    background: var(--surface2);
+    border-left-color: var(--gold);
+    transform: translateX(4px);
+  }
+  .service-row:hover::after { opacity: 1; }
+
+  /* 3D Icon */
+  .service-icon-3d {
+    width: 64px;
+    height: 64px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .icon-3d {
+    width: 64px;
+    height: 64px;
+    position: relative;
+  }
+  .icon-face {
+    position: absolute;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+  }
+  .face-front {
+    width: 52px; height: 52px;
+    top: 6px; left: 0;
+    background: linear-gradient(135deg, var(--surface2), var(--bg3));
+    border: 1px solid rgba(201,169,110,0.3);
+    box-shadow: 
+      inset 0 1px 0 rgba(255,255,255,0.08),
+      0 8px 24px rgba(0,0,0,0.4),
+      0 0 0 1px rgba(0,0,0,0.2);
+    transition: all 0.4s ease;
+  }
+  .face-right {
+    width: 10px; height: 52px;
+    top: 6px; left: 52px;
+    background: linear-gradient(180deg, rgba(201,169,110,0.15), rgba(201,169,110,0.05));
+    border-radius: 0 4px 4px 0;
+    transform: skewY(-45deg) translateY(-5px);
+    border-right: 1px solid rgba(201,169,110,0.2);
+  }
+  .face-bottom {
+    width: 52px; height: 10px;
+    top: 52px; left: 0;
+    background: linear-gradient(90deg, rgba(201,169,110,0.1), rgba(201,169,110,0.03));
+    border-radius: 0 0 4px 0;
+    transform: skewX(-45deg) translateX(5px);
+  }
+  .service-row:hover .face-front {
+    box-shadow: 
+      inset 0 1px 0 rgba(255,255,255,0.12),
+      0 12px 32px rgba(0,0,0,0.5),
+      0 0 20px rgba(201,169,110,0.1),
+      0 0 0 1px rgba(201,169,110,0.2);
+  }
+
+  .service-content { flex: 1; }
+  .service-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+  .service-desc {
+    font-family: 'Sarabun', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  .service-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .tag {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    background: rgba(201,169,110,0.04);
+  }
+
+  /* ─── PACKAGES ─── */
+  .packages {
+    padding: 120px 48px;
+  }
+
+  .packages-header {
+    margin-bottom: 64px;
+  }
+
+  .promo-banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(90deg, rgba(224,92,92,0.15), rgba(201,169,110,0.1));
+    border: 1px solid rgba(224,92,92,0.3);
+    padding: 10px 20px;
+    margin-top: 24px;
+  }
+  .promo-dot { width: 6px; height: 6px; background: var(--red); border-radius: 50%; animation: pulse 1.5s infinite; }
+  .promo-text {
+    font-family: 'Sarabun', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cream);
+  }
+  .promo-text span { color: var(--red); }
+
+  .packages-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .pkg-card {
+    background: var(--surface);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s ease;
+  }
+  .pkg-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .pkg-card:hover { transform: translateY(-4px); }
+  .pkg-card:hover::before { opacity: 1; }
+
+  .pkg-card.featured {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+  }
+  .pkg-card.featured::before { opacity: 0.6; }
+
+  .pkg-badge {
+    position: absolute;
+    top: 20px; right: 20px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--gold);
+    color: var(--bg);
+    padding: 5px 12px;
+  }
+
+  .pkg-discount-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(224,92,92,0.15);
+    border: 1px solid rgba(224,92,92,0.3);
+    padding: 4px 10px;
+    margin-bottom: 24px;
+  }
+  .pkg-discount-badge span {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--red);
+    letter-spacing: 1px;
+  }
+
+  /* 3D Package Icon */
+  .pkg-icon-wrap {
+    margin-bottom: 32px;
+  }
+  .pkg-icon-3d {
+    width: 72px;
+    height: 72px;
+    position: relative;
+    display: inline-block;
+  }
+  .pkg-face-front {
+    position: absolute;
+    width: 60px; height: 60px;
+    top: 8px; left: 0;
+    background: linear-gradient(135deg, var(--bg3), var(--surface));
+    border: 1px solid rgba(201,169,110,0.25);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    box-shadow: 
+      inset 0 1px 0 rgba(255,255,255,0.06),
+      0 12px 32px rgba(0,0,0,0.4),
+      0 0 0 1px rgba(0,0,0,0.3);
+  }
+  .pkg-face-right {
+    position: absolute;
+    width: 12px; height: 60px;
+    top: 8px; left: 60px;
+    background: rgba(201,169,110,0.08);
+    border-radius: 0 6px 6px 0;
+    transform: skewY(-45deg) translateY(-6px);
+  }
+  .pkg-face-bottom {
+    position: absolute;
+    width: 60px; height: 12px;
+    top: 62px; left: 0;
+    background: rgba(201,169,110,0.04);
+    border-radius: 0 0 6px 0;
+    transform: skewX(-45deg) translateX(6px);
+  }
+
+  .pkg-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 8px;
+  }
+
+  .pkg-price-wrap { margin-bottom: 8px; }
+  .pkg-setup-label {
+    font-family: 'Sarabun', sans-serif;
+    font-size: 12px;
+    color: var(--text3);
+    margin-bottom: 4px;
+  }
+  .pkg-setup {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--cream);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .pkg-setup .currency {
+    font-size: 20px;
+    color: var(--gold);
+    vertical-align: top;
+    margin-top: 8px;
+    display: inline-block;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .pkg-setup-discounted {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .pkg-setup-discounted .original {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    color: var(--text3);
+    text-decoration: line-through;
+    text-decoration-color: var(--red);
+  }
+  .pkg-setup-discounted .discounted {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .pkg-monthly {
+    font-family: 'Sarabun', sans-serif;
+    font-size: 14px;
+    color: var(--text2);
+    margin-bottom: 32px;
+  }
+  .pkg-monthly strong {
+    color: var(--cream);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+  }
+  .pkg-monthly .mo-discounted {
+    color: var(--gold);
+    font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .pkg-divider {
+    height: 1px;
+    background: var(--border2);
+    margin-bottom: 28px;
+  }
+
+  .pkg-features {
+    list-style: none;
+    margin-bottom: 40px;
+  }
+  .pkg-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: 'Sarabun', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text2);
+    padding: 7px 0;
+    line-height: 1.5;
+  }
+  .pkg-features li::before {
+    content: '✦';
+    color: var(--gold);
+    font-size: 8px;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .pkg-cta {
+    display: block;
+    text-align: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px;
+    transition: all 0.3s;
+  }
+  .pkg-cta-outline {
+    color: var(--gold);
+    border: 1px solid var(--border);
+    background: transparent;
+  }
+  .pkg-cta-outline:hover {
+    background: rgba(201,169,110,0.08);
+    border-color: var(--gold);
+  }
+  .pkg-cta-fill {
+    color: var(--bg);
+    background: var(--gold);
+    border: 1px solid var(--gold);
+  }
+  .pkg-cta-fill:hover { background: var(--gold2); }
+
+  /* ─── TESTIMONIALS ─── */
+  .testimonials {
+    padding: 120px 48px;
+    background: var(--bg2);
+  }
+
+  .testimonials-header {
+    margin-bottom: 64px;
+  }
+
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .testi-card {
+    background: var(--surface);
+    padding: 40px 36px;
+    position: relative;
+    transition: background 0.3s;
+  }
+  .testi-card:hover { background: var(--surface2); }
+
+  .testi-stars {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 20px;
+  }
+  .star {
+    width: 14px; height: 14px;
+    color: var(--gold);
+    font-size: 12px;
+  }
+
+  .testi-text {
+    font-family: 'Sarabun', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--text2);
+    line-height: 1.75;
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .testi-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--bg);
+    flex-shrink: 0;
+  }
+  .testi-info-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 2px;
+  }
+  .testi-info-role {
+    font-family: 'Sarabun', sans-serif;
+    font-size: 12px;
+    color: var(--text3);
+  }
+
+  /* ─── CONTACT ─── */
+  .contact {
+    padding: 120px 48px;
+  }
+
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-info h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 24px;
+  }
+  .contact-info h2 em { color: var(--gold); font-style: italic; }
+  .contact-info p {
+    font-family: 'Sarabun', sans-serif;
+    font-size: 15px;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  .contact-details { display: flex; flex-direction: column; gap: 16px; }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .contact-item-icon {
+    width: 42px; height: 42px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  /* Mini 3D effect for contact icons */
+  .contact-item-icon::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; right: -4px;
+    width: 42px; height: 42px;
+    background: rgba(201,169,110,0.04);
+    border: 1px solid var(--border);
+    z-index: -1;
+  }
+  .contact-item-text {
+    font-family: 'Sarabun', sans-serif;
+    font-size: 14px;
+    color: var(--text2);
+  }
+  .contact-item-text a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .contact-item-text a:hover { color: var(--gold2); }
+
+  /* Form */
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text3);
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    color: var(--text);
+    font-family: 'Sarabun', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 14px 16px;
+    outline: none;
+    transition: border-color 0.3s;
+    resize: none;
+    cursor: none;
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: var(--text3); }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--gold);
+    background: var(--surface2);
+  }
+  .form-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23c9a96e' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+  .form-group select option { background: var(--bg); }
+
+  .form-submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 8px;
+  }
+  .form-note {
+    font-family: 'Sarabun', sans-serif;
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 1.5;
+  }
+  .form-note a { color: var(--gold); text-decoration: none; }
+
+  .btn-submit {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--gold);
+    border: none;
+    padding: 18px 40px;
+    cursor: none;
+    transition: all 0.3s;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-submit:hover { background: var(--gold2); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 48px;
+    background: var(--bg3);
+    border-top: 1px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+  }
+
+  .footer-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--cream);
+    text-decoration: none;
+    letter-spacing: -0.3px;
+  }
+  .footer-logo sup { font-size: 9px; color: var(--gold); vertical-align: super; }
+
+  .footer-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text3);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 1px;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 0 24px 64px; }
+    .hero-sub { flex-direction: column; align-items: flex-start; }
+    .about { padding: 80px 24px; grid-template-columns: 1fr; gap: 48px; }
+    .services { padding: 80px 24px; }
+    .services-header { flex-direction: column; gap: 20px; align-items: flex-start; }
+    .service-row { grid-template-columns: 64px 1fr; }
+    .service-tags { display: none; }
+    .packages { padding: 80px 24px; }
+    .packages-grid { grid-template-columns: 1fr; }
+    .testimonials { padding: 80px 24px; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .contact { padding: 80px 24px; }
+    .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { padding: 32px 24px; flex-direction: column; gap: 20px; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="logo">Chapter<sup>99</sup></a>
+  <ul class="nav-links">
+    <li><a href="#services">SERVICES</a></li>
+    <li><a href="#packages">PACKAGES</a></li>
+    <li><a href="#testimonials">ผลงาน</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">FREE CALL</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-badge">
+    <span class="hero-badge-pill">SYDNEY · SINCE 1996</span>
+    <span class="hero-badge-dot"></span>
+    <span class="hero-badge-text">Chapter99 Studio</span>
+  </div>
+
+  <div class="hero-headline">
+    <h1>We build<br><em>businesses</em>not just websites.</h1>
+  </div>
+
+  <div class="hero-sub">
+    <div class="hero-desc">
+      <p>พี่แสน — ช่างภาพ <strong>29 ปีในซิดนีย์</strong> ออกแบบ Digital System ให้ธุรกิจไทยในออสฯ ลดพนักงาน เพิ่มกำไร ด้วย <strong>AI + Photography</strong> ที่ดึงดูดลูกค้าฝรั่งได้จริง</p>
+    </div>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary"><span>เริ่มต้นเลย →</span></a>
+      <a href="#packages" class="btn-ghost">ดูผลงาน</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker">
+    <span class="ticker-item">Thai Business Agency</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Sydney Australia</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">PWA Systems</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Photography</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">AI Powered</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">29 Years Experience</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Chapter99 Solutions</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Thai Business Agency</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Sydney Australia</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">PWA Systems</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Photography</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">AI Powered</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">29 Years Experience</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Chapter99 Solutions</span><span class="ticker-sep">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-quote reveal">
+    <div class="section-label">About</div>
+    <blockquote>
+      "Westerners buy with their eyes. คนไทยหลายร้านขายดีกว่านี้ได้ — ถ้ามีภาพที่ถูกต้อง"
+    </blockquote>
+    <cite>— พี่แสน, Chapter99 Founder</cite>
+    <p style="margin-top:32px; font-size:15px; color: var(--text2); line-height:1.7;">
+      เราเชี่ยวชาญธุรกิจไทยในออสเตรเลีย เข้าใจความท้าทายของเจ้าของกิจการไทย ที่ต้องสื่อสารกับลูกค้าฝรั่ง จัดการพนักงาน และแข่งกับคู่แข่งที่มีระบบดีกว่า — เราแก้ทุกปัญหานี้ในแพ็กเกจเดียว
+    </p>
+  </div>
+
+  <div class="about-stats reveal reveal-delay-2">
+    <div class="stat-card">
+      <div class="stat-num">29<sup>+</sup></div>
+      <div class="stat-label">ปีในซิดนีย์</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">10<sup>+</sup></div>
+      <div class="stat-label">บริการครบครัน</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">3</div>
+      <div class="stat-label">แพ็กเกจให้เลือก</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">$0</div>
+      <div class="stat-label">ค่า Free Consultation</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-label reveal">บริการ</div>
+      <h2 class="section-title reveal reveal-delay-1">บริการที่ทำให้<br><em>ธุรกิจรุ่ง</em></h2>
+    </div>
+    <p class="reveal reveal-delay-2">ทุกบริการออกแบบมาเพื่อธุรกิจไทยในออสเตรเลียโดยเฉพาะ — ไม่ใช่แค่เว็บสวย แต่คือระบบที่ทำให้ธุรกิจโตจริง</p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-row reveal">
+      <div class="service-icon-3d">
+        <div class="icon-3d">
+          <div class="face-front">📸</div>
+          <div class="face-right"></div>
+          <div class="face-bottom"></div>
+        </div>
+      </div>
+      <div class="service-content">
+        <div class="service-name">Photography & Cinematic Reels</div>
+        <div class="service-desc">ภาพถ่ายและวิดีโอระดับมืออาชีพ ดึงดูดลูกค้าฝรั่งด้วยภาพที่ถูกต้อง บอกเล่าเรื่องราวของธุรกิจคุณ</div>
+      </div>
+      <div class="service-tags">
+        <span class="tag">Photo</span>
+        <span class="tag">Reels</span>
+      </div>
+    </div>
+
+    <div class="service-row reveal reveal-delay-1">
+      <div class="service-icon-3d">
+        <div class="icon-3d">
+          <div class="face-front">📱</div>
+          <div class="face-right"></div>
+          <div class="face-bottom"></div>
+        </div>
+      </div>
+      <div class="service-content">
+        <div class="service-name">PWA Website V4 + Booking System</div>
+        <div class="service-desc">เว็บแอปรับจองออนไลน์ ระบบ POS จัดการร้าน รองรับ GST, HICAPS, PayID — ครบในที่เดียว</div>
+      </div>
+      <div class="service-tags">
+        <span class="tag">PWA</span>
+        <span class="tag">POS</span>
+        <span class="tag">AI</span>
+      </div>
+    </div>
+
+    <div class="service-row reveal reveal-delay-2">
+      <div class="service-icon-3d">
+        <div class="icon-3d">
+          <div class="face-front">✍️</div>
+          <div class="face-right"></div>
+          <div class="face-bottom"></div>
+        </div>
+      </div>
+      <div class="service-content">
+        <div class="service-name">Done-For-You English Content</div>
+        <div class="service-desc">คอนเทนต์ภาษาอังกฤษที่เจ้าของร้านไทยไม่ต้องเขียนเอง Google Business, Social Media, Email</div>
+      </div>
+      <div class="service-tags">
+        <span class="tag">Content</span>
+        <span class="tag">SEO</span>
+      </div>
+    </div>
+
+    <div class="service-row reveal reveal-delay-1">
+      <div class="service-icon-3d">
+        <div class="icon-3d">
+          <div class="face-front">⭐</div>
+          <div class="face-right"></div>
+          <div class="face-bottom"></div>
+        </div>
+      </div>
+      <div class="service-content">
+        <div class="service-name">Google Review + Email Retention</div>
+        <div class="service-desc">ระบบเพิ่ม Google Review อัตโนมัติ และ Email marketing ดึงลูกค้าเก่ากลับมา</div>
+      </div>
+      <div class="service-tags">
+        <span class="tag">Google</span>
+        <span class="tag">Email</span>
+      </div>
+    </div>
+
+    <div class="service-row reveal reveal-delay-2">
+      <div class="service-icon-3d">
+        <div class="icon-3d">
+          <div class="face-front">✈️</div>
+          <div class="face-right"></div>
+          <div class="face-bottom"></div>
+        </div>
+      </div>
+      <div class="service-content">
+        <div class="service-name">Trip2Talk — Exclusive Photo Tours</div>
+        <div class="service-desc">ทัวร์ถ่ายภาพพร้อมไกด์ภาษาไทย สำหรับนักท่องเที่ยวชาวไทยในออสเตรเลีย</div>
+      </div>
+      <div class="service-tags">
+        <span class="tag">Tour</span>
+        <span class="tag">Photo</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="packages" id="packages">
+  <div class="packages-header">
+    <div class="section-label reveal">Pricing</div>
+    <h2 class="section-title reveal reveal-delay-1">เลือกแพ็กเกจ<br><em>ที่ใช่สำหรับคุณ</em></h2>
+    <div class="promo-banner reveal reveal-delay-2">
+      <div class="promo-dot"></div>
+      <p class="promo-text">🔥 ลด <span>10%</span> สำหรับ 10 เจ้าแรกที่สมัคร — เหลืออีกไม่กี่ที่!</p>
+    </div>
+  </div>
+
+  <div class="packages-grid">
+    <!-- Starter -->
+    <div class="pkg-card reveal">
+      <div class="pkg-icon-wrap">
+        <div class="pkg-icon-3d">
+          <div class="pkg-face-front">🌱</div>
+          <div class="pkg-face-right"></div>
+          <div class="pkg-face-bottom"></div>
+        </div>
+      </div>
+      <div class="pkg-name">Starter</div>
+      <div class="pkg-discount-badge">
+        <div class="promo-dot" style="background:var(--red)"></div>
+        <span>10% OFF — 10 เจ้าแรก</span>
+      </div>
+      <div class="pkg-price-wrap">
+        <div class="pkg-setup-label">Setup fee</div>
+        <div class="pkg-setup-discounted">
+          <span class="original">$199 AUD</span>
+          <span class="discounted"><span class="currency" style="font-size:16px;color:var(--gold2)">$</span>179</span>
+        </div>
+      </div>
+      <div class="pkg-monthly">รายเดือน <strong style="color:var(--text3);text-decoration:line-through;text-decoration-color:var(--red)">$29</strong> → <span class="mo-discounted">$26/mo</span></div>
+      <div class="pkg-divider"></div>
+      <ul class="pkg-features">
+        <li>AI Chat (Landing Page) ติดตั้งทันที</li>
+        <li>Facebook & Google Ads ติดตั้ง</li>
+        <li>QR Code เพิ่ม Google Review</li>
+        <li>AI Chatbot (AI Hosting Basic)</li>
+        <li>90 Day AI Training ด้านการตลาด</li>
+        <li>Setup Facebook & Google Business</li>
+      </ul>
+      <a href="#contact" class="pkg-cta pkg-cta-outline">เริ่มต้นเลย →</a>
+    </div>
+
+    <!-- Professional -->
+    <div class="pkg-card featured reveal reveal-delay-1">
+      <div class="pkg-badge">POPULAR</div>
+      <div class="pkg-icon-wrap">
+        <div class="pkg-icon-3d">
+          <div class="pkg-face-front">🚀</div>
+          <div class="pkg-face-right"></div>
+          <div class="pkg-face-bottom"></div>
+        </div>
+      </div>
+      <div class="pkg-name">Professional</div>
+      <div class="pkg-discount-badge">
+        <div class="promo-dot" style="background:var(--red)"></div>
+        <span>10% OFF — 10 เจ้าแรก</span>
+      </div>
+      <div class="pkg-price-wrap">
+        <div class="pkg-setup-label">Setup fee</div>
+        <div class="pkg-setup-discounted">
+          <span class="original">$499 AUD</span>
+          <span class="discounted"><span class="currency" style="font-size:16px;color:var(--gold2)">$</span>449</span>
+        </div>
+      </div>
+      <div class="pkg-monthly">รายเดือน <strong style="color:var(--text3);text-decoration:line-through;text-decoration-color:var(--red)">$69</strong> → <span class="mo-discounted">$62/mo</span></div>
+      <div class="pkg-divider"></div>
+      <ul class="pkg-features">
+        <li>ทุกอย่างใน Starter</li>
+        <li>Cinematic Booking V4 พร้อมใช้</li>
+        <li>Photography 1 ครั้ง / Custom Gallery Theme</li>
+        <li>Setup Facebook & Google Business</li>
+        <li>3P Cards, Afterpay + Payment Gateway</li>
+        <li>English Copywriting (3 หน้าหลัก)</li>
+      </ul>
+      <a href="#contact" class="pkg-cta pkg-cta-fill">สมัครเลย →</a>
+    </div>
+
+    <!-- Business Plus -->
+    <div class="pkg-card reveal reveal-delay-2">
+      <div class="pkg-icon-wrap">
+        <div class="pkg-icon-3d">
+          <div class="pkg-face-front">👑</div>
+          <div class="pkg-face-right"></div>
+          <div class="pkg-face-bottom"></div>
+        </div>
+      </div>
+      <div class="pkg-name">Business Plus</div>
+      <div class="pkg-discount-badge">
+        <div class="promo-dot" style="background:var(--red)"></div>
+        <span>10% OFF — 10 เจ้าแรก</span>
+      </div>
+      <div class="pkg-price-wrap">
+        <div class="pkg-setup-label">Setup fee</div>
+        <div class="pkg-setup-discounted">
+          <span class="original">$999 AUD</span>
+          <span class="discounted"><span class="currency" style="font-size:16px;color:var(--gold2)">$</span>899</span>
+        </div>
+      </div>
+      <div class="pkg-monthly">รายเดือน <strong style="color:var(--text3);text-decoration:line-through;text-decoration-color:var(--red)">$110</strong> → <span class="mo-discounted">$99/mo</span></div>
+      <div class="pkg-divider"></div>
+      <ul class="pkg-features">
+        <li>ทุกอย่างใน Professional</li>
+        <li>8 Hours Pro Photography + Styling</li>
+        <li>2 Custom Google Review Tablets</li>
+        <li>Content วิดีโอ Cinematic Google Review</li>
+        <li>eBooking V4 + Training eStaff</li>
+        <li>Monthly Performance Report</li>
+      </ul>
+      <a href="#contact" class="pkg-cta pkg-cta-outline">สอบถามเพิ่มเติม →</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="testimonials-header">
+    <div class="section-label reveal">Client Stories</div>
+    <h2 class="section-title reveal reveal-delay-1">เจ้าของธุรกิจไทย<br><em>พูดถึงเรา</em></h2>
+  </div>
+
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <div class="testi-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="testi-text">"ตั้งแต่ใช้ระบบของ Chapter99 ลูกค้าจองออนไลน์เพิ่มขึ้นมาก ไม่ต้องรับโทรศัพท์ตลอดเวลาแล้ว พนักงานมีเวลาให้บริการลูกค้าได้เต็มที่"</p>
+      <div class="testi-author">
+        <div class="testi-avatar">น</div>
+        <div>
+          <div class="testi-info-name">นุช</div>
+          <div class="testi-info-role">Thai Massage · Sydney CBD</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card reveal reveal-delay-1">
+      <div class="testi-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="testi-text">"AI Booking System ทำให้ร้านเราดูมืออาชีพมากขึ้น Google Review เพิ่มจาก 4.2 เป็น 4.8 ภายใน 3 เดือน ลูกค้าฝรั่งเชื่อถือมากขึ้นเยอะ"</p>
+      <div class="testi-author">
+        <div class="testi-avatar">อ</div>
+        <div>
+          <div class="testi-info-name">อ้อม</div>
+          <div class="testi-info-role">Spa & Wellness · Bondi Junction</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card reveal reveal-delay-2">
+      <div class="testi-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="testi-text">"ขอบคุณพี่แสนมากๆ ที่ช่วยทำ campaign โปรโมชั่นให้ ตอนนี้ทำรายได้เพิ่มขึ้น 30% เดือนนี้เต็มทุกสัปดาห์เลย ดีใจมากที่ตัดสินใจใช้บริการ"</p>
+      <div class="testi-author">
+        <div class="testi-avatar">ต</div>
+        <div>
+          <div class="testi-info-name">ต้อย</div>
+          <div class="testi-info-role">Thai Massage · Parramatta</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-info reveal">
+      <div class="section-label">Get Started</div>
+      <h2>ส่ง <em>Project Brief</em><br>ให้พี่แสน</h2>
+      <p>เราจะตอบกลับภายใน 24 ชั่วโมง และนัด Free Call เพื่อคุยรายละเอียดโดยไม่มีข้อผูกมัด</p>
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="contact-item-icon">📞</div>
+          <div class="contact-item-text"><a href="tel:+61400000000">+61 400 000 000</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📧</div>
+          <div class="contact-item-text"><a href="mailto:chapter99@chapter99.com">chapter99@chapter99.com</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div class="contact-item-text">Sydney, NSW, Australia</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🌐</div>
+          <div class="contact-item-text"><a href="http://chapter99.com">chapter99.com</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form reveal reveal-delay-2">
+      <div class="form-row">
+        <div class="form-group">
+          <label>ชื่อ-นามสกุล</label>
+          <input type="text" placeholder="ชื่อของคุณ">
+        </div>
+        <div class="form-group">
+          <label>เบอร์โทร</label>
+          <input type="tel" placeholder="04XX XXX XXX">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>อีเมล</label>
+        <input type="email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>ประเภทธุรกิจ</label>
+        <input type="text" placeholder="เช่น ร้านนวด, ร้านอาหาร, สปา...">
+      </div>
+      <div class="form-group">
+        <label>แพ็กเกจที่สนใจ</label>
+        <select>
+          <option value="" disabled selected>เลือกแพ็กเกจ</option>
+          <option>Starter — $179 AUD (ลด 10%)</option>
+          <option>Professional — $449 AUD (ลด 10%)</option>
+          <option>Business Plus — $899 AUD (ลด 10%)</option>
+          <option>ยังไม่แน่ใจ อยากคุยก่อน</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>รายละเอียดเพิ่มเติม</label>
+        <textarea rows="4" placeholder="บอกเล่าเกี่ยวกับธุรกิจของคุณ ปัญหาที่เจอ และสิ่งที่อยากได้..."></textarea>
+      </div>
+      <div class="form-submit">
+        <p class="form-note">ข้อมูลของคุณจะถูกเก็บเป็นความลับ<br>ดู <a href="#">Privacy Policy</a></p>
+        <button class="btn-submit">ส่งข้อมูล →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">Chapter<sup>99</sup></a>
+  <ul class="footer-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#">Privacy</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 Chapter99 Studio · Sydney</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx - 4 + 'px';
+    cursor.style.top = my - 4 + 'px';
+  });
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx - 16 + 'px';
+    ring.style.top = ry - 16 + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  document.querySelectorAll('a, button, .service-row, .pkg-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'scale(2)';
+      ring.style.transform = 'scale(1.5)';
+      ring.style.borderColor = 'rgba(201,169,110,0.8)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'scale(1)';
+      ring.style.transform = 'scale(1)';
+      ring.style.borderColor = 'rgba(201,169,110,0.5)';
+    });
+  });
+
+  // Nav scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Form submit
+  document.querySelector('.btn-submit').addEventListener('click', function() {
+    this.textContent = 'ส่งแล้ว ✓';
+    this.style.background = '#4a9d6f';
+    setTimeout(() => {
+      this.textContent = 'ส่งข้อมูล →';
+      this.style.background = '';
+    }, 3000);
+  });
+</script>
+</body>
+</html>

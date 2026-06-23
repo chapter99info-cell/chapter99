@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://chapter99solutions.com.au/sitemap.xml

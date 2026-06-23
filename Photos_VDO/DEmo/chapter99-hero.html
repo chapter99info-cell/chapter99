@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter99 | Digital Agency Sydney</title>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #0C0C0C; font-family: 'Kanit', sans-serif; color: #D7E2EA; overflow-x: hidden; scroll-behavior: smooth; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #0C0C0C; }
+  ::-webkit-scrollbar-thumb { background: #E8A838; border-radius: 2px; }
+
+  /* ── HERO ── */
+  .hero { position: relative; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+  .hero-video-bg { position: absolute; inset: 0; z-index: 0; }
+  .hero-video-bg video { width: 100%; height: 100%; object-fit: cover; }
+  .hero-video-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(12,12,12,0.55) 0%, rgba(12,12,12,0.3) 40%, rgba(12,12,12,0.75) 100%);
+  }
+
+  /* ── NAV ── */
+  nav { position: relative; z-index: 10; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2.5rem; }
+  .nav-logo { display: flex; align-items: center; gap: 0.6rem; }
+  .nav-logo-icon { width: 38px; height: 38px; background: linear-gradient(135deg, #E8A838, #c47f15); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; color: #0C0C0C; }
+  .nav-logo-text { font-weight: 700; font-size: 1.2rem; letter-spacing: 0.02em; }
+  .nav-links { display: flex; gap: 2.5rem; }
+  .nav-links a { color: #D7E2EA; text-decoration: none; font-weight: 500; font-size: 0.95rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; transition: opacity 0.2s; }
+  .nav-links a:hover { opacity: 1; color: #E8A838; }
+  .btn-demo { background: #fff; color: #0C0C0C; padding: 0.6rem 1.6rem; border-radius: 100px; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.05em; text-decoration: none; transition: all 0.2s; border: none; cursor: pointer; }
+  .btn-demo:hover { background: #E8A838; }
+
+  /* ── HERO CONTENT ── */
+  .hero-content { position: relative; z-index: 10; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 2.5rem 3.5rem; }
+  .hero-tagline { font-size: clamp(0.7rem, 1.2vw, 1rem); font-weight: 300; letter-spacing: 0.25em; text-transform: uppercase; color: #E8A838; margin-bottom: 0.75rem; opacity: 0.9; }
+  .hero-heading { font-size: clamp(2.8rem, 7vw, 6.5rem); font-weight: 900; line-height: 1; text-transform: uppercase; letter-spacing: -0.02em; margin-bottom: 1.25rem; }
+  .hero-heading .line1 { display: block; }
+  .hero-heading .accent { color: #E8A838; }
+  .hero-sub { font-size: clamp(0.85rem, 1.4vw, 1.1rem); font-weight: 300; line-height: 1.6; max-width: 440px; color: rgba(215,226,234,0.85); margin-bottom: 2rem; }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 0.85rem; align-items: center; }
+  .btn-primary { background: linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%); color: #fff; padding: 0.75rem 2rem; border-radius: 100px; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; border: 2px solid transparent; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(182,0,168,0.3); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(182,0,168,0.5); }
+  .btn-outline { border: 1.5px solid rgba(215,226,234,0.5); color: #D7E2EA; padding: 0.75rem 1.6rem; border-radius: 100px; font-weight: 500; font-size: 0.9rem; letter-spacing: 0.05em; text-decoration: none; text-transform: uppercase; transition: all 0.2s; background: rgba(215,226,234,0.05); }
+  .btn-outline:hover { border-color: #E8A838; color: #E8A838; background: rgba(232,168,56,0.08); }
+  .hero-email { font-size: 0.82rem; color: rgba(215,226,234,0.55); letter-spacing: 0.05em; margin-top: 0.25rem; }
+  .hero-email span { color: #E8A838; text-decoration: underline; cursor: pointer; }
+
+  /* ── VIDEO REEL STRIP ── */
+  .reel-strip { background: #0C0C0C; padding: 4rem 0 3rem; overflow: hidden; }
+  .reel-label { text-align: center; font-size: 0.75rem; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(215,226,234,0.4); margin-bottom: 2rem; }
+  .reel-track-wrapper { overflow: hidden; }
+  .reel-track { display: flex; gap: 1rem; width: max-content; animation: scrollLeft 30s linear infinite; }
+  .reel-track:hover { animation-play-state: paused; }
+  .reel-track.reverse { animation: scrollRight 35s linear infinite; margin-top: 1rem; }
+  .reel-track.reverse:hover { animation-play-state: paused; }
+  @keyframes scrollLeft { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes scrollRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  .reel-item { flex-shrink: 0; width: 320px; height: 200px; border-radius: 16px; overflow: hidden; position: relative; cursor: pointer; }
+  .reel-item video { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+  .reel-item:hover video { transform: scale(1.05); }
+  .reel-item::after { content: '▶'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: rgba(255,255,255,0); transition: color 0.3s; background: rgba(0,0,0,0); transition: background 0.3s, color 0.3s; }
+  .reel-item:hover::after { background: rgba(0,0,0,0.35); color: rgba(255,255,255,0.9); }
+
+  /* ── SERVICES (WHITE) ── */
+  .services-section { background: #fff; color: #0C0C0C; border-radius: 50px 50px 0 0; padding: 5rem 2.5rem 4rem; margin-top: -2rem; position: relative; z-index: 5; }
+  .section-eyebrow { font-size: 0.72rem; font-weight: 400; letter-spacing: 0.3em; text-transform: uppercase; opacity: 0.45; margin-bottom: 0.5rem; }
+  .section-heading { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; line-height: 1; margin-bottom: 3.5rem; }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(12,12,12,0.1); border: 1px solid rgba(12,12,12,0.1); border-radius: 24px; overflow: hidden; }
+  .service-card { background: #fff; padding: 2.2rem 2rem; transition: background 0.25s; cursor: default; }
+  .service-card:hover { background: #F8F6F2; }
+  .service-num { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; color: #E8A838; text-transform: uppercase; margin-bottom: 1rem; }
+  .service-name { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.6rem; line-height: 1.2; }
+  .service-desc { font-size: 0.875rem; font-weight: 300; line-height: 1.65; opacity: 0.6; }
+  .service-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+
+  /* ── PRICING ── */
+  .pricing-section { background: #0C0C0C; padding: 5rem 2.5rem; }
+  .pricing-tab-bar { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 3rem; background: rgba(255,255,255,0.05); border-radius: 100px; padding: 0.4rem; width: fit-content; margin-left: auto; margin-right: auto; }
+  .pricing-tab { padding: 0.55rem 1.6rem; border-radius: 100px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: all 0.25s; color: rgba(215,226,234,0.55); border: none; background: transparent; }
+  .pricing-tab.active { background: #E8A838; color: #0C0C0C; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; max-width: 1100px; margin: 0 auto; }
+  .price-card { border: 1px solid rgba(215,226,234,0.12); border-radius: 28px; padding: 2.25rem 2rem; position: relative; overflow: hidden; transition: border-color 0.25s, transform 0.25s; background: rgba(255,255,255,0.02); }
+  .price-card:hover { border-color: rgba(232,168,56,0.4); transform: translateY(-4px); }
+  .price-card.featured { background: #E8A838; color: #0C0C0C; border-color: #E8A838; }
+  .price-card.featured .price-tier, .price-card.featured .price-desc, .price-card.featured .price-feature { color: #0C0C0C; }
+  .price-card.featured .price-feature { opacity: 0.75; }
+  .price-tier { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem; color: #E8A838; }
+  .price-card.featured .price-tier { color: rgba(12,12,12,0.6); }
+  .price-badge { position: absolute; top: 1.5rem; right: 1.5rem; background: #0C0C0C; color: #E8A838; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; padding: 0.25rem 0.7rem; border-radius: 100px; text-transform: uppercase; }
+  .price-card.featured .price-badge { background: rgba(12,12,12,0.15); color: #0C0C0C; }
+  .price-amount { font-size: clamp(2.2rem, 4vw, 3rem); font-weight: 900; line-height: 1; margin: 0.75rem 0 0.25rem; }
+  .price-amount sup { font-size: 1.2rem; vertical-align: super; font-weight: 700; }
+  .price-period { font-size: 0.82rem; font-weight: 300; opacity: 0.55; margin-bottom: 0.4rem; }
+  .price-setup { font-size: 0.8rem; font-weight: 400; margin-bottom: 1.5rem; opacity: 0.65; }
+  .price-divider { border: none; border-top: 1px solid rgba(215,226,234,0.12); margin: 1.25rem 0; }
+  .price-card.featured .price-divider { border-color: rgba(12,12,12,0.15); }
+  .price-features { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.75rem; }
+  .price-feature { font-size: 0.85rem; font-weight: 300; display: flex; align-items: flex-start; gap: 0.5rem; color: rgba(215,226,234,0.8); line-height: 1.4; }
+  .price-feature::before { content: '✓'; font-weight: 700; color: #E8A838; flex-shrink: 0; margin-top: 0.05rem; }
+  .price-card.featured .price-feature::before { color: #0C0C0C; }
+  .price-cta { width: 100%; padding: 0.85rem; border-radius: 100px; font-family: 'Kanit', sans-serif; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; border: 1.5px solid rgba(215,226,234,0.25); background: transparent; color: #D7E2EA; }
+  .price-cta:hover { border-color: #E8A838; color: #E8A838; }
+  .price-card.featured .price-cta { background: #0C0C0C; color: #E8A838; border-color: #0C0C0C; }
+  .price-card.featured .price-cta:hover { background: rgba(12,12,12,0.85); }
+  .pricing-note { text-align: center; margin-top: 2rem; font-size: 0.8rem; font-weight: 300; color: rgba(215,226,234,0.4); letter-spacing: 0.05em; }
+
+  /* ── PORTFOLIO ── */
+  .portfolio-section { background: #111; padding: 5rem 2.5rem; }
+  .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; max-width: 1100px; margin: 3rem auto 0; }
+  .portfolio-card { border-radius: 24px; overflow: hidden; position: relative; aspect-ratio: 16/10; cursor: pointer; }
+  .portfolio-card video, .portfolio-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+  .portfolio-card:hover video, .portfolio-card:hover img { transform: scale(1.04); }
+  .portfolio-card-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(12,12,12,0.85) 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 1.75rem; opacity: 0; transition: opacity 0.3s; }
+  .portfolio-card:hover .portfolio-card-overlay { opacity: 1; }
+  .portfolio-card-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: #E8A838; margin-bottom: 0.3rem; }
+  .portfolio-card-title { font-size: 1.2rem; font-weight: 700; }
+  .portfolio-card.featured { grid-column: span 2; aspect-ratio: 21/9; }
+
+  /* ── CTA SECTION ── */
+  .cta-section { background: #0C0C0C; padding: 7rem 2.5rem; text-align: center; }
+  .cta-heading { font-size: clamp(2.5rem, 6vw, 5.5rem); font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; line-height: 1; margin-bottom: 1.5rem; }
+  .cta-heading .grad { background: linear-gradient(135deg, #E8A838 0%, #c47f15 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cta-sub { font-size: 1rem; font-weight: 300; color: rgba(215,226,234,0.6); margin-bottom: 2.5rem; letter-spacing: 0.05em; }
+  .cta-contact { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; font-weight: 300; color: rgba(215,226,234,0.45); letter-spacing: 0.05em; }
+  .cta-contact a { color: #E8A838; text-decoration: none; }
+
+  /* ── FOOTER ── */
+  footer { background: #080808; border-top: 1px solid rgba(215,226,234,0.06); padding: 2.5rem 2.5rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-weight: 800; font-size: 1rem; letter-spacing: 0.05em; }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a { color: rgba(215,226,234,0.4); text-decoration: none; font-size: 0.82rem; font-weight: 300; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  .footer-links a:hover { color: #E8A838; }
+  .footer-copy { font-size: 0.75rem; font-weight: 300; color: rgba(215,226,234,0.25); }
+
+  /* ── PRICING PANELS (hidden/shown) ── */
+  .pricing-panel { display: none; }
+  .pricing-panel.active { display: block; }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.75s cubic-bezier(0.25,0.1,0.25,1), transform 0.75s cubic-bezier(0.25,0.1,0.25,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .portfolio-card.featured { grid-column: span 1; aspect-ratio: 16/10; }
+    footer { flex-direction: column; gap: 1.25rem; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+  }
+  @media (max-width: 600px) {
+    nav { padding: 1.25rem 1.5rem; }
+    .hero-content { padding: 0 1.5rem 2.5rem; }
+    .services-section, .pricing-section, .portfolio-section, .cta-section { padding: 4rem 1.5rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .reel-item { width: 260px; height: 165px; }
+    footer { padding: 2rem 1.5rem; }
+  }
+
+  /* ── VIDEO MODAL ── */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal-inner { position: relative; width: min(90vw, 900px); }
+  .modal-inner video { width: 100%; border-radius: 20px; }
+  .modal-close { position: absolute; top: -2.5rem; right: 0; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; opacity: 0.7; }
+  .modal-close:hover { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-video-bg">
+    <video autoplay muted loop playsinline>
+      <source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/2026-06-01T11-53-50_make_every_thing_watermarked.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <nav>
+    <div class="nav-logo">
+      <div class="nav-logo-icon">C99</div>
+      <span class="nav-logo-text">Chapter99</span>
+    </div>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#contact" class="btn-demo">Get Demo</a>
+  </nav>
+
+  <div class="hero-content">
+    <p class="hero-tagline">Digital Agency · Sydney · Est. 2024</p>
+    <h1 class="hero-heading">
+      <span class="line1">The Business</span>
+      <span class="line1"><span class="accent">Digital</span> Agency</span>
+    </h1>
+    <p class="hero-sub">Photography · PWA · POS System · QR Menu<br>สำหรับธุรกิจไทยในออสเตรเลีย</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-primary">นัด Demo ฟรี</a>
+      <a href="#portfolio" class="btn-outline">ดูผลงาน</a>
+      <a href="https://www.facebook.com/profile.php?id=61586534972406" target="_blank" class="btn-outline">หัก Facebook</a>
+      <a href="#pricing" class="btn-outline">ดู Pricing</a>
+    </div>
+    <p class="hero-email">Reach us: <span onclick="navigator.clipboard.writeText('chapter99solutions@gmail.com')">chapter99solutions@gmail.com</span></p>
+  </div>
+</section>
+
+<!-- ══ VIDEO REEL ══ -->
+<section class="reel-strip">
+  <p class="reel-label">Our Work — F&amp;B · Massage · Digital</p>
+  <div class="reel-track-wrapper">
+    <div class="reel-track" id="reel1">
+      <!-- Row 1: food videos x2 for seamless loop -->
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Chapter99_Food__Media_httpss.mj.runApezOPLNaAc_food_photograp_68009c59-8e38-4bb1-83a1-a06b4cf7594c_3.mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Chapter99_Food__Media_httpss.mj.runApezOPLNaAc_food_photograp_68009c59-8e38-4bb1-83a1-a06b4cf7594c_3.mp4" type="video/mp4"></video>
+      </div>
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Chapter99_Food__Media_httpss.mj.runeiWiRNK8PoA_food_photograp_12a09495-60b4-4e14-9093-92b72129b141_1%20(1).mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Chapter99_Food__Media_httpss.mj.runeiWiRNK8PoA_food_photograp_12a09495-60b4-4e14-9093-92b72129b141_1%20(1).mp4" type="video/mp4"></video>
+      </div>
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/foodshot.mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/foodshot.mp4" type="video/mp4"></video>
+      </div>
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/hf_20260623_011229_0975c984-b9e4-4913-af12-a588218640e1.mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/hf_20260623_011229_0975c984-b9e4-4913-af12-a588218640e1.mp4" type="video/mp4"></video>
+      </div>
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/tom%20yum%20pawns.mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/tom%20yum%20pawns.mp4" type="video/mp4"></video>
+      </div>
+      <!-- duplicate for seamless loop -->
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Thai_mass.mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Thai_mass.mp4" type="video/mp4"></video>
+      </div>
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Chapter99_Food__Media_httpss.mj.runApezOPLNaAc_food_photograp_68009c59-8e38-4bb1-83a1-a06b4cf7594c_3.mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Chapter99_Food__Media_httpss.mj.runApezOPLNaAc_food_photograp_68009c59-8e38-4bb1-83a1-a06b4cf7594c_3.mp4" type="video/mp4"></video>
+      </div>
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/foodshot.mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/foodshot.mp4" type="video/mp4"></video>
+      </div>
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/tom%20yum%20pawns.mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/tom%20yum%20pawns.mp4" type="video/mp4"></video>
+      </div>
+    </div>
+  </div>
+  <!-- Row 2 reverse -->
+  <div class="reel-track-wrapper" style="margin-top:1rem">
+    <div class="reel-track reverse">
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Thai_mass.mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Thai_mass.mp4" type="video/mp4"></video>
+      </div>
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/hf_20260623_011229_0975c984-b9e4-4913-af12-a588218640e1.mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/hf_20260623_011229_0975c984-b9e4-4913-af12-a588218640e1.mp4" type="video/mp4"></video>
+      </div>
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Chapter99_Food__Media_httpss.mj.runeiWiRNK8PoA_food_photograp_12a09495-60b4-4e14-9093-92b72129b141_1%20(1).mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Chapter99_Food__Media_httpss.mj.runeiWiRNK8PoA_food_photograp_12a09495-60b4-4e14-9093-92b72129b141_1%20(1).mp4" type="video/mp4"></video>
+      </div>
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/foodshot.mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/foodshot.mp4" type="video/mp4"></video>
+      </div>
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/tom%20yum%20pawns.mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/tom%20yum%20pawns.mp4" type="video/mp4"></video>
+      </div>
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Thai_mass.mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Thai_mass.mp4" type="video/mp4"></video>
+      </div>
+      <div class="reel-item" onclick="openModal('https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Chapter99_Food__Media_httpss.mj.runApezOPLNaAc_food_photograp_68009c59-8e38-4bb1-83a1-a06b4cf7594c_3.mp4')">
+        <video muted loop autoplay playsinline><source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Chapter99_Food__Media_httpss.mj.runApezOPLNaAc_food_photograp_68009c59-8e38-4bb1-83a1-a06b4cf7594c_3.mp4" type="video/mp4"></video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SERVICES ══ -->
+<section class="services-section" id="services">
+  <p class="section-eyebrow">What We Do</p>
+  <h2 class="section-heading">Services</h2>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">📸</div>
+      <div class="service-num">01</div>
+      <div class="service-name">F&B Photography</div>
+      <div class="service-desc">ถ่ายภาพอาหารและเครื่องดื่มระดับ professional พร้อม AI-enhanced editing ให้ภาพดูดีทุก platform</div>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-icon">📱</div>
+      <div class="service-num">02</div>
+      <div class="service-name">PWA & QR Menu</div>
+      <div class="service-desc">เมนูดิจิทัลบน Progressive Web App สแกน QR สั่งอาหารได้ทันที รองรับทุก device ไม่ต้องโหลด App</div>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-icon">💳</div>
+      <div class="service-num">03</div>
+      <div class="service-name">POS System</div>
+      <div class="service-desc">ระบบ Point of Sale ครบวงจร รองรับ GST, HICAPS, Card Surcharge, BAS Report และ Google Sheets sync</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🌐</div>
+      <div class="service-num">04</div>
+      <div class="service-name">Website & SEO</div>
+      <div class="service-desc">เว็บไซต์ธุรกิจที่สวยงาม เร็ว และติดอันดับ Google พร้อม Local SEO สำหรับธุรกิจในออสเตรเลีย</div>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-icon">🎬</div>
+      <div class="service-num">05</div>
+      <div class="service-name">Video & Reels</div>
+      <div class="service-desc">ถ่ายวิดีโอ Reels สำหรับ Facebook, Instagram และ TikTok ด้วย AI-cinematic production</div>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-icon">📊</div>
+      <div class="service-num">06</div>
+      <div class="service-name">Google Sheets Sync</div>
+      <div class="service-desc">ระบบรายงานอัตโนมัติเชื่อมต่อ Google Sheets, POS, และ BAS สำหรับภาษีรายไตรมาส</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRICING ══ -->
+<section class="pricing-section" id="pricing">
+  <div style="max-width:1100px;margin:0 auto">
+    <p class="section-eyebrow" style="text-align:center;color:rgba(215,226,234,0.4)">Transparent Pricing</p>
+    <h2 class="section-heading" style="text-align:center;color:#D7E2EA">Plans &amp; Pricing</h2>
+
+    <div class="pricing-tab-bar">
+      <button class="pricing-tab active" onclick="switchTab('restaurant')">🍜 ร้านอาหาร</button>
+      <button class="pricing-tab" onclick="switchTab('massage')">💆 ร้านนวด</button>
+    </div>
+
+    <!-- RESTAURANT PRICING -->
+    <div class="pricing-panel active" id="tab-restaurant">
+      <p style="text-align:center;font-size:0.8rem;font-weight:300;color:rgba(215,226,234,0.4);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:2rem">Digital Menu · QR · Online Ordering · Visual Production</p>
+      <div class="pricing-grid">
+        <!-- Starter -->
+        <div class="price-card reveal">
+          <div class="price-tier">Smart Starter</div>
+          <div class="price-amount"><sup>A$</sup>39</div>
+          <div class="price-period">/month</div>
+          <div class="price-setup">Setup fee: A$199 (one-time)</div>
+          <hr class="price-divider">
+          <ul class="price-features">
+            <li class="price-feature">AI Gen ภาพทุกเมนู</li>
+            <li class="price-feature">QR Menu PWA</li>
+            <li class="price-feature">Google Sheet sync</li>
+            <li class="price-feature">Allergen tags</li>
+            <li class="price-feature">GST calculation</li>
+          </ul>
+          <button class="price-cta">เริ่มต้น</button>
+        </div>
+        <!-- Pro Visuals -->
+        <div class="price-card featured reveal reveal-delay-1">
+          <div class="price-badge">Most Popular</div>
+          <div class="price-tier">Pro Visuals</div>
+          <div class="price-amount"><sup>A$</sup>79</div>
+          <div class="price-period">/month</div>
+          <div class="price-setup">Setup fee: A$499 (one-time)</div>
+          <hr class="price-divider">
+          <ul class="price-features">
+            <li class="price-feature">ถ่ายภาพจริง 10 Hero Dishes</li>
+            <li class="price-feature">เมนูดิจิทัล + Online Order</li>
+            <li class="price-feature">POS Back-office</li>
+            <li class="price-feature">Tax Export CSV</li>
+            <li class="price-feature">Card + Sunday surcharge</li>
+          </ul>
+          <button class="price-cta">เริ่มต้น</button>
+        </div>
+        <!-- Premium Cinematic -->
+        <div class="price-card reveal reveal-delay-2">
+          <div class="price-tier">Premium Cinematic</div>
+          <div class="price-amount"><sup>A$</sup>129</div>
+          <div class="price-period">/month</div>
+          <div class="price-setup">Setup fee: A$999 (one-time)</div>
+          <hr class="price-divider">
+          <ul class="price-features">
+            <li class="price-feature">ถ่ายภาพจริง 20+ Hero Dishes</li>
+            <li class="price-feature">Reel Video 1-3 คลิป</li>
+            <li class="price-feature">Full POS + Multi-location</li>
+            <li class="price-feature">GST BAS Report</li>
+            <li class="price-feature">ผลิตด้วย Premiere Pro</li>
+          </ul>
+          <button class="price-cta">เริ่มต้น</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MASSAGE PRICING -->
+    <div class="pricing-panel" id="tab-massage">
+      <p style="text-align:center;font-size:0.8rem;font-weight:300;color:rgba(215,226,234,0.4);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:2rem">PWA Booking · Digital Counter Menu · Premium Visuals</p>
+      <div class="pricing-grid">
+        <!-- SmartRelax -->
+        <div class="price-card reveal">
+          <div class="price-tier">SmartRelax</div>
+          <div class="price-amount"><sup>A$</sup>19</div>
+          <div class="price-period">/month</div>
+          <div class="price-setup">Setup fee: A$199 (one-time)</div>
+          <hr class="price-divider">
+          <ul class="price-features">
+            <li class="price-feature">ระบบนัดหมายออนไลน์ PWA</li>
+            <li class="price-feature">QR Menu บริการนวด</li>
+            <li class="price-feature">Offline Photo (AI Gen)</li>
+            <li class="price-feature">แจ้งเตือน Line / Email</li>
+            <li class="price-feature">รายงานรายได้รายวัน</li>
+          </ul>
+          <button class="price-cta">เริ่มต้น</button>
+        </div>
+        <!-- ProVibe -->
+        <div class="price-card featured reveal reveal-delay-1">
+          <div class="price-badge">Best Value</div>
+          <div class="price-tier">ProVibe</div>
+          <div class="price-amount"><sup>A$</sup>49</div>
+          <div class="price-period">/month</div>
+          <div class="price-setup">Setup fee: A$499 (one-time)</div>
+          <hr class="price-divider">
+          <ul class="price-features">
+            <li class="price-feature">ถ่ายภาพจริง 10-20 ภาพ</li>
+            <li class="price-feature">React Native Cinematic Style</li>
+            <li class="price-feature">Full Booking + Walk-in POS</li>
+            <li class="price-feature">Staff commission tracking</li>
+            <li class="price-feature">Google Sheets report</li>
+          </ul>
+          <button class="price-cta">เริ่มต้น</button>
+        </div>
+        <!-- PremiumOasis -->
+        <div class="price-card reveal reveal-delay-2">
+          <div class="price-tier">PremiumOasis</div>
+          <div class="price-amount"><sup>A$</sup>89</div>
+          <div class="price-period">/month</div>
+          <div class="price-setup">Setup fee: A$999 (one-time)</div>
+          <hr class="price-divider">
+          <ul class="price-features">
+            <li class="price-feature">ถ่ายภาพจริง 20-30 ภาพ</li>
+            <li class="price-feature">Reel Video 2-3 คลิป Cinematic</li>
+            <li class="price-feature">Full Marketing System</li>
+            <li class="price-feature">Multi-staff · Multi-location</li>
+            <li class="price-feature">BAS Tax quarterly report</li>
+          </ul>
+          <button class="price-cta">เริ่มต้น</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="pricing-note">📸 Photography & Video Reels quoted separately · GST included · No lock-in contract</p>
+  </div>
+</section>
+
+<!-- ══ PORTFOLIO ══ -->
+<section class="portfolio-section" id="portfolio">
+  <div style="max-width:1100px;margin:0 auto">
+    <p class="section-eyebrow" style="color:rgba(215,226,234,0.4)">Recent Work</p>
+    <h2 class="section-heading" style="color:#D7E2EA">Portfolio</h2>
+    <div class="portfolio-grid">
+      <div class="portfolio-card featured reveal">
+        <video muted loop autoplay playsinline>
+          <source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/2026-06-01T11-53-50_make_every_thing_watermarked.mp4" type="video/mp4">
+        </video>
+        <div class="portfolio-card-overlay">
+          <div class="portfolio-card-label">Chapter99 · Agency Showreel</div>
+          <div class="portfolio-card-title">Digital Agency Reel 2026</div>
+        </div>
+      </div>
+      <div class="portfolio-card reveal">
+        <video muted loop autoplay playsinline>
+          <source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Chapter99_Food__Media_httpss.mj.runApezOPLNaAc_food_photograp_68009c59-8e38-4bb1-83a1-a06b4cf7594c_3.mp4" type="video/mp4">
+        </video>
+        <div class="portfolio-card-overlay">
+          <div class="portfolio-card-label">F&B Photography</div>
+          <div class="portfolio-card-title">Thai Restaurant Sydney</div>
+        </div>
+      </div>
+      <div class="portfolio-card reveal reveal-delay-1">
+        <video muted loop autoplay playsinline>
+          <source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/Thai_mass.mp4" type="video/mp4">
+        </video>
+        <div class="portfolio-card-overlay">
+          <div class="portfolio-card-label">Spa & Wellness</div>
+          <div class="portfolio-card-title">Thai Massage Premium</div>
+        </div>
+      </div>
+      <div class="portfolio-card reveal">
+        <video muted loop autoplay playsinline>
+          <source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/tom%20yum%20pawns.mp4" type="video/mp4">
+        </video>
+        <div class="portfolio-card-overlay">
+          <div class="portfolio-card-label">Food Cinematic</div>
+          <div class="portfolio-card-title">Tom Yum Goong Hero Shot</div>
+        </div>
+      </div>
+      <div class="portfolio-card reveal reveal-delay-1">
+        <video muted loop autoplay playsinline>
+          <source src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/hf_20260623_011229_0975c984-b9e4-4913-af12-a588218640e1.mp4" type="video/mp4">
+        </video>
+        <div class="portfolio-card-overlay">
+          <div class="portfolio-card-label">AI Video Production</div>
+          <div class="portfolio-card-title">Higgsfield Cinematic</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section class="cta-section" id="contact">
+  <h2 class="cta-heading reveal">พร้อมยกระดับ<br><span class="grad">ธุรกิจของคุณ?</span></h2>
+  <p class="cta-sub reveal reveal-delay-1">Demo ฟรี 20 นาที · ไม่มีข้อผูกมัด · ทำทุกอย่างให้จบในที่เดียว</p>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap" class="reveal reveal-delay-2">
+    <a href="https://www.facebook.com/profile.php?id=61586534972406" target="_blank" class="btn-primary">📅 จัดการ Facebook</a>
+    <a href="mailto:chapter99solutions@gmail.com" class="btn-outline" style="border-color:rgba(215,226,234,0.3)">✉ ส่งอีเมล</a>
+    <a href="https://wa.me/61452044382" target="_blank" class="btn-outline" style="border-color:rgba(215,226,234,0.3)">💬 WhatsApp</a>
+  </div>
+  <p class="cta-contact" style="margin-top:2rem">
+    <a href="tel:0452044382">📞 0452 044 382</a>&nbsp;·&nbsp;
+    <a href="mailto:chapter99solutions@gmail.com">chapter99solutions@gmail.com</a>
+  </p>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-logo">Chapter<span style="color:#E8A838">99</span></div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 Chapter99 Solutions · Sydney AU</div>
+</footer>
+
+<!-- ══ VIDEO MODAL ══ -->
+<div class="modal-overlay" id="videoModal" onclick="closeModal(event)">
+  <div class="modal-inner">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <video id="modalVideo" controls style="width:100%;border-radius:20px"></video>
+  </div>
+</div>
+
+<script>
+  // Pricing tab switch
+  function switchTab(tab) {
+    document.querySelectorAll('.pricing-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.pricing-panel').forEach(p => p.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+  }
+
+  // Video modal
+  function openModal(src) {
+    const modal = document.getElementById('videoModal');
+    const vid = document.getElementById('modalVideo');
+    vid.src = src;
+    vid.play();
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(e) {
+    if (e && e.target !== document.getElementById('videoModal') && !e.target.classList.contains('modal-close')) return;
+    const modal = document.getElementById('videoModal');
+    const vid = document.getElementById('modalVideo');
+    vid.pause();
+    vid.src = '';
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal({}); });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 50) {
+      nav.style.background = 'rgba(12,12,12,0.85)';
+      nav.style.backdropFilter = 'blur(12px)';
+      nav.style.position = 'fixed';
+      nav.style.top = '0';
+      nav.style.left = '0';
+      nav.style.right = '0';
+      nav.style.zIndex = '100';
+    } else {
+      nav.style.background = '';
+      nav.style.backdropFilter = '';
+      nav.style.position = 'relative';
+    }
+  });
+</script>
+</body>
+</html>
