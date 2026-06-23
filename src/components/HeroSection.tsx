@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import LazyViewportVideo from './LazyViewportVideo'
 import { useMouseScrubVideo } from '../hooks/useMouseScrubVideo'
 import { useTypewriter } from '../hooks/useTypewriter'
 
@@ -122,14 +123,13 @@ export default function HeroSection() {
         className="relative w-full overflow-hidden rounded-3xl"
         style={{ height: 'calc(100vh - 96px)' }}
       >
-        <video
+        <LazyViewportVideo
           ref={videoRef}
           className="absolute inset-0 z-0 h-full w-full object-cover"
           style={{ objectPosition: '70% center' }}
           src={VIDEO_URL}
           muted
           playsInline
-          preload="auto"
         />
 
         <div className="absolute inset-0 z-[1] bg-black/45" />

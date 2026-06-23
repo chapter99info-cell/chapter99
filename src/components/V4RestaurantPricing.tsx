@@ -1,4 +1,5 @@
 import { Check } from 'lucide-react'
+import LazyViewportVideo from './LazyViewportVideo'
 
 const FOODSHOT_VIDEO =
   'https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/foodshot.mp4'
@@ -6,7 +7,7 @@ const FOODSHOT_VIDEO =
 function VideoBanner() {
   return (
     <div className="relative mb-10 h-[220px] w-full overflow-hidden rounded-2xl sm:mb-14 md:h-[340px]">
-      <video
+      <LazyViewportVideo
         className="absolute inset-0 h-full w-full object-cover"
         src={FOODSHOT_VIDEO}
         autoPlay

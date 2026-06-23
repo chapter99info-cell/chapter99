@@ -1,5 +1,7 @@
+import LazyViewportVideo from './LazyViewportVideo'
+
 const VIDEO_URL =
-  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260604_125109_19424216-4e2a-4560-b9f2-f1b5f6eb2c2e.mp4'
+  'https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/chapter99hero.mp4'
 
 const POSTER_URL =
   'https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/chapter99-hero.jpg'
@@ -32,7 +34,7 @@ export default function WhySection() {
         </div>
 
         <div className="relative min-h-[420px] overflow-hidden rounded-3xl bg-[#1A1A1A] sm:min-h-[560px] md:min-h-[680px]">
-          <video
+          <LazyViewportVideo
             className="absolute inset-0 h-full w-full object-cover"
             src={VIDEO_URL}
             poster={POSTER_URL}
@@ -41,7 +43,6 @@ export default function WhySection() {
             loop
             playsInline
             crossOrigin="anonymous"
-            preload="auto"
             onError={handleVideoError}
           />
         </div>

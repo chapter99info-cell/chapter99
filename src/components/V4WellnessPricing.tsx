@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Check } from 'lucide-react'
+import LazyViewportVideo from './LazyViewportVideo'
 
 const VIDEOS = {
   spaMassage:
@@ -72,7 +73,7 @@ function formatAud(value: number) {
 function VideoBanner() {
   return (
     <div className="relative mb-10 h-[220px] w-full overflow-hidden rounded-2xl sm:mb-12 md:h-[340px]">
-      <video
+      <LazyViewportVideo
         className="absolute inset-0 h-full w-full object-cover"
         src={VIDEOS.spaMassage}
         autoPlay
@@ -109,7 +110,7 @@ function CardVideoThumbnail({ src }: { src: string }) {
   return (
     <div className="mb-6 h-[120px] w-full overflow-hidden rounded-xl">
       <div className="relative h-full w-full overflow-hidden rounded-xl">
-        <video
+        <LazyViewportVideo
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
           src={src}
           autoPlay
