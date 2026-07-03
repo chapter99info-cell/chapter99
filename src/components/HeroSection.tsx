@@ -3,7 +3,7 @@ import LazyViewportVideo from './LazyViewportVideo'
 import { useTypewriter } from '../hooks/useTypewriter'
 
 const VIDEO_URL =
-  'https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/chapter99hero.mp4'
+  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_024928_1efd0b0d-6c02-45a8-8847-1030900c4f63.mp4'
 
 const TYPEWRITER_TEXT =
   'Glad you stopped in. Good taste tends to find us. Now, what are we building?'
