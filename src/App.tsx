@@ -2,6 +2,7 @@ import Navbar from './components/Navbar'
 import HeroSection from './components/HeroSection'
 import ServicesSection from './components/ServicesSection'
 import ClientsMarquee from './components/ClientsMarquee'
+import LiveProjectsSection from './components/LiveProjectsSection'
 import WhySection from './components/WhySection'
 import V4WellnessPricing from './components/V4WellnessPricing'
 import ContactSection from './components/ContactSection'
@@ -16,6 +17,7 @@ function App() {
       </div>
       <ServicesSection />
       <ClientsMarquee />
+      <LiveProjectsSection />
       <WhySection />
       <V4WellnessPricing />
       <ContactSection />

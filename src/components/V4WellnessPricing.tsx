@@ -63,14 +63,10 @@ const tiers: Tier[] = [
     name: 'Premium Oasis',
     setup: 999,
     monthly: 89,
-    target: 'ครบทุกฟังก์ชัน จบในราคาเดียว เหมาะร้านหลายสาขา',
+    target: 'ครบทุกฟังก์ชัน จบในราคาเดียว',
     features: [
       'ทุกอย่างในแพ็ก Pro Vibe',
-      'Multi-shop Dashboard (จัดการหลายสาขา)',
       'ระบบ Staff / Cashier / Owner PIN แยกสิทธิ์',
-      'AI Concierge ตอบแชทลูกค้าอัตโนมัติ',
-      'Upsell Modal แนะนำคอร์สเสริมตอนจอง',
-      'เก็บรีวิวลูกค้าอัตโนมัติ',
       'ถ่ายภาพและวิดีโอจริงหน้าร้าน (รวมในแพ็กนี้)',
     ],
   },
@@ -253,6 +249,10 @@ export default function V4WellnessPricing() {
             <PricingCard key={tier.name} tier={tier} staggerDelay={index * 150} revealed={revealed} />
           ))}
         </div>
+
+        <p className="mt-8 text-center text-sm text-[#F4F6F3]/45">
+          มีระบบจองคิวเดิมอยู่แล้ว? ไม่ต้องเปลี่ยน — เราแปะลิงก์ต่อจากหน้าเว็บใหม่ให้ได้เลย
+        </p>
       </div>
     </section>
   )
