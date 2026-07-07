@@ -10,7 +10,8 @@ import { fileURLToPath } from 'node:url'
 import pg from 'pg'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const sqlPath = path.join(__dirname, '../supabase/migrations/002_agency_admin_idempotent.sql')
+const migration = process.env.AGENCY_MIGRATION?.trim() || '003_normalize_agency_table_names'
+const sqlPath = path.join(__dirname, `../supabase/migrations/${migration}.sql`)
 
 function getConnectionString() {
   if (process.env.SUPABASE_DB_URL?.trim()) return process.env.SUPABASE_DB_URL.trim()
@@ -33,9 +34,13 @@ const client = new pg.Client({ connectionString, ssl: { rejectUnauthorized: fals
 
 try {
   await client.connect()
-  console.log('Connected. Applying migration…')
+  if (!fs.existsSync(sqlPath)) {
+    console.error(`Migration file not found: ${sqlPath}`)
+    process.exit(1)
+  }
+  console.log(`Connected. Applying ${migration}.sql …`)
   await client.query(sql)
-  console.log('[ok] Agency admin schema applied')
+  console.log(`[ok] ${migration} applied`)
 } catch (err) {
   console.error('[fail]', err instanceof Error ? err.message : err)
   process.exit(1)

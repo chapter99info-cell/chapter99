@@ -97,4 +97,28 @@ if (lErr || !listed?.length) {
 console.log('[ok] task listed:', listed[0].title)
 
 await sb.from('tasks').delete().eq('id', task.id)
-console.log('[ok] task deleted — smoke test passed')
+console.log('[ok] task deleted')
+
+const { data: prompt, error: prErr } = await sb
+  .from('prompts')
+  .insert({ agent: 'GEMINI', department: 2, prompt_text: `Smoke prompt ${Date.now()}` })
+  .select()
+  .single()
+if (prErr) {
+  console.error('[fail] create prompt:', prErr.code, prErr.message)
+  process.exit(1)
+}
+console.log('[ok] created prompt:', prompt.id)
+
+const { data: prompts, error: pListErr } = await sb
+  .from('prompts')
+  .select('id,prompt_text')
+  .eq('id', prompt.id)
+if (pListErr || !prompts?.length) {
+  console.error('[fail] list prompt:', pListErr?.message ?? 'not found')
+  process.exit(1)
+}
+console.log('[ok] prompt listed, length:', prompts[0].prompt_text?.length ?? 0)
+
+await sb.from('prompts').delete().eq('id', prompt.id)
+console.log('[ok] prompt deleted — smoke test passed')

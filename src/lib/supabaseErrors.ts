@@ -12,7 +12,11 @@ export function formatSupabaseError(err: unknown): string {
   const details = pg.details ? ` (${pg.details})` : ''
 
   if (code === 'PGRST205') {
-    return `${code}: ${message}${details} — Run supabase/migrations/001_agency_admin.sql (or 002_idempotent) in the Supabase SQL Editor for project jjbwiriphyxsnrnpoqnn.`
+    return `${code}: ${message}${details} — Tables may be PascalCase ("Client") instead of lowercase. Run supabase/migrations/003_normalize_agency_table_names.sql in project jjbwiriphyxsnrnpoqnn.`
+  }
+
+  if (code === 'PGRST204') {
+    return `${code}: ${message}${details} — Column names may be camelCase (promptText). Run supabase/migrations/003_normalize_agency_table_names.sql.`
   }
 
   if (code === '42501' || message.toLowerCase().includes('row-level security')) {

@@ -2,14 +2,18 @@
 
 Production `/admin` on **chapter99info.com** uses Supabase project **`jjbwiriphyxsnrnpoqnn`** (Creator Network — same auth user as login).
 
-Agency tables (`clients`, `projects`, `tasks`, `billing`, `prompts`) are **not** created automatically by deploy. Run the migration once:
+Agency tables must use **lowercase** names (`clients`, `projects`, `tasks`, `billing`, `prompts`) with **snake_case** columns. If you created `"Client"`, `"Project"`, etc. manually, run the normalize migration.
 
 ## 1. Apply schema (required for Task Board)
 
-**Option A — SQL Editor (recommended)**
+**If tables were created with PascalCase names** (console shows 404 on `/clients`, `/projects`):
 
 1. Open [Supabase Dashboard](https://supabase.com/dashboard) → project **jjbwiriphyxsnrnpoqnn**
-2. **SQL Editor** → paste and run `migrations/002_agency_admin_idempotent.sql` (safe to re-run)
+2. **SQL Editor** → run `migrations/003_normalize_agency_table_names.sql` (renames tables + columns, preserves data)
+
+**If tables do not exist yet:**
+
+1. **SQL Editor** → paste and run `migrations/002_agency_admin_idempotent.sql` (safe to re-run)
 
 **Option B — CLI script**
 
@@ -42,9 +46,9 @@ node --env-file=.env.local scripts/smoke-test-task-board.mjs
 
 | Error | Cause | Fix |
 |-------|-------|-----|
-| `PGRST205: Could not find the table 'public.tasks'` | Migration not run | Run step 1 |
-| `PGRST204: Could not find the 'prompt_text' column` | Old `prompts` table used camelCase (`promptText`) | Re-run migration (drops & recreates `prompts`) |
-| `404` on REST `/clients`, `/projects`, `/tasks` | Same as PGRST205 — table missing in PostgREST | Run step 1 |
+| `PGRST205: Could not find the table 'public.clients'` | Tables created as `"Client"` (quoted PascalCase) | Run `003_normalize_agency_table_names.sql` |
+| `PGRST204: Could not find the 'prompt_text' column` | `prompts` table uses camelCase (`promptText`) | Run `003_normalize_agency_table_names.sql` |
+| `404` on REST `/clients`, `/projects`, `/tasks` | PostgREST cannot see PascalCase tables via lowercase `.from('clients')` | Run `003_normalize_agency_table_names.sql` |
 | `400` on `/auth/v1/token?grant_type=password` | Invalid login attempt (wrong email/password) | Not a config bug if sign-in works; clear console and re-login |
 | `42501` / RLS | Missing policy | Re-run `002_agency_admin_idempotent.sql` |
 

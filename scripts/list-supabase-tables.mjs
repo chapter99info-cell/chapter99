@@ -18,13 +18,20 @@ if (!url || !key) {
 const sb = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } })
 
 const expectedByFrontend = ['clients', 'projects', 'tasks', 'billing', 'prompts']
+const legacyPascalCase = ['Client', 'Project', 'Task', 'Billing']
 const existingMarketplace = ['bookings', 'photographers', 'reviews', 'disputes']
 
 console.log('Project:', url)
-console.log('\nFrontend expects (agency admin):')
+console.log('\nFrontend expects (lowercase agency admin):')
 for (const table of expectedByFrontend) {
   const { error } = await sb.from(table).select('id').limit(1)
   console.log(`  ${table.padEnd(12)} ${error ? `MISSING (${error.code})` : 'EXISTS'}`)
+}
+
+console.log('\nLegacy PascalCase (should be absent after 003 migration):')
+for (const table of legacyPascalCase) {
+  const { error } = await sb.from(table).select('id').limit(1)
+  console.log(`  ${table.padEnd(12)} ${error ? `gone (${error.code})` : 'STILL EXISTS — run 003 migration'}`)
 }
 
 console.log('\nCreator Network (already present):')
