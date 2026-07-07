@@ -6,6 +6,7 @@ const FOOTER_VIDEO =
 const NAV_LINKS = [
   { label: 'Services', href: '#services' },
   { label: 'Portfolio', href: '#portfolio' },
+  { label: 'Workflow', href: '#workflow' },
   { label: 'Pricing', href: '#pricing' },
   { label: 'Contact', href: '#contact' },
 ]

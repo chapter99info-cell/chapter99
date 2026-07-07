@@ -3,6 +3,7 @@ import { LogoMark } from './Logo'
 const navLinks = [
   { label: 'Services', href: '#services' },
   { label: 'Portfolio', href: '#portfolio' },
+  { label: 'Workflow', href: '#workflow' },
   { label: 'Pricing', href: '#pricing' },
   { label: 'Contact', href: '#contact' },
 ]
