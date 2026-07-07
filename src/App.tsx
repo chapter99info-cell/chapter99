@@ -4,7 +4,6 @@ import ServicesSection from './components/ServicesSection'
 import ClientsMarquee from './components/ClientsMarquee'
 import LiveProjectsSection from './components/LiveProjectsSection'
 import WhySection from './components/WhySection'
-import AgencyWorkflowSection from './components/AgencyWorkflowSection'
 import V4WellnessPricing from './components/V4WellnessPricing'
 import ContactSection from './components/ContactSection'
 import Footer from './components/Footer'
@@ -20,7 +19,6 @@ function App() {
       <ClientsMarquee />
       <LiveProjectsSection />
       <WhySection />
-      <AgencyWorkflowSection />
       <V4WellnessPricing />
       <ContactSection />
       <Footer />
