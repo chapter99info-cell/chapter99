@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { Lock, Mail } from 'lucide-react'
 import { AGENCY_CONFIG } from '../../lib/agency-config'
@@ -13,6 +13,12 @@ export default function AdminLogin() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [fieldsReady, setFieldsReady] = useState(false)
+  const submitLock = useRef(false)
+
+  useEffect(() => {
+    setFieldsReady(true)
+  }, [])
 
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname ?? '/admin'
 
@@ -22,15 +28,25 @@ export default function AdminLogin() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
+    if (submitLock.current || submitting) return
+
+    const trimmedEmail = email.trim()
+    if (!trimmedEmail || !password) {
+      setError('Email and password are required')
+      return
+    }
+
+    submitLock.current = true
     setError('')
     setSubmitting(true)
     try {
-      await signIn(email.trim(), password)
+      await signIn(trimmedEmail, password)
       navigate(from, { replace: true })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed')
     } finally {
       setSubmitting(false)
+      submitLock.current = false
     }
   }
 
@@ -59,7 +75,7 @@ export default function AdminLogin() {
           </p>
         )}
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5" autoComplete="on">
           <div>
             <label htmlFor="email" className="mb-2 block text-base font-semibold text-[#1A1A1A]">
               Email
@@ -68,11 +84,14 @@ export default function AdminLogin() {
               <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#6B7280]" />
               <input
                 id="email"
+                name="email"
                 type="email"
-                autoComplete="email"
+                autoComplete="username"
                 required
+                readOnly={!fieldsReady}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onFocus={(e) => e.currentTarget.removeAttribute('readonly')}
                 className="w-full rounded-lg border-2 border-[#1A1A1A]/20 py-3 pl-11 pr-4 text-base text-[#1A1A1A] focus:border-[#2D5016] focus:outline-none"
                 placeholder="admin@chapter99info.com"
               />
@@ -87,11 +106,14 @@ export default function AdminLogin() {
               <Lock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#6B7280]" />
               <input
                 id="password"
+                name="password"
                 type="password"
                 autoComplete="current-password"
                 required
+                readOnly={!fieldsReady}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onFocus={(e) => e.currentTarget.removeAttribute('readonly')}
                 className="w-full rounded-lg border-2 border-[#1A1A1A]/20 py-3 pl-11 pr-4 text-base text-[#1A1A1A] focus:border-[#2D5016] focus:outline-none"
               />
             </div>

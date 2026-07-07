@@ -49,7 +49,7 @@ node --env-file=.env.local scripts/smoke-test-task-board.mjs
 | `PGRST205: Could not find the table 'public.clients'` | Tables created as `"Client"` (quoted PascalCase) | Run `003_normalize_agency_table_names.sql` |
 | `PGRST204: Could not find the 'prompt_text' column` | `prompts` table uses camelCase (`promptText`) | Run `003_normalize_agency_table_names.sql` |
 | `404` on REST `/clients`, `/projects`, `/tasks` | PostgREST cannot see PascalCase tables via lowercase `.from('clients')` | Run `003_normalize_agency_table_names.sql` |
-| `400` on `/auth/v1/token?grant_type=password` | Invalid login attempt (wrong email/password) | Not a config bug if sign-in works; clear console and re-login |
+| `400` on `/auth/v1/token?grant_type=password` | Stray `signInWithPassword` call — usually a login-page flash from parallel `getSession()` + `onAuthStateChange`, or browser password-manager autofill with stale credentials | Fixed in `AdminAuthContext` (INITIAL_SESSION only) and `AdminLogin` (no autofill until focus). Clear console and hard-refresh after deploy. |
 | `42501` / RLS | Missing policy | Re-run `002_agency_admin_idempotent.sql` |
 
 **Note:** Marketing assets use a separate project (`euiwkvozrhnbxtttfuchh`). Do not mix storage URLs with admin data project.
