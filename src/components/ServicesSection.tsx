@@ -26,7 +26,7 @@ const services: ServiceCard[] = [
     description:
       'ระบบจองออนไลน์ + POS + HICAPS Health Fund + GST Invoice พร้อมใช้ใน 7 วัน',
     ctaLabel: 'ดูแพ็กเกจราคา',
-    ctaHref: '#wellness-pricing',
+    ctaHref: '#pricing',
   },
   {
     titleLines: ['Digital Menu', 'QR System'],
