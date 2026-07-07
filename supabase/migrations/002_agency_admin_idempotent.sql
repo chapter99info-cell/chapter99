@@ -27,8 +27,14 @@ DO $$ BEGIN
 EXCEPTION WHEN duplicate_object THEN NULL;
 END $$;
 
--- Tables
-CREATE TABLE IF NOT EXISTS clients (
+-- Tables (drop prompts first if a partial/wrong-schema version exists)
+DROP TABLE IF EXISTS tasks CASCADE;
+DROP TABLE IF EXISTS billing CASCADE;
+DROP TABLE IF EXISTS projects CASCADE;
+DROP TABLE IF EXISTS clients CASCADE;
+DROP TABLE IF EXISTS prompts CASCADE;
+
+CREATE TABLE clients (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   business_name TEXT NOT NULL,
   contact_name TEXT NOT NULL,
@@ -37,7 +43,7 @@ CREATE TABLE IF NOT EXISTS clients (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE TABLE IF NOT EXISTS projects (
+CREATE TABLE projects (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   client_id UUID NOT NULL REFERENCES clients(id) ON DELETE CASCADE,
   project_type project_type NOT NULL DEFAULT 'DIGITAL_APP',
@@ -48,7 +54,7 @@ CREATE TABLE IF NOT EXISTS projects (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE TABLE IF NOT EXISTS tasks (
+CREATE TABLE tasks (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   project_id UUID NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
   department_id SMALLINT NOT NULL CHECK (department_id BETWEEN 1 AND 9),
@@ -61,7 +67,7 @@ CREATE TABLE IF NOT EXISTS tasks (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE TABLE IF NOT EXISTS billing (
+CREATE TABLE billing (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   project_id UUID NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
   total_amount NUMERIC(12, 2) NOT NULL DEFAULT 0,
@@ -73,7 +79,7 @@ CREATE TABLE IF NOT EXISTS billing (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE TABLE IF NOT EXISTS prompts (
+CREATE TABLE prompts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   agent prompt_agent NOT NULL,
   department SMALLINT NOT NULL CHECK (department BETWEEN 1 AND 9),

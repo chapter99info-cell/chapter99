@@ -43,6 +43,9 @@ node --env-file=.env.local scripts/smoke-test-task-board.mjs
 | Error | Cause | Fix |
 |-------|-------|-----|
 | `PGRST205: Could not find the table 'public.tasks'` | Migration not run | Run step 1 |
+| `PGRST204: Could not find the 'prompt_text' column` | Old `prompts` table used camelCase (`promptText`) | Re-run migration (drops & recreates `prompts`) |
+| `404` on REST `/clients`, `/projects`, `/tasks` | Same as PGRST205 — table missing in PostgREST | Run step 1 |
+| `400` on `/auth/v1/token?grant_type=password` | Invalid login attempt (wrong email/password) | Not a config bug if sign-in works; clear console and re-login |
 | `42501` / RLS | Missing policy | Re-run `002_agency_admin_idempotent.sql` |
 
 **Note:** Marketing assets use a separate project (`euiwkvozrhnbxtttfuchh`). Do not mix storage URLs with admin data project.
