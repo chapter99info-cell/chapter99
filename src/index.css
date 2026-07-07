@@ -61,4 +61,15 @@
   .card-hover {
     @apply transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-lg;
   }
+
+  /* Service cards: visible tap feedback on mobile (not hover-only) */
+  .service-card {
+    @apply transition-all duration-200 ease-out active:scale-[0.99] active:shadow-md;
+  }
+
+  @media (hover: hover) {
+    .service-card:hover {
+      @apply -translate-y-0.5 shadow-lg;
+    }
+  }
 }

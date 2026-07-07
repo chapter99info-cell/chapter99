@@ -1,5 +1,81 @@
 import { ArrowRight } from 'lucide-react'
 
+type ServiceCard = {
+  title: string
+  titleLines?: [string, string]
+  description: string
+  ctaLabel: string
+  ctaHref: string
+  featured?: boolean
+  badge?: string
+}
+
+const services: ServiceCard[] = [
+  {
+    title: 'F&B Photography',
+    description:
+      'ภาพถ่ายอาหารและสปาระดับมืออาชีพ ดึงดูดลูกค้าฝรั่งได้จริง — AI Gen ที่เหลือ match style ไม่ต้องทำอาหารพิเศษ',
+    ctaLabel: 'ดูผลงานถ่ายภาพ',
+    ctaHref: '#portfolio',
+    featured: true,
+    badge: 'Featured',
+  },
+  {
+    titleLines: ['PWA Booking', '& POS System'],
+    title: 'PWA Booking & POS System',
+    description:
+      'ระบบจองออนไลน์ + POS + HICAPS Health Fund + GST Invoice พร้อมใช้ใน 7 วัน',
+    ctaLabel: 'ดูแพ็กเกจราคา',
+    ctaHref: '#wellness-pricing',
+  },
+  {
+    titleLines: ['Digital Menu', 'QR System'],
+    title: 'Digital Menu QR System',
+    description:
+      'QR scan บนโต๊ะ เมนูขึ้น browser ทันที อัพเดทราคาได้เองผ่าน Google Sheet',
+    ctaLabel: 'ขอดูเดโม',
+    ctaHref: '#contact',
+  },
+]
+
+function ServiceCardBlock({ card, wide }: { card: ServiceCard; wide?: boolean }) {
+  return (
+    <article
+      className={`service-card flex min-h-72 flex-col justify-between rounded-2xl border-2 border-[#1A1A1A]/10 bg-white p-6 shadow-sm sm:min-h-80 sm:p-8 ${
+        wide ? 'lg:col-span-2' : ''
+      }`}
+    >
+      <div>
+        {card.badge && (
+          <span className="mb-4 inline-block rounded-full bg-[#2D5016] px-3 py-1 text-sm font-bold uppercase tracking-wide text-white">
+            {card.badge}
+          </span>
+        )}
+        <h3 className="text-2xl font-semibold tracking-[-0.02em] text-[#1A1A1A]">
+          {card.titleLines ? (
+            <>
+              {card.titleLines[0]}
+              <br />
+              {card.titleLines[1]}
+            </>
+          ) : (
+            card.title
+          )}
+        </h3>
+        <p className="mt-4 max-w-md text-base leading-relaxed text-[#1A1A1A]/75">{card.description}</p>
+      </div>
+
+      <a
+        href={card.ctaHref}
+        className="btn-interactive mt-6 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full border-2 border-[#1A1A1A] bg-[#1A1A1A] px-5 py-3 text-base font-semibold text-white active:scale-[0.98] sm:w-auto sm:justify-start"
+      >
+        {card.ctaLabel}
+        <ArrowRight className="h-5 w-5 shrink-0" aria-hidden />
+      </a>
+    </article>
+  )
+}
+
 export default function ServicesSection() {
   return (
     <section id="services" className="bg-[#F5F5F5] px-5 py-20 sm:px-6 sm:py-24">
@@ -13,7 +89,7 @@ export default function ServicesSection() {
             </h2>
             <a
               href="#portfolio"
-              className="btn-interactive inline-flex items-center gap-3 rounded-full bg-black py-2 pl-6 pr-2 text-base font-semibold text-white hover:bg-gray-800 sm:pl-8"
+              className="btn-interactive inline-flex min-h-[48px] items-center gap-3 rounded-full bg-black py-2 pl-6 pr-2 text-base font-semibold text-white hover:bg-gray-800 active:scale-[0.98] sm:pl-8"
             >
               ดูผลงาน
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-black">
@@ -29,35 +105,9 @@ export default function ServicesSection() {
         </div>
 
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
-          <article className="card-hover flex min-h-72 flex-col justify-between rounded-2xl bg-[#1A1A1A] p-6 sm:min-h-80 sm:p-8 lg:col-span-2">
-            <h3 className="text-2xl font-semibold tracking-[-0.02em] text-white">F&B Photography</h3>
-            <p className="max-w-xs text-base text-white/60">
-              ภาพถ่ายอาหารและสปาระดับมืออาชีพ ดึงดูดลูกค้าฝรั่งได้จริง — AI Gen ที่เหลือ match style
-              ไม่ต้องทำอาหารพิเศษ
-            </p>
-          </article>
-
-          <article className="card-hover flex min-h-72 flex-col justify-between rounded-2xl bg-[#E8A838] p-6 sm:min-h-80 sm:p-8">
-            <h3 className="text-2xl font-semibold text-[#1A1A1A]">
-              PWA Booking
-              <br />
-              &amp; POS System
-            </h3>
-            <p className="text-base text-[#1A1A1A]/70">
-              ระบบจองออนไลน์ + POS + HICAPS Health Fund + GST Invoice พร้อมใช้ใน 7 วัน
-            </p>
-          </article>
-
-          <article className="card-hover flex min-h-72 flex-col justify-between rounded-2xl bg-[#F0EDE6] p-6 sm:min-h-80 sm:p-8">
-            <h3 className="text-2xl font-semibold text-black">
-              Digital Menu
-              <br />
-              QR System
-            </h3>
-            <p className="text-base text-black/60">
-              QR scan บนโต๊ะ เมนูขึ้น browser ทันที อัพเดทราคาได้เองผ่าน Google Sheet
-            </p>
-          </article>
+          <ServiceCardBlock card={services[0]} wide />
+          <ServiceCardBlock card={services[1]} />
+          <ServiceCardBlock card={services[2]} />
         </div>
       </div>
     </section>
