@@ -23,7 +23,7 @@ if (signInErr) {
 }
 console.log('[ok] signed in')
 
-for (const table of ['clients', 'projects', 'tasks', 'billing', 'prompts']) {
+for (const table of ['client', 'project', 'task', 'billing', 'prompts']) {
   const { error } = await sb.from(table).select('id').limit(1)
   if (error) {
     console.error(`[fail] ${table}:`, error.code, error.message)
@@ -33,12 +33,12 @@ for (const table of ['clients', 'projects', 'tasks', 'billing', 'prompts']) {
 }
 
 let projectId
-const { data: projects } = await sb.from('projects').select('id').limit(1)
+const { data: projects } = await sb.from('project').select('id').limit(1)
 if (projects?.[0]?.id) {
   projectId = projects[0].id
 } else {
   const { data: client, error: cErr } = await sb
-    .from('clients')
+    .from('client')
     .insert({
       business_name: 'Smoke Test',
       contact_name: 'QA',
@@ -52,7 +52,7 @@ if (projects?.[0]?.id) {
     process.exit(1)
   }
   const { data: project, error: pErr } = await sb
-    .from('projects')
+    .from('project')
     .insert({
       client_id: client.id,
       project_type: 'FULL_SERVICE',
@@ -71,7 +71,7 @@ if (projects?.[0]?.id) {
 
 const title = `Smoke test ${Date.now()}`
 const { data: task, error: tErr } = await sb
-  .from('tasks')
+  .from('task')
   .insert({
     project_id: projectId,
     department_id: 1,
@@ -89,14 +89,14 @@ if (tErr) {
 }
 console.log('[ok] created task:', task.id)
 
-const { data: listed, error: lErr } = await sb.from('tasks').select('id,title').eq('id', task.id)
+const { data: listed, error: lErr } = await sb.from('task').select('id,title').eq('id', task.id)
 if (lErr || !listed?.length) {
   console.error('[fail] list task:', lErr?.message ?? 'not found')
   process.exit(1)
 }
 console.log('[ok] task listed:', listed[0].title)
 
-await sb.from('tasks').delete().eq('id', task.id)
+await sb.from('task').delete().eq('id', task.id)
 console.log('[ok] task deleted')
 
 const { data: prompt, error: prErr } = await sb

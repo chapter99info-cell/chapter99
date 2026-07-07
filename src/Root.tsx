@@ -4,6 +4,7 @@ import App from './App'
 import { useServiceWorker } from './hooks/usePwa'
 
 const AdminApp = lazy(() => import('./admin/AdminApp'))
+const PortalApp = lazy(() => import('./portal/PortalApp'))
 
 function PageFallback() {
   return (
@@ -25,6 +26,14 @@ export default function Root() {
           element={
             <Suspense fallback={<PageFallback />}>
               <AdminApp />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/p/*"
+          element={
+            <Suspense fallback={<PageFallback />}>
+              <PortalApp />
             </Suspense>
           }
         />

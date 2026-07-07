@@ -1,6 +1,8 @@
 import { FormEvent, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { Lock, Mail } from 'lucide-react'
+import { AGENCY_CONFIG } from '../../lib/agency-config'
+import { brandColor, useBrandStyle } from '../../lib/useBrand'
 import { useAdminAuth } from '../contexts/AdminAuthContext'
 
 export default function AdminLogin() {
@@ -32,11 +34,24 @@ export default function AdminLogin() {
     }
   }
 
+  const brandStyle = useBrandStyle()
+  const primary = brandColor('primary')
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#F8F5F0] px-4 py-12">
-      <div className="w-full max-w-md rounded-2xl border-2 border-[#2D5016] bg-white p-8 shadow-lg">
-        <h1 className="text-2xl font-bold text-[#1A1A1A]">Chapter99 Admin</h1>
-        <p className="mt-2 text-base text-[#6B7280]">Sign in with your admin account</p>
+    <div
+      className="flex min-h-screen items-center justify-center px-4 py-12"
+      style={{ ...brandStyle, backgroundColor: brandColor('background') }}
+    >
+      <div
+        className="w-full max-w-md rounded-2xl border-2 bg-white p-8 shadow-lg"
+        style={{ borderColor: primary }}
+      >
+        <h1 className="text-2xl font-bold" style={{ color: brandColor('text') }}>
+          {AGENCY_CONFIG.brandName} Admin
+        </h1>
+        <p className="mt-2 text-base" style={{ color: brandColor('textMuted') }}>
+          Sign in with your admin account
+        </p>
 
         {!configured && (
           <p className="mt-4 rounded-lg bg-amber-50 border border-amber-300 p-3 text-sm text-amber-900">

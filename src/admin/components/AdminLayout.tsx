@@ -1,11 +1,23 @@
 import { LogOut } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { AGENCY_CONFIG } from '../../lib/agency-config'
+import { brandColor, useBrandStyle } from '../../lib/useBrand'
 import { useAdminAuth } from '../contexts/AdminAuthContext'
+
+const NAV = [
+  { to: '/admin', label: 'Projects', end: true },
+  { to: '/admin/briefing', label: 'Briefing' },
+  { to: '/admin/finance', label: 'Finance' },
+  { to: '/admin/tasks', label: 'Tasks' },
+  { to: '/admin/workflow', label: 'Workflow' },
+]
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const { user, signOut } = useAdminAuth()
   const navigate = useNavigate()
+  const brandStyle = useBrandStyle()
+  const primary = brandColor('primary')
 
   async function handleLogout() {
     await signOut()
@@ -13,45 +25,52 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F5F0] text-[#1A1A1A]">
-      <header className="sticky top-0 z-30 border-b-2 border-[#2D5016] bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+    <div className="min-h-screen" style={{ ...brandStyle, backgroundColor: brandColor('background'), color: brandColor('text') }}>
+      <header className="sticky top-0 z-30 border-b-2 bg-white" style={{ borderColor: primary }}>
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
           <div>
-            <p className="text-lg font-bold text-[#2D5016]">Chapter99 Admin</p>
-            <p className="text-sm text-[#6B7280]">{user?.email}</p>
+            <p className="text-lg font-bold" style={{ color: primary }}>
+              {AGENCY_CONFIG.brandName} Agency Hub
+            </p>
+            <p className="text-sm" style={{ color: brandColor('textMuted') }}>
+              {user?.email}
+            </p>
           </div>
           <div className="flex flex-wrap items-center gap-4">
-            <nav className="flex gap-1 rounded-lg border border-[#1A1A1A]/15 bg-[#F8F5F0] p-1" aria-label="Admin sections">
-              <NavLink
-                to="/admin"
-                end
-                className={({ isActive }) =>
-                  `rounded-md px-3 py-2 text-sm font-semibold transition-colors ${
-                    isActive ? 'bg-[#2D5016] text-white' : 'text-[#1A1A1A] hover:bg-white'
-                  }`
-                }
-              >
-                Dashboard
-              </NavLink>
-              <NavLink
-                to="/admin/workflow"
-                className={({ isActive }) =>
-                  `rounded-md px-3 py-2 text-sm font-semibold transition-colors ${
-                    isActive ? 'bg-[#2D5016] text-white' : 'text-[#1A1A1A] hover:bg-white'
-                  }`
-                }
-              >
-                Workflow
-              </NavLink>
+            <nav
+              className="flex flex-wrap gap-1 rounded-lg border p-1"
+              style={{ borderColor: brandColor('border'), backgroundColor: brandColor('background') }}
+              aria-label="Admin sections"
+            >
+              {NAV.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  end={item.end}
+                  className={({ isActive }) =>
+                    `rounded-md px-3 py-2 text-sm font-semibold transition-colors ${
+                      isActive ? 'text-white' : ''
+                    }`
+                  }
+                  style={({ isActive }) =>
+                    isActive
+                      ? { backgroundColor: primary }
+                      : { color: brandColor('text') }
+                  }
+                >
+                  {item.label}
+                </NavLink>
+              ))}
             </nav>
             <button
               type="button"
               onClick={handleLogout}
-              className="flex items-center gap-2 rounded-lg border-2 border-[#1A1A1A] bg-white px-4 py-2 text-base font-semibold hover:bg-[#F8F5F0]"
+              className="flex items-center gap-2 rounded-lg border-2 bg-white px-4 py-2 text-base font-semibold"
+              style={{ borderColor: brandColor('text') }}
             >
-            <LogOut className="h-5 w-5" />
-            Logout
-          </button>
+              <LogOut className="h-5 w-5" />
+              Logout
+            </button>
           </div>
         </div>
       </header>
