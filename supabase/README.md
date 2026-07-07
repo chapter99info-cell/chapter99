@@ -6,10 +6,9 @@ Agency tables must use **lowercase** names (`clients`, `projects`, `tasks`, `bil
 
 ## 1. Apply schema (required for Task Board)
 
-**If tables were created with PascalCase names** (console shows 404 on `/clients`, `/projects`):
+**If tables exist but columns are camelCase** (PGRST204 on `prompt_text`, `business_name`, etc.):
 
-1. Open [Supabase Dashboard](https://supabase.com/dashboard) → project **jjbwiriphyxsnrnpoqnn**
-2. **SQL Editor** → run `migrations/003_normalize_agency_table_names.sql` (renames tables + columns, preserves data)
+1. **SQL Editor** → run `migrations/004_normalize_column_names.sql` (renames `client`→`clients`, camelCase columns→snake_case)
 
 **If tables do not exist yet:**
 

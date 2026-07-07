@@ -16,7 +16,7 @@ export function formatSupabaseError(err: unknown): string {
   }
 
   if (code === 'PGRST204') {
-    return `${code}: ${message}${details} — Column names may be camelCase (promptText). Run supabase/migrations/003_normalize_agency_table_names.sql.`
+    return `${code}: ${message}${details} — Columns may be camelCase or tables singular (client vs clients). Run supabase/migrations/004_normalize_column_names.sql.`
   }
 
   if (code === '42501' || message.toLowerCase().includes('row-level security')) {

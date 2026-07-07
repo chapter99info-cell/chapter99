@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url'
 import pg from 'pg'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const migration = process.env.AGENCY_MIGRATION?.trim() || '003_normalize_agency_table_names'
+const migration = process.env.AGENCY_MIGRATION?.trim() || '004_normalize_column_names'
 const sqlPath = path.join(__dirname, `../supabase/migrations/${migration}.sql`)
 
 function getConnectionString() {
