@@ -46,7 +46,7 @@ node --env-file=.env.local scripts/smoke-test-task-board.mjs
 | Error | Cause | Fix |
 |-------|-------|-----|
 | `PGRST205: Could not find the table 'public.clients'` | Tables created as `"Client"` (quoted PascalCase) | Run `003_normalize_agency_table_names.sql` |
-| `PGRST204: Could not find the 'prompt_text' column` | `prompts` table uses camelCase (`promptText`) | Run `003_normalize_agency_table_names.sql` |
+| `PGRST204: Could not find the 'prompt_text' column` | Columns are camelCase (`promptText`, `businessName`) and/or tables are singular (`client`) | Run `004_normalize_column_names.sql` |
 | `404` on REST `/clients`, `/projects`, `/tasks` | PostgREST cannot see PascalCase tables via lowercase `.from('clients')` | Run `003_normalize_agency_table_names.sql` |
 | `400` on `/auth/v1/token?grant_type=password` | Invalid login attempt (wrong email/password) | Not a config bug if sign-in works; clear console and re-login |
 | `42501` / RLS | Missing policy | Re-run `002_agency_admin_idempotent.sql` |

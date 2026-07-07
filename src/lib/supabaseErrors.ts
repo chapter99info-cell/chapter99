@@ -12,7 +12,7 @@ export function formatSupabaseError(err: unknown): string {
   const details = pg.details ? ` (${pg.details})` : ''
 
   if (code === 'PGRST205') {
-    return `${code}: ${message}${details} — Tables may be PascalCase ("Client") instead of lowercase. Run supabase/migrations/003_normalize_agency_table_names.sql in project jjbwiriphyxsnrnpoqnn.`
+    return `${code}: ${message}${details} — Table missing or wrong name (singular client vs plural clients). Run supabase/migrations/004_normalize_column_names.sql in project jjbwiriphyxsnrnpoqnn.`
   }
 
   if (code === 'PGRST204') {
