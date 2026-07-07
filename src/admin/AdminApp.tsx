@@ -4,6 +4,7 @@ import AdminProtectedRoute from './components/AdminProtectedRoute'
 import AdminLayout from './components/AdminLayout'
 import AdminLogin from './components/AdminLogin'
 import AdminDashboard from './components/AdminDashboard'
+import AdminWorkflowView from './components/AdminWorkflowView'
 import { useAdminManifest, useAdminServiceWorker } from './hooks/useAdminPwa'
 
 function AdminShell() {
@@ -21,6 +22,7 @@ function AdminShell() {
               <AdminLayout>
                 <Routes>
                   <Route index element={<AdminDashboard />} />
+                  <Route path="workflow" element={<AdminWorkflowView />} />
                   <Route path="*" element={<Navigate to="/admin" replace />} />
                 </Routes>
               </AdminLayout>
