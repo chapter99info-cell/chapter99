@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
+import { Lock } from 'lucide-react'
 
 const FOOTER_VIDEO =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260503_104800_bc43ae09-f494-43e3-97d7-2f8c1692cfd7.mp4'
@@ -320,6 +322,36 @@ export default function Footer() {
           font-weight: 500;
           color: #9ca3af;
         }
+        .footer-copyright-row {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+        .footer-admin-entry {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 44px;
+          min-height: 44px;
+          margin: -12px 0;
+          padding: 12px;
+          color: #9ca3af;
+          opacity: 0.55;
+          transition: opacity 0.2s;
+        }
+        .footer-admin-entry:hover {
+          opacity: 0.85;
+        }
+        .footer-admin-entry:focus-visible {
+          outline: 2px solid #9ca3af;
+          outline-offset: 2px;
+          border-radius: 4px;
+        }
+        .footer-admin-entry svg {
+          width: 15px;
+          height: 15px;
+          stroke-width: 1.75;
+        }
         .footer-cta-mini {
           display: flex;
           flex-direction: column;
@@ -505,7 +537,12 @@ export default function Footer() {
             </div>
 
             <div className="footer-bottom">
-              <p className="footer-copyright">© 2026 Chapter99. All rights reserved.</p>
+              <div className="footer-copyright-row">
+                <p className="footer-copyright">© 2026 Chapter99. All rights reserved.</p>
+                <Link to="/admin/login" className="footer-admin-entry" aria-label="Admin">
+                  <Lock aria-hidden />
+                </Link>
+              </div>
 
               <div className="footer-cta-mini">
                 <h4>
