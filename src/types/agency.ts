@@ -9,11 +9,16 @@ export interface Client {
 
 export type ProjectType = 'DIGITAL_APP' | 'PHOTOGRAPHY' | 'FULL_SERVICE' | 'VIDEO'
 export type ProjectStatus = 'NEW_BRIEF' | 'IN_PROGRESS' | 'QA_REVIEW' | 'DELIVERED' | 'CANCELLED'
+export type PackageTier = 'STARTER' | 'PROFESSIONAL' | 'ULTIMATE'
 
 export interface Project {
   id: string
   clientId: string
   projectType: ProjectType
+  packageTier: PackageTier
+  aiAddonEnabled: boolean
+  /** True when an encrypted BYOK key exists — raw key never in list queries */
+  byokKeyConfigured: boolean
   status: ProjectStatus
   driveFolderUrl: string
   contractUrl: string
@@ -44,6 +49,10 @@ export interface Task {
 export interface Billing {
   id: string
   projectId: string
+  basePackageAmountAud: number
+  photographyFeeAud: number
+  videoFeeAud: number
+  aiAddonMonthlyFeeAud: number | null
   totalAmount: number
   totalAmountAud: number
   gstAmountAud: number

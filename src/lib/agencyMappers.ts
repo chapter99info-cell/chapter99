@@ -1,4 +1,4 @@
-import type { Billing, Client, Project, Prompt, Task } from '../types/agency'
+import type { Billing, Client, PackageTier, Project, Prompt, Task } from '../types/agency'
 
 export function mapClient(row: Record<string, unknown>): Client {
   return {
@@ -19,6 +19,9 @@ export function mapProject(row: Record<string, unknown>): Project {
     id: String(row.id),
     clientId: String(row.client_id),
     projectType: row.project_type as Project['projectType'],
+    packageTier: (row.package_tier as PackageTier) ?? 'STARTER',
+    aiAddonEnabled: Boolean(row.ai_addon_enabled),
+    byokKeyConfigured: Boolean(row.byok_key_configured),
     status: row.status as Project['status'],
     driveFolderUrl: String(row.drive_folder_url ?? ''),
     contractUrl: String(row.contract_url ?? ''),
@@ -57,6 +60,11 @@ export function mapBilling(row: Record<string, unknown>): Billing {
   return {
     id: String(row.id),
     projectId: String(row.project_id),
+    basePackageAmountAud: Number(row.base_package_amount_aud ?? 0),
+    photographyFeeAud: Number(row.photography_fee_aud ?? 0),
+    videoFeeAud: Number(row.video_fee_aud ?? 0),
+    aiAddonMonthlyFeeAud:
+      row.ai_addon_monthly_fee_aud != null ? Number(row.ai_addon_monthly_fee_aud) : null,
     totalAmount: Number(row.total_amount ?? row.total_amount_aud ?? 0),
     totalAmountAud: Number(row.total_amount_aud ?? row.total_amount ?? 0),
     gstAmountAud: Number(row.gst_amount_aud ?? 0),
@@ -104,6 +112,8 @@ export function projectPatchToRow(patch: Partial<Project>): Record<string, unkno
   const row: Record<string, unknown> = {}
   if (patch.status !== undefined) row.status = patch.status
   if (patch.projectType !== undefined) row.project_type = patch.projectType
+  if (patch.packageTier !== undefined) row.package_tier = patch.packageTier
+  if (patch.aiAddonEnabled !== undefined) row.ai_addon_enabled = patch.aiAddonEnabled
   if (patch.driveFolderUrl !== undefined) row.drive_folder_url = patch.driveFolderUrl
   if (patch.contractUrl !== undefined) row.contract_url = patch.contractUrl
   if (patch.liveWebUrl !== undefined) row.live_web_url = patch.liveWebUrl
@@ -118,6 +128,12 @@ export function projectPatchToRow(patch: Partial<Project>): Record<string, unkno
 
 export function billingPatchToRow(patch: Partial<Billing>): Record<string, unknown> {
   const row: Record<string, unknown> = {}
+  if (patch.basePackageAmountAud !== undefined) row.base_package_amount_aud = patch.basePackageAmountAud
+  if (patch.photographyFeeAud !== undefined) row.photography_fee_aud = patch.photographyFeeAud
+  if (patch.videoFeeAud !== undefined) row.video_fee_aud = patch.videoFeeAud
+  if (patch.aiAddonMonthlyFeeAud !== undefined) {
+    row.ai_addon_monthly_fee_aud = patch.aiAddonMonthlyFeeAud
+  }
   if (patch.totalAmountAud !== undefined) {
     row.total_amount_aud = patch.totalAmountAud
     row.gst_amount_aud = Math.round(patch.totalAmountAud * 0.1 * 100) / 100

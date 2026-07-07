@@ -4,6 +4,7 @@ import AdminProtectedRoute from './components/AdminProtectedRoute'
 import AdminLayout from './components/AdminLayout'
 import AdminLogin from './components/AdminLogin'
 import ProjectDashboard from './components/ProjectDashboard'
+import ProjectSettings from './components/ProjectSettings'
 import LiveBriefing from './components/LiveBriefing'
 import FinancialExport from './components/FinancialExport'
 import TasksHub from './components/TasksHub'
@@ -25,6 +26,7 @@ function AdminShell() {
               <AdminLayout>
                 <Routes>
                   <Route index element={<ProjectDashboard />} />
+                  <Route path="projects/:projectId/settings" element={<ProjectSettings />} />
                   <Route path="briefing" element={<LiveBriefing />} />
                   <Route path="finance" element={<FinancialExport />} />
                   <Route path="tasks" element={<TasksHub />} />

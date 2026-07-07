@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Copy, ExternalLink, Search } from 'lucide-react'
+import { tierLabel } from '../../lib/tierRules'
 import { AGENCY_CONFIG } from '../../lib/agency-config'
 import { brandColor } from '../../lib/useBrand'
 import { fetchProjects, PROJECT_STATUS_OPTIONS } from '../../lib/agencyService'
@@ -112,7 +113,7 @@ export default function ProjectDashboard() {
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: muted }}>
-                        {project.projectType.replace(/_/g, ' ')}
+                        {project.projectType.replace(/_/g, ' ')} · {tierLabel(project.packageTier)}
                       </p>
                       <p className="mt-1 text-base font-bold" style={{ color: brandColor('text') }}>
                         {project.status.replace(/_/g, ' ')}
@@ -134,6 +135,13 @@ export default function ProjectDashboard() {
                   </p>
 
                   <div className="mt-4 flex flex-wrap gap-2">
+                    <Link
+                      to={`/admin/projects/${project.id}/settings`}
+                      className="rounded-lg border-2 px-3 py-2 text-sm font-semibold"
+                      style={{ borderColor: brandColor('border') }}
+                    >
+                      Settings
+                    </Link>
                     <Link
                       to={`/admin/briefing?project=${project.id}`}
                       className="rounded-lg px-3 py-2 text-sm font-semibold text-white"
