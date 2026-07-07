@@ -236,7 +236,7 @@ export default function V4WellnessPricing() {
   }, [])
 
   return (
-    <section id="wellness-pricing" className="bg-[#090B0A] px-5 py-20 sm:px-6 sm:py-24">
+    <section id="pricing" className="bg-[#090B0A] px-5 py-20 sm:px-6 sm:py-24">
       <div
         className={`mx-auto max-w-6xl transition-all duration-[800ms] ease-out ${
           revealed ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
