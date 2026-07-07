@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { Sparkles } from 'lucide-react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { ClipboardList, Sparkles } from 'lucide-react'
 import { callClaudeApi } from '../../lib/claudeApi'
 import { brandColor } from '../../lib/useBrand'
 import { fetchProjects, updateProject } from '../../lib/agencyService'
@@ -102,6 +102,25 @@ export default function LiveBriefing() {
             </option>
           ))}
         </select>
+        {projectId && (
+          <div className="mt-3 flex flex-wrap items-center gap-4">
+            <Link
+              to={`/admin/tasks?project=${projectId}`}
+              className="inline-flex items-center gap-2 text-sm font-semibold hover:underline"
+              style={{ color: primary }}
+            >
+              <ClipboardList className="h-4 w-4" />
+              View in Task Board
+            </Link>
+            <Link
+              to={`/admin?project=${projectId}`}
+              className="text-sm font-medium hover:underline"
+              style={{ color: brandColor('textMuted') }}
+            >
+              View on Projects dashboard
+            </Link>
+          </div>
+        )}
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">

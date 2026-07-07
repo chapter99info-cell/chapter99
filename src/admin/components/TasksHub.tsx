@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { DEPARTMENTS, type DepartmentId } from '../../lib/departmentConfig'
 import { brandColor } from '../../lib/useBrand'
 import AgentPanels from './AgentPanels'
@@ -6,6 +7,8 @@ import TaskBoard from './TaskBoard'
 
 /** Department task board + AI agent panels (admin-only AI) */
 export default function TasksHub() {
+  const [searchParams] = useSearchParams()
+  const projectFilter = searchParams.get('project') ?? undefined
   const [activeDept, setActiveDept] = useState<DepartmentId>(1)
   const primary = brandColor('primary')
 
@@ -36,7 +39,7 @@ export default function TasksHub() {
         ))}
       </nav>
 
-      <TaskBoard key={`tasks-${activeDept}`} departmentId={activeDept} />
+      <TaskBoard key={`tasks-${activeDept}-${projectFilter ?? 'all'}`} departmentId={activeDept} projectFilter={projectFilter} />
       <AgentPanels key={`agents-${activeDept}`} activeDepartment={activeDept} />
     </div>
   )
