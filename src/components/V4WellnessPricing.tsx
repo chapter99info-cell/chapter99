@@ -236,12 +236,34 @@ export default function V4WellnessPricing() {
   }, [])
 
   return (
-    <section id="pricing" className="bg-[#090B0A] px-5 py-20 sm:px-6 sm:py-24">
+    <section
+      id="portfolio-spa-pricing"
+      aria-labelledby="portfolio-spa-pricing-heading"
+      className="bg-[#090B0A] px-5 py-20 sm:px-6 sm:py-24"
+    >
       <div
         className={`mx-auto max-w-6xl transition-all duration-[800ms] ease-out ${
           revealed ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}
       >
+        <div className="mb-10 text-center sm:mb-12">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#B8C9B0]/70">
+            ตัวอย่างผลงาน · Case Study
+          </p>
+          <h2
+            id="portfolio-spa-pricing-heading"
+            className="sr-only"
+          >
+            Portfolio example — Premium Spa Management pricing showcase
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-[#F4F6F3]/50">
+            ตัวอย่างแพ็กเกจราคาที่เราออกแบบให้ลูกค้าร้านสปา — ไม่ใช่ราคาบริการของ Chapter99
+            <span className="mt-1 block text-[#F4F6F3]/35">
+              Example client pricing layout (wellness spa) — not Chapter99 agency rates.
+            </span>
+          </p>
+        </div>
+
         <VideoBanner />
 
         <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-3">
