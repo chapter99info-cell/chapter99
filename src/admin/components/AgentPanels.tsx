@@ -3,6 +3,7 @@ import { BookOpen, Plus, Save, Trash2 } from 'lucide-react'
 import { AGENTS, getDepartmentName } from '../../lib/departmentConfig'
 import { deletePrompt, fetchPrompts, savePrompt } from '../../lib/agencyService'
 import { callClaudeApi } from '../../lib/claudeApi'
+import { callGeminiApi } from '../../lib/geminiApi'
 import type { Prompt, PromptAgent } from '../../types/agency'
 import type { DepartmentId } from '../../lib/departmentConfig'
 
@@ -39,6 +40,7 @@ function AgentCard({
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [editText, setEditText] = useState('')
   const [claudeOutput, setClaudeOutput] = useState('')
+  const [geminiOutput, setGeminiOutput] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -99,6 +101,21 @@ function AgentCard({
       setClaudeOutput(result)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Claude API failed')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function handleRunGemini() {
+    if (agent !== 'GEMINI') return
+    setLoading(true)
+    setError('')
+    setGeminiOutput('')
+    try {
+      const result = await callGeminiApi(editText)
+      setGeminiOutput(result)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Gemini API failed')
     } finally {
       setLoading(false)
     }
@@ -186,12 +203,28 @@ function AgentCard({
             {loading ? 'Calling…' : 'Run Claude API'}
           </button>
         )}
+        {agent === 'GEMINI' && (
+          <button
+            type="button"
+            onClick={handleRunGemini}
+            disabled={loading || !editText.trim()}
+            className="ml-auto rounded-lg bg-[#1A1A1A] px-4 py-2 text-sm font-bold text-white disabled:opacity-50"
+          >
+            {loading ? 'Calling…' : 'Run Gemini API'}
+          </button>
+        )}
       </div>
 
       {claudeOutput && agent === 'CLAUDE' && (
         <div className="mt-4 rounded-lg border border-[#2D5016]/30 bg-[#F8F5F0] p-3">
           <p className="mb-2 text-sm font-bold text-[#2D5016]">Claude response</p>
           <pre className="whitespace-pre-wrap text-sm text-[#1A1A1A]">{claudeOutput}</pre>
+        </div>
+      )}
+      {geminiOutput && agent === 'GEMINI' && (
+        <div className="mt-4 rounded-lg border border-[#2D5016]/30 bg-[#F8F5F0] p-3">
+          <p className="mb-2 text-sm font-bold text-[#2D5016]">Gemini response</p>
+          <pre className="whitespace-pre-wrap text-sm text-[#1A1A1A]">{geminiOutput}</pre>
         </div>
       )}
     </div>
