@@ -1,6 +1,14 @@
 /* Chapter99 main site — static asset cache; API/data requires network */
-const CACHE_NAME = 'chapter99-site-v1'
-const PRECACHE = ['/', '/manifest.json', '/icon-192.svg', '/icon-512.svg']
+const CACHE_NAME = 'chapter99-site-v2'
+const PRECACHE = [
+  '/',
+  '/manifest.json',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
+  '/icons/icon-512-maskable.png',
+  '/icons/icon-180.png',
+  '/icons/favicon-32.png',
+]
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE)))

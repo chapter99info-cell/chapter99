@@ -1,6 +1,11 @@
 /* Chapter99 Admin — static asset cache only; data via Supabase requires network */
-const CACHE_NAME = 'chapter99-admin-v1'
-const STATIC_ASSETS = ['/admin/manifest.json', '/admin/icon-192.svg', '/admin/icon-512.svg']
+const CACHE_NAME = 'chapter99-admin-v2'
+const STATIC_ASSETS = [
+  '/admin/manifest.json',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
+  '/icons/icon-512-maskable.png',
+]
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS)))
