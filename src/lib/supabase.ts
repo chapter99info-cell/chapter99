@@ -8,5 +8,12 @@ const supabaseAnonKey =
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey)
 
 export const supabase: SupabaseClient = isSupabaseConfigured
-  ? createClient(supabaseUrl, supabaseAnonKey)
+  ? createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        // Admin uses email/password only — no OAuth hash callback on /admin routes.
+        detectSessionInUrl: false,
+      },
+    })
   : (null as unknown as SupabaseClient)

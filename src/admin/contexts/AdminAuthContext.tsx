@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import type { AuthChangeEvent, Session, User } from '@supabase/supabase-js'
+import type { Session, User } from '@supabase/supabase-js'
 import { isSupabaseConfigured, supabase } from '../../lib/supabase'
 
 interface AdminAuthContextValue {
@@ -32,25 +32,33 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
       return
     }
 
-    supabase.auth.getSession().then(({ data }: { data: { session: Session | null } }) => {
-      setSession(data.session)
-      setUser(data.session?.user ?? null)
-      setLoading(false)
-    })
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, nextSession) => {
+      setSession(nextSession)
+      setUser(nextSession?.user ?? null)
 
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event: AuthChangeEvent, nextSession: Session | null) => {
-        setSession(nextSession)
-        setUser(nextSession?.user ?? null)
+      // Wait for INITIAL_SESSION before ending the loading state. Calling getSession()
+      // in parallel can briefly mark the user as signed-out and flash /admin/login,
+      // which triggers password-manager autofill attempts (400 on grant_type=password).
+      if (event === 'INITIAL_SESSION') {
         setLoading(false)
       }
-    )
+    })
 
-    return () => listener.subscription.unsubscribe()
+    return () => subscription.unsubscribe()
   }, [])
 
   const signIn = useCallback(async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const trimmedEmail = email.trim()
+    if (!trimmedEmail || !password) {
+      throw new Error('Email and password are required')
+    }
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: trimmedEmail,
+      password,
+    })
     if (error) throw error
   }, [])
 
