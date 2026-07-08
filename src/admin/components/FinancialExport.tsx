@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Download } from 'lucide-react'
+import PaymentLinksPanel from './PaymentLinksPanel'
 import { brandColor } from '../../lib/useBrand'
 import { fetchBillingRecords, fetchProjects, upsertBillingForProject } from '../../lib/agencyService'
 import type { Billing, Project } from '../../types/agency'
@@ -102,6 +103,8 @@ export default function FinancialExport() {
       </div>
 
       {error && <p className="mt-4 text-sm text-red-700">{error}</p>}
+
+      <PaymentLinksPanel />
 
       <div className="mt-8 overflow-x-auto">
         <table className="w-full min-w-[640px] border-collapse text-left text-base">
