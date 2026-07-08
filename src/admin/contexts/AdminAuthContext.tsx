@@ -8,14 +8,18 @@ import {
   type ReactNode,
 } from 'react'
 import type { Session, User } from '@supabase/supabase-js'
+import { clearPinToken, validatePinSession, verifyAdminPin } from '../../lib/adminPinApi'
 import { isSupabaseConfigured, supabase } from '../../lib/supabase'
 
 interface AdminAuthContextValue {
   user: User | null
   session: Session | null
+  pinSession: boolean
   loading: boolean
   configured: boolean
+  isAuthenticated: boolean
   signIn: (email: string, password: string) => Promise<void>
+  signInWithPin: (pin: string) => Promise<void>
   signOut: () => Promise<void>
 }
 
@@ -24,6 +28,7 @@ const AdminAuthContext = createContext<AdminAuthContextValue | null>(null)
 export function AdminAuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [session, setSession] = useState<Session | null>(null)
+  const [pinSession, setPinSession] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -34,14 +39,18 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, nextSession) => {
+    } = supabase.auth.onAuthStateChange(async (event, nextSession) => {
       setSession(nextSession)
       setUser(nextSession?.user ?? null)
 
-      // Wait for INITIAL_SESSION before ending the loading state. Calling getSession()
-      // in parallel can briefly mark the user as signed-out and flash /admin/login,
-      // which triggers password-manager autofill attempts (400 on grant_type=password).
       if (event === 'INITIAL_SESSION') {
+        if (nextSession?.user) {
+          setPinSession(false)
+          clearPinToken()
+        } else {
+          const valid = await validatePinSession()
+          setPinSession(valid)
+        }
         setLoading(false)
       }
     })
@@ -60,23 +69,37 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
       password,
     })
     if (error) throw error
+    clearPinToken()
+    setPinSession(false)
+  }, [])
+
+  const signInWithPin = useCallback(async (pin: string) => {
+    await verifyAdminPin(pin)
+    setPinSession(true)
   }, [])
 
   const signOut = useCallback(async () => {
+    clearPinToken()
+    setPinSession(false)
     const { error } = await supabase.auth.signOut()
     if (error) throw error
   }, [])
+
+  const isAuthenticated = Boolean(user) || pinSession
 
   const value = useMemo(
     () => ({
       user,
       session,
+      pinSession,
       loading,
       configured: isSupabaseConfigured,
+      isAuthenticated,
       signIn,
+      signInWithPin,
       signOut,
     }),
-    [user, session, loading, signIn, signOut]
+    [user, session, pinSession, loading, isAuthenticated, signIn, signInWithPin, signOut]
   )
 
   return <AdminAuthContext.Provider value={value}>{children}</AdminAuthContext.Provider>

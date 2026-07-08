@@ -53,3 +53,22 @@ node --env-file=.env.local scripts/smoke-test-task-board.mjs
 | `42501` / RLS | Missing policy | Re-run `002_agency_admin_idempotent.sql` |
 
 **Note:** Marketing assets use a separate project (`euiwkvozrhnbxtttfuchh`). Do not mix storage URLs with admin data project.
+
+## 5. Admin PIN login (Edge Function)
+
+1. **SQL Editor** → run `migrations/008_admin_pin_auth.sql`
+2. Deploy the function and set the secret (PIN never goes in frontend env):
+
+```bash
+supabase link --project-ref jjbwiriphyxsnrnpoqnn
+supabase secrets set ADMIN_PIN=your-4-digit-pin
+supabase functions deploy verify-admin-pin
+```
+
+3. Login at `/admin/login` — use the 4-digit PIN pad or email/password.
+4. Lockout: **5 wrong attempts → 15 minute lockout** (tracked server-side by IP hash).
+
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `PIN login not configured` | `ADMIN_PIN` secret missing | `supabase secrets set ADMIN_PIN=...` |
+| `Locked for 15 minutes` | Brute-force lockout active | Wait or clear row in `admin_pin_attempts` (service role) |

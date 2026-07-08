@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { X } from 'lucide-react'
 import PaymentLinkButtons from './PaymentLinkButtons'
+import PaymentQrGrid from './PaymentQrGrid'
 import {
   CARD_STAGGER_S,
   FEATURE_BADGE_LAYOUTS,
@@ -321,6 +322,7 @@ export default function PricingTiersSection() {
             เลือกลิงก์ให้ตรงกับประเภทการชำระ — setup ครั้งเดียว หรือค่าบริการรายเดือน
           </p>
           <PaymentLinkButtons className="mt-6" />
+          <PaymentQrGrid />
         </div>
 
         <p className="mt-10 text-center text-sm text-[#6B7280]">

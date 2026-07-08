@@ -3,7 +3,7 @@ import { useAdminAuth } from '../contexts/AdminAuthContext'
 import type { ReactNode } from 'react'
 
 export default function AdminProtectedRoute({ children }: { children: ReactNode }) {
-  const { user, loading, configured } = useAdminAuth()
+  const { isAuthenticated, loading, configured } = useAdminAuth()
   const location = useLocation()
 
   if (!configured) {
@@ -29,7 +29,7 @@ export default function AdminProtectedRoute({ children }: { children: ReactNode 
     )
   }
 
-  if (!user) {
+  if (!isAuthenticated) {
     return <Navigate to="/admin/login" state={{ from: location }} replace />
   }
 

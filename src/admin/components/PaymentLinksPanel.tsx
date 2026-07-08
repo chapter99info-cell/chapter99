@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Check, Copy, ExternalLink } from 'lucide-react'
 import { brandColor } from '../../lib/useBrand'
 import { PAYMENT_LINKS, type PaymentLinkKey } from '../../lib/paymentLinks'
+import PaymentQrCode from '../../components/PaymentQrCode'
 
 const LINK_ORDER: PaymentLinkKey[] = ['setupFee', 'monthly']
 
@@ -102,6 +103,13 @@ export default function PaymentLinksPanel() {
                   )}
                 </button>
               </div>
+
+              <PaymentQrCode
+                url={link.url}
+                label={link.labelTh}
+                size={120}
+                className="mt-4"
+              />
             </div>
           )
         })}

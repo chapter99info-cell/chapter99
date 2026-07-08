@@ -4,9 +4,10 @@ import { Lock, Mail } from 'lucide-react'
 import { AGENCY_CONFIG } from '../../lib/agency-config'
 import { brandColor, useBrandStyle } from '../../lib/useBrand'
 import { useAdminAuth } from '../contexts/AdminAuthContext'
+import AdminPinPad from './AdminPinPad'
 
 export default function AdminLogin() {
-  const { signIn, user, loading, configured } = useAdminAuth()
+  const { signIn, signInWithPin, isAuthenticated, loading, configured } = useAdminAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const [email, setEmail] = useState('')
@@ -22,7 +23,7 @@ export default function AdminLogin() {
 
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname ?? '/admin'
 
-  if (!loading && user) {
+  if (!loading && isAuthenticated) {
     return <Navigate to={from} replace />
   }
 
@@ -50,6 +51,16 @@ export default function AdminLogin() {
     }
   }
 
+  async function handlePinSubmit(pin: string) {
+    setError('')
+    try {
+      await signInWithPin(pin)
+      navigate(from, { replace: true })
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'PIN login failed')
+    }
+  }
+
   const brandStyle = useBrandStyle()
   const primary = brandColor('primary')
 
@@ -66,7 +77,7 @@ export default function AdminLogin() {
           {AGENCY_CONFIG.brandName} Admin
         </h1>
         <p className="mt-2 text-base" style={{ color: brandColor('textMuted') }}>
-          Sign in with your admin account
+          Sign in with email or PIN
         </p>
 
         {!configured && (
@@ -133,6 +144,14 @@ export default function AdminLogin() {
             {submitting ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
+
+        <div className="my-8 flex items-center gap-3">
+          <div className="h-px flex-1 bg-[#1A1A1A]/15" />
+          <span className="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">or</span>
+          <div className="h-px flex-1 bg-[#1A1A1A]/15" />
+        </div>
+
+        <AdminPinPad onSubmit={handlePinSubmit} disabled={!configured} />
       </div>
     </div>
   )
