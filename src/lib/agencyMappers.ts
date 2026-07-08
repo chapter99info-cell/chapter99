@@ -1,4 +1,4 @@
-import type { Billing, Client, Project, Prompt, Task } from '../types/agency'
+import type { Billing, Client, Project, Prompt, Task, TaskProjectSummary } from '../types/agency'
 
 export function mapClient(row: Record<string, unknown>): Client {
   return {
@@ -35,7 +35,24 @@ export function mapProject(row: Record<string, unknown>): Project {
   }
 }
 
+export function mapTaskProject(row: Record<string, unknown> | null | undefined): TaskProjectSummary | undefined {
+  if (!row) return undefined
+  const clientRow = row.client as Record<string, unknown> | Record<string, unknown>[] | null | undefined
+  const client = Array.isArray(clientRow) ? clientRow[0] : clientRow
+
+  return {
+    id: String(row.id),
+    status: row.status as TaskProjectSummary['status'],
+    liveWebUrl: row.live_web_url != null ? String(row.live_web_url) : null,
+    galleryUrl: row.gallery_url != null ? String(row.gallery_url) : null,
+    client: client ? { businessName: String(client.business_name ?? '') } : undefined,
+  }
+}
+
 export function mapTask(row: Record<string, unknown>): Task {
+  const projectRow = row.project as Record<string, unknown> | Record<string, unknown>[] | null | undefined
+  const project = Array.isArray(projectRow) ? projectRow[0] : projectRow
+
   return {
     id: String(row.id),
     projectId: String(row.project_id),
@@ -45,6 +62,7 @@ export function mapTask(row: Record<string, unknown>): Task {
     title: String(row.title ?? ''),
     promptOrSpec: String(row.prompt_or_spec ?? ''),
     notes: String(row.notes ?? ''),
+    project: mapTaskProject(project),
   }
 }
 

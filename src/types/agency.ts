@@ -39,6 +39,17 @@ export interface Task {
   title: string
   promptOrSpec: string
   notes: string
+  /** Populated when tasks are fetched with project join */
+  project?: TaskProjectSummary
+}
+
+/** Minimal project fields joined onto task cards */
+export interface TaskProjectSummary {
+  id: string
+  status: ProjectStatus
+  liveWebUrl: string | null
+  galleryUrl: string | null
+  client?: Pick<Client, 'businessName'>
 }
 
 export interface Billing {

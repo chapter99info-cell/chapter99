@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Plus, Trash2 } from 'lucide-react'
 import { getDepartmentName } from '../../lib/departmentConfig'
 import { createTask, deleteTask, ensureDefaultProject, fetchTasks, updateTaskStatus } from '../../lib/agencyService'
 import type { Task, TaskStatus } from '../../types/agency'
 import { getDefaultAssignee, type DepartmentId } from '../../lib/departmentConfig'
+import ProjectQuickLinks from './ProjectQuickLinks'
 
 const BOARD_COLUMNS: { key: TaskStatus[]; label: string }[] = [
   { key: ['TODO'], label: 'To Do' },
@@ -13,9 +15,10 @@ const BOARD_COLUMNS: { key: TaskStatus[]; label: string }[] = [
 
 interface TaskBoardProps {
   departmentId: DepartmentId
+  projectFilter?: string
 }
 
-export default function TaskBoard({ departmentId }: TaskBoardProps) {
+export default function TaskBoard({ departmentId, projectFilter }: TaskBoardProps) {
   const [tasks, setTasks] = useState<Task[]>([])
   const [projectId, setProjectId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -28,14 +31,14 @@ export default function TaskBoard({ departmentId }: TaskBoardProps) {
     try {
       const pid = await ensureDefaultProject()
       setProjectId(pid)
-      const all = await fetchTasks(pid)
+      const all = await fetchTasks(projectFilter)
       setTasks(all.filter((t) => t.departmentId === departmentId))
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load tasks')
     } finally {
       setLoading(false)
     }
-  }, [departmentId])
+  }, [departmentId, projectFilter])
 
   useEffect(() => {
     void load()
@@ -46,7 +49,7 @@ export default function TaskBoard({ departmentId }: TaskBoardProps) {
     if (!newTitle.trim() || !projectId) return
     try {
       await createTask({
-        projectId,
+        projectId: projectFilter ?? projectId,
         departmentId,
         assignee: getDefaultAssignee(departmentId),
         status: 'TODO',
@@ -84,9 +87,21 @@ export default function TaskBoard({ departmentId }: TaskBoardProps) {
     return <p className="text-base text-[#6B7280]">Loading tasks…</p>
   }
 
+  const filterLabel = projectFilter
+    ? tasks[0]?.project?.client?.businessName ?? 'Selected project'
+    : null
+
   return (
     <section className="mt-6">
       <h3 className="text-lg font-bold text-[#1A1A1A]">Task Board — {getDepartmentName(departmentId)}</h3>
+      {projectFilter && (
+        <p className="mt-2 text-sm text-[#6B7280]">
+          Filtered to <span className="font-semibold text-[#1A1A1A]">{filterLabel}</span>.{' '}
+          <Link to="/admin/tasks" className="font-semibold text-[#2D5016] hover:underline">
+            Show all tasks
+          </Link>
+        </p>
+      )}
       {error && (
         <p className="mt-2 rounded-lg border border-red-300 bg-red-50 p-3 text-base text-red-800">{error}</p>
       )}
@@ -122,6 +137,16 @@ export default function TaskBoard({ departmentId }: TaskBoardProps) {
                   >
                     <p className="text-base font-semibold text-[#1A1A1A]">{task.title}</p>
                     <p className="mt-1 text-sm text-[#6B7280]">Assignee: {task.assignee}</p>
+                    {task.project ? (
+                      <ProjectQuickLinks project={task.project} />
+                    ) : (
+                      <Link
+                        to={`/admin/briefing?project=${task.projectId}`}
+                        className="mt-2 inline-block text-sm font-semibold text-[#2D5016] hover:underline"
+                      >
+                        เปิดโปรเจกต์ →
+                      </Link>
+                    )}
                     <div className="mt-3 flex flex-wrap gap-2">
                       {col.key[0] !== 'TODO' && (
                         <button

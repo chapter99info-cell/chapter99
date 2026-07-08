@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Copy, ExternalLink, Search } from 'lucide-react'
 import { AGENCY_CONFIG } from '../../lib/agency-config'
 import { brandColor } from '../../lib/useBrand'
@@ -7,6 +7,8 @@ import { fetchProjects, PROJECT_STATUS_OPTIONS } from '../../lib/agencyService'
 import type { Project, ProjectStatus } from '../../types/agency'
 
 export default function ProjectDashboard() {
+  const [searchParams] = useSearchParams()
+  const highlightProjectId = searchParams.get('project')
   const [projects, setProjects] = useState<Project[]>([])
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<ProjectStatus | 'ALL'>('ALL')
@@ -25,6 +27,12 @@ export default function ProjectDashboard() {
   useEffect(() => {
     void load()
   }, [load])
+
+  useEffect(() => {
+    if (!highlightProjectId || projects.length === 0) return
+    const el = document.getElementById(`project-card-${highlightProjectId}`)
+    el?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }, [highlightProjectId, projects])
 
   const grouped = useMemo(() => {
     const q = search.trim().toLowerCase()
@@ -106,7 +114,10 @@ export default function ProjectDashboard() {
               {group.projects.map((project) => (
                 <article
                   key={project.id}
-                  className="flex flex-col rounded-xl border-2 bg-white p-5 shadow-sm"
+                  id={`project-card-${project.id}`}
+                  className={`flex flex-col rounded-xl border-2 bg-white p-5 shadow-sm transition-shadow ${
+                    highlightProjectId === project.id ? 'ring-2 ring-[#2D5016] ring-offset-2' : ''
+                  }`}
                   style={{ borderColor: brandColor('border') }}
                 >
                   <div className="flex items-start justify-between gap-2">

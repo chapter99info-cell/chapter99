@@ -30,6 +30,8 @@ function throwIfError(error: unknown): void {
 }
 
 const PROJECT_SELECT = '*, client:client_id(id, business_name, contact_name, email, phone, created_at)'
+const TASK_SELECT =
+  '*, project:project_id(id, status, live_web_url, gallery_url, client:client_id(business_name))'
 const BILLING_SELECT = `*, project:project_id(id, client_id, project_type, status, client:client_id(business_name))`
 
 // ——— Clients ———
@@ -127,7 +129,7 @@ export async function upsertBillingForProject(
 
 // ——— Tasks ———
 export async function fetchTasks(projectId?: string): Promise<Task[]> {
-  let query = supabase.from(AGENCY_TABLES.task).select('*').order('created_at', { ascending: false })
+  let query = supabase.from(AGENCY_TABLES.task).select(TASK_SELECT).order('created_at', { ascending: false })
   if (projectId) query = query.eq('project_id', projectId)
   const { data, error } = await query
   throwIfError(error)
