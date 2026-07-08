@@ -1,0 +1,5 @@
+# Supabase local config — used by CLI for Edge Function deploy
+project_id = "jjbwiriphyxsnrnpoqnn"
+
+[functions.verify-admin-pin]
+verify_jwt = false

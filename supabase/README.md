@@ -54,21 +54,20 @@ node --env-file=.env.local scripts/smoke-test-task-board.mjs
 
 **Note:** Marketing assets use a separate project (`euiwkvozrhnbxtttfuchh`). Do not mix storage URLs with admin data project.
 
-## 5. Admin PIN login (Edge Function)
+## 5. Admin PIN login (Vercel API route)
+
+PIN validation runs at **`/api/verify-admin-pin`** on Vercel (same origin — no CORS issues).
 
 1. **SQL Editor** → run `migrations/008_admin_pin_auth.sql`
-2. Deploy the function and set the secret (PIN never goes in frontend env):
+2. **Vercel** → project `chapter99` → **Settings → Environment Variables** (Production):
 
-```bash
-supabase link --project-ref jjbwiriphyxsnrnpoqnn
-supabase secrets set ADMIN_PIN=your-4-digit-pin
-supabase functions deploy verify-admin-pin
-```
+| Variable | Notes |
+|----------|-------|
+| `ADMIN_PIN` | 4-digit PIN — server only, never `VITE_` |
+| `SUPABASE_SERVICE_ROLE_KEY` | From Supabase → Settings → API → service_role |
 
-3. Login at `/admin/login` — use the 4-digit PIN pad or email/password.
-4. Lockout: **5 wrong attempts → 15 minute lockout** (tracked server-side by IP hash).
+3. Redeploy after adding env vars. Test at `/admin/login` → PIN pad.
 
-| Error | Cause | Fix |
-|-------|-------|-----|
-| `PIN login not configured` | `ADMIN_PIN` secret missing | `supabase secrets set ADMIN_PIN=...` |
-| `Locked for 15 minutes` | Brute-force lockout active | Wait or clear row in `admin_pin_attempts` (service role) |
+Lockout: **5 wrong attempts → 15 minutes** (server-side).
+
+Legacy Supabase Edge Function (`supabase/functions/verify-admin-pin`) is optional; the live app uses the Vercel route.

@@ -1,5 +1,3 @@
-import { supabase } from './supabase'
-
 const PIN_TOKEN_KEY = 'chapter99_admin_pin_token'
 
 export function getStoredPinToken(): string | null {
@@ -18,14 +16,27 @@ interface PinApiResponse {
   locked_until?: string | null
 }
 
-export async function verifyAdminPin(pin: string): Promise<void> {
-  const { data, error } = await supabase.functions.invoke<PinApiResponse>('verify-admin-pin', {
-    body: { action: 'verify', pin },
+async function callPinApi(body: Record<string, string>): Promise<PinApiResponse> {
+  const res = await fetch('/api/verify-admin-pin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
   })
 
-  if (error) throw new Error(error.message || 'PIN verification failed')
-  if (!data?.ok || !data.token) {
-    throw new Error(data?.message || 'Incorrect PIN')
+  const data = (await res.json().catch(() => ({}))) as PinApiResponse
+
+  if (!res.ok) {
+    throw new Error(data.message || `PIN request failed (${res.status})`)
+  }
+
+  return data
+}
+
+export async function verifyAdminPin(pin: string): Promise<void> {
+  const data = await callPinApi({ action: 'verify', pin })
+
+  if (!data.ok || !data.token) {
+    throw new Error(data.message || 'Incorrect PIN')
   }
 
   sessionStorage.setItem(PIN_TOKEN_KEY, data.token)
@@ -35,14 +46,15 @@ export async function validatePinSession(): Promise<boolean> {
   const token = getStoredPinToken()
   if (!token) return false
 
-  const { data, error } = await supabase.functions.invoke<PinApiResponse>('verify-admin-pin', {
-    body: { action: 'validate', token },
-  })
-
-  if (error || !data?.ok) {
+  try {
+    const data = await callPinApi({ action: 'validate', token })
+    if (!data.ok) {
+      clearPinToken()
+      return false
+    }
+    return true
+  } catch {
     clearPinToken()
     return false
   }
-
-  return true
 }

@@ -1,3 +1,8 @@
 {
-  "rewrites": [{ "source": "/((?!admin/sw.js|admin/manifest.json|admin/icon-).*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/((?!api/|admin/sw.js|admin/manifest.json|admin/icon-).*)",
+      "destination": "/index.html"
+    }
+  ]
 }
