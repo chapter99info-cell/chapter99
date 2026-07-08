@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { X } from 'lucide-react'
+import PaymentLinkButtons from './PaymentLinkButtons'
 import {
   CARD_STAGGER_S,
   FEATURE_BADGE_LAYOUTS,
@@ -309,6 +310,17 @@ export default function PricingTiersSection() {
               reduceMotion={reduceMotion}
             />
           ))}
+        </div>
+
+        <div className="mt-12 rounded-2xl border border-[#2D5016]/15 bg-white p-6 text-center shadow-sm sm:p-8">
+          <p className="text-sm font-semibold uppercase tracking-wider text-[#2D5016]">
+            Client payment
+          </p>
+          <h3 className="mt-2 text-xl font-bold text-[#1A1A1A]">ชำระผ่าน Square</h3>
+          <p className="mx-auto mt-2 max-w-lg text-sm text-[#6B7280]">
+            เลือกลิงก์ให้ตรงกับประเภทการชำระ — setup ครั้งเดียว หรือค่าบริการรายเดือน
+          </p>
+          <PaymentLinkButtons className="mt-6" />
         </div>
 
         <p className="mt-10 text-center text-sm text-[#6B7280]">
