@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { X } from 'lucide-react'
 import PaymentLinkButtons from './PaymentLinkButtons'
 import PaymentQrGrid from './PaymentQrGrid'
+import { useLanguage } from '../i18n/LanguageContext'
 import {
   CARD_STAGGER_S,
   FEATURE_BADGE_LAYOUTS,
@@ -38,6 +39,7 @@ function TierGridCard({
 }) {
   const ShowcaseIcon = tier.showcaseIcon
   const isRecommended = tier.recommended
+  const { lang, t } = useLanguage()
 
   return (
     <motion.button
@@ -89,8 +91,7 @@ function TierGridCard({
           <ShowcaseIcon className="h-12 w-12 text-white/90 sm:h-14 sm:w-14" strokeWidth={1.25} />
         </div>
 
-        <h3 className="text-xl font-bold text-[#1A1A1A]">{tier.name}</h3>
-        <p className="mt-1 text-sm font-medium text-[#2D5016]">{tier.nameTh}</p>
+        <h3 className="text-xl font-bold text-[#1A1A1A]">{lang === 'th' ? tier.nameTh : tier.name}</h3>
 
         <div className="mt-4 flex items-baseline gap-2">
           <span className="text-3xl font-bold tracking-tight text-[#1A1A1A]">
@@ -103,11 +104,11 @@ function TierGridCard({
         </p>
 
         <p className="mt-4 line-clamp-2 flex-1 text-sm leading-relaxed text-[#6B7280]">
-          {tier.target}
+          {lang === 'th' ? tier.targetTh : tier.target}
         </p>
 
         <span className="mt-5 inline-flex text-sm font-semibold text-[#2D5016] group-hover:underline">
-          ดูรายละเอียด →
+          {t('pricing.viewDetails')}
         </span>
       </article>
     </motion.button>
@@ -124,6 +125,7 @@ function TierExpandedPanel({
   reduceMotion: boolean | null
 }) {
   const ShowcaseIcon = tier.showcaseIcon
+  const { lang, t } = useLanguage()
 
   const panelMotion = reduceMotion
     ? { initial: { opacity: 1 }, animate: { opacity: 1 }, exit: { opacity: 0 } }
@@ -186,6 +188,7 @@ function TierExpandedPanel({
           {tier.features.map((feature, i) => {
             const layout = FEATURE_BADGE_LAYOUTS[i % FEATURE_BADGE_LAYOUTS.length]
             const Icon = feature.icon
+            const featureLabel = lang === 'th' ? feature.labelTh : feature.label
             return (
               <motion.div
                 key={feature.label}
@@ -204,7 +207,7 @@ function TierExpandedPanel({
                 }
               >
                 <Icon className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
-                <span className="leading-tight">{feature.label}</span>
+                <span className="leading-tight">{featureLabel}</span>
               </motion.div>
             )
           })}
@@ -215,9 +218,8 @@ function TierExpandedPanel({
             {tier.recommended ? 'Recommended' : 'Package'}
           </p>
           <h3 id="pricing-tier-title" className="mt-2 text-2xl font-bold text-white sm:text-3xl">
-            {tier.name}
+            {lang === 'th' ? tier.nameTh : tier.name}
           </h3>
-          <p className="mt-1 text-sm text-white/50">{tier.nameTh}</p>
 
           <div className="mt-6 grid grid-cols-2 gap-4">
             <div className="rounded-xl border border-white/10 bg-white/5 p-4">
@@ -233,8 +235,7 @@ function TierExpandedPanel({
             </div>
           </div>
 
-          <p className="mt-6 text-base leading-relaxed text-white/75">{tier.target}</p>
-          <p className="mt-1 text-sm text-white/45">{tier.targetTh}</p>
+          <p className="mt-6 text-base leading-relaxed text-white/75">{lang === 'th' ? tier.targetTh : tier.target}</p>
 
           <ul className="mt-6 flex flex-wrap gap-2">
             {tier.features.map((f) => {
@@ -245,7 +246,7 @@ function TierExpandedPanel({
                   className="inline-flex items-center gap-2 rounded-full border border-[#2D5016]/40 bg-[#2D5016]/20 px-3 py-1.5 text-xs font-medium text-[#E8EDE5] sm:text-sm"
                 >
                   <Icon className="h-3.5 w-3.5" />
-                  {f.label}
+                  {lang === 'th' ? f.labelTh : f.label}
                 </li>
               )
             })}
@@ -256,7 +257,7 @@ function TierExpandedPanel({
             onClick={onClose}
             className="btn-interactive mt-8 block w-full rounded-full bg-[#2D5016] py-4 text-center text-base font-bold text-white shadow-[0_8px_32px_rgba(45,80,22,0.45)] hover:bg-[#234012] sm:py-4.5 sm:text-lg"
           >
-            เลือกแพ็กเกจนี้ · นัด Demo ฟรี
+            {t('pricing.selectPackage')}
           </a>
         </div>
       </motion.div>
@@ -265,6 +266,7 @@ function TierExpandedPanel({
 }
 
 export default function PricingTiersSection() {
+  const { t } = useLanguage()
   const [selectedTier, setSelectedTier] = useState<PricingTier | null>(null)
   const reduceMotion = useReducedMotion()
   useBodyScrollLock(Boolean(selectedTier))
@@ -294,10 +296,10 @@ export default function PricingTiersSection() {
             Pricing
           </p>
           <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#1A1A1A] sm:text-4xl md:text-5xl">
-            Simple plans for Thai businesses abroad
+            {t('pricing.heading')}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-base text-[#6B7280] sm:text-lg">
-            เลือกแพ็กที่เหมาะกับธุรกิจของคุณ — แตะการ์ดเพื่อดูรายละเอียด
+            {t('pricing.subheading')}
           </p>
         </motion.div>
 
@@ -317,9 +319,9 @@ export default function PricingTiersSection() {
           <p className="text-sm font-semibold uppercase tracking-wider text-[#2D5016]">
             Client payment
           </p>
-          <h3 className="mt-2 text-xl font-bold text-[#1A1A1A]">ชำระผ่าน Square</h3>
+          <h3 className="mt-2 text-xl font-bold text-[#1A1A1A]">{t('pricing.paySquareHeading')}</h3>
           <p className="mx-auto mt-2 max-w-lg text-sm text-[#6B7280]">
-            เลือกลิงก์ให้ตรงกับประเภทการชำระ — setup ครั้งเดียว หรือค่าบริการรายเดือน
+            {t('pricing.paySquareBody')}
           </p>
           <PaymentLinkButtons className="mt-6" />
           <PaymentQrGrid />

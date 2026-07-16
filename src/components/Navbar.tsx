@@ -1,13 +1,16 @@
 import { LogoMark } from './Logo'
-
-const navLinks = [
-  { label: 'Services', href: '#services' },
-  { label: 'Portfolio', href: '#portfolio' },
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'Contact', href: '#contact' },
-]
+import { useLanguage } from '../i18n/LanguageContext'
 
 export default function Navbar() {
+  const { lang, toggleLang, t } = useLanguage()
+
+  const navLinks = [
+    { label: t('nav.services'), href: '#services' },
+    { label: t('nav.portfolio'), href: '#portfolio' },
+    { label: t('nav.pricing'), href: '#pricing' },
+    { label: t('nav.contact'), href: '#contact' },
+  ]
+
   return (
     <header className="absolute left-0 right-0 top-0 z-20 px-5 py-4 sm:px-6 sm:py-5">
       <div className="flex items-center justify-between">
@@ -33,12 +36,36 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <a
-          href="#contact"
-          className="btn-interactive rounded-full bg-black px-5 py-2.5 text-sm font-semibold text-white hover:bg-gray-800 sm:px-6"
-        >
-          Get Demo
-        </a>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={toggleLang}
+            aria-label="Switch language / เปลี่ยนภาษา"
+            className="btn-interactive-subtle flex items-center rounded-full border border-black/15 bg-white/70 p-0.5 text-xs font-semibold text-black"
+          >
+            <span
+              className={`rounded-full px-2.5 py-1 transition-colors ${
+                lang === 'th' ? 'bg-black text-white' : 'text-gray-500'
+              }`}
+            >
+              TH
+            </span>
+            <span
+              className={`rounded-full px-2.5 py-1 transition-colors ${
+                lang === 'en' ? 'bg-black text-white' : 'text-gray-500'
+              }`}
+            >
+              EN
+            </span>
+          </button>
+
+          <a
+            href="#contact"
+            className="btn-interactive rounded-full bg-black px-5 py-2.5 text-sm font-semibold text-white hover:bg-gray-800 sm:px-6"
+          >
+            {t('nav.getDemo')}
+          </a>
+        </div>
       </div>
     </header>
   )

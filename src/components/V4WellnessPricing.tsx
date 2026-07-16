@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Check } from 'lucide-react'
 import LazyViewportVideo from './LazyViewportVideo'
+import { useLanguage } from '../i18n/LanguageContext'
+import type { TranslationKey } from '../i18n/translations'
 
 const VIDEOS = {
   spaMassage:
@@ -24,8 +26,8 @@ type Tier = {
   name: string
   setup: number
   monthly: number
-  target: string
-  features: string[]
+  targetKey: TranslationKey
+  featureKeys: TranslationKey[]
   recommended?: boolean
 }
 
@@ -34,40 +36,40 @@ const tiers: Tier[] = [
     name: 'Smart Relax',
     setup: 199,
     monthly: 19,
-    target: 'เว็บ + AI Content + SEO ครบชุด เหมาะร้านเริ่มต้น ไม่มีระบบจองคิว',
-    features: [
-      'เว็บร้าน PWA',
-      'AI สร้างภาพและวิดีโอโปรโมทร้าน',
-      'Google SEO พื้นฐาน (AI-optimized)',
-      'AI Finder ให้ลูกค้าค้นเจอร้านผ่าน AI search',
-      'ตั้งค่า Google Maps ปักหมุดร้าน',
-      'ตั้งค่า Facebook Page',
-      'ลิงก์ Google Review ให้ลูกค้ากดรีวิวง่าย',
+    targetKey: 'wellness.tier1.target',
+    featureKeys: [
+      'wellness.tier1.f1',
+      'wellness.tier1.f2',
+      'wellness.tier1.f3',
+      'wellness.tier1.f4',
+      'wellness.tier1.f5',
+      'wellness.tier1.f6',
+      'wellness.tier1.f7',
     ],
   },
   {
     name: 'Pro Vibe',
     setup: 499,
     monthly: 49,
-    target: 'เพิ่มระบบจองคิว ใบเสร็จ และฟอร์มลูกค้าใหม่ เหมาะร้านที่กำลังโต',
+    targetKey: 'wellness.tier2.target',
     recommended: true,
-    features: [
-      'ทุกอย่างในแพ็ก Smart Relax',
-      'ระบบจองคิวออนไลน์ (ลูกค้าจองเวลาเองได้)',
-      'Email ยืนยันการจองอัตโนมัติ',
-      'ระบบใบเสร็จ/Invoice',
-      'แบบฟอร์ม Intake ลูกค้าใหม่',
+    featureKeys: [
+      'wellness.tier2.f1',
+      'wellness.tier2.f2',
+      'wellness.tier2.f3',
+      'wellness.tier2.f4',
+      'wellness.tier2.f5',
     ],
   },
   {
     name: 'Premium Oasis',
     setup: 999,
     monthly: 89,
-    target: 'ครบทุกฟังก์ชัน จบในราคาเดียว',
-    features: [
-      'ทุกอย่างในแพ็ก Pro Vibe',
-      'ระบบ Staff / Cashier / Owner PIN แยกสิทธิ์',
-      'ถ่ายภาพและวิดีโอจริงหน้าร้าน (รวมในแพ็กนี้)',
+    targetKey: 'wellness.tier3.target',
+    featureKeys: [
+      'wellness.tier3.f1',
+      'wellness.tier3.f2',
+      'wellness.tier3.f3',
     ],
   },
 ]
@@ -139,6 +141,7 @@ function PricingCard({
   staggerDelay: number
   revealed: boolean
 }) {
+  const { t } = useLanguage()
   const isRecommended = tier.recommended
   const [cardVisible, setCardVisible] = useState(false)
 
@@ -173,7 +176,7 @@ function PricingCard({
 
         <header className="mb-6 sm:mb-8">
           <h3 className="text-lg font-medium tracking-tight text-[#F4F6F3]">{tier.name}</h3>
-          <p className="mt-2 text-sm leading-relaxed text-[#F4F6F3]/45">{tier.target}</p>
+          <p className="mt-2 text-sm leading-relaxed text-[#F4F6F3]/45">{t(tier.targetKey)}</p>
         </header>
 
         <div className="space-y-4">
@@ -201,13 +204,13 @@ function PricingCard({
         </div>
 
         <ul className="mb-8 mt-8 flex flex-1 flex-col gap-3 border-t border-white/[0.06] pt-8 sm:mb-10">
-          {tier.features.map((feature) => (
-            <li key={feature} className="flex items-start gap-3 text-sm leading-relaxed text-[#F4F6F3]/65">
+          {tier.featureKeys.map((featureKey) => (
+            <li key={featureKey} className="flex items-start gap-3 text-sm leading-relaxed text-[#F4F6F3]/65">
               <Check
                 className={`mt-0.5 h-4 w-4 shrink-0 ${isRecommended ? 'text-[#B8C9B0]' : 'text-white/40'}`}
                 strokeWidth={1.75}
               />
-              <span>{feature}</span>
+              <span>{t(featureKey)}</span>
             </li>
           ))}
         </ul>
@@ -220,7 +223,7 @@ function PricingCard({
               : 'border border-white/12 text-[#F4F6F3] hover:border-[#B8C9B0]/30 hover:bg-[#B8C9B0]/[0.06]'
           }`}
         >
-          เริ่มต้นใช้งาน
+          {t('wellness.startUsing')}
         </a>
       </article>
     </div>
@@ -228,6 +231,7 @@ function PricingCard({
 }
 
 export default function V4WellnessPricing() {
+  const { t } = useLanguage()
   const [revealed, setRevealed] = useState(false)
 
   useEffect(() => {
@@ -248,7 +252,7 @@ export default function V4WellnessPricing() {
       >
         <div className="mb-10 text-center sm:mb-12">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#B8C9B0]/70">
-            ตัวอย่างผลงาน · Case Study
+            {t('wellness.caseStudyLabel')}
           </p>
           <h2
             id="portfolio-spa-pricing-heading"
@@ -257,10 +261,7 @@ export default function V4WellnessPricing() {
             Portfolio example — Premium Spa Management pricing showcase
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-[#F4F6F3]/50">
-            ตัวอย่างแพ็กเกจราคาที่เราออกแบบให้ลูกค้าร้านสปา — ไม่ใช่ราคาบริการของ Chapter99
-            <span className="mt-1 block text-[#F4F6F3]/35">
-              Example client pricing layout (wellness spa) — not Chapter99 agency rates.
-            </span>
+            {t('wellness.disclaimer')}
           </p>
         </div>
 
@@ -273,7 +274,7 @@ export default function V4WellnessPricing() {
         </div>
 
         <p className="mt-8 text-center text-sm text-[#F4F6F3]/45">
-          มีระบบจองคิวเดิมอยู่แล้ว? ไม่ต้องเปลี่ยน — เราแปะลิงก์ต่อจากหน้าเว็บใหม่ให้ได้เลย
+          {t('wellness.footNote')}
         </p>
       </div>
     </section>

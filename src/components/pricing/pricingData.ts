@@ -1,6 +1,5 @@
 import {
   Bot,
-  Calendar,
   Camera,
   Car,
   Crown,
@@ -23,7 +22,7 @@ export type PricingTier = {
   monthly: number
   target: string
   targetTh: string
-  features: { label: string; icon: LucideIcon }[]
+  features: { label: string; labelTh: string; icon: LucideIcon }[]
   recommended?: boolean
   showcaseGradient: string
   showcaseIcon: LucideIcon
@@ -41,10 +40,8 @@ export const PRICING_TIERS: PricingTier[] = [
     showcaseGradient: 'linear-gradient(145deg, #1A1A1A 0%, #2D5016 55%, #1A1A1A 100%)',
     showcaseIcon: Car,
     features: [
-      { label: 'One-page website', icon: Globe },
-      { label: 'Income & expense tracker for ATO', icon: Receipt },
-      { label: 'เว็บหน้าเดียว ใช้งานง่าย', icon: Smartphone },
-      { label: 'ระบบบันทึกรายรับ-รายจ่าย ATO', icon: Receipt },
+      { label: 'One-page website', labelTh: 'เว็บหน้าเดียว ใช้งานง่าย', icon: Globe },
+      { label: 'Income & expense tracker for ATO', labelTh: 'ระบบบันทึกรายรับ-รายจ่าย ATO', icon: Receipt },
     ],
   },
   {
@@ -59,12 +56,9 @@ export const PRICING_TIERS: PricingTier[] = [
     showcaseGradient: 'linear-gradient(145deg, #0f1410 0%, #2D5016 40%, #C8A84B 100%)',
     showcaseIcon: Sparkles,
     features: [
-      { label: 'Full PWA + Booking system', icon: Smartphone },
-      { label: 'Google Review CTA', icon: Star },
-      { label: 'Client Portal page', icon: Users },
-      { label: 'ระบบจองคิวออนไลน์', icon: Calendar },
-      { label: 'ปุ่มชวนรีวิว Google', icon: Star },
-      { label: 'หน้า Client Portal', icon: Users },
+      { label: 'Full PWA + Booking system', labelTh: 'ระบบจองคิวออนไลน์เต็มรูปแบบ (PWA)', icon: Smartphone },
+      { label: 'Google Review CTA', labelTh: 'ปุ่มชวนรีวิว Google', icon: Star },
+      { label: 'Client Portal page', labelTh: 'หน้า Client Portal', icon: Users },
     ],
   },
   {
@@ -78,12 +72,11 @@ export const PRICING_TIERS: PricingTier[] = [
     showcaseGradient: 'linear-gradient(145deg, #090B0A 0%, #2D5016 35%, #1A1A1A 70%, #C8A84B 100%)',
     showcaseIcon: Crown,
     features: [
-      { label: 'Everything in Professional', icon: Sparkles },
-      { label: 'Photography add-on', icon: Camera },
-      { label: 'Video production add-on', icon: Video },
-      { label: 'AI chatbot (BYOK or managed)', icon: Bot },
-      { label: 'Custom business features', icon: Wrench },
-      { label: 'งานถ่ายภาพ / วิดีโอ', icon: Camera },
+      { label: 'Everything in Professional', labelTh: 'ทุกอย่างในแพ็ก Professional', icon: Sparkles },
+      { label: 'Photography add-on', labelTh: 'งานถ่ายภาพเสริม', icon: Camera },
+      { label: 'Video production add-on', labelTh: 'งานถ่ายวิดีโอเสริม', icon: Video },
+      { label: 'AI chatbot (BYOK or managed)', labelTh: 'AI Chatbot (BYOK หรือดูแลให้)', icon: Bot },
+      { label: 'Custom business features', labelTh: 'ฟีเจอร์ที่ออกแบบเฉพาะธุรกิจคุณ', icon: Wrench },
     ],
   },
 ]

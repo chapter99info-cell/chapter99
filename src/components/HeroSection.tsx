@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import LazyViewportVideo from './LazyViewportVideo'
 import { useTypewriter } from '../hooks/useTypewriter'
+import { useLanguage } from '../i18n/LanguageContext'
 
 const VIDEO_URL =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_024928_1efd0b0d-6c02-45a8-8847-1030900c4f63.mp4'
@@ -8,11 +9,11 @@ const VIDEO_URL =
 const TYPEWRITER_TEXT =
   'Glad you stopped in. Good taste tends to find us. Now, what are we building?'
 
-const WHITE_PILLS = [
-  { label: 'นัด Demo ฟรี', href: '#contact' },
-  { label: 'ดูผลงาน', href: '#portfolio' },
-  { label: 'ทัก Facebook', href: 'https://m.me/61586534972406', external: true },
-  { label: 'ดู Pricing', href: '#pricing' },
+const PILL_HREFS = [
+  { key: 'hero.pill.demo', href: '#contact' },
+  { key: 'hero.pill.portfolio', href: '#portfolio' },
+  { key: 'hero.pill.facebook', href: 'https://m.me/61586534972406', external: true },
+  { key: 'hero.pill.pricing', href: '#pricing' },
 ] as const
 
 const EMAIL = 'chapter99solutions@gmail.com'
@@ -96,6 +97,7 @@ function BrandMarquee() {
 }
 
 export default function HeroSection() {
+  const { t } = useLanguage()
   const { displayed, done } = useTypewriter(TYPEWRITER_TEXT)
   const [pillsVisible, setPillsVisible] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -177,16 +179,16 @@ export default function HeroSection() {
                 transform: pillsVisible ? 'translateY(0)' : 'translateY(8px)',
               }}
             >
-              {WHITE_PILLS.map((pill) => (
+              {PILL_HREFS.map((pill) => (
                 <a
-                  key={pill.label}
+                  key={pill.key}
                   href={pill.href}
                   {...('external' in pill && pill.external
                     ? { target: '_blank', rel: 'noopener noreferrer' }
                     : {})}
                   className="btn-interactive mx-[0.2em] mb-[0.4em] inline-flex items-center justify-center whitespace-nowrap rounded-full border border-black/10 bg-white px-4 py-[0.3em] text-[13px] text-black hover:bg-black hover:text-white sm:px-5 sm:text-[15px]"
                 >
-                  {pill.label}
+                  {t(pill.key)}
                 </a>
               ))}
 
@@ -196,7 +198,7 @@ export default function HeroSection() {
                 className="btn-interactive mx-[0.2em] mb-[0.4em] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white bg-transparent px-4 py-[0.3em] text-[13px] text-white hover:bg-white hover:text-black sm:gap-3 sm:px-5 sm:text-[15px]"
               >
                 <span>
-                  Reach us:{' '}
+                  {t('hero.reachUs')}{' '}
                   <span className="underline underline-offset-1">{EMAIL}</span>
                 </span>
                 <CopyIcon />

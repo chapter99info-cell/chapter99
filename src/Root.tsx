@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import App from './App'
 import { useServiceWorker } from './hooks/usePwa'
+import { LanguageProvider } from './i18n/LanguageContext'
 
 const AdminApp = lazy(() => import('./admin/AdminApp'))
 const PortalApp = lazy(() => import('./portal/PortalApp'))
@@ -20,7 +21,14 @@ export default function Root() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
+        <Route
+          path="/"
+          element={
+            <LanguageProvider>
+              <App />
+            </LanguageProvider>
+          }
+        />
         <Route
           path="/admin/*"
           element={

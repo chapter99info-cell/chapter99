@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion'
 import { Sparkles, LayoutDashboard, Globe, ArrowUpRight } from 'lucide-react'
+import { useLanguage } from '../i18n/LanguageContext'
 
 type Project = {
   title: string
-  description: string
+  descriptionKey: 'live.project1.desc' | 'live.project2.desc' | 'live.project3.desc'
   url: string
   icon: typeof Sparkles
   gradient: string
@@ -13,7 +14,7 @@ type Project = {
 const projects: Project[] = [
   {
     title: 'Princess Thai Massage',
-    description: 'เว็บร้านนวดพร้อมระบบจองคิวและเมนูดิจิทัล ใช้งานจริงกับลูกค้าหน้าร้าน.',
+    descriptionKey: 'live.project1.desc',
     url: 'https://theprincessthaimassage.vercel.app/',
     icon: Sparkles,
     gradient: 'linear-gradient(137deg, #FF3D77 0%, #FFB1CE 45%, #FF9D3C 100%)',
@@ -21,7 +22,7 @@ const projects: Project[] = [
   },
   {
     title: 'Chapter99 Admin',
-    description: 'ระบบหลังบ้านจัดการร้าน คิวพนักงาน ใบเสร็จ และตั้งค่าหลายสาขาในที่เดียว.',
+    descriptionKey: 'live.project2.desc',
     url: 'https://chapter99thaimass-v20.vercel.app/?shop=mira',
     icon: LayoutDashboard,
     gradient: 'linear-gradient(137deg, #FFFFFF 0%, #7DD3FC 45%, #06B6D4 100%)',
@@ -29,7 +30,7 @@ const projects: Project[] = [
   },
   {
     title: 'Mira Thai Massage',
-    description: 'เว็บไซต์แบรนด์เต็มรูปแบบ พร้อมภาพและวิดีโอโปรดักชันจริง.',
+    descriptionKey: 'live.project3.desc',
     url: 'https://www.mirathaimassage.com.au/',
     icon: Globe,
     gradient: 'linear-gradient(137deg, #4361EE 0%, #E0AEFF 45%, #F72585 100%)',
@@ -37,7 +38,8 @@ const projects: Project[] = [
   },
 ]
 
-function FeatureCard({ title, description, url, icon: Icon, gradient, delay }: Project) {
+function FeatureCard({ title, descriptionKey, url, icon: Icon, gradient, delay }: Project) {
+  const { t } = useLanguage()
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -66,10 +68,10 @@ function FeatureCard({ title, description, url, icon: Icon, gradient, delay }: P
             <div>
               <h3 className="mb-3 text-xl font-medium tracking-tight text-white">{title}</h3>
               <p className="text-[14px] font-normal leading-[1.6] text-gray-400 selection:bg-white/20">
-                {description}
+                {t(descriptionKey)}
               </p>
               <div className="mt-4 flex items-center gap-1.5 text-[13px] font-medium text-white/70 transition-colors group-hover:text-white">
-                ดูเว็บไซต์
+                {t('live.viewSite')}
                 <ArrowUpRight size={14} strokeWidth={2.5} />
               </div>
             </div>
@@ -81,14 +83,15 @@ function FeatureCard({ title, description, url, icon: Icon, gradient, delay }: P
 }
 
 export default function LiveProjectsSection() {
+  const { t } = useLanguage()
   return (
     <section className="flex flex-col items-center justify-center bg-[#0A0A0B] p-6 font-sans md:p-12">
       <div className="mb-10 max-w-2xl text-center">
         <span className="mb-4 inline-block rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-[13px] font-medium tracking-wide text-white/70">
-          Live Projects
+          {t('live.badge')}
         </span>
         <h2 className="text-3xl font-light tracking-tight text-white md:text-4xl">
-          เว็บไซต์ตัวอย่างที่เราทำจริง
+          {t('live.heading')}
         </h2>
       </div>
 

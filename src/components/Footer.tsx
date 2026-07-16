@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Lock } from 'lucide-react'
+import { useLanguage } from '../i18n/LanguageContext'
 
 const FOOTER_VIDEO =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260503_104800_bc43ae09-f494-43e3-97d7-2f8c1692cfd7.mp4'
@@ -59,6 +60,7 @@ const SOCIAL_ICONS = [
 ]
 
 export default function Footer() {
+  const { t } = useLanguage()
   const watermarkTextRef = useRef<SVGTextElement>(null)
   const watermarkSvgRef = useRef<SVGSVGElement>(null)
 
@@ -545,14 +547,14 @@ export default function Footer() {
 
               <div className="footer-cta-mini">
                 <h4>
-                  มีคำถาม?
+                  {t('footer.questionHeading')}
                   <br />
-                  <strong>ทักอีเมลหาเราได้เลย.</strong>
+                  <strong>{t('footer.questionSub')}</strong>
                 </h4>
                 <div className="footer-subscribe-row">
                   <input type="email" id="footerSubscribeEmail" placeholder="Enter your email address" />
                   <button type="button" onClick={handleSendEmail}>
-                    ส่งอีเมล
+                    {t('footer.sendEmail')}
                   </button>
                 </div>
               </div>

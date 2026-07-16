@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import QRCode from 'qrcode'
+import { useLanguage } from '../i18n/LanguageContext'
 
 interface PaymentQrCodeProps {
   url: string
@@ -9,6 +10,7 @@ interface PaymentQrCodeProps {
 }
 
 export default function PaymentQrCode({ url, label, size = 140, className = '' }: PaymentQrCodeProps) {
+  const { lang } = useLanguage()
   const [dataUrl, setDataUrl] = useState<string | null>(null)
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export default function PaymentQrCode({ url, label, size = 140, className = '' }
         alt={`QR code — ${label}`}
         className="rounded-lg border border-[#1A1A1A]/10 bg-white p-2"
       />
-      <figcaption className="text-center text-xs text-[#6B7280]">สแกน QR · {label}</figcaption>
+      <figcaption className="text-center text-xs text-[#6B7280]">{lang === 'th' ? 'สแกน QR' : 'Scan QR'} · {label}</figcaption>
     </figure>
   )
 }

@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 import LazyViewportVideo from './LazyViewportVideo'
+import { useLanguage } from '../i18n/LanguageContext'
 
 const VIDEO_URL =
   'https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/VDOChap01.mp4'
@@ -18,19 +19,19 @@ function handleVideoError(e: React.SyntheticEvent<HTMLVideoElement>) {
 }
 
 export default function WhySection() {
+  const { t } = useLanguage()
   return (
     <section className="bg-[#F5F5F5] px-5 py-20 sm:px-6 sm:py-24">
       <div className="mx-auto grid max-w-[88rem] grid-cols-1 items-start gap-8 md:grid-cols-2">
         <div className="md:pr-12">
-          <p className="mb-2 text-sm uppercase tracking-[0.1em] text-black/50">ทำไมต้อง Chapter99</p>
+          <p className="mb-2 text-sm uppercase tracking-[0.1em] text-black/50">{t('why.eyebrow')}</p>
           <h2 className="mb-6 text-4xl font-semibold leading-none tracking-[-0.04em] text-black sm:text-5xl md:text-6xl">
             One stop
             <br />
             solution.
           </h2>
           <p className="max-w-sm text-base leading-relaxed text-black/60">
-            ช่างภาพ F&B 10+ ปี + AI Developer + เข้าใจธุรกิจไทยในออส — combination ที่หาไม่ได้ในตลาด
-            เจ้าของร้านไม่ต้องรู้โค้ด ไม่ต้องรอ IT ระบบดูแลตัวเองได้
+            {t('why.body')}
           </p>
         </div>
 
@@ -57,8 +58,7 @@ export default function WhySection() {
               Saffron.
             </h3>
             <p className="mb-8 max-w-md text-base text-white/70">
-              ออกแบบ digital presence ให้ธุรกิจไทยในออสดูน่าเชื่อถือ สะอาด และ professional —
-              ในแบบที่เจ้าของร้านไว้วางใจได้
+              {t('why.charcoalBody')}
             </p>
             <a
               href="#portfolio"
@@ -67,7 +67,7 @@ export default function WhySection() {
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-black transition-transform duration-200 group-hover:translate-x-0.5">
                 <ArrowRight className="h-4 w-4" />
               </span>
-              ดูผลงาน
+              {t('why.viewPortfolio')}
             </a>
           </div>
         </div>

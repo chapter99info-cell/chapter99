@@ -1,3 +1,5 @@
+import { useLanguage } from '../i18n/LanguageContext'
+
 const clientItems = [
   {
     label: 'Mira Thai Massage',
@@ -47,13 +49,14 @@ const clientItems = [
 ]
 
 export default function ClientsMarquee() {
+  const { t } = useLanguage()
   const items = [...clientItems, ...clientItems]
 
   return (
     <section id="portfolio" className="bg-[#F5F5F5] px-6 py-16">
       <div className="mx-auto grid max-w-[88rem] grid-cols-1 items-center gap-8 md:grid-cols-4">
         <p className="text-base leading-relaxed text-black/60">
-          ธุรกิจไทยในออสเตรเลียที่ไว้วางใจเรา
+          {t('clients.trustLine')}
         </p>
 
         <div className="overflow-hidden md:col-span-3">
