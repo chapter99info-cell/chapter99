@@ -39,8 +39,18 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
 }
 
+// Fallback used when a shared component (e.g. PaymentQrCode, reused inside the
+// Admin app) renders outside the public site's <LanguageProvider>. Admin stays
+// Thai-only, so this just needs to be a safe, non-throwing default rather than
+// requiring every consumer to be wrapped.
+const DEFAULT_CONTEXT: LanguageContextValue = {
+  lang: 'th',
+  setLang: () => {},
+  toggleLang: () => {},
+  t: (key: TranslationKey) => translations.th[key] ?? key,
+}
+
 export function useLanguage() {
   const ctx = useContext(LanguageContext)
-  if (!ctx) throw new Error('useLanguage must be used within a LanguageProvider')
-  return ctx
+  return ctx ?? DEFAULT_CONTEXT
 }
