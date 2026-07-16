@@ -15,6 +15,9 @@ import {
   type PricingTier,
 } from './pricing/pricingData'
 
+// Payment links / QR aren't in use yet — flip to true to bring the section back.
+const SHOW_CLIENT_PAYMENT_SECTION = false
+
 function useBodyScrollLock(locked: boolean) {
   useEffect(() => {
     if (!locked) return
@@ -315,17 +318,19 @@ export default function PricingTiersSection() {
           ))}
         </div>
 
-        <div className="mt-12 rounded-2xl border border-[#2D5016]/15 bg-white p-6 text-center shadow-sm sm:p-8">
-          <p className="text-sm font-semibold uppercase tracking-wider text-[#2D5016]">
-            Client payment
-          </p>
-          <h3 className="mt-2 text-xl font-bold text-[#1A1A1A]">{t('pricing.paySquareHeading')}</h3>
-          <p className="mx-auto mt-2 max-w-lg text-sm text-[#6B7280]">
-            {t('pricing.paySquareBody')}
-          </p>
-          <PaymentLinkButtons className="mt-6" />
-          <PaymentQrGrid />
-        </div>
+        {SHOW_CLIENT_PAYMENT_SECTION && (
+          <div className="mt-12 rounded-2xl border border-[#2D5016]/15 bg-white p-6 text-center shadow-sm sm:p-8">
+            <p className="text-sm font-semibold uppercase tracking-wider text-[#2D5016]">
+              Client payment
+            </p>
+            <h3 className="mt-2 text-xl font-bold text-[#1A1A1A]">{t('pricing.paySquareHeading')}</h3>
+            <p className="mx-auto mt-2 max-w-lg text-sm text-[#6B7280]">
+              {t('pricing.paySquareBody')}
+            </p>
+            <PaymentLinkButtons className="mt-6" />
+            <PaymentQrGrid />
+          </div>
+        )}
 
         <p className="mt-10 text-center text-sm text-[#6B7280]">
           Production photography &amp; video add-ons on Ultimate only.

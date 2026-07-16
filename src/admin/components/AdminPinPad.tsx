@@ -25,6 +25,11 @@ export default function AdminPinPad({ onSubmit, disabled = false }: AdminPinPadP
     }
   }
 
+  function handleReset() {
+    setDigits(['', '', '', ''])
+    inputsRef.current[0]?.focus()
+  }
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     const pin = digits.join('')
@@ -38,12 +43,24 @@ export default function AdminPinPad({ onSubmit, disabled = false }: AdminPinPadP
   }
 
   const primary = brandColor('primary')
+  const hasInput = digits.some((d) => d !== '')
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <p className="text-center text-sm" style={{ color: brandColor('textMuted') }}>
-        Quick access · รหัส PIN 4 หลัก
-      </p>
+      <div className="flex items-center justify-between">
+        <p className="text-sm" style={{ color: brandColor('textMuted') }}>
+          Quick access · รหัส PIN 4 หลัก
+        </p>
+        <button
+          type="button"
+          onClick={handleReset}
+          disabled={disabled || submitting || !hasInput}
+          className="text-sm font-medium underline-offset-2 hover:underline disabled:opacity-0"
+          style={{ color: brandColor('textMuted') }}
+        >
+          Reset
+        </button>
+      </div>
       <div className="flex justify-center gap-3">
         {digits.map((digit, index) => (
           <input

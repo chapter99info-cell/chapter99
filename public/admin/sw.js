@@ -1,5 +1,5 @@
-/* Chapter99 Admin — static asset cache only; data via Supabase requires network */
-const CACHE_NAME = 'chapter99-admin-v2'
+/* Chapter99 Admin — static asset cache only; HTML/API/data always network-first */
+const CACHE_NAME = 'chapter99-admin-v3'
 const STATIC_ASSETS = [
   '/admin/manifest.json',
   '/icons/icon-192.png',
@@ -26,6 +26,14 @@ self.addEventListener('fetch', (event) => {
   if (!url.pathname.startsWith('/admin')) return
   if (event.request.method !== 'GET') return
 
+  // Never cache HTML/navigation requests (SPA shell) — stale shells cause
+  // "Failed to fetch dynamically imported module" after redeploys.
+  if (event.request.mode === 'navigate' || url.pathname === '/admin' || url.pathname === '/admin/') {
+    event.respondWith(fetch(event.request).catch(() => caches.match(event.request)))
+    return
+  }
+
+  // Hashed static assets only — safe to cache-first.
   event.respondWith(
     caches.match(event.request).then((cached) => {
       if (cached) return cached
