@@ -6,6 +6,8 @@ import { LanguageProvider } from './i18n/LanguageContext'
 
 const AdminApp = lazy(() => import('./admin/AdminApp'))
 const PortalApp = lazy(() => import('./portal/PortalApp'))
+const TrackApp = lazy(() => import('./ams/TrackApp'))
+const StaffApp = lazy(() => import('./ams/StaffApp'))
 
 function PageFallback() {
   return (
@@ -42,6 +44,22 @@ export default function Root() {
           element={
             <Suspense fallback={<PageFallback />}>
               <PortalApp />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/track/*"
+          element={
+            <Suspense fallback={<PageFallback />}>
+              <TrackApp />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/staff/*"
+          element={
+            <Suspense fallback={<PageFallback />}>
+              <StaffApp />
             </Suspense>
           }
         />
