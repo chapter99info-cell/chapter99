@@ -31,9 +31,13 @@ export default function AmsLeads() {
 
   async function onCreate(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    // Capture the form element before any `await` — the native event's
+    // currentTarget is only valid during synchronous dispatch and becomes
+    // null once we resume after an awaited promise.
+    const form = e.currentTarget
     setBusy(true)
     setError(null)
-    const fd = new FormData(e.currentTarget)
+    const fd = new FormData(form)
     try {
       await createLead({
         name: String(fd.get('name') || ''),
@@ -41,7 +45,7 @@ export default function AmsLeads() {
         fb_profile_url: String(fd.get('fb_profile_url') || '') || null,
         contact_note: String(fd.get('contact_note') || '') || null,
       })
-      e.currentTarget.reset()
+      form.reset()
       await load()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Create failed')

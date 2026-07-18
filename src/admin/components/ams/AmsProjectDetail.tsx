@@ -95,9 +95,13 @@ export default function AmsProjectDetail() {
   async function onRecordPayment(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (!project) return
+    // Capture the form element before any `await` — currentTarget is only
+    // valid during synchronous dispatch and becomes null after resuming
+    // from an awaited promise.
+    const form = e.currentTarget
     setBusy(true)
     setError(null)
-    const fd = new FormData(e.currentTarget)
+    const fd = new FormData(form)
     try {
       await recordPayment({
         project_id: projectId,
@@ -106,7 +110,7 @@ export default function AmsProjectDetail() {
         method: String(fd.get('method') || '') || null,
         reference: String(fd.get('reference') || '') || null,
       })
-      e.currentTarget.reset()
+      form.reset()
       await load()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Payment failed')
