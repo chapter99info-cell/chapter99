@@ -7,7 +7,7 @@ import { useAdminAuth } from '../contexts/AdminAuthContext'
 import AdminPinPad from './AdminPinPad'
 
 export default function AdminLogin() {
-  const { signIn, signInWithPin, isAuthenticated, loading, configured } = useAdminAuth()
+  const { user, pinSession, signIn, signInWithPin, loading, configured } = useAdminAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const [email, setEmail] = useState('')
@@ -21,9 +21,18 @@ export default function AdminLogin() {
     setFieldsReady(true)
   }, [])
 
-  const from = (location.state as { from?: { pathname: string } })?.from?.pathname ?? '/admin'
+  const locationState = location.state as {
+    from?: { pathname?: string }
+    amsOnly?: boolean
+  } | null
+  const from = locationState?.from?.pathname ?? '/admin'
+  const amsOnly = Boolean(locationState?.amsOnly) || from.startsWith('/admin/ams')
 
-  if (!loading && isAuthenticated) {
+  // JWT users always proceed. PIN-only must NOT bounce into AMS (auth.uid() is null there).
+  if (!loading && user) {
+    return <Navigate to={from} replace />
+  }
+  if (!loading && pinSession && !amsOnly) {
     return <Navigate to={from} replace />
   }
 
@@ -55,7 +64,8 @@ export default function AdminLogin() {
     setError('')
     try {
       await signInWithPin(pin)
-      navigate(from, { replace: true })
+      // PIN never unlocks AMS — send PIN users to the legacy hub
+      navigate(amsOnly ? '/admin' : from, { replace: true })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'PIN login failed')
     }
@@ -77,8 +87,17 @@ export default function AdminLogin() {
           {AGENCY_CONFIG.brandName} Admin
         </h1>
         <p className="mt-2 text-base" style={{ color: brandColor('textMuted') }}>
-          Sign in with email or PIN
+          {amsOnly
+            ? 'AMS needs email/password (Supabase Auth). PIN cannot access AMS.'
+            : 'Sign in with email or PIN'}
         </p>
+
+        {amsOnly && pinSession ? (
+          <p className="mt-4 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+            You are signed in with PIN for the old admin hub. Enter email/password below for AMS (
+            <code className="text-xs">chapter99info@gmail.com</code>).
+          </p>
+        ) : null}
 
         {!configured && (
           <p className="mt-4 rounded-lg bg-amber-50 border border-amber-300 p-3 text-sm text-amber-900">
