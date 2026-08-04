@@ -10,7 +10,9 @@ const NAV = [
   { to: '/admin/ams', label: 'AMS' },
   { to: '/admin/ams/leads', label: 'Leads' },
   { to: '/admin/briefing', label: 'Briefing' },
+  { to: '/admin/jobs', label: 'งานลูกค้า' },
   { to: '/admin/finance', label: 'Finance' },
+  { to: '/admin/tax', label: 'Tax Summary' },
   { to: '/admin/tasks', label: 'Tasks' },
   { to: '/admin/workflow', label: 'Workflow' },
 ]

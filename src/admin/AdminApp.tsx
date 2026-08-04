@@ -8,6 +8,8 @@ import LiveBriefing from './components/LiveBriefing'
 import FinancialExport from './components/FinancialExport'
 import TasksHub from './components/TasksHub'
 import AdminWorkflowView from './components/AdminWorkflowView'
+import ClientJobsKanban from './components/ClientJobsKanban'
+import TaxSummaryPanel from './components/TaxSummaryPanel'
 import AmsDashboard from './components/ams/AmsDashboard'
 import AmsProjectNew from './components/ams/AmsProjectNew'
 import AmsProjectDetail from './components/ams/AmsProjectDetail'
@@ -52,6 +54,8 @@ function AdminShell() {
                   <Route index element={<ProjectDashboard />} />
                   <Route path="briefing" element={<LiveBriefing />} />
                   <Route path="finance" element={<FinancialExport />} />
+                  <Route path="jobs" element={<ClientJobsKanban />} />
+                  <Route path="tax" element={<TaxSummaryPanel />} />
                   <Route path="tasks" element={<TasksHub />} />
                   <Route path="workflow" element={<AdminWorkflowView />} />
                   <Route path="*" element={<Navigate to="/admin" replace />} />
