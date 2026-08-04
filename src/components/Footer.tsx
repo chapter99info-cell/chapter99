@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { Lock } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 
 const FOOTER_VIDEO =
@@ -328,6 +327,7 @@ export default function Footer() {
           align-items: center;
           gap: 6px;
         }
+        /* Discreet Agency Hub entry — blends with copyright muted grey */
         .footer-admin-entry {
           display: inline-flex;
           align-items: center;
@@ -336,22 +336,26 @@ export default function Footer() {
           min-height: 44px;
           margin: -12px 0;
           padding: 12px;
-          color: #9ca3af;
-          opacity: 0.55;
+          color: inherit;
+          text-decoration: none;
+          opacity: 0.45;
           transition: opacity 0.2s;
         }
         .footer-admin-entry:hover {
-          opacity: 0.85;
+          opacity: 0.7;
         }
         .footer-admin-entry:focus-visible {
-          outline: 2px solid #9ca3af;
+          outline: 1px solid #9ca3af;
           outline-offset: 2px;
           border-radius: 4px;
+          opacity: 0.7;
         }
-        .footer-admin-entry svg {
-          width: 15px;
-          height: 15px;
-          stroke-width: 1.75;
+        .footer-admin-dot {
+          display: block;
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: #9ca3af;
         }
         .footer-cta-mini {
           display: flex;
@@ -540,8 +544,9 @@ export default function Footer() {
             <div className="footer-bottom">
               <div className="footer-copyright-row">
                 <p className="footer-copyright">© 2026 Chapter99. All rights reserved.</p>
-                <Link to="/admin/login" className="footer-admin-entry" aria-label="Admin">
-                  <Lock aria-hidden />
+                {/* Neutral 5px dot; 44×44 hit target. No admin/login wording. */}
+                <Link to="/admin/login" className="footer-admin-entry" tabIndex={0}>
+                  <span className="footer-admin-dot" aria-hidden="true" />
                 </Link>
               </div>
 
