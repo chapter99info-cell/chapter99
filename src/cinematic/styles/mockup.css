@@ -347,11 +347,16 @@ body.cinematic-page a{color:inherit;text-decoration:none;}
 .gallery-side button{text-align:left;background:none;border:none;padding:9px 10px;border-radius:8px;font-family:'Sarabun';font-size:12px;color:rgba(225,224,204,.5);cursor:pointer;white-space:nowrap;}
 .gallery-side button.active{background:#161616;color:#E1E0CC;}
 .gallery-main{position:relative;display:flex;align-items:center;justify-content:center;padding:22px;}
-.gallery-frame{width:100%;aspect-ratio:16/9;border-radius:10px;position:relative;overflow:hidden;display:flex;align-items:flex-end;transition:background .4s ease;}
-.gallery-frame .cap{position:relative;z-index:2;padding:16px;}
+.gallery-frame{width:100%;aspect-ratio:16/9;border-radius:10px;position:relative;overflow:hidden;display:flex;align-items:flex-end;transition:background .4s ease;background:#080808;}
+.gallery-frame.has-video{background:#000;}
+.gallery-frame .gallery-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;cursor:pointer;}
+.gallery-frame .cap{position:relative;z-index:2;padding:16px;width:100%;background:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.72) 100%);}
+.gallery-frame .cap .gallery-cat{font-family:'Sarabun';font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:rgba(225,224,204,.7);margin-bottom:4px;}
 .gallery-frame .cap .t{font-family:'Kanit';font-weight:500;font-size:14px;color:#fff;}
 .gallery-frame .cap .s{font-family:'Sarabun';font-size:11px;color:rgba(255,255,255,.6);margin-top:2px;}
-.gallery-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;z-index:2;}
+.gallery-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;z-index:2;cursor:pointer;padding:0;}
+.gallery-play.is-playing{opacity:0;pointer-events:none;transition:opacity .2s ease;}
+.gallery-frame:hover .gallery-play.is-playing{opacity:1;pointer-events:auto;}
 .gallery-nav{display:flex;justify-content:space-between;padding:0 28px 26px;}
 .gallery-nav button{width:32px;height:32px;border-radius:50%;background:#161616;border:1px solid #1f1f1f;color:#E1E0CC;display:flex;align-items:center;justify-content:center;cursor:pointer;}
 .gallery-nav button:hover{background:#1f1f1f;}
