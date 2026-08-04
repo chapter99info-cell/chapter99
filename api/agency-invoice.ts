@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
+import { requireAdminPin } from './_utils/adminAuth'
 import { splitGstInclusive } from '../src/lib/agencyGst'
 import { buildAgencyInvoicePdf } from '../src/lib/agencyInvoicePdf'
 import {
@@ -35,12 +36,14 @@ function amountForKind(
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-admin-pin, x-admin-pin-token')
 
   if (req.method === 'OPTIONS') return res.status(200).end()
   if (req.method !== 'POST') {
     return res.status(405).json({ ok: false, error: 'Method not allowed' })
   }
+
+  if (!(await requireAdminPin(req, res))) return
 
   const { jobId, reason } = (req.body ?? {}) as {
     jobId?: string

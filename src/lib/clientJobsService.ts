@@ -1,3 +1,4 @@
+import { adminPinHeaders } from './adminPinApi'
 import { supabase } from './supabase'
 import type {
   ClientJob,
@@ -104,7 +105,10 @@ export async function triggerAgencyInvoice(
   try {
     const res = await fetch('/api/agency-invoice', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...adminPinHeaders(),
+      },
       body: JSON.stringify({ jobId, reason }),
     })
     const body = (await res.json().catch(() => ({}))) as {

@@ -1,71 +1,35 @@
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
-import { Lock, Mail } from 'lucide-react'
 import { AGENCY_CONFIG } from '../../lib/agency-config'
 import { brandColor, useBrandStyle } from '../../lib/useBrand'
 import { useAdminAuth } from '../contexts/AdminAuthContext'
 import AdminPinPad from './AdminPinPad'
 
+/**
+ * Agency Hub login — PIN only (mobile-first).
+ * Email/password removed; AMS JWT (if needed) is exchanged server-side after PIN verify.
+ * Staff portal at /staff keeps its own email/password login untouched.
+ */
 export default function AdminLogin() {
-  const { user, pinSession, signIn, signInWithPin, loading, configured } = useAdminAuth()
+  const { isAuthenticated, signInWithPin, loading, configured } = useAdminAuth()
   const navigate = useNavigate()
   const location = useLocation()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const [submitting, setSubmitting] = useState(false)
-  const [fieldsReady, setFieldsReady] = useState(false)
-  const submitLock = useRef(false)
-
-  useEffect(() => {
-    setFieldsReady(true)
-  }, [])
 
   const locationState = location.state as {
     from?: { pathname?: string }
-    amsOnly?: boolean
   } | null
   const from = locationState?.from?.pathname ?? '/admin'
-  const amsOnly = Boolean(locationState?.amsOnly) || from.startsWith('/admin/ams')
 
-  // JWT users always proceed. PIN-only must NOT bounce into AMS (auth.uid() is null there).
-  if (!loading && user) {
+  if (!loading && isAuthenticated) {
     return <Navigate to={from} replace />
-  }
-  if (!loading && pinSession && !amsOnly) {
-    return <Navigate to={from} replace />
-  }
-
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault()
-    if (submitLock.current || submitting) return
-
-    const trimmedEmail = email.trim()
-    if (!trimmedEmail || !password) {
-      setError('Email and password are required')
-      return
-    }
-
-    submitLock.current = true
-    setError('')
-    setSubmitting(true)
-    try {
-      await signIn(trimmedEmail, password)
-      navigate(from, { replace: true })
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed')
-    } finally {
-      setSubmitting(false)
-      submitLock.current = false
-    }
   }
 
   async function handlePinSubmit(pin: string) {
     setError('')
     try {
       await signInWithPin(pin)
-      // PIN never unlocks AMS — send PIN users to the legacy hub
-      navigate(amsOnly ? '/admin' : from, { replace: true })
+      navigate(from, { replace: true })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'PIN login failed')
     }
@@ -76,101 +40,42 @@ export default function AdminLogin() {
 
   return (
     <div
-      className="flex min-h-screen items-center justify-center px-4 py-12"
+      className="flex min-h-screen items-center justify-center px-4 py-10 sm:py-12"
       style={{ ...brandStyle, backgroundColor: brandColor('background') }}
     >
       <div
-        className="w-full max-w-md rounded-2xl border-2 bg-white p-8 shadow-lg"
+        className="w-full max-w-md rounded-2xl border-2 bg-white p-6 shadow-lg sm:p-8"
         style={{ borderColor: primary }}
       >
-        <h1 className="text-2xl font-bold" style={{ color: brandColor('text') }}>
+        <h1
+          className="text-2xl font-bold sm:text-3xl"
+          style={{ color: brandColor('text') }}
+        >
           {AGENCY_CONFIG.brandName} Admin
         </h1>
         <p className="mt-2 text-base" style={{ color: brandColor('textMuted') }}>
-          {amsOnly
-            ? 'AMS needs email/password (Supabase Auth). PIN cannot access AMS.'
-            : 'Sign in with email or PIN'}
+          Enter your 4-digit PIN · กรอกรหัส PIN 4 หลัก
         </p>
 
-        {amsOnly && pinSession ? (
-          <p className="mt-4 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
-            You are signed in with PIN for the old admin hub. Enter email/password below for AMS (
-            <code className="text-xs">chapter99info@gmail.com</code>).
-          </p>
-        ) : null}
-
         {!configured && (
-          <p className="mt-4 rounded-lg bg-amber-50 border border-amber-300 p-3 text-sm text-amber-900">
-            Supabase environment variables are missing. Configure them in Vercel before logging in.
+          <p className="mt-4 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+            Supabase environment variables are missing. Configure them in Vercel
+            before logging in.
           </p>
         )}
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5" autoComplete="on">
-          <div>
-            <label htmlFor="email" className="mb-2 block text-base font-semibold text-[#1A1A1A]">
-              Email
-            </label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#6B7280]" />
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="username"
-                required
-                readOnly={!fieldsReady}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onFocus={(e) => e.currentTarget.removeAttribute('readonly')}
-                className="w-full rounded-lg border-2 border-[#1A1A1A]/20 py-3 pl-11 pr-4 text-base text-[#1A1A1A] focus:border-[#2D5016] focus:outline-none"
-                placeholder="admin@chapter99info.com"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label htmlFor="password" className="mb-2 block text-base font-semibold text-[#1A1A1A]">
-              Password
-            </label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#6B7280]" />
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                readOnly={!fieldsReady}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onFocus={(e) => e.currentTarget.removeAttribute('readonly')}
-                className="w-full rounded-lg border-2 border-[#1A1A1A]/20 py-3 pl-11 pr-4 text-base text-[#1A1A1A] focus:border-[#2D5016] focus:outline-none"
-              />
-            </div>
-          </div>
-
-          {error && (
-            <p className="rounded-lg bg-red-50 border border-red-300 p-3 text-base text-red-800" role="alert">
-              {error}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            disabled={submitting || !configured}
-            className="w-full rounded-lg bg-[#2D5016] py-4 text-base font-bold text-white hover:bg-[#234012] disabled:opacity-50"
+        {error && (
+          <p
+            className="mt-4 rounded-lg border border-red-300 bg-red-50 p-3 text-base text-red-800"
+            role="alert"
           >
-            {submitting ? 'Signing in…' : 'Sign in'}
-          </button>
-        </form>
+            {error}
+          </p>
+        )}
 
-        <div className="my-8 flex items-center gap-3">
-          <div className="h-px flex-1 bg-[#1A1A1A]/15" />
-          <span className="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">or</span>
-          <div className="h-px flex-1 bg-[#1A1A1A]/15" />
+        <div className="mt-8">
+          <AdminPinPad onSubmit={handlePinSubmit} disabled={!configured} />
         </div>
-
-        <AdminPinPad onSubmit={handlePinSubmit} disabled={!configured} />
       </div>
     </div>
   )

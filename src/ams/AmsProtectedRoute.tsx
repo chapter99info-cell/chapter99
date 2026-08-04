@@ -5,11 +5,13 @@ import { isSupabaseConfigured, supabase } from '../lib/supabase'
 import { amsDb } from '../lib/ams/db'
 import { brandColor, useBrandStyle } from '../lib/useBrand'
 import { AGENCY_CONFIG } from '../lib/agency-config'
+import { useAdminAuthOptional } from '../admin/contexts/AdminAuthContext'
 
 /**
  * AMS-only guard — separate from AdminProtectedRoute.
- * Requires a real Supabase Auth JWT (`user`) AND an active ams.staff_profiles row.
- * Never treats PIN / pinSession as authenticated.
+ * Admin Hub login is PIN-only; after PIN verify the server may exchange a
+ * Supabase JWT so auth.uid() / RLS still work. Staff portal (/staff) keeps
+ * its own email/password login.
  */
 export default function AmsProtectedRoute({
   roles,
@@ -23,6 +25,9 @@ export default function AmsProtectedRoute({
 }) {
   const location = useLocation()
   const brandStyle = useBrandStyle()
+  const adminAuth = useAdminAuthOptional()
+  const pinSession = adminAuth?.pinSession ?? false
+  const pinLoading = adminAuth?.loading ?? false
   const [authLoading, setAuthLoading] = useState(true)
   const [userId, setUserId] = useState<string | null>(null)
   const [profile, setProfile] = useState<StaffProfile | null>(null)
@@ -134,7 +139,7 @@ export default function AmsProtectedRoute({
     )
   }
 
-  if (authLoading || (userId && profileLoading)) {
+  if (pinLoading || authLoading || (userId && profileLoading)) {
     return (
       <div
         className="flex min-h-screen items-center justify-center text-lg"
@@ -145,14 +150,16 @@ export default function AmsProtectedRoute({
     )
   }
 
-  // No JWT — send to the appropriate login (PIN alone must never pass)
-  if (!userId) {
-    return <Navigate to={loginPath} state={{ from: location, amsOnly: true }} replace />
+  // No PIN and no JWT — back to PIN login
+  if (!userId && !pinSession) {
+    return <Navigate to={loginPath} state={{ from: location }} replace />
   }
 
-  if (!profile) {
+  // PIN ok but no JWT exchange / staff profile — cannot satisfy AMS RLS
+  if (!userId || !profile) {
     const isNotSetup = profileError === 'not_setup'
     const roleMismatch = profileError?.startsWith('role:')
+    const needsJwtExchange = pinSession && !userId
 
     return (
       <div
@@ -166,8 +173,17 @@ export default function AmsProtectedRoute({
           <p className="text-sm font-semibold" style={{ color: brandColor('primary') }}>
             {AGENCY_CONFIG.brandName} AMS
           </p>
-          <h1 className="mt-2 font-serif text-2xl font-bold">Account not ready for AMS</h1>
-          {isNotSetup ? (
+          <h1 className="mt-2 font-serif text-2xl font-bold">
+            {needsJwtExchange ? 'AMS needs server PIN exchange' : 'Account not ready for AMS'}
+          </h1>
+          {needsJwtExchange ? (
+            <p className="mt-4 text-base" style={{ color: brandColor('textMuted') }}>
+              PIN unlocked Agency Hub, but AMS tables require a Supabase Auth user for RLS.
+              Set <code className="text-sm">AMS_ADMIN_EMAIL</code> and{' '}
+              <code className="text-sm">AMS_ADMIN_PASSWORD</code> on Vercel so PIN login can
+              exchange a session. Staff can still use <Link to="/staff" className="underline">/staff</Link>.
+            </p>
+          ) : isNotSetup ? (
             <p className="mt-4 text-base" style={{ color: brandColor('textMuted') }}>
               Your account isn&apos;t set up for AMS yet — ask พี่แสน to add you to{' '}
               <code className="text-sm">ams.staff_profiles</code>.
@@ -184,11 +200,11 @@ export default function AmsProtectedRoute({
           )}
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
-              to={loginPath}
+              to="/admin"
               className="rounded-lg px-4 py-2.5 text-sm font-semibold text-white"
               style={{ backgroundColor: brandColor('primary') }}
             >
-              Sign in with another account
+              Agency Hub
             </Link>
             <Link
               to="/"

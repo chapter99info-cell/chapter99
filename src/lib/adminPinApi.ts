@@ -14,6 +14,14 @@ interface PinApiResponse {
   expires_at?: string
   message?: string
   locked_until?: string | null
+  access_token?: string
+  refresh_token?: string
+}
+
+export type PinVerifyResult = {
+  token: string
+  access_token?: string
+  refresh_token?: string
 }
 
 async function callPinApi(body: Record<string, string>): Promise<PinApiResponse> {
@@ -32,7 +40,8 @@ async function callPinApi(body: Record<string, string>): Promise<PinApiResponse>
   return data
 }
 
-export async function verifyAdminPin(pin: string): Promise<void> {
+/** Verify PIN; stores pin-session token. May also return Supabase JWT for AMS RLS. */
+export async function verifyAdminPin(pin: string): Promise<PinVerifyResult> {
   const data = await callPinApi({ action: 'verify', pin })
 
   if (!data.ok || !data.token) {
@@ -40,6 +49,12 @@ export async function verifyAdminPin(pin: string): Promise<void> {
   }
 
   sessionStorage.setItem(PIN_TOKEN_KEY, data.token)
+
+  return {
+    token: data.token,
+    access_token: data.access_token,
+    refresh_token: data.refresh_token,
+  }
 }
 
 export async function validatePinSession(): Promise<boolean> {
@@ -57,4 +72,10 @@ export async function validatePinSession(): Promise<boolean> {
     clearPinToken()
     return false
   }
+}
+
+/** Headers for admin API routes gated by requireAdminPin. */
+export function adminPinHeaders(): Record<string, string> {
+  const token = getStoredPinToken()
+  return token ? { 'x-admin-pin-token': token } : {}
 }

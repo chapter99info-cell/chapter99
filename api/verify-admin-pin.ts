@@ -19,6 +19,41 @@ function getSupabaseAdmin() {
   return createClient(url, key)
 }
 
+/** Optional: after PIN ok, mint a real Supabase session for AMS RLS (auth.uid()). */
+async function exchangePinForSupabaseSession(): Promise<{
+  access_token: string
+  refresh_token: string
+} | null> {
+  const url = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL ?? ''
+  const anon = process.env.SUPABASE_ANON_KEY ?? process.env.VITE_SUPABASE_ANON_KEY ?? ''
+  const email =
+    process.env.AMS_ADMIN_EMAIL || process.env.ADMIN_SUPABASE_EMAIL || ''
+  const password =
+    process.env.AMS_ADMIN_PASSWORD || process.env.ADMIN_SUPABASE_PASSWORD || ''
+
+  if (!url || !anon || !email || !password) return null
+
+  const client = createClient(url, anon, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  })
+  const { data, error } = await client.auth.signInWithPassword({ email, password })
+  if (error || !data.session) return null
+
+  return {
+    access_token: data.session.access_token,
+    refresh_token: data.session.refresh_token,
+  }
+}
+
+function resolveAdminPin(): string {
+  return (
+    process.env.ADMIN_PIN ||
+    process.env.ADMIN_PIN_SERVER ||
+    process.env.VITE_ADMIN_PIN ||
+    ''
+  )
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
@@ -32,7 +67,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ ok: false, message: 'Method not allowed' })
   }
 
-  const adminPin = process.env.ADMIN_PIN
+  const adminPin = resolveAdminPin()
   const supabase = getSupabaseAdmin()
 
   if (!supabase) {
@@ -138,9 +173,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ ok: false, message: 'Could not create session' })
   }
 
+  const supabaseSession = await exchangePinForSupabaseSession()
+
   return res.status(200).json({
     ok: true,
     token: session.session_token,
     expires_at: session.expires_at,
+    ...(supabaseSession
+      ? {
+          access_token: supabaseSession.access_token,
+          refresh_token: supabaseSession.refresh_token,
+        }
+      : {}),
   })
 }

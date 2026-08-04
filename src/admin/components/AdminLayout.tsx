@@ -18,7 +18,7 @@ const NAV = [
 ]
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
-  const { user, signOut } = useAdminAuth()
+  const { user, pinSession, signOut } = useAdminAuth()
   const navigate = useNavigate()
   const brandStyle = useBrandStyle()
   const primary = brandColor('primary')
@@ -37,7 +37,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               {AGENCY_CONFIG.brandName} Agency Hub
             </p>
             <p className="text-sm" style={{ color: brandColor('textMuted') }}>
-              {user?.email}
+              {user?.email ?? (pinSession ? 'PIN session' : '')}
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-4">

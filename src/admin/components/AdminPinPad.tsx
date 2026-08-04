@@ -6,6 +6,7 @@ interface AdminPinPadProps {
   disabled?: boolean
 }
 
+/** Large-touch-target PIN pad for phone use while traveling. */
 export default function AdminPinPad({ onSubmit, disabled = false }: AdminPinPadProps) {
   const [digits, setDigits] = useState<string[]>(['', '', '', ''])
   const [submitting, setSubmitting] = useState(false)
@@ -46,22 +47,23 @@ export default function AdminPinPad({ onSubmit, disabled = false }: AdminPinPadP
   const hasInput = digits.some((d) => d !== '')
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="flex items-center justify-between">
-        <p className="text-sm" style={{ color: brandColor('textMuted') }}>
-          Quick access · รหัส PIN 4 หลัก
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-sm sm:text-base" style={{ color: brandColor('textMuted') }}>
+          รหัส PIN 4 หลัก
         </p>
         <button
           type="button"
           onClick={handleReset}
           disabled={disabled || submitting || !hasInput}
-          className="text-sm font-medium underline-offset-2 hover:underline disabled:opacity-0"
+          className="min-h-11 px-2 text-sm font-medium underline-offset-2 hover:underline disabled:opacity-0"
           style={{ color: brandColor('textMuted') }}
         >
           Reset
         </button>
       </div>
-      <div className="flex justify-center gap-3">
+
+      <div className="flex justify-center gap-3 sm:gap-4">
         {digits.map((digit, index) => (
           <input
             key={index}
@@ -78,18 +80,53 @@ export default function AdminPinPad({ onSubmit, disabled = false }: AdminPinPadP
             disabled={disabled || submitting}
             onChange={(e) => updateDigit(index, e.target.value)}
             onKeyDown={(e) => handleKeyDown(index, e.key)}
-            className="h-14 w-12 rounded-xl border-2 text-center text-2xl font-bold text-[#1A1A1A] focus:border-[#2D5016] focus:outline-none"
+            className="h-16 w-14 rounded-2xl border-2 text-center text-3xl font-bold text-[#1A1A1A] focus:border-[#2D5016] focus:outline-none sm:h-[4.5rem] sm:w-16 sm:text-4xl"
             style={{ borderColor: brandColor('border') }}
           />
         ))}
       </div>
+
+      {/* Number pad for large thumbs on mobile */}
+      <div className="mx-auto grid max-w-xs grid-cols-3 gap-2 sm:gap-3">
+        {['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', '⌫'].map((key, i) => {
+          if (key === '') {
+            return <span key={`empty-${i}`} className="min-h-14" aria-hidden />
+          }
+          return (
+            <button
+              key={key}
+              type="button"
+              disabled={disabled || submitting}
+              onClick={() => {
+                if (key === '⌫') {
+                  const lastFilled = [...digits].map((d, idx) => ({ d, idx })).reverse().find((x) => x.d)
+                  if (lastFilled) {
+                    const updated = [...digits]
+                    updated[lastFilled.idx] = ''
+                    setDigits(updated)
+                    inputsRef.current[lastFilled.idx]?.focus()
+                  }
+                  return
+                }
+                const emptyIdx = digits.findIndex((d) => !d)
+                if (emptyIdx >= 0) updateDigit(emptyIdx, key)
+              }}
+              className="min-h-14 rounded-xl border-2 bg-[#F5F5F5] text-2xl font-semibold text-[#1A1A1A] active:bg-[#E8E8E8] disabled:opacity-40 sm:min-h-16"
+              style={{ borderColor: brandColor('border') }}
+            >
+              {key}
+            </button>
+          )
+        })}
+      </div>
+
       <button
         type="submit"
         disabled={disabled || submitting || digits.join('').length !== 4}
-        className="w-full rounded-lg py-4 text-base font-bold text-white disabled:opacity-50"
+        className="min-h-14 w-full rounded-xl text-lg font-bold text-white disabled:opacity-50 sm:min-h-16 sm:text-xl"
         style={{ backgroundColor: primary }}
       >
-        {submitting ? 'Checking…' : 'Enter with PIN'}
+        {submitting ? 'Checking…' : 'Unlock / เข้าสู่ระบบ'}
       </button>
     </form>
   )

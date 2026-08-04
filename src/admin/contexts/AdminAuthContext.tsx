@@ -18,7 +18,6 @@ interface AdminAuthContextValue {
   loading: boolean
   configured: boolean
   isAuthenticated: boolean
-  signIn: (email: string, password: string) => Promise<void>
   signInWithPin: (pin: string) => Promise<void>
   signOut: () => Promise<void>
 }
@@ -44,13 +43,9 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
       setUser(nextSession?.user ?? null)
 
       if (event === 'INITIAL_SESSION') {
-        if (nextSession?.user) {
-          setPinSession(false)
-          clearPinToken()
-        } else {
-          const valid = await validatePinSession()
-          setPinSession(valid)
-        }
+        const validPin = await validatePinSession()
+        setPinSession(validPin)
+        // JWT may exist from a prior PIN→session exchange; keep both.
         setLoading(false)
       }
     })
@@ -58,24 +53,22 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  const signIn = useCallback(async (email: string, password: string) => {
-    const trimmedEmail = email.trim()
-    if (!trimmedEmail || !password) {
-      throw new Error('Email and password are required')
-    }
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email: trimmedEmail,
-      password,
-    })
-    if (error) throw error
-    clearPinToken()
-    setPinSession(false)
-  }, [])
-
   const signInWithPin = useCallback(async (pin: string) => {
-    await verifyAdminPin(pin)
+    const result = await verifyAdminPin(pin)
     setPinSession(true)
+
+    // Optional server-side JWT exchange so AMS RLS (auth.uid()) keeps working
+    // without showing an email/password form.
+    if (result.access_token && result.refresh_token) {
+      const { error } = await supabase.auth.setSession({
+        access_token: result.access_token,
+        refresh_token: result.refresh_token,
+      })
+      if (error) {
+        // PIN session alone still unlocks Agency Hub (client_jobs anon policies).
+        console.warn('[admin] PIN ok but Supabase session exchange failed:', error.message)
+      }
+    }
   }, [])
 
   const signOut = useCallback(async () => {
@@ -85,7 +78,8 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
     if (error) throw error
   }, [])
 
-  const isAuthenticated = Boolean(user) || pinSession
+  // PIN is the sole login UI. JWT may exist only as a side-effect of PIN exchange.
+  const isAuthenticated = pinSession || Boolean(user)
 
   const value = useMemo(
     () => ({
@@ -95,11 +89,10 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
       loading,
       configured: isSupabaseConfigured,
       isAuthenticated,
-      signIn,
       signInWithPin,
       signOut,
     }),
-    [user, session, pinSession, loading, isAuthenticated, signIn, signInWithPin, signOut]
+    [user, session, pinSession, loading, isAuthenticated, signInWithPin, signOut]
   )
 
   return <AdminAuthContext.Provider value={value}>{children}</AdminAuthContext.Provider>
@@ -109,4 +102,9 @@ export function useAdminAuth() {
   const ctx = useContext(AdminAuthContext)
   if (!ctx) throw new Error('useAdminAuth must be used within AdminAuthProvider')
   return ctx
+}
+
+/** Safe for routes outside AdminAuthProvider (e.g. /staff StaffApp). */
+export function useAdminAuthOptional() {
+  return useContext(AdminAuthContext)
 }

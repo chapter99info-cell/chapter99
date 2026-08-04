@@ -26,7 +26,7 @@ function AdminShell() {
       <Routes>
         <Route path="login" element={<AdminLogin />} />
 
-        {/* AMS — JWT + ams.staff_profiles only (never PIN via AdminProtectedRoute) */}
+        {/* AMS — PIN login may exchange JWT for RLS; staff portal /staff unchanged */}
         <Route
           path="ams/*"
           element={
@@ -44,7 +44,7 @@ function AdminShell() {
           }
         />
 
-        {/* Legacy agency hub — email OR PIN */}
+        {/* Agency hub — PIN session (JWT optional via PIN exchange) */}
         <Route
           path="*"
           element={
