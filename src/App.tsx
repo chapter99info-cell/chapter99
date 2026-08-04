@@ -1,31 +1,11 @@
-import Navbar from './components/Navbar'
-import HeroSection from './components/HeroSection'
-import ServicesSection from './components/ServicesSection'
-import ClientsMarquee from './components/ClientsMarquee'
-import LiveProjectsSection from './components/LiveProjectsSection'
-import WhySection from './components/WhySection'
-import V4WellnessPricing from './components/V4WellnessPricing'
-import PricingTiersSection from './components/PricingTiersSection'
-import ContactSection from './components/ContactSection'
-import Footer from './components/Footer'
+import CinematicHome from './cinematic/CinematicHome'
 
+/**
+ * Public marketing homepage — prisma cinematic design.
+ * Admin / portal / AMS routes live in Root.tsx and are untouched.
+ */
 function App() {
-  return (
-    <>
-      <div className="flex h-screen flex-col overflow-hidden">
-        <Navbar />
-        <HeroSection />
-      </div>
-      <ServicesSection />
-      <ClientsMarquee />
-      <LiveProjectsSection />
-      <WhySection />
-      <V4WellnessPricing />
-      <PricingTiersSection />
-      <ContactSection />
-      <Footer />
-    </>
-  )
+  return <CinematicHome />
 }
 
 export default App
