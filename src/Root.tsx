@@ -8,6 +8,7 @@ const AdminApp = lazy(() => import('./admin/AdminApp'))
 const PortalApp = lazy(() => import('./portal/PortalApp'))
 const TrackApp = lazy(() => import('./ams/TrackApp'))
 const StaffApp = lazy(() => import('./ams/StaffApp'))
+const PhotoManagerApp = lazy(() => import('./photo-manager/PhotoManagerApp'))
 
 function PageFallback() {
   return (
@@ -60,6 +61,14 @@ export default function Root() {
           element={
             <Suspense fallback={<PageFallback />}>
               <StaffApp />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/pm/*"
+          element={
+            <Suspense fallback={<PageFallback />}>
+              <PhotoManagerApp />
             </Suspense>
           }
         />

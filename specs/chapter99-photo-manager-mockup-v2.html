@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter99 Manager — ตัวอย่าง v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --surface:#ffffff;
+    --sage:#4f7a68;
+    --sage-dark:#375a4c;
+    --sage-pale:#e7f0ea;
+    --blue:#6f8fc2;
+    --blue-pale:#eaf0fa;
+    --ink:#2b2b28;
+    --muted:#8a8577;
+    --line:#e7e2d6;
+    --rust:#b5563c;
+    --gold:#c9a227;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans Thai',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{ display:grid; grid-template-columns:250px 1fr; min-height:100vh; }
+  @media (max-width:860px){
+    .app{grid-template-columns:1fr;}
+    .sidebar{position:sticky;top:0;z-index:20;flex-direction:row;align-items:center;overflow-x:auto;padding:10px 14px;gap:6px;}
+    .sidebar .brand{display:none;}
+    .navlist{flex-direction:row;gap:6px;}
+    .navlist button{white-space:nowrap;}
+  }
+
+  .sidebar{
+    background:var(--sage-dark);
+    color:#f3efe3;
+    display:flex; flex-direction:column; padding:28px 0 20px;
+  }
+  .brand{ padding:0 26px 20px 26px; border-bottom:1px solid rgba(255,255,255,.12); margin-bottom:14px; display:flex; gap:10px; align-items:center;}
+  .brand svg{flex-shrink:0;}
+  .brand .mark{ font-family:'Fraunces',serif; font-weight:700; font-size:19px; letter-spacing:.02em; color:#fff; line-height:1.15;}
+  .brand .sub{ font-size:10.5px; color:#cfe0d6; letter-spacing:.04em; text-transform:uppercase; margin-top:2px;}
+  .navlist{ display:flex; flex-direction:column; gap:2px; padding:0 14px 0 26px; }
+  .navlist button{ all:unset; cursor:pointer; display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:8px; font-size:14px; color:#d7e3da; transition:.15s;}
+  .navlist button:hover{ background:rgba(255,255,255,.08); color:#fff; }
+  .navlist button.active{ background:#f3efe3; color:var(--sage-dark); font-weight:600; }
+  .navlist .ico{ font-size:15px; width:18px; text-align:center;}
+
+  main{ padding:34px 40px 80px; max-width:1120px; }
+  @media (max-width:860px){ main{padding:20px 16px 60px;} }
+
+  h1.page-title{ font-family:'Fraunces',serif; font-weight:600; font-size:28px; margin:0 0 4px; color:var(--sage-dark);}
+  .page-sub{ color:var(--muted); font-size:13.5px; margin-bottom:26px; }
+  .badge-mock{ display:inline-block; background:var(--rust); color:#fff; font-size:10px; font-weight:700; letter-spacing:.05em; padding:3px 9px; border-radius:100px; margin-left:8px; vertical-align:middle;}
+
+  .stat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:22px;}
+  @media (max-width:900px){ .stat-grid{grid-template-columns:repeat(2,1fr);} }
+  .stat-card{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px 18px;}
+  .stat-card .label{ font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.03em;}
+  .stat-card .value{ font-family:'IBM Plex Mono',monospace; font-size:24px; font-weight:600; margin-top:6px; color:var(--sage);}
+  .stat-card .value.blue{color:var(--blue);}
+  .stat-card .value.rust{color:var(--rust);}
+
+  .card{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px; margin-bottom:18px;}
+  .card h3{ font-family:'Fraunces',serif; font-weight:600; font-size:17px; margin:0 0 14px; color:var(--sage-dark);}
+
+  table{ width:100%; border-collapse:collapse; font-size:13.5px;}
+  th{ text-align:left; color:var(--muted); font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:.03em; padding:0 10px 10px 4px; border-bottom:1px solid var(--line);}
+  td{ padding:11px 10px 11px 4px; border-bottom:1px solid var(--line); vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+
+  .tag{ display:inline-block; font-size:11px; padding:3px 10px; border-radius:100px; font-weight:600;}
+  .tag.confirmed{ background:var(--sage-pale); color:var(--sage-dark);}
+  .tag.pending{ background:#fbeae5; color:var(--rust);}
+  .tag.paid{ background:#dcefe3; color:#2f6b46;}
+  .tag.draft{ background:#efece3; color:var(--muted);}
+
+  .btn{ all:unset; cursor:pointer; display:inline-flex; align-items:center; gap:6px; background:var(--sage); color:#fff; font-weight:600; font-size:13px; padding:9px 16px; border-radius:8px;}
+  .btn:hover{background:var(--sage-dark);}
+  .btn.ghost{ background:transparent; border:1px solid var(--line); color:var(--ink);}
+  .btn.ghost:hover{ border-color:var(--sage); color:var(--sage);}
+  .btn.sm{padding:6px 12px; font-size:12px;}
+  .btn.blue{background:var(--blue);}
+  .btn.blue:hover{background:#5a78ab;}
+
+  .row{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;}
+  select,input,textarea{ background:var(--surface); border:1px solid var(--line); color:var(--ink); border-radius:8px; padding:10px 12px; font-family:inherit; font-size:13.5px; width:100%;}
+  label{ font-size:12px; color:var(--muted); display:block; margin-bottom:6px;}
+  .field{margin-bottom:16px;}
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .grid3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;}
+  @media (max-width:640px){ .grid2,.grid3{grid-template-columns:1fr;} }
+
+  .doc-preview{ background:#fff; border:1px solid var(--line); color:#2a2620; border-radius:10px; padding:26px 28px; font-size:13px; line-height:1.8; white-space:pre-wrap; max-height:440px; overflow-y:auto;}
+  .muted{color:var(--muted); font-size:12.5px;}
+
+  /* invoice styling to match real Chapter99 invoice */
+  .inv-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:20px; margin-bottom:18px; flex-wrap:wrap;}
+  .inv-brand{ font-family:'Fraunces',serif; font-weight:700; font-size:20px; color:var(--sage-dark);}
+  .inv-brand .tagline{ font-family:'IBM Plex Sans Thai'; font-weight:400; font-size:11.5px; color:var(--muted); margin-top:2px;}
+  .inv-num{ font-family:'Fraunces',serif; font-size:22px; font-weight:700; color:var(--sage-dark);}
+  table.inv-table th{ border-bottom:2px solid var(--sage);}
+  .inv-total-row td{ font-weight:700; font-family:'IBM Plex Mono',monospace; color:var(--sage-dark); font-size:16px; border-top:2px solid var(--sage-dark);}
+  .inv-footer{ background:var(--blue); color:#fff; border-radius:10px; padding:20px 24px; margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  @media (max-width:640px){ .inv-footer{grid-template-columns:1fr;} }
+  .inv-footer h4{ margin:0 0 8px; font-family:'Fraunces',serif; font-size:14px;}
+  .inv-footer div{ font-size:12.5px; line-height:1.7; opacity:.95;}
+
+  /* package cards */
+  .pkg-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:6px;}
+  @media (max-width:900px){ .pkg-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .pkg-grid{grid-template-columns:1fr;} }
+  .pkg-card{ border:1.5px solid var(--line); border-radius:12px; padding:16px; cursor:pointer; transition:.15s;}
+  .pkg-card:hover{border-color:var(--sage);}
+  .pkg-card.selected{ border-color:var(--sage); background:var(--sage-pale);}
+  .pkg-card .pname{ font-family:'Fraunces',serif; font-weight:600; font-size:14.5px; color:var(--sage-dark);}
+  .pkg-card .pprice{ font-family:'IBM Plex Mono',monospace; font-size:19px; font-weight:700; margin:6px 0 8px; color:var(--ink);}
+  .pkg-card ul{ margin:0; padding-left:16px; font-size:11.5px; color:var(--muted); line-height:1.6;}
+
+  /* timeline */
+  .tl-table{ width:100%; border-collapse:collapse; font-size:12.5px;}
+  .tl-table th{ background:var(--sage-pale); color:var(--sage-dark); padding:8px 10px; text-align:left; border:none;}
+  .tl-table td{ padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
+  .tl-time{ font-family:'IBM Plex Mono',monospace; font-weight:600; color:var(--sage-dark); white-space:nowrap;}
+
+  /* vendor sheet */
+  .vendor-table input{ font-size:12.5px; padding:7px 9px;}
+  .vendor-table td{ padding:6px 6px;}
+
+  .link-box{ display:flex; align-items:center; gap:8px; background:var(--sage-pale); border:1px dashed var(--sage); border-radius:8px; padding:10px 12px; margin-top:14px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--sage-dark); flex-wrap:wrap;}
+  .link-box .url{flex:1; min-width:180px; word-break:break-all;}
+  .confirm-status{ display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; margin-left:8px; padding:3px 10px; border-radius:100px;}
+  .confirm-status.waiting{ background:#efece3; color:var(--muted);}
+  .confirm-status.confirmed{ background:#dcefe3; color:#2f6b46;}
+
+  .modal-overlay{ position:fixed; inset:0; background:rgba(20,18,15,.72); display:none; align-items:center; justify-content:center; z-index:100; padding:20px;}
+  .modal-overlay.open{display:flex;}
+  .client-phone{ background:#fff; color:#2a2620; width:100%; max-width:420px; border-radius:18px; max-height:88vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,.5);}
+  .client-phone .cp-head{ background:var(--sage-dark); color:#fff; padding:18px 20px; border-radius:18px 18px 0 0; font-family:'Fraunces',serif; font-weight:600; font-size:15px; display:flex; align-items:center; justify-content:space-between;}
+  .client-phone .cp-head small{ display:block; font-family:'IBM Plex Sans Thai'; font-weight:400; font-size:11px; color:#cfe0d6; margin-top:2px;}
+  .client-phone .cp-close{cursor:pointer; color:#cfe0d6; font-size:20px;}
+  .client-phone .cp-body{padding:20px; font-size:13px; line-height:1.8; white-space:pre-wrap;}
+  .client-phone .cp-actions{padding:16px 20px 22px; border-top:1px solid #eee;}
+  .client-phone input[type=text]{ background:#fff; border:1px solid #d9d2c2; border-radius:8px; padding:10px 12px; width:100%; font-size:13px; margin-bottom:10px;}
+  .cp-confirm-btn{ all:unset; cursor:pointer; display:block; text-align:center; background:var(--sage); color:#fff; font-weight:700; padding:12px; border-radius:10px; width:100%; box-sizing:border-box;}
+  .cp-success{text-align:center; padding:36px 20px;}
+  .cp-success .check{font-size:38px; color:var(--sage); margin-bottom:10px;}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="sidebar">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 40 40" fill="none">
+        <rect x="6" y="14" width="28" height="18" rx="3" stroke="#f3efe3" stroke-width="1.6"/>
+        <circle cx="20" cy="23" r="6" stroke="#f3efe3" stroke-width="1.6"/>
+        <rect x="15" y="10" width="10" height="5" rx="1.5" stroke="#f3efe3" stroke-width="1.6"/>
+        <path d="M9 14 C9 8 13 6 16 6" stroke="#c9d9cf" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div class="mark">Chapter99</div>
+        <div class="sub">Manager · ตัวอย่าง v2</div>
+      </div>
+    </div>
+    <div class="navlist" id="navlist">
+      <button class="active" data-view="dashboard"><span class="ico">◈</span> แดชบอร์ด</button>
+      <button data-view="clients"><span class="ico">◍</span> ลูกค้า / คิวงาน</button>
+      <button data-view="contract"><span class="ico">✎</span> สัญญา</button>
+      <button data-view="invoice"><span class="ico">▤</span> ใบแจ้งหนี้</button>
+      <button data-view="timeline"><span class="ico">◷</span> ตารางเวลาวันงาน</button>
+      <button data-view="vendors"><span class="ico">☰</span> Vendor Sheet</button>
+      <button data-view="brief"><span class="ico">◐</span> สรุปงานวันถ่าย</button>
+      <button data-view="email"><span class="ico">✉</span> อีเมลลูกค้า</button>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- DASHBOARD -->
+    <section id="view-dashboard" class="view">
+      <h1 class="page-title">แดชบอร์ด <span class="badge-mock">ตัวอย่าง</span></h1>
+      <div class="page-sub">ภาพรวมงานและรายรับของ Chapter99 Photography</div>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="label">งานเดือนนี้</div><div class="value">3</div></div>
+        <div class="stat-card"><div class="label">รายรับที่เข้าแล้ว</div><div class="value">$1,400</div></div>
+        <div class="stat-card"><div class="label">รอเก็บมัดจำ</div><div class="value rust">$650</div></div>
+        <div class="stat-card"><div class="label">งานถัดไป</div><div class="value blue" style="font-size:15px; font-family:'IBM Plex Sans Thai';">Nova Portraits · 2 ก.ย.</div></div>
+      </div>
+      <div class="card">
+        <h3>คิวงานเร็วๆ นี้</h3>
+        <table>
+          <thead><tr><th>วันที่</th><th>ลูกค้า</th><th>ประเภทงาน</th><th>แพ็กเกจ</th><th>สถานะ</th></tr></thead>
+          <tbody id="dash-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CLIENTS -->
+    <section id="view-clients" class="view" style="display:none">
+      <h1 class="page-title">ลูกค้า / คิวงาน <span class="badge-mock">ตัวอย่าง</span></h1>
+      <div class="page-sub">รายชื่อลูกค้าทั้งหมด พร้อมสถานะงานและการเงิน</div>
+      <div class="card">
+        <div class="row" style="margin-bottom:14px;">
+          <div class="muted">ทั้งหมด 5 รายการ</div>
+          <button class="btn sm">+ เพิ่มลูกค้าใหม่</button>
+        </div>
+        <table>
+          <thead><tr><th>ลูกค้า</th><th>ประเภทงาน</th><th>วันถ่าย</th><th>ยอดรวม</th><th>มัดจำ</th><th>สถานะ</th></tr></thead>
+          <tbody id="client-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CONTRACT -->
+    <section id="view-contract" class="view" style="display:none">
+      <h1 class="page-title">ร่างสัญญางานถ่ายภาพ <span class="badge-mock">ตัวอย่าง — อิงเงื่อนไขสัญญาจริงของ Chapter99</span></h1>
+      <div class="page-sub">เลือกลูกค้าและแพ็กเกจ ระบบร่างสัญญาให้อัตโนมัติ (เนื้อหาอิงจากสัญญาจริงที่พี่ใช้อยู่)</div>
+
+      <div class="card">
+        <div class="field"><label>เลือกลูกค้า</label><select id="contract-client"></select></div>
+        <h3 style="margin-top:6px;">เลือกแพ็กเกจ</h3>
+        <div class="pkg-grid" id="pkg-grid"></div>
+      </div>
+
+      <div class="card">
+        <h3>ตัวอย่างสัญญา</h3>
+        <div class="doc-preview" id="contract-preview"></div>
+        <div class="row" style="margin-top:14px;">
+          <div class="muted">พร้อมส่งออกเป็น PDF ในเวอร์ชันจริง</div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn ghost sm">คัดลอกข้อความ</button>
+            <button class="btn sm" onclick="generateLink('contract')">🔗 สร้างลิงก์ให้ลูกค้ายืนยัน</button>
+          </div>
+        </div>
+        <div class="link-box" id="contract-linkbox" style="display:none;">
+          <span>🔗</span><span class="url" id="contract-link-url"></span>
+          <button class="btn ghost sm" onclick="openClientView('contract')">เปิดดูหน้าที่ลูกค้าเห็น</button>
+          <span class="confirm-status waiting" id="contract-status">● รอลูกค้ายืนยัน</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- INVOICE -->
+    <section id="view-invoice" class="view" style="display:none">
+      <h1 class="page-title">ใบแจ้งหนี้ <span class="badge-mock">ตัวอย่าง — ดีไซน์อิงใบแจ้งหนี้จริง</span></h1>
+      <div class="page-sub">รวม GST 10% อัตโนมัติ ตามรูปแบบที่พี่ใช้จริง</div>
+      <div class="card">
+        <div class="field" style="max-width:360px;"><label>เลือกลูกค้า</label><select id="invoice-client" onchange="renderInvoice()"></select></div>
+      </div>
+      <div class="card">
+        <div id="invoice-preview"></div>
+        <div class="row" style="margin-top:14px;">
+          <div class="muted">เลขที่ใบแจ้งหนี้ออกอัตโนมัติ</div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn ghost sm">พิมพ์ / บันทึก PDF</button>
+            <button class="btn sm">ทำเครื่องหมายว่าจ่ายแล้ว</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section id="view-timeline" class="view" style="display:none">
+      <h1 class="page-title">ตารางเวลาวันงาน <span class="badge-mock">ใหม่ — อิง Timeline Breakdown จริง</span></h1>
+      <div class="page-sub">ใส่เวลาพิธีเริ่ม ระบบคำนวณตารางถ่าย Photo/Video ให้อัตโนมัติ</div>
+      <div class="card">
+        <div class="grid2">
+          <div class="field"><label>เลือกลูกค้า</label><select id="tl-client" onchange="renderTimeline()"></select></div>
+          <div class="field"><label>เวลาพิธีเริ่ม (Ceremony Start)</label><input type="time" id="tl-time" value="16:00" onchange="renderTimeline()"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>ตาราง Photo / Video</h3>
+        <table class="tl-table" id="tl-table"></table>
+        <div class="muted" style="margin-top:12px;">อิงจากโครงสร้าง Timeline Breakdown ที่ทีมงานใช้จริง ปรับเวลาอัตโนมัติตามเวลาพิธีที่กรอก</div>
+      </div>
+    </section>
+
+    <!-- VENDOR SHEET -->
+    <section id="view-vendors" class="view" style="display:none">
+      <h1 class="page-title">Vendor Sheet <span class="badge-mock">ใหม่</span></h1>
+      <div class="page-sub">เก็บเบอร์ติดต่อ vendor ของแต่ละงาน ดูรวดเร็วหน้างาน</div>
+      <div class="card">
+        <div class="field" style="max-width:360px;"><label>เลือกลูกค้า/งาน</label><select id="vendor-client"></select></div>
+        <table class="vendor-table">
+          <thead><tr><th>Vendor</th><th>ชื่อ</th><th>เบอร์โทร</th><th>อีเมล</th></tr></thead>
+          <tbody id="vendor-rows"></tbody>
+        </table>
+        <button class="btn ghost sm" style="margin-top:12px;">+ เพิ่มแถว</button>
+      </div>
+    </section>
+
+    <!-- SHOOT BRIEF -->
+    <section id="view-brief" class="view" style="display:none">
+      <h1 class="page-title">สรุปงานวันถ่าย (Shoot Brief) <span class="badge-mock">ตัวอย่าง</span></h1>
+      <div class="page-sub">สร้างหน้าสรุปคิวงานสวยๆ ส่งลิงก์ให้ลูกค้าคอนเฟิร์ม</div>
+      <div class="card">
+        <div class="field" style="max-width:360px;"><label>เลือกลูกค้า</label><select id="brief-client" onchange="renderBrief()"></select></div>
+      </div>
+      <div class="card">
+        <div class="doc-preview" id="brief-preview"></div>
+        <div class="row" style="margin-top:14px;">
+          <div class="muted">ส่งลิงก์นี้ให้ลูกค้ากดคอนเฟิร์มคิวงานได้เลย</div>
+          <button class="btn sm" onclick="generateLink('brief')">🔗 สร้างลิงก์ให้ลูกค้ายืนยัน</button>
+        </div>
+        <div class="link-box" id="brief-linkbox" style="display:none;">
+          <span>🔗</span><span class="url" id="brief-link-url"></span>
+          <button class="btn ghost sm" onclick="openClientView('brief')">เปิดดูหน้าที่ลูกค้าเห็น</button>
+          <span class="confirm-status waiting" id="brief-status">● รอลูกค้ายืนยัน</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- EMAIL -->
+    <section id="view-email" class="view" style="display:none">
+      <h1 class="page-title">ร่างอีเมลถึงลูกค้า <span class="badge-mock">ตัวอย่าง</span></h1>
+      <div class="page-sub">เลือกลูกค้า + สถานการณ์ ระบบร่างอีเมลให้ทันที</div>
+      <div class="card">
+        <div class="grid2">
+          <div class="field"><label>เลือกลูกค้า</label><select id="email-client"></select></div>
+          <div class="field"><label>สถานการณ์</label>
+            <select id="email-type">
+              <option value="confirm">ยืนยันคิวงาน</option>
+              <option value="invoice">ส่งใบแจ้งหนี้ / ขอมัดจำ</option>
+              <option value="thanks">ขอบคุณหลังถ่ายงานเสร็จ</option>
+              <option value="remind">ทวงยอดคงเหลือ</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn" onclick="renderEmail()">✉ ร่างอีเมล</button>
+      </div>
+      <div class="card">
+        <h3>ตัวอย่างอีเมล</h3>
+        <div class="doc-preview" id="email-preview"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="modal-overlay" id="client-modal">
+  <div class="client-phone">
+    <div class="cp-head"><div>Chapter99 Photography <small id="cp-subtitle">หน้าที่ลูกค้าเห็นเมื่อกดลิงก์</small></div><span class="cp-close" onclick="closeClientView()">✕</span></div>
+    <div id="cp-content"></div>
+  </div>
+</div>
+
+<script>
+// ---------- PACKAGES (updated to match live chapter99.mypixieset.com pricing) ----------
+const weddingPackages = [
+  {id:'w1', name:'Small Wedding (2 hrs)', price:1400, hours:2, blurb:['2 ชม. คุ้มครอง','1 ช่างภาพ','ภาพความละเอียดสูงทั้งหมด','อัลบั้มออนไลน์ส่วนตัว']},
+  {id:'w2', name:'Small Wedding (4 hrs)', price:1600, hours:4, blurb:['4 ชม. คุ้มครอง','1 ช่างภาพ','ภาพความละเอียดสูงทั้งหมด','อัลบั้มออนไลน์ส่วนตัว']},
+  {id:'w3', name:'Diamond Package', price:2500, hours:8, blurb:['6-8 ชม. คุ้มครอง','1 ช่างภาพ, กล้องหลายตัว','Photobook ขนาดกลาง','อัลบั้มออนไลน์แชร์ได้']},
+  {id:'w4', name:'Deluxe Package', price:4400, hours:10, blurb:['8-10 ชม. เต็มวัน','2 ช่างภาพ, กล้องหลายตัว','Photobook ขนาดใหญ่','อัลบั้มออนไลน์แชร์ครอบครัว/เพื่อน']},
+];
+const engagementPackages = [
+  {id:'e1', name:'Package 1', price:950, hours:2, blurb:['ช่วงเวลาพระอาทิตย์ตก 2 ชม.','1 ช่างภาพ','ถ่ายในเมือง ไม่จำกัดจำนวนภาพ','รีทัชภาพ + Online Gallery + USB']},
+  {id:'e2', name:'Package 2', price:1700, hours:4, blurb:['Sunset & After Dark 4 ชม.','1 ช่างภาพ + ผู้ช่วย','พื้นที่ถ่ายซิดนีย์ ไม่จำกัดจำนวนภาพ','รีทัชภาพ + Online Gallery ฟรี']},
+  {id:'e3', name:'Package 3', price:2400, hours:8, blurb:['เต็มวัน 8 ชม.','1 ช่างภาพ + ผู้ช่วย + รถรับส่ง','พื้นที่ถ่ายซิดนีย์ ไม่จำกัดจำนวนภาพ','รีทัชภาพ + Wedding guest photobook']},
+];
+function pkgSetFor(type){ return type==='wedding' ? weddingPackages : type==='engagement' ? engagementPackages : null; }
+
+const clients = [
+  {id:1, name:'คุณกิ๊บซี่ & คุณต้น', type:'wedding', typeLabel:'งานแต่งงาน', pkg:'w3', date:'14 ก.พ. 2570', ceremonyTime:'16:00', location:'The Vintage Barn เชียงใหม่', deposit:500, status:'confirmed', statusLabel:'ยืนยันแล้ว', phone:'081-234-5678', email:'gibsy.ton@email.com'},
+  {id:2, name:'คุณมิ้น & คุณปีเตอร์', type:'engagement', typeLabel:'Pre-Wedding / Engagement', pkg:'e1', date:'2 ก.ย. 2569', ceremonyTime:'15:00', location:'Sydney Harbour Bridge', deposit:950, status:'paid', statusLabel:'จ่ายครบแล้ว', phone:'089-111-2222', email:'min.peter@email.com'},
+  {id:3, name:'Nova Portraits', type:'portrait', typeLabel:'Portrait/Branding', pkg:null, fixedPrice:650, date:'20 ก.ย. 2569', ceremonyTime:'11:00', location:'สตูดิโอ Chapter99', deposit:0, status:'pending', statusLabel:'รอมัดจำ', phone:'02-555-1234', email:'contact@novaportraits.co'},
+  {id:4, name:'ครอบครัวสมิทธิ์', type:'family', typeLabel:'Family Portrait', pkg:null, fixedPrice:450, date:'5 ต.ค. 2569', ceremonyTime:'09:00', location:'Sydney Opera House', deposit:450, status:'confirmed', statusLabel:'ยืนยันแล้ว', phone:'086-777-8899', email:'smith.family@email.com'},
+  {id:5, name:'คุณเอิร์ธ & คุณฟ้า', type:'wedding', typeLabel:'งานแต่งงาน', pkg:'w4', date:'3 ม.ค. 2571', ceremonyTime:'17:00', location:'Kempinski Hotel Sydney', deposit:0, status:'draft', statusLabel:'รอเซ็นสัญญา', phone:'090-333-4455', email:'earth.fah@email.com'},
+];
+
+const tagClass = { confirmed:'confirmed', pending:'pending', paid:'paid', draft:'draft' };
+
+function pkgFor(c){
+  if(!c.pkg) return null;
+  const set = pkgSetFor(c.type);
+  return set ? set.find(p=>p.id===c.pkg) : null;
+}
+function priceFor(c){ const p = pkgFor(c); return p ? p.price : c.fixedPrice; }
+function money(n){ return '$' + n.toLocaleString('en-AU'); }
+
+function fillSelect(id){
+  const sel = document.getElementById(id);
+  sel.innerHTML = clients.map(c=>`<option value="${c.id}">${c.name} — ${c.typeLabel}</option>`).join('');
+}
+['contract-client','invoice-client','brief-client','email-client','tl-client','vendor-client'].forEach(fillSelect);
+
+document.getElementById('dash-rows').innerHTML = clients.filter(c=>c.status!=='paid').map(c=>{
+  const p = pkgFor(c);
+  return `<tr><td>${c.date}</td><td>${c.name}</td><td>${c.typeLabel}</td><td>${p?p.name:'-'} (${money(priceFor(c))})</td><td><span class="tag ${tagClass[c.status]}">${c.statusLabel}</span></td></tr>`;
+}).join('');
+
+document.getElementById('client-rows').innerHTML = clients.map(c=>`
+  <tr>
+    <td><strong>${c.name}</strong><br><span class="muted">${c.phone}</span></td>
+    <td>${c.typeLabel}</td>
+    <td>${c.date}</td>
+    <td style="font-family:'IBM Plex Mono',monospace;">${money(priceFor(c))}</td>
+    <td style="font-family:'IBM Plex Mono',monospace;">${money(c.deposit)}</td>
+    <td><span class="tag ${tagClass[c.status]}">${c.statusLabel}</span></td>
+  </tr>`).join('');
+
+document.getElementById('navlist').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button'); if(!btn) return;
+  document.querySelectorAll('#navlist button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.view').forEach(v=>v.style.display='none');
+  document.getElementById('view-'+btn.dataset.view).style.display='block';
+});
+
+// ---------- PACKAGE PICKER + CONTRACT ----------
+let selectedPkg = null;
+
+function renderPkgGrid(){
+  const client = clients.find(c=>c.id==document.getElementById('contract-client').value);
+  const set = pkgSetFor(client.type);
+  if(!set){
+    document.getElementById('pkg-grid').innerHTML = `<div class="muted" style="grid-column:1/-1;">งานประเภท "${client.typeLabel}" ใช้ราคาคงที่ ${money(priceFor(client))} ไม่ต้องเลือกแพ็กเกจ</div>`;
+    selectedPkg = null;
+    renderContract();
+    return;
+  }
+  selectedPkg = client.pkg || set[0].id;
+  document.getElementById('pkg-grid').innerHTML = set.map(p=>`
+    <div class="pkg-card ${p.id===selectedPkg?'selected':''}" onclick="pickPkg('${p.id}')">
+      <div class="pname">${p.name}</div>
+      <div class="pprice">${money(p.price)}</div>
+      <ul>${p.blurb.map(b=>`<li>${b}</li>`).join('')}</ul>
+    </div>`).join('');
+  renderContract();
+}
+function pickPkg(id){ selectedPkg = id; renderPkgGrid(); document.querySelectorAll('.pkg-card').forEach(el=>el.classList.remove('selected')); event.currentTarget.classList.add('selected'); renderContract(); }
+
+function contractText(client){
+  const p = pkgFor(client);
+  const price = priceFor(client);
+  const set = pkgSetFor(client.type);
+  const chosenPkg = set ? set.find(x=>x.id===selectedPkg) : null;
+  const finalPrice = chosenPkg ? chosenPkg.price : price;
+  const deposit = Math.round(finalPrice * 0.2);
+  const balance = finalPrice - deposit;
+  return `CHAPTER99 PHOTOGRAPHY — CONTRACT AGREEMENT
+
+CLIENT: ${client.name}
+EVENT TYPE: ${client.typeLabel}
+DATE: ${client.date}
+LOCATION: ${client.location}
+${chosenPkg ? 'PACKAGE: '+chosenPkg.name+' — '+chosenPkg.blurb.join(', ') : 'SERVICE: fixed-rate session'}
+
+INVESTMENT
+Total fee: ${money(finalPrice)}
+Non-refundable deposit (due on signing): ${money(deposit)}
+Balance remaining (due on or before event date): ${money(balance)}
+
+TERMS & CONDITIONS (summary of full agreement)
+1. ENTIRE AGREEMENT — supersedes all prior verbal or written agreements. Changes must be in writing and signed by both parties.
+2. BOOKINGS — the date is reserved only after the non-refundable deposit is received.
+3. CANCELLATION — if the Client cancels before the event, the deposit is forfeit. If Chapter99 cannot attend for any reason, all monies paid will be refunded.
+4. PRE-EVENT CONSULTATION — a planning call/session will be scheduled at least 2 weeks before the event to confirm timing and locations.
+5. EVENT GUIDE — the Client should nominate someone to help identify key people for photos on the day.
+6. COPYRIGHT — all images remain the copyright of Chapter99 Photography. The Client receives a personal-use license; commercial/resale use requires written permission.
+7. MODEL RELEASE — Chapter99 may use selected images for portfolio, marketing, and promotional purposes unless the Client opts out in writing.
+8. EXCLUSIVITY — Chapter99 acts as the sole professional photographer for the event; guest photography is welcome during non-formal moments only.
+9. COMPLETION SCHEDULE — editing takes approximately 6-8 weeks from the event date.
+10. FINAL DELIVERY — final gallery and files delivered within 8-10 weeks of the event via online gallery and USB.
+11. PAYMENT METHOD — bank transfer or cash. Full bank details provided on the invoice.
+12. LIMIT OF LIABILITY — in the unlikely event Chapter99 cannot fulfil this contract, liability is limited to a refund of monies paid.
+13. IMAGE MANIPULATION — up to 10 images may receive extended retouching at no extra cost; further requests billed separately.
+
+By signing below, both parties agree to the full terms of this agreement (complete version provided separately).
+
+Client signature: ______________________   Date: __________
+Chapter99 Photography signature: ______________________   Date: __________`;
+}
+
+function renderContract(){
+  const client = clients.find(c=>c.id==document.getElementById('contract-client').value);
+  document.getElementById('contract-preview').innerText = contractText(client);
+}
+document.getElementById('contract-client').addEventListener('change', renderPkgGrid);
+renderPkgGrid();
+
+// ---------- INVOICE (matches real Chapter99 invoice layout) ----------
+function renderInvoice(){
+  const c = clients.find(x=>x.id==document.getElementById('invoice-client').value);
+  const p = pkgFor(c);
+  const subtotal = p ? p.price/1.1 : c.fixedPrice/1.1;
+  const gst = (p ? p.price : c.fixedPrice) - subtotal;
+  const total = p ? p.price : c.fixedPrice;
+  const invNo = 'INV' + c.date.replace(/\s/g,'').slice(0,6) + String(c.id).padStart(2,'0');
+  document.getElementById('invoice-preview').innerHTML = `
+    <div class="inv-head">
+      <div>
+        <div class="inv-brand">Chapter99 Photography</div>
+        <div class="tagline">chapter99studio.mypixieset.com</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="inv-num">Invoice</div>
+        <div class="muted">#${invNo}<br>วันนี้</div>
+      </div>
+    </div>
+    <div class="muted" style="margin-bottom:14px;"><strong style="color:var(--ink);">Client:</strong> ${c.name}<br>${c.typeLabel} · ${c.date} · ${c.location}</div>
+    <table class="inv-table">
+      <thead><tr><th>Item</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr></thead>
+      <tbody>
+        <tr><td>${p ? p.name+' — '+c.typeLabel : 'Photography session — '+c.typeLabel}</td><td>${p ? p.hours+' hrs' : 'Session'}</td><td>${money(subtotal)}</td><td>${money(subtotal)}</td></tr>
+        <tr><td>Online gallery</td><td>Included</td><td>Included</td><td>Included</td></tr>
+        <tr><td colspan="3">Subtotal</td><td>${money(subtotal)}</td></tr>
+        <tr><td colspan="3">GST (10%)</td><td>${money(gst)}</td></tr>
+        <tr class="inv-total-row"><td colspan="3">Total (inc. GST)</td><td>${money(total)}</td></tr>
+      </tbody>
+    </table>
+    <div class="inv-footer">
+      <div><h4>Payment Details</h4><div>Bank: •••• Bank<br>Account Name: Chapter99 Photography<br>BSB: •••-•••<br>Acc: ••••••••</div></div>
+      <div><h4>Contact Info</h4><div>Chapter99 Photography<br>Forestville, Sydney NSW 2087<br>E: chapter99info@gmail.com</div></div>
+    </div>
+  `;
+}
+renderInvoice();
+
+// ---------- TIMELINE BREAKDOWN ----------
+function addMinutes(hhmm, mins){
+  const [h,m] = hhmm.split(':').map(Number);
+  const d = new Date(2000,0,1,h,m);
+  d.setMinutes(d.getMinutes()+mins);
+  return d.toTimeString().slice(0,5);
+}
+const timelineOffsets = [
+  {off:-390, photo:'ทีมงานมาถึงเวนิว เก็บภาพบรรยากาศก่อนแขกมาถึง', video:'ถ่าย establishing shot รอบเวนิว เตรียมโดรน (ถ้ามี)'},
+  {off:-345, photo:'เข้าห้องเจ้าสาว เก็บรายละเอียด: ชุด, แหวน, รองเท้า, ช่อดอกไม้', video:'เข้าห้องเจ้าสาว บันทึกภาพรายละเอียดคู่กัน'},
+  {off:-270, photo:'เก็บภาพแต่งหน้าทำผม บรรยากาศเพื่อนเจ้าสาว', video:'บันทึกเสียง (mic เจ้าสาว) เผื่ออ่าน vows'},
+  {off:-190, photo:'เข้าห้องเจ้าบ่าว เก็บรายละเอียด: รองเท้า, เข็มขัด, นาฬิกา', video:'เข้าห้องเจ้าบ่าว บันทึกภาพรายละเอียดคู่กัน'},
+  {off:-105, photo:'ถ่ายภาพเจ้าสาวเดี่ยว/คู่เพื่อนเจ้าสาว', video:'กลับมาห้องเจ้าสาว บันทึกช่วงใส่จิวเวลรี่/รูดซิป'},
+  {off:-70, photo:'First Look (ถ้ามี) — จัดตำแหน่งเจ้าบ่าว', video:'ติดไมค์ทั้งคู่ บันทึกเสียง first look'},
+  {off:-45, photo:'เก็บภาพรายละเอียดพิธี: ที่นั่ง, อาร์ช, ของตกแต่ง', video:'เก็บภาพรายละเอียดพิธีเช่นกัน'},
+  {off:0, photo:'พิธีเริ่ม — เก็บภาพ processional, แขก, พ่อส่งตัว', video:'กล้อง static บนขาตั้ง + กล้อง stabilizer ลอยจับมุม'},
+  {off:20, photo:'พิธีจบ — จับภาพจูบ เดินกลับ, ความยินดีของแขก', video:'จับภาพจูบ เดินกลับ เช่นกัน'},
+  {off:30, photo:'ถ่ายภาพครอบครัว', video:'ถ่ายข้ามไหล่ช่างภาพ'},
+  {off:50, photo:'ถ่ายภาพคู่บ่าวสาว + เพื่อนเจ้าบ่าวเจ้าสาว', video:'ถ่ายข้ามไหล่ช่างภาพ, จับ mannequin challenge (ถ้ามี)'},
+  {off:150, photo:'Grand entrance + First dance', video:'ลอยรอบฟลอร์เก็บ first dance'},
+  {off:225, photo:'ตัดเค้ก + จูบ', video:'ตัดเค้ก + จูบ'},
+  {off:260, photo:'Sunset romantics', video:'Sunset romantics คู่กัน'},
+  {off:300, photo:'จบงาน / Wrapped', video:'จบงาน / Wrapped'},
+];
+function renderTimeline(){
+  const c = clients.find(x=>x.id==document.getElementById('tl-client').value);
+  const ceremonyTime = document.getElementById('tl-time').value || c.ceremonyTime;
+  let rows = timelineOffsets.map(row=>{
+    const t = addMinutes(ceremonyTime, row.off);
+    return `<tr><td class="tl-time">${t}</td><td>${row.photo}</td><td>${row.video}</td></tr>`;
+  }).join('');
+  document.getElementById('tl-table').innerHTML = `<thead><tr><th>เวลา</th><th>PHOTO</th><th>VIDEO</th></tr></thead><tbody>${rows}</tbody>`;
+}
+document.getElementById('tl-client').addEventListener('change', ()=>{
+  const c = clients.find(x=>x.id==document.getElementById('tl-client').value);
+  document.getElementById('tl-time').value = c.ceremonyTime;
+  renderTimeline();
+});
+renderTimeline();
+
+// ---------- VENDOR SHEET ----------
+const vendorRoles = ['Venue','Coordinator','Planner','Caterer','Florist','Beauty (Hair/MU)','DJ / Band','Cake'];
+function renderVendors(){
+  document.getElementById('vendor-rows').innerHTML = vendorRoles.map(r=>`
+    <tr>
+      <td style="font-weight:600; white-space:nowrap;">${r}</td>
+      <td><input type="text" placeholder="ชื่อ"></td>
+      <td><input type="text" placeholder="เบอร์โทร"></td>
+      <td><input type="text" placeholder="อีเมล"></td>
+    </tr>`).join('');
+}
+document.getElementById('vendor-client').addEventListener('change', renderVendors);
+renderVendors();
+
+// ---------- SHOOT BRIEF ----------
+function renderBrief(){
+  const c = clients.find(x=>x.id==document.getElementById('brief-client').value);
+  document.getElementById('brief-preview').innerHTML = `
+    <div style="font-family:'Fraunces',serif; font-weight:700; font-size:16px; margin-bottom:12px; color:var(--sage-dark);">สรุปงานวันถ่าย — ${c.name}</div>
+    📅 วันที่: ${c.date}
+    <br>📍 สถานที่: ${c.location}
+    <br>🎯 ประเภทงาน: ${c.typeLabel}
+    <br>⏱ พิธีเริ่ม: ${c.ceremonyTime} น. (ทีมงานถึงก่อน 30 นาที)
+    <br>🎨 สไตล์ภาพ: โทนธรรมชาติ อบอุ่น แสงนุ่ม
+    <br>👥 ผู้ติดต่อหน้างาน: ${c.name} (${c.phone})
+    <br><br>หมายเหตุ: กรุณายืนยันความพร้อมล่วงหน้า 3 วันก่อนวันงาน`;
+}
+renderBrief();
+
+// ---------- EMAIL ----------
+const emailTemplates = {
+  confirm: (c)=>`เรื่อง: ยืนยันคิวงานถ่ายภาพ — ${c.date}\n\nสวัสดีค่ะ/ครับ คุณ${c.name}\n\nChapter99 Photography ขอยืนยันคิวงาน${c.typeLabel} วันที่ ${c.date} ณ ${c.location} ค่ะ\n\nขอบคุณค่ะ\nChapter99 Photography`,
+  invoice: (c)=>`เรื่อง: ใบแจ้งหนี้และมัดจำ\n\nสวัสดีค่ะ/ครับ คุณ${c.name}\n\nส่งใบแจ้งหนี้พร้อมยอดมัดจำสำหรับงาน${c.typeLabel} วันที่ ${c.date} ค่ะ กรุณาโอนเพื่อยืนยันคิวงาน\n\nขอบคุณค่ะ\nChapter99 Photography`,
+  thanks: (c)=>`เรื่อง: ขอบคุณสำหรับความไว้วางใจ\n\nสวัสดีค่ะ/ครับ คุณ${c.name}\n\nขอบคุณที่ไว้วางใจ Chapter99 Photography ดูแลงาน${c.typeLabel}ค่ะ ภาพชุดคัดสรรจะทยอยส่งให้ตามกำหนดค่ะ\n\nขอบคุณค่ะ\nChapter99 Photography`,
+  remind: (c)=>`เรื่อง: แจ้งเตือนยอดคงเหลือ\n\nสวัสดีค่ะ/ครับ คุณ${c.name}\n\nรบกวนแจ้งเตือนยอดคงเหลือสำหรับงาน${c.typeLabel}วันที่ ${c.date} ค่ะ\n\nขอบคุณค่ะ\nChapter99 Photography`
+};
+function renderEmail(){
+  const c = clients.find(x=>x.id==document.getElementById('email-client').value);
+  const t = document.getElementById('email-type').value;
+  document.getElementById('email-preview').innerText = emailTemplates[t](c);
+}
+renderEmail();
+
+// ---------- LINK / CLIENT CONFIRM ----------
+function currentClientFor(kind){
+  const selId = kind === 'contract' ? 'contract-client' : 'brief-client';
+  return clients.find(x => x.id == document.getElementById(selId).value);
+}
+function generateLink(kind){
+  const c = currentClientFor(kind);
+  const slug = 'c' + c.id + '-' + Math.random().toString(36).slice(2,7);
+  document.getElementById(kind+'-link-url').textContent = 'https://chapter99.app/'+kind+'/'+slug;
+  document.getElementById(kind+'-linkbox').style.display = 'flex';
+  const s = document.getElementById(kind+'-status'); s.className='confirm-status waiting'; s.textContent='● รอลูกค้ายืนยัน';
+}
+function openClientView(kind){
+  const c = currentClientFor(kind);
+  const docText = kind==='contract' ? contractText(c) : document.getElementById('brief-preview').innerText;
+  document.getElementById('cp-subtitle').textContent = kind==='contract' ? 'กรุณาตรวจสอบและยืนยันสัญญา' : 'กรุณายืนยันคิวงานถ่ายภาพ';
+  document.getElementById('cp-content').innerHTML = `
+    <div class="cp-body">${docText}</div>
+    <div class="cp-actions">
+      <input type="text" value="${c.name}" placeholder="พิมพ์ชื่อ-นามสกุลเพื่อยืนยัน">
+      <button class="cp-confirm-btn" onclick="submitConfirm('${kind}')">✓ ยืนยันรับทราบ</button>
+    </div>`;
+  document.getElementById('client-modal').classList.add('open');
+}
+function closeClientView(){ document.getElementById('client-modal').classList.remove('open'); }
+function submitConfirm(kind){
+  document.getElementById('cp-content').innerHTML = `<div class="cp-success"><div class="check">✓</div><div style="font-family:'Fraunces',serif; font-weight:600; font-size:16px; margin-bottom:6px;">ยืนยันเรียบร้อยแล้ว</div><div style="color:#6b6455; font-size:12.5px;">ขอบคุณค่ะ ทีมงาน Chapter99 จะติดต่อกลับหากมีอัปเดตเพิ่มเติม</div></div>`;
+  const s = document.getElementById(kind+'-status'); s.className='confirm-status confirmed'; s.textContent='✓ ลูกค้ายืนยันแล้ว';
+  setTimeout(closeClientView, 1400);
+}
+</script>
+</body>
+</html>
