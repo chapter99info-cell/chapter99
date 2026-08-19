@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "pm:schema": "node --env-file=.env.local scripts/apply-pm-schema.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.0",

@@ -1,18 +1,52 @@
-import { useState } from 'react';
-import { galleryCopy, galleryItems, galleryTabs } from '../data/gallery';
+import { useEffect, useRef, useState } from 'react';
+import {
+  galleryCategoryLabel,
+  galleryCopy,
+  galleryItems,
+  galleryTabs,
+  galleryVideoTabs,
+} from '../data/gallery';
 import { useFadeUp } from '../hooks/useFadeUp';
 import { useTranslation } from '../i18n/LanguageContext';
 
 export function Gallery() {
   const { t } = useTranslation();
   const wrapRef = useFadeUp(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeTab, setActiveTab] = useState(galleryTabs[0].id);
+  const [playing, setPlaying] = useState(false);
   const item = galleryItems[activeIndex];
+  const showVideo = galleryVideoTabs.has(activeTab) && Boolean(item.videoSrc);
+
+  // Reset playback when changing item or leaving a video tab
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    el.pause();
+    el.currentTime = 0;
+    setPlaying(false);
+  }, [activeIndex, activeTab]);
 
   const go = (i: number) => {
     setActiveIndex((i + galleryItems.length) % galleryItems.length);
   };
+
+  async function togglePlay() {
+    const el = videoRef.current;
+    if (!el) return;
+    if (el.paused) {
+      try {
+        await el.play();
+        setPlaying(true);
+      } catch {
+        setPlaying(false);
+      }
+    } else {
+      el.pause();
+      setPlaying(false);
+    }
+  }
 
   return (
     <section id="gallery">
@@ -56,16 +90,56 @@ export function Gallery() {
           </div>
           <div className="gallery-main">
             <div
-              className="gallery-frame"
+              className={`gallery-frame${showVideo ? ' has-video' : ''}`}
               id="galleryFrame"
-              style={{ background: item.grad }}
+              style={showVideo ? undefined : { background: item.grad }}
             >
-              <span className="gallery-play">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                  <polygon points="6,4 20,12 6,20" />
-                </svg>
-              </span>
+              {showVideo && item.videoSrc ? (
+                <video
+                  key={item.videoSrc + activeIndex}
+                  ref={videoRef}
+                  className="gallery-video"
+                  src={item.videoSrc}
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  onPlay={() => setPlaying(true)}
+                  onPause={() => setPlaying(false)}
+                  onClick={togglePlay}
+                />
+              ) : null}
+
+              {showVideo ? (
+                <button
+                  type="button"
+                  className={`gallery-play${playing ? ' is-playing' : ''}`}
+                  aria-label={playing ? 'Pause video' : 'Play video'}
+                  onClick={togglePlay}
+                >
+                  {playing ? (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                      <rect x="6" y="5" width="4" height="14" rx="1" />
+                      <rect x="14" y="5" width="4" height="14" rx="1" />
+                    </svg>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                      <polygon points="6,4 20,12 6,20" />
+                    </svg>
+                  )}
+                </button>
+              ) : (
+                <span className="gallery-play" aria-hidden>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="6,4 20,12 6,20" />
+                  </svg>
+                </span>
+              )}
+
               <div className="cap">
+                {item.category ? (
+                  <div className="gallery-cat">{t(galleryCategoryLabel[item.category])}</div>
+                ) : null}
                 <div className="t">{t(item.title)}</div>
                 <div className="s">{t(item.sub)}</div>
               </div>
