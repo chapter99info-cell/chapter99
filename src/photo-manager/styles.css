@@ -120,6 +120,17 @@
 .pm-root .chip:active { cursor: grabbing; }
 .pm-root .cal-more { all: unset; cursor: pointer; display: block; margin-top: 4px; font-size: 10px; font-weight: 600; color: var(--sage-dark); min-height: 22px; }
 .pm-root .cal-quick { max-width: 480px; }
+.pm-root .kind-toggle {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+}
+.pm-root .kind-toggle button {
+  all: unset; cursor: pointer; box-sizing: border-box; display: flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--line);
+  background: #fff; color: var(--ink); font-size: 14px; font-weight: 600; text-align: center;
+}
+.pm-root .kind-toggle button.on {
+  background: var(--sage-pale); border-color: var(--sage); color: var(--sage-dark);
+}
 .pm-root .calc-pair { display: grid; grid-template-columns: 1.2fr 1fr; gap: 14px; margin-top: 8px; }
 .pm-root .calc-lead, .pm-root .calc-anchor { border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
 .pm-root .calc-lead { background: var(--sage-pale); border-color: var(--sage); }

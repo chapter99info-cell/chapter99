@@ -130,8 +130,16 @@ export type InvoiceTotals = {
   totalToPay: number
 }
 
+export type QuoteProjectKind = 'photography' | 'website'
+
 export type QuoteProfession =
+  | 'wedding'
+  | 'engagement'
+  | 'studio'
+  | 'event'
+  | 'portrait'
   | 'massage-spa'
+  | 'food'
   | 'hair-beauty'
   | 'photographer'
   | 'tutoring'
@@ -139,6 +147,7 @@ export type QuoteProfession =
   | 'other'
 
 export type QuoteCalcScope = {
+  projectKind?: QuoteProjectKind
   profession: QuoteProfession
   professionOther: string
   photoHours: number

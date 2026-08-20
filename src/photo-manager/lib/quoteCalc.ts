@@ -1,13 +1,63 @@
-import type { QuoteCalcDraft, QuoteCalcScope, QuoteProfession, QuoteRate } from '../types'
+import type { QuoteCalcDraft, QuoteCalcScope, QuoteProfession, QuoteProjectKind, QuoteRate } from '../types'
+
+export const PHOTO_PROFESSIONS: { id: QuoteProfession; label: string }[] = [
+  { id: 'wedding', label: 'Wedding' },
+  { id: 'engagement', label: 'Pre-Wedding / Engagement' },
+  { id: 'studio', label: 'Studio Photoshoot' },
+  { id: 'event', label: 'Event / Corporate' },
+  { id: 'portrait', label: 'Portrait / Personal Branding' },
+]
+
+export const WEB_PROFESSIONS: { id: QuoteProfession; label: string }[] = [
+  { id: 'massage-spa', label: 'ร้านนวด / สปา' },
+  { id: 'food', label: 'ร้านอาหาร' },
+  { id: 'hair-beauty', label: 'ร้านเสริมสวย / ความงาม' },
+  { id: 'other', label: 'อื่นๆ' },
+]
 
 export const QUOTE_PROFESSIONS: { id: QuoteProfession; label: string }[] = [
-  { id: 'massage-spa', label: 'นวด / สปา' },
-  { id: 'hair-beauty', label: 'ร้านเสริมสวย / ความงาม' },
+  ...PHOTO_PROFESSIONS,
+  ...WEB_PROFESSIONS,
   { id: 'photographer', label: 'ช่างภาพ' },
   { id: 'tutoring', label: 'สอนพิเศษ' },
   { id: 'fitness', label: 'เทรนเนอร์ฟิตเนส' },
-  { id: 'other', label: 'อื่นๆ' },
 ]
+
+const PHOTO_IDS = new Set<QuoteProfession>([
+  'wedding',
+  'engagement',
+  'studio',
+  'event',
+  'portrait',
+  'photographer',
+])
+
+export function resolveProjectKind(scope: Pick<QuoteCalcScope, 'projectKind' | 'profession'>): QuoteProjectKind {
+  if (scope.projectKind === 'photography' || scope.projectKind === 'website') return scope.projectKind
+  return PHOTO_IDS.has(scope.profession) ? 'photography' : 'website'
+}
+
+/** Same formula as calculateQuote — zeros hidden-scope inputs so only the visible project type is priced. */
+export function activeQuoteScope(scope: QuoteCalcScope): QuoteCalcScope {
+  const projectKind = resolveProjectKind(scope)
+  if (projectKind === 'photography') {
+    return {
+      ...scope,
+      projectKind,
+      webPages: 0,
+      webBooking: false,
+      webGallery: false,
+      webBilingual: false,
+      modules: [],
+    }
+  }
+  return {
+    ...scope,
+    projectKind,
+    photoHours: 0,
+    photoCount: 0,
+  }
+}
 
 export const BACKEND_MODULES: { id: string; label: string; rateId: string }[] = [
   { id: 'queue_calendar', label: 'คิว / ปฏิทินจอง', rateId: 'backend_queue_calendar' },
@@ -65,7 +115,8 @@ export function rateMap(rates: QuoteRate[]): Record<string, number> {
 
 export function emptyQuoteScope(): QuoteCalcScope {
   return {
-    profession: 'massage-spa',
+    projectKind: 'photography',
+    profession: 'wedding',
     professionOther: '',
     photoHours: 2,
     photoCount: 40,
@@ -143,10 +194,21 @@ export function professionLabel(scope: QuoteCalcScope): string {
   return QUOTE_PROFESSIONS.find((p) => p.id === scope.profession)?.label ?? scope.profession
 }
 
+export function professionOptionsForKind(
+  kind: QuoteProjectKind,
+  current: QuoteProfession,
+): { id: QuoteProfession; label: string }[] {
+  const list = kind === 'photography' ? PHOTO_PROFESSIONS : WEB_PROFESSIONS
+  if (list.some((p) => p.id === current)) return list
+  const extra = QUOTE_PROFESSIONS.find((p) => p.id === current)
+  return extra ? [...list, extra] : list
+}
+
 export function toQuoteDraft(scope: QuoteCalcScope, rates: QuoteRate[]): QuoteCalcDraft {
-  const calc = calculateQuote(scope, rates)
+  const active = activeQuoteScope(scope)
+  const calc = calculateQuote(active, rates)
   return {
-    ...scope,
+    ...active,
     ratesSnapshot: rateMap(rates),
     setupFull: calc.setupFull,
     setupIntro: calc.setupIntro,
@@ -158,8 +220,10 @@ export function toQuoteDraft(scope: QuoteCalcScope, rates: QuoteRate[]): QuoteCa
 
 export function scopeFromDraft(d: QuoteCalcDraft | undefined): QuoteCalcScope {
   if (!d) return emptyQuoteScope()
+  const profession = d.profession
   return {
-    profession: d.profession,
+    projectKind: resolveProjectKind({ projectKind: d.projectKind, profession }),
+    profession,
     professionOther: d.professionOther ?? '',
     photoHours: d.photoHours,
     photoCount: d.photoCount,
