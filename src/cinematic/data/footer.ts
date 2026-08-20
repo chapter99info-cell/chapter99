@@ -52,4 +52,5 @@ export const footerCopy = {
   },
   privacy: { th: 'นโยบายความเป็นส่วนตัว', en: 'Privacy Policy' },
   terms: { th: 'เงื่อนไขการใช้งาน', en: 'Terms of Use' },
+  systems: { th: 'จัดการระบบ', en: 'Systems' },
 } as const satisfies Record<string, Bilingual>;

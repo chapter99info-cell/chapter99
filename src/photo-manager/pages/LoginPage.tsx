@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
+import { getDevicePinMeta } from '../lib/devicePin'
 import { usePhotoStore } from '../store/StoreContext'
+import PinPad from './PinPad'
 import { PageTitle } from './ui'
 
 export default function LoginPage() {
-  const { session, login, bootstrapOwner, registerStaff, adapterId, supabaseReady, needsOwner, requestPasswordReset } =
+  const { session, login, bootstrapOwner, registerStaff, adapterId, supabaseReady, needsOwner, requestPasswordReset, unlockWithPin } =
     usePhotoStore()
   const [mode, setMode] = useState<'login' | 'staff'>('login')
   const [email, setEmail] = useState(needsOwner ? 'chapter99manager@gmail.com' : '')
@@ -12,6 +14,8 @@ export default function LoginPage() {
   const [name, setName] = useState('Saen')
   const [err, setErr] = useState('')
   const [resetNote, setResetNote] = useState('')
+  const pinMeta = getDevicePinMeta()
+  const [usePassword, setUsePassword] = useState(!pinMeta)
 
   if (session) return <Navigate to="/pm" replace />
 
@@ -53,6 +57,27 @@ export default function LoginPage() {
               สร้างบัญชีเจ้าของ
             </button>
           </>
+        ) : !usePassword && pinMeta ? (
+          <>
+            <p className="muted" style={{ textAlign: 'center' }}>
+              ปลดล็อกเครื่องนี้ · {pinMeta.email}
+            </p>
+            <PinPad
+              onSubmit={async (pin) => {
+                setErr('')
+                try {
+                  await unlockWithPin(pin)
+                } catch (e) {
+                  setErr(String(e instanceof Error ? e.message : e))
+                  if (!getDevicePinMeta()) setUsePassword(true)
+                }
+              }}
+            />
+            {err && <p className="warn">{err}</p>}
+            <button className="btn ghost" style={{ marginTop: 12, width: '100%', justifyContent: 'center' }} onClick={() => setUsePassword(true)}>
+              ใช้อีเมล / รหัสผ่านแทน
+            </button>
+          </>
         ) : (
           <>
             <div className="row" style={{ marginBottom: 12 }}>
@@ -73,11 +98,11 @@ export default function LoginPage() {
             )}
             <div className="field">
               <label>อีเมล</label>
-              <input value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="username" />
             </div>
             <div className="field">
               <label>รหัสผ่าน</label>
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" />
             </div>
             {err && <p className="warn">{err}</p>}
             {mode === 'login' ? (
@@ -96,6 +121,11 @@ export default function LoginPage() {
                 >
                   ลืมรหัสผ่าน
                 </button>
+                {pinMeta && (
+                  <button className="btn ghost sm" style={{ marginTop: 10 }} onClick={() => setUsePassword(false)}>
+                    ใช้ PIN เครื่องนี้
+                  </button>
+                )}
                 {resetNote && <p className="muted">{resetNote}</p>}
               </>
             ) : (

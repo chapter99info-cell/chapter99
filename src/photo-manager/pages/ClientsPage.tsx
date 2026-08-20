@@ -91,7 +91,8 @@ function ClientEditor({
   const pkgs = ALL_PACKAGES.filter((p) => (c.type === 'wedding' ? p.kind === 'wedding' : p.kind === 'engagement'))
 
   return (
-    <div className="card">
+    <div className="modal-scrim" role="dialog" aria-modal="true">
+    <div className="modal-card card">
       <h3>{client.name ? 'แก้ไขลูกค้า' : 'ลูกค้าใหม่'}</h3>
       <div className="grid2">
         <div className="field">
@@ -192,6 +193,7 @@ function ClientEditor({
           บันทึก
         </button>
       </div>
+    </div>
     </div>
   )
 }

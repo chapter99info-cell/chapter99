@@ -31,6 +31,7 @@ export default function CalendarPage() {
             เดือนถัดไป →
           </button>
         </div>
+        <div className="cal-wrap">
         <div className="cal">
           {dow.map((d) => (
             <div key={d} className="dow">
@@ -52,6 +53,7 @@ export default function CalendarPage() {
               </div>
             )
           })}
+        </div>
         </div>
         <div className="muted" style={{ marginTop: 12 }}>
           สีชิปตามสถานะ: <Tag status="draft" label="ร่าง" /> <Tag status="pending" label="รอมัดจำ" />{' '}
