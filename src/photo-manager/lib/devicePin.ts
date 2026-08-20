@@ -71,10 +71,16 @@ function bumpFails() {
   return n
 }
 
+function asAb(bytes: Uint8Array): Uint8Array<ArrayBuffer> {
+  const copy = new Uint8Array(bytes.byteLength)
+  copy.set(bytes)
+  return copy
+}
+
 async function deriveKey(pin: string, salt: Uint8Array) {
   const material = await crypto.subtle.importKey('raw', new TextEncoder().encode(pin), 'PBKDF2', false, ['deriveKey'])
   return crypto.subtle.deriveKey(
-    { name: 'PBKDF2', salt, iterations: 160000, hash: 'SHA-256' },
+    { name: 'PBKDF2', salt: asAb(salt), iterations: 160000, hash: 'SHA-256' },
     material,
     { name: 'AES-GCM', length: 256 },
     false,
@@ -88,7 +94,7 @@ export async function saveDevicePin(email: string, password: string, pin: string
   const iv = crypto.getRandomValues(new Uint8Array(12))
   const key = await deriveKey(pin, salt)
   const payload = JSON.stringify({ email: email.trim().toLowerCase(), password })
-  const cipherBuf = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, new TextEncoder().encode(payload))
+  const cipherBuf = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: asAb(iv) }, key, new TextEncoder().encode(payload))
   const record: VaultRecord = {
     v: 1,
     deviceId: crypto.randomUUID(),
@@ -108,9 +114,9 @@ export async function unlockDevicePin(pin: string): Promise<{ email: string; pas
   try {
     const key = await deriveKey(pin, b64ToBytes(vault.salt))
     const plain = await crypto.subtle.decrypt(
-      { name: 'AES-GCM', iv: b64ToBytes(vault.iv) },
+      { name: 'AES-GCM', iv: asAb(b64ToBytes(vault.iv)) },
       key,
-      b64ToBytes(vault.cipher),
+      asAb(b64ToBytes(vault.cipher)),
     )
     const parsed = JSON.parse(new TextDecoder().decode(plain)) as { email?: string; password?: string }
     if (!parsed.email || !parsed.password) throw new Error('invalid')
