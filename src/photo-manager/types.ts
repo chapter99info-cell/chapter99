@@ -101,6 +101,7 @@ export type Session = {
   role: Role
   email: string
   name: string
+  pinSet: boolean
 }
 
 export type InvoiceTotals = {

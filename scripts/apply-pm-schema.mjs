@@ -14,6 +14,7 @@ const sqlFiles = [
   path.join(__dirname, '../photo-manager/supabase/schema.sql'),
   path.join(__dirname, '../photo-manager/supabase/002_go_live.sql'),
   path.join(__dirname, '../photo-manager/supabase/003_brand_logos.sql'),
+  path.join(__dirname, '../photo-manager/supabase/004_pin_login.sql'),
 ]
 const pmUrl = (process.env.VITE_PM_SUPABASE_URL || '').trim()
 const agencyUrl = (process.env.VITE_SUPABASE_URL || '').trim()

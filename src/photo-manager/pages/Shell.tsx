@@ -20,13 +20,12 @@ const LINKS = [
 ]
 
 export default function Shell() {
-  const { session, isOwner, logout, addStaff, adapterId, pinOffer, savePinForDevice, dismissPinOffer, devicePinEmail, forgetDevicePin, enableDevicePin, pinLocked } =
+  const { session, isOwner, logout, addStaff, adapterId, pinOffer, savePinForDevice, dismissPinOffer, enableDevicePin, pinLocked } =
     usePhotoStore()
   const [staffOpen, setStaffOpen] = useState(false)
   const [staff, setStaff] = useState({ name: '', email: '', password: '' })
   const [inviteMsg, setInviteMsg] = useState('')
   const [navOpen, setNavOpen] = useState(false)
-  const [pinMsg, setPinMsg] = useState('')
   const [enablePin, setEnablePin] = useState(false)
   if (pinLocked) return <AppLockScreen />
   if (!session) return <Navigate to="/pm/login" replace />
@@ -92,34 +91,21 @@ export default function Shell() {
           {session.name} · {session.role}
           <br />
           store: {adapterId}
-          {devicePinEmail && (
+          {session.pinSet ? (
             <>
               <br />
-              PIN เครื่องนี้: เปิดแล้ว
+              PIN บัญชีนี้: เปิดแล้ว
             </>
-          )}
+          ) : null}
           <br />
           {isOwner && (
             <button className="btn ghost sm" style={{ marginTop: 8, color: '#cfe0d6' }} onClick={() => setStaffOpen((v) => !v)}>
               + พนักงาน
             </button>
           )}
-          {devicePinEmail ? (
-            <button
-              className="btn ghost sm"
-              style={{ marginTop: 8, color: '#cfe0d6' }}
-              onClick={() => {
-                forgetDevicePin()
-                setPinMsg('ลบ PIN เครื่องนี้แล้ว')
-              }}
-            >
-              ลบ PIN เครื่องนี้
-            </button>
-          ) : (
-            <button className="btn ghost sm" style={{ marginTop: 8, color: '#cfe0d6' }} onClick={() => setEnablePin(true)}>
-              ตั้ง PIN เครื่องนี้
-            </button>
-          )}
+          <button className="btn ghost sm" style={{ marginTop: 8, color: '#cfe0d6' }} onClick={() => setEnablePin(true)}>
+            {session.pinSet ? 'เปลี่ยน PIN 4 หลัก' : 'ตั้ง PIN 4 หลัก'}
+          </button>
           <button className="btn ghost sm" style={{ marginTop: 8, color: '#cfe0d6' }} onClick={logout}>
             ออกจากระบบ
           </button>
@@ -148,7 +134,6 @@ export default function Shell() {
             </div>
           )}
           {inviteMsg && <div style={{ marginTop: 8, color: '#cfe0d6' }}>{inviteMsg}</div>}
-          {pinMsg && <div style={{ marginTop: 8, color: '#cfe0d6' }}>{pinMsg}</div>}
         </div>
       </nav>
       <main>

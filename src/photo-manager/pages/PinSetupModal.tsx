@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { isValidPin } from '../lib/devicePin'
 import PinPad from './PinPad'
 
 export default function PinSetupModal({
@@ -18,15 +17,14 @@ export default function PinSetupModal({
   return (
     <div className="modal-scrim" role="dialog" aria-modal="true" aria-labelledby="pin-setup-title">
       <div className="modal-card card">
-        <h3 id="pin-setup-title">ตั้ง PIN เครื่องนี้</h3>
+        <h3 id="pin-setup-title">ตั้ง PIN 4 หลัก</h3>
         <p className="muted">
-          ใช้เฉพาะบนโทรศัพท์หรือคอมพิวเตอร์เครื่องนี้ สำหรับ {email} — ไม่ใช่รหัสร่วมทั้งทีม และไม่แทนที่อีเมล/รหัสผ่าน
+          PIN นี้ผูกกับบัญชี {email} — ใช้ได้ทุกเครื่อง ไม่ใช่รหัสร่วมทั้งทีม ตรวจบนเซิร์ฟเวอร์เท่านั้น
         </p>
         {step === 'choose' ? (
           <PinPad
-            hint="เลือก PIN 4–6 หลัก"
+            hint="เลือก PIN 4 หลัก"
             onSubmit={async (pin) => {
-              if (!isValidPin(pin)) return
               setFirst(pin)
               setStep('confirm')
             }}

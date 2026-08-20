@@ -111,7 +111,7 @@ export const localAdapter: DataAdapter = {
 }
 
 function toSession(p: Profile): Session {
-  return { profileId: p.id, role: p.role, email: p.email, name: p.name }
+  return { profileId: p.id, role: p.role, email: p.email, name: p.name, pinSet: false }
 }
 
 export function resetLocalDb() {

@@ -1,40 +1,38 @@
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { usePhotoStore } from '../store/StoreContext'
-import AppLockScreen from './AppLockScreen'
+import PinPad from './PinPad'
 import { PageTitle } from './ui'
 
 export default function LoginPage() {
-  const { session, login, bootstrapOwner, registerStaff, adapterId, supabaseReady, needsOwner, requestPasswordReset, pinLocked } =
-    usePhotoStore()
-  const [mode, setMode] = useState<'login' | 'staff'>('login')
+  const {
+    session,
+    login,
+    bootstrapOwner,
+    registerStaff,
+    adapterId,
+    supabaseReady,
+    needsOwner,
+    requestPasswordReset,
+    unlockWithPin,
+    appUnlocked,
+  } = usePhotoStore()
+  const [mode, setMode] = useState<'pin' | 'email' | 'staff'>('pin')
   const [email, setEmail] = useState(needsOwner ? 'chapter99manager@gmail.com' : '')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('Saen')
   const [err, setErr] = useState('')
   const [resetNote, setResetNote] = useState('')
 
-  if (pinLocked) return <AppLockScreen />
-  if (session) return <Navigate to="/pm" replace />
+  if (session && appUnlocked) return <Navigate to="/pm" replace />
 
   return (
     <div className="login-wrap">
       <div className="card login-card">
         <PageTitle sub="Chapter99 Photography · Forestville NSW 2087">เข้าสู่ระบบ Manager</PageTitle>
-        <div className="banner">
-          {supabaseReady ? (
-            <>
-              เชื่อมโปรเจกต์ Supabase ของ Photo Manager แล้ว (แยกจากเอเจนซี่และร้านนวด) · โหมด {adapterId}
-              <br />
-              แนะนำ: Authentication → Providers → Email → ปิด Confirm email สำหรับเครื่องมือภายในนี้
-            </>
-          ) : (
-            <>ยังไม่พบ VITE_PM_SUPABASE_* — ตอนนี้ยังเป็นที่เก็บในเบราว์เซอร์</>
-          )}
-        </div>
         {needsOwner ? (
           <>
-            <p className="muted">สร้างบัญชีเจ้าของคนแรก (Saen) ด้วยอีเมลและรหัสผ่าน — ไม่ใช้ PIN</p>
+            <p className="muted">สร้างบัญชีเจ้าของคนแรกด้วยอีเมลและรหัสผ่าน แล้วค่อยตั้ง PIN 4 หลัก</p>
             <div className="field">
               <label>ชื่อ</label>
               <input value={name} onChange={(e) => setName(e.target.value)} />
@@ -55,10 +53,30 @@ export default function LoginPage() {
               สร้างบัญชีเจ้าของ
             </button>
           </>
+        ) : mode === 'pin' ? (
+          <>
+            <p className="muted" style={{ textAlign: 'center' }}>
+              ใส่ PIN 4 หลัก
+            </p>
+            <PinPad
+              onSubmit={async (pin) => {
+                setErr('')
+                try {
+                  await unlockWithPin(pin)
+                } catch (e) {
+                  setErr(String(e instanceof Error ? e.message : e))
+                }
+              }}
+            />
+            {err && <p className="warn">{err}</p>}
+            <button className="btn ghost" style={{ marginTop: 12, width: '100%', justifyContent: 'center' }} onClick={() => setMode('email')}>
+              ใช้อีเมลแทน
+            </button>
+          </>
         ) : (
           <>
             <div className="row" style={{ marginBottom: 12 }}>
-              <button className={mode === 'login' ? 'btn sm' : 'btn ghost sm'} onClick={() => setMode('login')}>
+              <button className={mode === 'email' ? 'btn sm' : 'btn ghost sm'} onClick={() => setMode('email')}>
                 เข้าสู่ระบบ
               </button>
               {supabaseReady && (
@@ -82,7 +100,7 @@ export default function LoginPage() {
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" />
             </div>
             {err && <p className="warn">{err}</p>}
-            {mode === 'login' ? (
+            {mode === 'email' ? (
               <>
                 <button className="btn" onClick={() => login(email, password).catch((e) => setErr(String(e.message ?? e)))}>
                   เข้าสู่ระบบ
@@ -98,6 +116,9 @@ export default function LoginPage() {
                 >
                   ลืมรหัสผ่าน
                 </button>
+                <button className="btn ghost sm" style={{ marginTop: 10 }} onClick={() => setMode('pin')}>
+                  ใช้ PIN
+                </button>
                 {resetNote && <p className="muted">{resetNote}</p>}
               </>
             ) : (
@@ -110,6 +131,10 @@ export default function LoginPage() {
             )}
           </>
         )}
+        <p className="muted" style={{ marginTop: 16 }}>
+          โหมด {adapterId}
+          {!supabaseReady && ' · ยังไม่พบ VITE_PM_SUPABASE_*'}
+        </p>
       </div>
     </div>
   )

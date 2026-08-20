@@ -7,6 +7,8 @@ export type DataAdapter = {
   load(): Promise<DbSnapshot>
   save(data: DbSnapshot): Promise<void>
   login(email: string, password: string): Promise<Session>
+  completePinLogin?(tokenHash: string): Promise<Session>
+  currentAccessToken?(): Promise<string | null>
   logout(): Promise<void>
   bootstrapOwner(email: string, password: string, name: string): Promise<Session>
   addStaff(email: string, password: string, name: string): Promise<string | void>

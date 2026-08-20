@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { isValidPin } from '../lib/devicePin'
 import PinPad from './PinPad'
 
 export default function EnablePinModal({
@@ -11,46 +10,47 @@ export default function EnablePinModal({
   onSave: (password: string, pin: string) => Promise<void>
   onClose: () => void
 }) {
-  const [password, setPassword] = useState('')
+  const [step, setStep] = useState<'choose' | 'confirm'>('choose')
+  const [first, setFirst] = useState('')
   const [err, setErr] = useState('')
-  const [ready, setReady] = useState(false)
 
   return (
     <div className="modal-scrim" role="dialog" aria-modal="true">
       <div className="modal-card card">
-        <h3>ตั้ง PIN เครื่องนี้</h3>
-        <p className="muted">ยืนยันรหัสผ่านของ {email} แล้วเลือก PIN เฉพาะเครื่องนี้</p>
-        {!ready ? (
-          <>
-            <div className="field">
-              <label>รหัสผ่านบัญชี</label>
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" />
-            </div>
-            {err && <p className="warn">{err}</p>}
-            <div className="row">
-              <button className="btn ghost" onClick={onClose}>
-                ยกเลิก
-              </button>
-              <button className="btn" onClick={() => (password ? setReady(true) : setErr('ใส่รหัสผ่านก่อน'))}>
-                ถัดไป
-              </button>
-            </div>
-          </>
+        <h3>ตั้ง / เปลี่ยน PIN บัญชี</h3>
+        <p className="muted">PIN 4 หลักของ {email} ใช้ได้ทุกเครื่อง ตรวจบนเซิร์ฟเวอร์</p>
+        {step === 'choose' ? (
+          <PinPad
+            hint="เลือก PIN 4 หลัก"
+            onSubmit={async (pin) => {
+              setFirst(pin)
+              setStep('confirm')
+            }}
+          />
         ) : (
           <PinPad
-            hint="เลือก PIN 4–6 หลัก"
+            hint="ยืนยัน PIN"
             onSubmit={async (pin) => {
-              if (!isValidPin(pin)) return
+              if (pin !== first) {
+                setErr('PIN ไม่ตรงกัน')
+                setStep('choose')
+                setFirst('')
+                return
+              }
               try {
-                await onSave(password, pin)
+                await onSave('', pin)
                 onClose()
               } catch (e) {
                 setErr(String(e instanceof Error ? e.message : e))
-                setReady(false)
+                setStep('choose')
               }
             }}
           />
         )}
+        {err && <p className="warn">{err}</p>}
+        <button className="btn ghost" style={{ marginTop: 12, width: '100%', justifyContent: 'center' }} onClick={onClose}>
+          ยกเลิก
+        </button>
       </div>
     </div>
   )

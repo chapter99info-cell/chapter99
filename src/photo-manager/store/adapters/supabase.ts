@@ -159,7 +159,11 @@ function rowToExpense(r: Record<string, unknown>): Expense {
 }
 
 async function sessionFromUser(sb: SupabaseClient, userId: string, email: string, fallbackName: string): Promise<Session> {
-  const { data } = await sb.from('pm_profiles').select('id,email,name,role').eq('id', userId).maybeSingle()
+  const full = await sb.from('pm_profiles').select('id,email,name,role,pin_set_at').eq('id', userId).maybeSingle()
+  const basic = full.error
+    ? await sb.from('pm_profiles').select('id,email,name,role').eq('id', userId).maybeSingle()
+    : full
+  const data = basic.data as { email?: string; name?: string; role?: string; pin_set_at?: string | null } | null
   const role = data?.role === 'owner' ? 'owner' : 'staff'
   if (data?.role === 'blocked') throw new Error('บัญชีนี้ยังไม่ได้รับเชิญ')
   return {
@@ -167,6 +171,7 @@ async function sessionFromUser(sb: SupabaseClient, userId: string, email: string
     role,
     email: data?.email ?? email,
     name: data?.name ?? fallbackName,
+    pinSet: Boolean(data?.pin_set_at),
   }
 }
 
@@ -325,6 +330,20 @@ export const supabaseAdapter: DataAdapter = {
     const { data, error } = await sb.auth.signInWithPassword({ email: email.trim(), password })
     if (error || !data.user) throw new Error(error?.message ?? 'เข้าสู่ระบบไม่สำเร็จ')
     return sessionFromUser(sb, data.user.id, data.user.email ?? email, (data.user.user_metadata?.name as string) || 'Saen')
+  },
+  async completePinLogin(tokenHash: string) {
+    const sb = pmClient()
+    let result = await sb.auth.verifyOtp({ type: 'magiclink', token_hash: tokenHash })
+    if (result.error || !result.data.user) {
+      result = await sb.auth.verifyOtp({ type: 'email', token_hash: tokenHash })
+    }
+    if (result.error || !result.data.user) throw new Error(result.error?.message ?? 'PIN ผ่านแล้ว แต่เปิดเซสชันไม่ได้')
+    const user = result.data.user
+    return sessionFromUser(sb, user.id, user.email ?? '', (user.user_metadata?.name as string) || 'Saen')
+  },
+  async currentAccessToken() {
+    const { data } = await pmClient().auth.getSession()
+    return data.session?.access_token ?? null
   },
   async logout() {
     await pmClient().auth.signOut()
