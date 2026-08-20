@@ -6,7 +6,7 @@ import type { Client, JobStatus, JobType } from '../types'
 import { ChecklistIcons, PageTitle, Tag } from './ui'
 
 export default function ClientsPage() {
-  const { clients, isOwner, data, upsertClient, patchClient } = usePhotoStore()
+  const { clients, isOwner, data, upsertClient } = usePhotoStore()
   const [editing, setEditing] = useState<Client | null>(null)
 
   return (
@@ -60,15 +60,11 @@ export default function ClientsPage() {
       {editing && (
         <ClientEditor
           client={editing}
+          exists={clients.some((x) => x.id === editing.id)}
           onClose={() => setEditing(null)}
-          onSave={async (c) => {
-            await upsertClient(c)
+          onSave={async (row) => {
+            await upsertClient(row)
             setEditing(null)
-          }}
-          onToggle={async (key) => {
-            const next = { ...editing.checklist, [key]: !editing.checklist[key] }
-            await patchClient(editing.id, { checklist: next })
-            setEditing({ ...editing, checklist: next })
           }}
         />
       )}
@@ -78,17 +74,42 @@ export default function ClientsPage() {
 
 function ClientEditor({
   client,
+  exists,
   onClose,
   onSave,
-  onToggle,
 }: {
   client: Client
+  exists: boolean
   onClose: () => void
   onSave: (c: Client) => void
-  onToggle: (k: keyof Client['checklist']) => void
 }) {
+  const { patchClient } = usePhotoStore()
   const [c, setC] = useState(client)
+  const [savingCheck, setSavingCheck] = useState<string | null>(null)
   const pkgs = ALL_PACKAGES.filter((p) => (c.type === 'wedding' ? p.kind === 'wedding' : p.kind === 'engagement'))
+
+  const checkItems = [
+    { key: 'preshoot' as const, ico: '⏰', label: 'ก่อนถ่าย' },
+    { key: 'balance' as const, ico: '💰', label: 'ยอดครบ' },
+    { key: 'gallery' as const, ico: '📤', label: 'แกลเลอรี' },
+    { key: 'review' as const, ico: '⭐', label: 'รีวิว' },
+  ]
+
+  async function toggleCheck(key: keyof Client['checklist']) {
+    const prev = c.checklist
+    const next = { ...prev, [key]: !prev[key] }
+    setC((row) => ({ ...row, checklist: next }))
+    if (!exists) return
+    setSavingCheck(key)
+    try {
+      await patchClient(c.id, { checklist: next })
+    } catch (err) {
+      console.error('Checklist save failed', err)
+      setC((row) => ({ ...row, checklist: prev }))
+    } finally {
+      setSavingCheck(null)
+    }
+  }
 
   return (
     <div className="modal-scrim" role="dialog" aria-modal="true">
@@ -176,14 +197,25 @@ function ClientEditor({
         </div>
       </div>
       <div className="muted" style={{ marginBottom: 10 }}>
-        เช็กลิสต์ (กดสลับได้ — แอปก็ติ๊กให้อัตโนมัติเมื่อส่งอีเมล/แกลเลอรี/รีวิว)
+        เช็กลิสต์ — กดสลับได้ทันที (ส่งอีเมลเตือน / เก็บยอด / ส่งแกลเลอรี / ขอรีวิว ก็ติ๊กให้อัตโนมัติ)
       </div>
-      <div className="row" style={{ marginBottom: 14 }}>
-        {(['preshoot', 'balance', 'gallery', 'review'] as const).map((k) => (
-          <button key={k} className="btn ghost sm" type="button" onClick={() => onToggle(k)}>
-            {k}: {c.checklist[k] ? '✓' : '○'}
-          </button>
-        ))}
+      <div className="check-row">
+        {checkItems.map((item) => {
+          const on = c.checklist[item.key]
+          return (
+            <button
+              key={item.key}
+              type="button"
+              className={`check-btn ${on ? 'on' : ''}`}
+              disabled={savingCheck === item.key}
+              onClick={() => void toggleCheck(item.key)}
+            >
+              <span className="check-mark">{on ? '✓' : ''}</span>
+              <span>{item.ico}</span>
+              <span>{item.label}</span>
+            </button>
+          )
+        })}
       </div>
       <div className="row">
         <button className="btn ghost sm" onClick={onClose}>

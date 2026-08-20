@@ -1,4 +1,9 @@
-export const TIMELINE_OFFSETS = [
+import type { JobType } from '../types'
+
+export type TimelineRow = { off: number; photo: string; video: string }
+
+/** Wedding-day script, offsets from ceremony start. */
+export const WEDDING_TIMELINE: TimelineRow[] = [
   { off: -390, photo: 'ทีมงานมาถึงเวนิว เก็บภาพบรรยากาศก่อนแขกมาถึง', video: 'ถ่าย establishing shot รอบเวนิว เตรียมโดรน (ถ้ามี)' },
   { off: -345, photo: 'เข้าห้องเจ้าสาว เก็บรายละเอียด: ชุด, แหวน, รองเท้า, ช่อดอกไม้', video: 'เข้าห้องเจ้าสาว บันทึกภาพรายละเอียดคู่กัน' },
   { off: -270, photo: 'เก็บภาพแต่งหน้าทำผม บรรยากาศเพื่อนเจ้าสาว', video: 'บันทึกเสียง (mic เจ้าสาว) เผื่ออ่าน vows' },
@@ -15,6 +20,34 @@ export const TIMELINE_OFFSETS = [
   { off: 260, photo: 'Sunset romantics', video: 'Sunset romantics คู่กัน' },
   { off: 300, photo: 'จบงาน / Wrapped', video: 'จบงาน / Wrapped' },
 ]
+
+/** Pre-wedding / engagement shoot — no ceremony, cake, or first dance. Offsets from call time. */
+export const ENGAGEMENT_TIMELINE: TimelineRow[] = [
+  { off: 0, photo: 'ถึงโลเคชัน / เซ็ตอัพ แสงและพื้นหลัง', video: 'เซ็ตอัพกล้อง + ตรวจแสง เตรียมโดรน (ถ้ามี)' },
+  { off: 20, photo: 'ชุดที่ 1 — ถ่ายคู่ / ภาพเดี่ยว ช่วงเช้าหรือบล็อกหลัก', video: 'บันทึกบ-roll การเดินเข้าฉาก + คลิปคู่' },
+  { off: 70, photo: 'ชุดที่ 1 ต่อ — รายละเอียดมือ แหวน ช็อตใกล้', video: 'จับรายละเอียดชุดและโลเคชัน' },
+  { off: 100, photo: 'เปลี่ยนชุด / พักสั้น', video: 'พักกล้อง เช็คแบตและการ์ด' },
+  { off: 120, photo: 'ชุดที่ 2 — บล็อกถ่ายหลัก', video: 'ตามช็อตคู่ ชุดที่ 2' },
+  { off: 170, photo: 'ชุดที่ 2 ต่อ — ภาพวอร์ค / โพสอิสระ', video: 'บ-roll เดินและปฏิสัมพันธ์' },
+  { off: 200, photo: 'Golden hour / แสงพระอาทิตย์ตก', video: 'โทนแสงอุ่น + ช็อตซิลูเอ็ต (ถ้าแสงเอื้อ)' },
+  { off: 250, photo: 'เก็บของ / แรปงาน', video: 'แรปงาน' },
+]
+
+/** Portrait / family — short session. Offsets from call time. */
+export const SESSION_TIMELINE: TimelineRow[] = [
+  { off: 0, photo: 'ถึงโลเคชัน / เซ็ตอัพ', video: 'เซ็ตอัพกล้องและแสง' },
+  { off: 15, photo: 'ถ่ายหลัก — กลุ่ม / เดี่ยว / คู่', video: 'บันทึกบ-roll ช่วงถ่าย (ถ้าจ้างวิดีโอ)' },
+  { off: 75, photo: 'เก็บของ / แรปงาน', video: 'แรปงาน' },
+]
+
+/** @deprecated Use timelineForJob — kept as the wedding script. */
+export const TIMELINE_OFFSETS = WEDDING_TIMELINE
+
+export function timelineForJob(type: JobType | string): TimelineRow[] {
+  if (type === 'engagement') return ENGAGEMENT_TIMELINE
+  if (type === 'portrait' || type === 'family') return SESSION_TIMELINE
+  return WEDDING_TIMELINE
+}
 
 export function addMinutes(hhmm: string, mins: number): string {
   const [h, m] = hhmm.split(':').map(Number)

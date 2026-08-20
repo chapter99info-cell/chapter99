@@ -5,6 +5,7 @@ import { usePhotoStore } from '../store/StoreContext'
 import type { Client, PaymentMethod } from '../types'
 import { BrandMark } from './BrandMark'
 import { ClientSelect, PageTitle } from './ui'
+import { PM_ABN } from '../lib/brand'
 
 export function PriceControls({
   client,
@@ -109,8 +110,10 @@ export function ContractPage() {
 
   return (
     <>
-      <PageTitle sub="เลือกลูกค้าและแพ็กเกจ ระบบร่างสัญญาให้อัตโนมัติ (เนื้อหาอิงจากสัญญาจริง)">ร่างสัญญางานถ่ายภาพ</PageTitle>
-      <div className="card">
+      <div className="no-print">
+        <PageTitle sub="เลือกลูกค้าและแพ็กเกจ ระบบร่างสัญญาให้อัตโนมัติ (เนื้อหาอิงจากสัญญาจริง)">ร่างสัญญางานถ่ายภาพ</PageTitle>
+      </div>
+      <div className="card no-print">
         <div className="field">
           <label>เลือกลูกค้า</label>
           <ClientSelect clients={clients} value={client.id} onChange={setId} />
@@ -142,13 +145,13 @@ export function ContractPage() {
         <PriceControls client={client} onPatch={(p) => patchClient(client.id, p)} />
         <GstLines client={client} />
       </div>
-      <div className="card">
-        <h3>ตัวอย่างสัญญา</h3>
+      <div className="card print-sheet">
+        <h3 className="no-print">ตัวอย่างสัญญา</h3>
         <div style={{ marginBottom: 12 }}>
           <BrandMark jobType={client.type} />
         </div>
         <div className="doc-preview">{text}</div>
-        <div className="row" style={{ marginTop: 14 }}>
+        <div className="row no-print" style={{ marginTop: 14 }}>
           <div className="muted">ลงนามโดย Chapter99 Photography (Saen)</div>
           <div style={{ display: 'flex', gap: 8 }}>
             <button className="btn ghost sm" onClick={() => navigator.clipboard.writeText(text)}>
@@ -159,7 +162,7 @@ export function ContractPage() {
             </button>
           </div>
         </div>
-        <div className="link-box">
+        <div className="link-box no-print">
           <span>🔗</span>
           <span className="url">{link}</span>
           <a className="btn ghost sm" href={link} target="_blank" rel="noreferrer">
@@ -185,8 +188,8 @@ function DocPreview({ client, kind }: { client: Client; kind: 'invoice' | 'quote
     <>
       <div className="inv-head">
         <div>
-          <BrandMark jobType={client.type} />
-          <div className="tagline">chapter99studio.mypixieset.com · ABN on request · AUD</div>
+          <BrandMark jobType={client.type} showAddress={false} />
+          <div className="tagline">chapter99studio.mypixieset.com · {PM_ABN} · AUD</div>
         </div>
         <div style={{ textAlign: 'right' }}>
           <div className="inv-num">{title}</div>
@@ -296,6 +299,11 @@ function DocPreview({ client, kind }: { client: Client; kind: 'invoice' | 'quote
           </div>
         </div>
       </div>
+      {kind === 'invoice' && (
+        <p className="inv-terms">
+          มัดจำไม่สามารถขอคืนได้ · เงื่อนไขการให้บริการทั้งหมดเป็นไปตามสัญญาที่ลูกค้าลงนามไว้
+        </p>
+      )}
     </>
   )
 }
@@ -312,8 +320,10 @@ export function InvoicePage() {
 
   return (
     <>
-      <PageTitle sub="รวม GST 10% อัตโนมัติ · ค่าธรรมเนียมวิธีจ่ายแสดงเป็นบรรทัดแยก">ใบแจ้งหนี้</PageTitle>
-      <div className="card">
+      <div className="no-print">
+        <PageTitle sub="รวม GST 10% อัตโนมัติ · ค่าธรรมเนียมวิธีจ่ายแสดงเป็นบรรทัดแยก">ใบแจ้งหนี้</PageTitle>
+      </div>
+      <div className="card no-print">
         <div className="field" style={{ maxWidth: 360 }}>
           <label>เลือกลูกค้า</label>
           <ClientSelect clients={clients} value={client.id} onChange={setId} />
@@ -331,7 +341,7 @@ export function InvoicePage() {
         <GstLines client={client} surcharge />
       </div>
       {isOwner && expensePrompt && freelanceOn && (
-        <div className="banner">
+        <div className="banner no-print">
           Add-on นี้เป็นรายได้จากลูกค้า $800 — ต้นทุนจ้างฟรีแลนซ์โดยเฉลี่ย ~$400 ควรลงใน Tax Summary แยกต่างหาก
           <div className="row" style={{ marginTop: 10 }}>
             <button
@@ -355,9 +365,9 @@ export function InvoicePage() {
           </div>
         </div>
       )}
-      <div className="card">
+      <div className="card print-sheet">
         <DocPreview client={client} kind="invoice" />
-        <div className="row" style={{ marginTop: 14 }}>
+        <div className="row no-print" style={{ marginTop: 14 }}>
           <div className="muted">เลขที่ใบแจ้งหนี้ออกอัตโนมัติ · ไม่เชื่อม Square/Afterpay — กระทบยอดจริงที่ Square Reader ของเจ้าของ</div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
             {isOwner && (
@@ -379,7 +389,7 @@ export function InvoicePage() {
           </div>
         </div>
         {client.payment.paidAt && (
-          <div className="muted">
+          <div className="muted no-print">
             บันทึกจ่ายแล้ว {client.payment.paidAt} · {client.payment.method} · {client.payment.reference || '—'}
           </div>
         )}
@@ -401,8 +411,10 @@ export function QuotePage() {
 
   return (
     <>
-      <PageTitle sub="ใบเสนอราคาก่อนจอง — ไม่มีผลผูกพัน มีวันหมดอายุ">ใบเสนอราคา</PageTitle>
-      <div className="card">
+      <div className="no-print">
+        <PageTitle sub="ใบเสนอราคาก่อนจอง — ไม่มีผลผูกพัน มีวันหมดอายุ">ใบเสนอราคา</PageTitle>
+      </div>
+      <div className="card no-print">
         <div className="grid2">
           <div className="field">
             <label>เลือกลูกค้า</label>
@@ -420,9 +432,9 @@ export function QuotePage() {
         <PriceControls client={client} onPatch={(p) => patchClient(client.id, p)} />
         <GstLines client={client} />
       </div>
-      <div className="card">
+      <div className="card print-sheet">
         <DocPreview client={client} kind="quote" />
-        <div className="row" style={{ marginTop: 14 }}>
+        <div className="row no-print" style={{ marginTop: 14 }}>
           <div className="muted">ลูกค้ายังไม่ต้องชำระ — ใช้ส่งเปรียบเทียบก่อนเซ็นสัญญา</div>
           <button className="btn sm" onClick={() => window.print()}>
             พิมพ์ / PDF

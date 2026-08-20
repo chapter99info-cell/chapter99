@@ -87,6 +87,7 @@
 .pm-root .inv-footer { background: var(--blue); color: #fff; border-radius: 10px; padding: 20px 24px; margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .pm-root .inv-footer h4 { margin: 0 0 8px; font-family: Fraunces, serif; font-size: 14px; }
 .pm-root .inv-footer div { font-size: 12.5px; line-height: 1.7; opacity: .95; }
+.pm-root .inv-terms { margin: 10px 2px 0; font-size: 11.5px; color: var(--muted); line-height: 1.5; }
 .pm-root .pkg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 6px; }
 .pm-root .pkg-card { border: 1.5px solid var(--line); border-radius: 12px; padding: 16px; cursor: pointer; transition: .15s; background: #fff; text-align: left; width: 100%; font-family: inherit; min-height: 44px; }
 .pm-root .pkg-card.selected { border-color: var(--sage); background: var(--sage-pale); }
@@ -114,6 +115,21 @@
 .pm-root .login-wrap { min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center; padding: 16px; width: 100%; }
 .pm-root .login-card { width: 100%; max-width: 460px; margin: 0; }
 .pm-root .check-ico { letter-spacing: 2px; }
+.pm-root .check-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.pm-root .check-btn {
+  all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  min-height: 44px; padding: 8px 12px; border-radius: 10px; border: 1.5px solid var(--line);
+  background: #fff; color: var(--muted); font-size: 13px; font-weight: 600;
+}
+.pm-root .check-btn .check-mark {
+  width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--line);
+  display: inline-flex; align-items: center; justify-content: center; font-size: 11px;
+}
+.pm-root .check-btn.on {
+  background: var(--sage-pale); border-color: var(--sage); color: var(--sage-dark);
+}
+.pm-root .check-btn.on .check-mark { background: var(--sage); border-color: var(--sage); color: #fff; }
+.pm-root .check-btn:disabled { opacity: .6; }
 .pm-root .banner { background: #fff6e8; border: 1px solid #e8d4a8; border-radius: 12px; padding: 14px 16px; margin-bottom: 18px; font-size: 13px; line-height: 1.6; }
 .pm-root .client-phone { background: #fff; width: 100%; max-width: 420px; border-radius: 18px; margin: 24px auto; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.15); }
 .pm-root .client-phone .cp-head { background: var(--sage-dark); color: #fff; padding: 18px 20px; font-family: Fraunces, serif; }
@@ -209,4 +225,70 @@
 @media (max-width: 560px) {
   .pm-root .pkg-grid { grid-template-columns: 1fr; }
   .pm-root .stat-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm 12mm;
+  }
+  html, body, .pm-root {
+    background: #fff !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    max-width: none !important;
+  }
+  .pm-root .app {
+    display: block;
+    min-height: 0;
+    width: auto;
+  }
+  .pm-root .sidebar,
+  .pm-root .mobile-bar,
+  .pm-root .nav-scrim,
+  .pm-root .no-print {
+    display: none !important;
+  }
+  .pm-root main {
+    padding: 0 !important;
+    max-width: none;
+    width: auto;
+  }
+  .pm-root .print-sheet {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    max-width: none;
+  }
+  .pm-root .pm-doc-logo { max-height: 44px; max-width: 160px; }
+  .pm-root .inv-brand { font-size: 16px; }
+  .pm-root .inv-num { font-size: 18px; }
+  .pm-root .inv-head { margin-bottom: 10px; gap: 12px; }
+  .pm-root .banner { padding: 8px 10px; margin-bottom: 10px; font-size: 11.5px; }
+  .pm-root table { min-width: 0; font-size: 11.5px; }
+  .pm-root table.inv-table th { padding: 0 8px 6px 0; }
+  .pm-root table.inv-table td { padding: 6px 8px 6px 0; }
+  .pm-root .inv-total-row td { font-size: 13px; }
+  .pm-root .inv-footer {
+    padding: 12px 14px;
+    margin-top: 10px;
+    gap: 14px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .pm-root .inv-footer h4 { font-size: 12px; margin-bottom: 4px; }
+  .pm-root .inv-footer div { font-size: 11px; line-height: 1.5; }
+  .pm-root .inv-terms { margin-top: 8px; font-size: 10.5px; }
+  .pm-root .doc-preview {
+    max-height: none;
+    overflow: visible;
+    padding: 0;
+    border: none;
+    font-size: 11.5px;
+    line-height: 1.55;
+  }
 }

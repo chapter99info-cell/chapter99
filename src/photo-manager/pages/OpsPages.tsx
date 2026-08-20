@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { emailCopy, EMAIL_KIND_LABEL, mailtoHref, type EmailKind } from '../lib/emails'
-import { addMinutes, TIMELINE_OFFSETS } from '../lib/timeline'
+import { addMinutes, timelineForJob } from '../lib/timeline'
 import { usePhotoStore } from '../store/StoreContext'
 import { ClientSelect, PageTitle } from './ui'
 
@@ -9,10 +9,19 @@ export function TimelinePage() {
   const [id, setId] = useState(clients[0]?.id ?? '')
   const client = clients.find((c) => c.id === id) ?? clients[0]
   if (!client) return <p>ยังไม่มีลูกค้า</p>
-  const t0 = client.ceremonyTime || '16:00'
+  const isWedding = client.type === 'wedding'
+  const t0 = client.ceremonyTime || (isWedding ? '16:00' : '09:00')
+  const rows = timelineForJob(client.type)
+  const timeLabel = isWedding ? 'เวลาพิธีเริ่ม (Ceremony Start)' : 'เวลานัดเริ่มถ่าย (Call time)'
+  const sub = isWedding
+    ? 'ใส่เวลาพิธีเริ่ม ระบบคำนวณตารางถ่าย Photo/Video ให้อัตโนมัติ'
+    : client.type === 'engagement'
+      ? 'ตารางวันถ่าย Pre-wedding / Engagement — ไม่มีพิธี เค้ก หรือ first dance'
+      : 'ตารางเซสชันสั้น Portrait / Family — ถึงงาน ถ่าย แรป'
+
   return (
     <>
-      <PageTitle sub="ใส่เวลาพิธีเริ่ม ระบบคำนวณตารางถ่าย Photo/Video ให้อัตโนมัติ">ตารางเวลาวันงาน</PageTitle>
+      <PageTitle sub={sub}>ตารางเวลาวันงาน</PageTitle>
       <div className="card">
         <div className="grid2">
           <div className="field">
@@ -26,10 +35,13 @@ export function TimelinePage() {
             />
           </div>
           <div className="field">
-            <label>เวลาพิธีเริ่ม (Ceremony Start)</label>
+            <label>{timeLabel}</label>
             <input type="time" value={t0} onChange={(e) => patchClient(client.id, { ceremonyTime: e.target.value })} />
           </div>
         </div>
+        <p className="muted" style={{ margin: 0 }}>
+          เทมเพลต: {client.typeLabel}
+        </p>
       </div>
       <div className="card">
         <h3>ตาราง Photo / Video</h3>
@@ -42,8 +54,8 @@ export function TimelinePage() {
             </tr>
           </thead>
           <tbody>
-            {TIMELINE_OFFSETS.map((row) => (
-              <tr key={row.off}>
+            {rows.map((row) => (
+              <tr key={`${client.type}-${row.off}`}>
                 <td className="tl-time">{addMinutes(t0, row.off)}</td>
                 <td>{row.photo}</td>
                 <td>{row.video}</td>
@@ -256,11 +268,31 @@ export function GalleryPage() {
         </div>
         <div className="field">
           <label>Pic-Time URL</label>
-          <input value={g.pictime} onChange={(e) => patchClient(client.id, { gallery: { ...g, pictime: e.target.value } })} />
+          <input
+            value={g.pictime}
+            onChange={(e) => {
+              const pictime = e.target.value
+              const hasLink = Boolean(pictime.trim() || g.drive.trim())
+              void patchClient(client.id, {
+                gallery: { ...g, pictime },
+                checklist: hasLink ? { ...client.checklist, gallery: true } : client.checklist,
+              })
+            }}
+          />
         </div>
         <div className="field">
           <label>Google Drive URL</label>
-          <input value={g.drive} onChange={(e) => patchClient(client.id, { gallery: { ...g, drive: e.target.value } })} />
+          <input
+            value={g.drive}
+            onChange={(e) => {
+              const drive = e.target.value
+              const hasLink = Boolean(g.pictime.trim() || drive.trim())
+              void patchClient(client.id, {
+                gallery: { ...g, drive },
+                checklist: hasLink ? { ...client.checklist, gallery: true } : client.checklist,
+              })
+            }}
+          />
         </div>
         <div className="field">
           <label>รหัสแกลเลอรี (ถ้ามี)</label>

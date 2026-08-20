@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { defaultBrandLogos, PM_MEDIA_BUCKET } from '../lib/brand'
+import { defaultBrandLogos, fileToLogoDataUrl, PM_MEDIA_BUCKET } from '../lib/brand'
 import { isPmSupabaseConfigured, pmClient } from '../store/adapters/supabase'
 import { usePhotoStore } from '../store/StoreContext'
 import type { BrandLogo } from '../types'
@@ -26,14 +26,31 @@ export default function BrandPage() {
   const [files, setFiles] = useState<{ path: string; url: string }[]>([])
   const [listNote, setListNote] = useState('')
   const [saved, setSaved] = useState('')
+  const [busyType, setBusyType] = useState<string | null>(null)
+  const [health, setHealth] = useState('')
 
   useEffect(() => {
     setRows(mergeRows(data.brandLogos))
   }, [data.brandLogos])
 
   useEffect(() => {
+    const sample = mergeRows(data.brandLogos)[0]?.logo_url
+    if (!sample || sample.startsWith('data:')) {
+      setHealth(sample?.startsWith('data:') ? 'โลโก้ฝังในฐานข้อมูลแล้ว — เอกสารจะแสดงรูปนี้' : '')
+      return
+    }
+    const img = new Image()
+    img.onload = () => setHealth('')
+    img.onerror = () =>
+      setHealth(
+        'URL ในตารางโหลดรูปไม่ได้ (บัคเก็ตยังไม่ public หรือไฟล์ photos/wedding.png ยังไม่อยู่) — อัปโหลดไฟล์ด้านล่างแล้วกดบันทึก',
+      )
+    img.src = sample
+  }, [data.brandLogos])
+
+  useEffect(() => {
     if (!isPmSupabaseConfigured) {
-      setListNote('โหมด local — ใส่ URL เต็มได้ แต่ยังไม่ดึงรายการจากบัคเก็ต')
+      setListNote('โหมด local — อัปโหลดไฟล์ได้ ระบบจะฝังรูปในฐานข้อมูล')
       return
     }
     let cancelled = false
@@ -43,10 +60,10 @@ export default function BrandPage() {
         if (cancelled) return
         setFiles(listed)
         if (!listed.length) {
-          setListNote('ไม่พบไฟล์ในบัคเก็ต — วาง public URL ในช่องด้านบนได้เช่นกัน')
+          setListNote('ไม่พบไฟล์ในบัคเก็ต (หรือยังอ่านไม่ได้) — อัปโหลดไฟล์ด้านล่างได้เลย')
         }
       } catch {
-        if (!cancelled) setListNote('อ่านรายการไฟล์ไม่ได้ — วาง public URL ในช่องด้านบนได้')
+        if (!cancelled) setListNote('อ่านรายการไฟล์ไม่ได้ — อัปโหลดไฟล์ด้านล่างได้')
       }
     })()
     return () => {
@@ -54,24 +71,67 @@ export default function BrandPage() {
     }
   }, [])
 
+  async function onUpload(type: string, file: File | undefined) {
+    if (!file) return
+    setBusyType(type)
+    setSaved('')
+    try {
+      const dataUrl = await fileToLogoDataUrl(file)
+      let nextUrl = dataUrl
+      if (isPmSupabaseConfigured) {
+        const ext = (file.name.split('.').pop() || 'png').toLowerCase().replace(/[^a-z0-9]/g, '') || 'png'
+        const path = `photos/${type}-logo.${ext}`
+        const { error } = await pmClient().storage.from(PM_MEDIA_BUCKET).upload(path, file, {
+          upsert: true,
+          contentType: file.type || 'image/png',
+        })
+        if (error) {
+          setListNote(`อัปโหลดเข้าบัคเก็ตไม่ได้ (${error.message}) — ฝังรูปในฐานข้อมูลแทน เพื่อให้เอกสารแสดงโลโก้ได้`)
+        } else {
+          nextUrl = publicUrlFor(path)
+          const probe = await new Promise<boolean>((resolve) => {
+            const img = new Image()
+            img.onload = () => resolve(true)
+            img.onerror = () => resolve(false)
+            img.src = nextUrl
+          })
+          if (!probe) nextUrl = dataUrl
+        }
+      }
+      setRows((cur) => cur.map((r) => (r.type === type ? { ...r, logo_url: nextUrl } : r)))
+    } catch (err) {
+      setListNote(err instanceof Error ? err.message : 'อัปโหลดโลโก้ไม่สำเร็จ')
+    } finally {
+      setBusyType(null)
+    }
+  }
+
   if (!isOwner) return <p>หน้านี้สำหรับเจ้าของเท่านั้น</p>
 
   return (
     <>
-      <PageTitle sub="จับคู่โลโก้ตามประเภทงาน — เปลี่ยน URL ได้โดยไม่ต้องรัน migration ใหม่">โลโก้เอกสาร / Brand</PageTitle>
+      <PageTitle sub="อัปโหลดโลโก้แล้วบันทึก — ใบเสนอราคา / สัญญา / ใบแจ้งหนี้จะใช้รูปนี้">โลโก้เอกสาร / Brand</PageTitle>
       <div className="card">
         <p className="muted">
-          ตอนนี้ทุกประเภทยังใช้ <code>photos/wedding.png</code> ในบัคเก็ต Photos media
-          ไม่ใช้ Chapter99_st.png (ธุรกิจอื่น)
+          ถ้าบัคเก็ต Photos media ยังไม่ public ระบบจะฝังรูปในฐานข้อมูลให้อัตโนมัติ เพื่อให้เอกสารแสดงโลโก้ได้ทันที
         </p>
+        {health && <p className="muted">{health}</p>}
         {rows.map((row) => (
           <div key={row.type} className="field">
             <label>{TYPE_LABEL[row.type] ?? row.type}</label>
             <input
-              value={row.logo_url}
+              value={row.logo_url.startsWith('data:') ? '' : row.logo_url}
+              placeholder={row.logo_url.startsWith('data:') ? 'รูปฝังในฐานข้อมูลแล้ว — อัปโหลดใหม่หรือวาง URL' : 'วาง public URL หรืออัปโหลดไฟล์'}
               onChange={(e) =>
                 setRows(rows.map((r) => (r.type === row.type ? { ...r, logo_url: e.target.value } : r)))
               }
+            />
+            <input
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/svg+xml"
+              style={{ marginTop: 8 }}
+              disabled={busyType === row.type}
+              onChange={(e) => void onUpload(row.type, e.target.files?.[0])}
             />
             {row.logo_url ? (
               <img src={row.logo_url} alt="" className="pm-doc-logo sm" style={{ marginTop: 8 }} />
@@ -97,14 +157,27 @@ export default function BrandPage() {
           </div>
         ))}
         {listNote && <p className="muted">{listNote}</p>}
-        <button
-          className="btn"
-          onClick={() =>
-            saveBrandLogos(rows).then(() => setSaved('บันทึกแล้ว — ใบแจ้งหนี้ / ใบเสนอราคา / สัญญาใบใหม่ใช้โลโก้นี้'))
-          }
-        >
-          บันทึกโลโก้
-        </button>
+        <div className="row">
+          <button
+            className="btn ghost sm"
+            type="button"
+            onClick={() => {
+              const src = rows.find((r) => r.logo_url)?.logo_url
+              if (!src) return
+              setRows(rows.map((r) => ({ ...r, logo_url: src })))
+            }}
+          >
+            ใช้โลโก้แถวแรกกับทุกประเภท
+          </button>
+          <button
+            className="btn"
+            onClick={() =>
+              saveBrandLogos(rows).then(() => setSaved('บันทึกแล้ว — ใบแจ้งหนี้ / ใบเสนอราคา / สัญญาใช้โลโก้นี้'))
+            }
+          >
+            บันทึกโลโก้
+          </button>
+        </div>
         {saved && <p className="muted" style={{ marginTop: 10 }}>{saved}</p>}
       </div>
     </>
