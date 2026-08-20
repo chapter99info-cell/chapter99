@@ -1,6 +1,8 @@
-import { useState, type ReactNode } from 'react'
+import { X } from 'lucide-react'
+import { useEffect, useState, type ReactNode } from 'react'
+import { LEGACY_CATEGORIES, PHOTO_CATEGORIES, WEB_CATEGORIES } from '../lib/categories'
 import { newId } from '../store/adapters/types'
-import type { Client } from '../types'
+import type { Client, JobType } from '../types'
 
 export function PageTitle({ children, sub }: { children: ReactNode; sub: string }) {
   return (
@@ -8,6 +10,79 @@ export function PageTitle({ children, sub }: { children: ReactNode; sub: string 
       <h1 className="page-title">{children}</h1>
       <div className="page-sub">{sub}</div>
     </>
+  )
+}
+
+export function Modal({
+  title,
+  titleId,
+  onClose,
+  children,
+  cardClassName,
+}: {
+  title: ReactNode
+  titleId?: string
+  onClose: () => void
+  children: ReactNode
+  cardClassName?: string
+}) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
+
+  return (
+    <div className="modal-scrim" role="dialog" aria-modal="true" aria-labelledby={titleId} onClick={onClose}>
+      <div className={`modal-card card${cardClassName ? ` ${cardClassName}` : ''}`} onClick={(e) => e.stopPropagation()}>
+        <div className="modal-head">
+          <h3 id={titleId}>{title}</h3>
+          <button type="button" className="modal-close" aria-label="ปิด" onClick={onClose}>
+            <X size={20} strokeWidth={2} aria-hidden />
+          </button>
+        </div>
+        {children}
+      </div>
+    </div>
+  )
+}
+
+export function CategorySelect({
+  value,
+  onChange,
+}: {
+  value: string
+  onChange: (type: JobType) => void
+}) {
+  const extra = LEGACY_CATEGORIES.filter((c) => c.id === value)
+  return (
+    <select value={value} onChange={(e) => onChange(e.target.value as JobType)}>
+      <optgroup label="งานถ่ายภาพ">
+        {PHOTO_CATEGORIES.map((c) => (
+          <option key={c.id} value={c.id}>
+            {c.label}
+          </option>
+        ))}
+      </optgroup>
+      <optgroup label="งานเว็บไซต์">
+        {WEB_CATEGORIES.map((c) => (
+          <option key={c.id} value={c.id}>
+            {c.label}
+          </option>
+        ))}
+      </optgroup>
+      {extra.length > 0 && (
+        <optgroup label="ประเภทเดิม">
+          {extra.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.label}
+            </option>
+          ))}
+        </optgroup>
+      )}
+    </select>
   )
 }
 

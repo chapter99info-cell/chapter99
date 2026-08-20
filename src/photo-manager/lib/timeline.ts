@@ -44,9 +44,9 @@ export const SESSION_TIMELINE: TimelineRow[] = [
 export const TIMELINE_OFFSETS = WEDDING_TIMELINE
 
 export function timelineForJob(type: JobType | string): TimelineRow[] {
+  if (type === 'wedding') return WEDDING_TIMELINE
   if (type === 'engagement') return ENGAGEMENT_TIMELINE
-  if (type === 'portrait' || type === 'family') return SESSION_TIMELINE
-  return WEDDING_TIMELINE
+  return SESSION_TIMELINE
 }
 
 export function callTimeForJob(type: JobType | string, ceremonyTime?: string): string {

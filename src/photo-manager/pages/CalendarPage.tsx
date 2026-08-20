@@ -1,21 +1,23 @@
 import { useRef, useState, type DragEvent, type MouseEvent } from 'react'
-import { STATUS_LABEL, TYPE_LABEL } from '../data/catalog'
+import { STATUS_LABEL } from '../data/catalog'
+import { defaultsForJobType, typeLabel } from '../lib/categories'
 import { formatThaiDate, isoFromDate, monthGrid, toBuddhistISOParts } from '../lib/dates'
-import { isDefaultPrepTips } from '../lib/prepTips'
+import { defaultPrepTips, isDefaultPrepTips } from '../lib/prepTips'
 import { blankClient, usePhotoStore } from '../store/StoreContext'
 import type { Client, JobStatus, JobType } from '../types'
-import { PageTitle, Tag } from './ui'
+import { CategorySelect, Modal, PageTitle, Tag } from './ui'
 
 const MAX_CHIPS = 2
 
 function applyType(c: Client, type: JobType): Client {
+  const defaults = defaultsForJobType(type)
   return {
     ...c,
     type,
-    typeLabel: TYPE_LABEL[type],
-    packageId: type === 'wedding' ? 'w1' : type === 'engagement' ? 'e1' : null,
-    fixedPrice: type === 'portrait' ? 650 : type === 'family' ? 450 : null,
-    prepTips: isDefaultPrepTips(c.prepTips, c.type) ? '' : c.prepTips,
+    typeLabel: typeLabel(type),
+    packageId: defaults.packageId,
+    fixedPrice: defaults.fixedPrice,
+    prepTips: isDefaultPrepTips(c.prepTips, c.type) ? defaultPrepTips(type) : c.prepTips,
   }
 }
 
@@ -195,9 +197,7 @@ function JobQuickModal({
   const pkgs = packages.filter((p) => (c.type === 'wedding' ? p.kind === 'wedding' : p.kind === 'engagement'))
   const isNew = !client.name
   return (
-    <div className="modal-scrim" role="dialog" aria-modal="true" onClick={onClose}>
-      <div className="modal-card card cal-quick" onClick={(e) => e.stopPropagation()}>
-        <h3>{isNew ? 'เพิ่มงานวันนี้' : 'แก้ไขงาน'}</h3>
+    <Modal title={isNew ? 'เพิ่มงานวันนี้' : 'แก้ไขงาน'} onClose={onClose} cardClassName="cal-quick">
         <p className="muted" style={{ marginTop: -8 }}>
           {c.date} · บันทึกลงรายชื่อลูกค้า / คิวงาน ชุดเดียวกัน
         </p>
@@ -208,12 +208,7 @@ function JobQuickModal({
         <div className="grid2">
           <div className="field">
             <label>ประเภทงาน</label>
-            <select value={c.type} onChange={(e) => setC(applyType(c, e.target.value as JobType))}>
-              <option value="wedding">{TYPE_LABEL.wedding}</option>
-              <option value="engagement">{TYPE_LABEL.engagement}</option>
-              <option value="portrait">{TYPE_LABEL.portrait}</option>
-              <option value="family">{TYPE_LABEL.family}</option>
-            </select>
+            <CategorySelect value={c.type} onChange={(type) => setC(applyType(c, type))} />
           </div>
           <div className="field">
             <label>สถานะ</label>
@@ -274,7 +269,7 @@ function JobQuickModal({
                 ...c,
                 name: c.name.trim(),
                 date: formatThaiDate(c.dateISO),
-                typeLabel: TYPE_LABEL[c.type],
+                typeLabel: typeLabel(c.type),
                 statusLabel: STATUS_LABEL[c.status],
               })
             }}
@@ -282,7 +277,6 @@ function JobQuickModal({
             บันทึก
           </button>
         </div>
-      </div>
-    </div>
+    </Modal>
   )
 }

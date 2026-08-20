@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import PinPad from './PinPad'
+import { Modal } from './ui'
 
 export default function PinSetupModal({
   email,
@@ -15,9 +16,7 @@ export default function PinSetupModal({
   const [err, setErr] = useState('')
 
   return (
-    <div className="modal-scrim" role="dialog" aria-modal="true" aria-labelledby="pin-setup-title">
-      <div className="modal-card card">
-        <h3 id="pin-setup-title">ตั้ง PIN 4 หลัก</h3>
+    <Modal title="ตั้ง PIN 4 หลัก" titleId="pin-setup-title" onClose={onSkip}>
         <p className="muted">
           PIN นี้ผูกกับบัญชี {email} — ใช้ได้ทุกเครื่อง ไม่ใช่รหัสร่วมทั้งทีม ตรวจบนเซิร์ฟเวอร์เท่านั้น
         </p>
@@ -47,7 +46,6 @@ export default function PinSetupModal({
         <button className="btn ghost" style={{ marginTop: 12, width: '100%', justifyContent: 'center' }} onClick={onSkip}>
           ข้ามไปก่อน
         </button>
-      </div>
-    </div>
+    </Modal>
   )
 }

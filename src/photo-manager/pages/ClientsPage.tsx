@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { ALL_PACKAGES } from '../data/catalog'
+import { defaultsForJobType } from '../lib/categories'
 import { invoiceTotals, money } from '../lib/money'
 import { defaultPrepTips, isDefaultPrepTips } from '../lib/prepTips'
 import { blankClient, usePhotoStore } from '../store/StoreContext'
-import type { Client, JobStatus, JobType } from '../types'
-import { ChecklistIcons, PageTitle, Tag } from './ui'
+import type { Client, JobStatus } from '../types'
+import { CategorySelect, ChecklistIcons, Modal, PageTitle, Tag } from './ui'
 
 export default function ClientsPage() {
   const { clients, isOwner, data, upsertClient } = usePhotoStore()
@@ -113,9 +114,7 @@ function ClientEditor({
   }
 
   return (
-    <div className="modal-scrim" role="dialog" aria-modal="true">
-    <div className="modal-card card">
-      <h3>{client.name ? 'แก้ไขลูกค้า' : 'ลูกค้าใหม่'}</h3>
+    <Modal title={client.name ? 'แก้ไขลูกค้า' : 'ลูกค้าใหม่'} onClose={onClose}>
       <div className="grid2">
         <div className="field">
           <label>ชื่อ</label>
@@ -123,24 +122,19 @@ function ClientEditor({
         </div>
         <div className="field">
           <label>ประเภท</label>
-          <select
+          <CategorySelect
             value={c.type}
-            onChange={(e) => {
-              const type = e.target.value as JobType
+            onChange={(type) => {
+              const defaults = defaultsForJobType(type)
               setC({
                 ...c,
                 type,
-                packageId: type === 'wedding' ? 'w1' : type === 'engagement' ? 'e1' : null,
-                fixedPrice: type === 'portrait' ? 650 : type === 'family' ? 450 : null,
+                packageId: defaults.packageId,
+                fixedPrice: defaults.fixedPrice,
                 prepTips: isDefaultPrepTips(c.prepTips, c.type) ? defaultPrepTips(type) : c.prepTips,
               })
             }}
-          >
-            <option value="wedding">งานแต่งงาน</option>
-            <option value="engagement">Pre-Wedding / Engagement</option>
-            <option value="portrait">Portrait/Branding</option>
-            <option value="family">Family Portrait</option>
-          </select>
+          />
         </div>
         <div className="field">
           <label>วันถ่าย (ISO)</label>
@@ -244,7 +238,6 @@ function ClientEditor({
           บันทึก
         </button>
       </div>
-    </div>
-    </div>
+    </Modal>
   )
 }

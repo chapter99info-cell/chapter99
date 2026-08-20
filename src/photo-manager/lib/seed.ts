@@ -2,6 +2,7 @@ import { defaultBrandLogos } from './brand'
 import { defaultQuoteRates } from './quoteCalc'
 import { defaultPrepTips } from './prepTips'
 import { ADDONS, ALL_PACKAGES, STATUS_LABEL, TYPE_LABEL, VENDOR_ROLES } from '../data/catalog'
+import { typeLabel } from './categories'
 import { formatThaiDate } from './dates'
 import type { Client, DbSnapshot, Expense, Profile, VendorSheet } from '../types'
 
@@ -25,7 +26,7 @@ function client(partial: Omit<Client, 'typeLabel' | 'statusLabel' | 'gallery' | 
     quote: { expiryISO: '', issued: false },
     prepTips: defaultPrepTips(partial.type),
     daySummary: '',
-    typeLabel: TYPE_LABEL[partial.type],
+    typeLabel: TYPE_LABEL[partial.type] ?? typeLabel(partial.type),
     statusLabel: STATUS_LABEL[partial.status],
     ...partial,
   }

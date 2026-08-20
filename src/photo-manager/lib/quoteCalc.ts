@@ -1,36 +1,14 @@
-import type { QuoteCalcDraft, QuoteCalcScope, QuoteProfession, QuoteProjectKind, QuoteRate } from '../types'
+import type { Client, QuoteCalcDraft, QuoteCalcScope, QuoteProfession, QuoteProjectKind, QuoteRate } from '../types'
+import {
+  PHOTO_PROFESSIONS,
+  QUOTE_PROFESSIONS,
+  WEB_PROFESSIONS,
+  isPhotoJobType,
+  isQuoteProfession,
+  projectKindFromJobType,
+} from './categories'
 
-export const PHOTO_PROFESSIONS: { id: QuoteProfession; label: string }[] = [
-  { id: 'wedding', label: 'Wedding' },
-  { id: 'engagement', label: 'Pre-Wedding / Engagement' },
-  { id: 'studio', label: 'Studio Photoshoot' },
-  { id: 'event', label: 'Event / Corporate' },
-  { id: 'portrait', label: 'Portrait / Personal Branding' },
-]
-
-export const WEB_PROFESSIONS: { id: QuoteProfession; label: string }[] = [
-  { id: 'massage-spa', label: 'ร้านนวด / สปา' },
-  { id: 'food', label: 'ร้านอาหาร' },
-  { id: 'hair-beauty', label: 'ร้านเสริมสวย / ความงาม' },
-  { id: 'other', label: 'อื่นๆ' },
-]
-
-export const QUOTE_PROFESSIONS: { id: QuoteProfession; label: string }[] = [
-  ...PHOTO_PROFESSIONS,
-  ...WEB_PROFESSIONS,
-  { id: 'photographer', label: 'ช่างภาพ' },
-  { id: 'tutoring', label: 'สอนพิเศษ' },
-  { id: 'fitness', label: 'เทรนเนอร์ฟิตเนส' },
-]
-
-const PHOTO_IDS = new Set<QuoteProfession>([
-  'wedding',
-  'engagement',
-  'studio',
-  'event',
-  'portrait',
-  'photographer',
-])
+export { PHOTO_PROFESSIONS, QUOTE_PROFESSIONS, WEB_PROFESSIONS }
 
 export function hasPhotoScope(scope: Pick<QuoteCalcScope, 'photoHours'>): boolean {
   return Number(scope.photoHours) > 0
@@ -55,7 +33,7 @@ export function resolveProjectKind(scope: Pick<QuoteCalcScope, 'projectKind' | '
   const photo = hasPhotoScope(scope)
   const web = hasWebScope(scope)
   if (photo && web) return 'combined'
-  if (PHOTO_IDS.has(scope.profession)) return 'photography'
+  if (isPhotoJobType(scope.profession)) return 'photography'
   return 'website'
 }
 
@@ -242,6 +220,18 @@ export function toQuoteDraft(scope: QuoteCalcScope, rates: QuoteRate[]): QuoteCa
     monthlyFull: calc.monthlyFull,
     monthlyIntro: calc.monthlyIntro,
     savedAt: new Date().toISOString().slice(0, 10),
+  }
+}
+
+export function scopeFromClient(client: Pick<Client, 'type' | 'quote'> | undefined): QuoteCalcScope {
+  if (!client) return emptyQuoteScope()
+  if (client.quote.calculator) return scopeFromDraft(client.quote.calculator)
+  const empty = emptyQuoteScope()
+  if (!isQuoteProfession(client.type)) return empty
+  return {
+    ...empty,
+    profession: client.type,
+    projectKind: projectKindFromJobType(client.type),
   }
 }
 

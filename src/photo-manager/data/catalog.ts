@@ -1,5 +1,7 @@
 import type { Addon, CatalogPackage } from '../types'
 
+export { TYPE_LABEL, TYPE_LABEL_EN } from '../lib/categories'
+
 export const WEDDING_PACKAGES: CatalogPackage[] = [
   {
     id: 'w1',
@@ -106,20 +108,6 @@ export const VENDOR_ROLES = [
   'DJ / Band',
   'Cake',
 ]
-
-export const TYPE_LABEL: Record<string, string> = {
-  wedding: 'งานแต่งงาน',
-  engagement: 'Pre-Wedding / Engagement',
-  portrait: 'Portrait/Branding',
-  family: 'Family Portrait',
-}
-
-export const TYPE_LABEL_EN: Record<string, string> = {
-  wedding: 'Wedding',
-  engagement: 'Pre-Wedding / Engagement',
-  portrait: 'Portrait / Branding',
-  family: 'Family Portrait',
-}
 
 export const STATUS_LABEL: Record<string, string> = {
   draft: 'รอเซ็นสัญญา',

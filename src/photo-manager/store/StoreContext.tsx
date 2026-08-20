@@ -231,7 +231,7 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
     const row: Client = {
       ...c,
       date: formatThaiDate(c.dateISO),
-      typeLabel: TYPE_LABEL[c.type],
+      typeLabel: TYPE_LABEL[c.type] ?? c.typeLabel ?? c.type,
       statusLabel: STATUS_LABEL[c.status],
     }
     const vendorSheets = [...data.vendorSheets]
@@ -250,7 +250,7 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
     const c = next.clients.find((x) => x.id === id)
     if (c) {
       c.date = formatThaiDate(c.dateISO)
-      c.typeLabel = TYPE_LABEL[c.type]
+      c.typeLabel = TYPE_LABEL[c.type] ?? c.typeLabel ?? c.type
       c.statusLabel = STATUS_LABEL[c.status]
     }
     await persist(next)

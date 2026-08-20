@@ -9,7 +9,7 @@ import {
   professionLabel,
   professionOptionsForKind,
   resolveProjectKind,
-  scopeFromDraft,
+  scopeFromClient,
   toQuoteDraft,
 } from '../lib/quoteCalc'
 import { money } from '../lib/money'
@@ -22,7 +22,7 @@ export default function QuoteCalculatorPage() {
   const [params] = useSearchParams()
   const [clientId, setClientId] = useState(params.get('client') || clients[0]?.id || '')
   const client = clients.find((c) => c.id === clientId) ?? clients[0]
-  const [scope, setScope] = useState<QuoteCalcScope>(() => scopeFromDraft(client?.quote.calculator))
+  const [scope, setScope] = useState<QuoteCalcScope>(() => scopeFromClient(client))
   const [rates, setRates] = useState<QuoteRate[]>(() => mergeQuoteRates(data.quoteRates))
   const [saved, setSaved] = useState('')
   const [ratesOpen, setRatesOpen] = useState(false)
@@ -33,7 +33,7 @@ export default function QuoteCalculatorPage() {
 
   useEffect(() => {
     if (!client) return
-    setScope(scopeFromDraft(client.quote.calculator))
+    setScope(scopeFromClient(client))
   }, [client?.id])
 
   const projectKind = resolveProjectKind(scope)

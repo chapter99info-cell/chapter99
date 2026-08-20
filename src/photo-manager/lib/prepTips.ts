@@ -73,15 +73,15 @@ Arrival
 • Arrive a few minutes early so kids can get used to the camera before we start`
 
 export function defaultPrepTips(type: JobType | string): string {
-  if (type === 'portrait') return PORTRAIT
+  if (type === 'wedding' || type === 'engagement') return COUPLE
   if (type === 'family') return FAMILY
-  return COUPLE
+  return PORTRAIT
 }
 
 export function defaultPrepTipsEn(type: JobType | string): string {
-  if (type === 'portrait') return PORTRAIT_EN
+  if (type === 'wedding' || type === 'engagement') return COUPLE_EN
   if (type === 'family') return FAMILY_EN
-  return COUPLE_EN
+  return PORTRAIT_EN
 }
 
 export function resolvedPrepTips(client: Pick<Client, 'type' | 'prepTips'>): string {

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import PinPad from './PinPad'
+import { Modal } from './ui'
 
 export default function EnablePinModal({
   email,
@@ -15,9 +16,7 @@ export default function EnablePinModal({
   const [err, setErr] = useState('')
 
   return (
-    <div className="modal-scrim" role="dialog" aria-modal="true">
-      <div className="modal-card card">
-        <h3>ตั้ง / เปลี่ยน PIN บัญชี</h3>
+    <Modal title="ตั้ง / เปลี่ยน PIN บัญชี" onClose={onClose}>
         <p className="muted">PIN 4 หลักของ {email} ใช้ได้ทุกเครื่อง ตรวจบนเซิร์ฟเวอร์</p>
         {step === 'choose' ? (
           <PinPad
@@ -51,7 +50,6 @@ export default function EnablePinModal({
         <button className="btn ghost" style={{ marginTop: 12, width: '100%', justifyContent: 'center' }} onClick={onClose}>
           ยกเลิก
         </button>
-      </div>
-    </div>
+    </Modal>
   )
 }
