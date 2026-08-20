@@ -123,10 +123,12 @@
 .pm-root .kind-toggle {
   display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
 }
+.pm-root .kind-toggle .kind-toggle-all { grid-column: 1 / -1; }
 .pm-root .kind-toggle button {
-  all: unset; cursor: pointer; box-sizing: border-box; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-sizing: border-box; display: flex; align-items: center; justify-content: center;
   min-height: 44px; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--line);
   background: #fff; color: var(--ink); font-size: 14px; font-weight: 600; text-align: center;
+  font-family: inherit; appearance: none;
 }
 .pm-root .kind-toggle button.on {
   background: var(--sage-pale); border-color: var(--sage); color: var(--sage-dark);

@@ -34,6 +34,10 @@ function num(v: unknown): number | null {
   return Number.isFinite(n) ? n : null
 }
 
+function num0(v: unknown): number {
+  return num(v) ?? 0
+}
+
 function parseAddonPrices(v: unknown): Record<string, number> {
   if (!v || typeof v !== 'object' || Array.isArray(v)) return {}
   const out: Record<string, number> = {}

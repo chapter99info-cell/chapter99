@@ -2,9 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import {
   BACKEND_MODULES,
-  PHOTO_PROFESSIONS,
   RATE_META,
-  WEB_PROFESSIONS,
   activeQuoteScope,
   calculateQuote,
   mergeQuoteRates,
@@ -41,6 +39,8 @@ export default function QuoteCalculatorPage() {
   const projectKind = resolveProjectKind(scope)
   const result = useMemo(() => calculateQuote(activeQuoteScope(scope), rates), [scope, rates])
   const subtypeOptions = professionOptionsForKind(projectKind, scope.profession)
+  const showPhoto = projectKind !== 'website'
+  const showWeb = projectKind !== 'photography'
 
   if (!isOwner) return <p>หน้านี้สำหรับเจ้าของเท่านั้น</p>
   if (!client) return <p>ยังไม่มีลูกค้า — เพิ่มลูกค้าก่อนแล้วค่อยคำนวณใบเสนอราคา</p>
@@ -51,9 +51,7 @@ export default function QuoteCalculatorPage() {
   }
 
   function setProjectKind(kind: QuoteProjectKind) {
-    const options = kind === 'photography' ? PHOTO_PROFESSIONS : WEB_PROFESSIONS
-    const profession = options.some((p) => p.id === scope.profession) ? scope.profession : options[0].id
-    patchScope({ projectKind: kind, profession })
+    patchScope({ projectKind: kind })
   }
 
   async function saveDraft() {
@@ -97,6 +95,13 @@ export default function QuoteCalculatorPage() {
             <button type="button" className={projectKind === 'website' ? 'on' : ''} onClick={() => setProjectKind('website')}>
               งานเว็บไซต์
             </button>
+            <button
+              type="button"
+              className={`kind-toggle-all ${projectKind === 'combined' ? 'on' : ''}`}
+              onClick={() => setProjectKind('combined')}
+            >
+              ถ่ายภาพ + เว็บไซต์
+            </button>
           </div>
         </div>
         <div className="grid2">
@@ -112,7 +117,13 @@ export default function QuoteCalculatorPage() {
             />
           </div>
           <div className="field">
-            <label>{projectKind === 'photography' ? 'ประเภทงานถ่ายภาพ' : 'ประเภทธุรกิจ'}</label>
+            <label>
+              {projectKind === 'photography'
+                ? 'ประเภทงานถ่ายภาพ'
+                : projectKind === 'website'
+                  ? 'ประเภทธุรกิจ'
+                  : 'อาชีพ / ประเภทธุรกิจ'}
+            </label>
             <select
               value={scope.profession}
               onChange={(e) => patchScope({ profession: e.target.value as QuoteProfession })}
@@ -125,7 +136,7 @@ export default function QuoteCalculatorPage() {
             </select>
           </div>
         </div>
-        {projectKind === 'website' && scope.profession === 'other' && (
+        {scope.profession === 'other' && (
           <div className="field">
             <label>ระบุประเภทธุรกิจ</label>
             <input
@@ -137,7 +148,7 @@ export default function QuoteCalculatorPage() {
         )}
       </div>
 
-      {projectKind === 'photography' && (
+      {showPhoto && (
         <div className="card">
           <h3>สโคปถ่ายภาพ</h3>
           <div className="grid2">
@@ -180,7 +191,7 @@ export default function QuoteCalculatorPage() {
         </div>
       )}
 
-      {projectKind === 'website' && (
+      {showWeb && (
         <>
           <div className="card">
             <h3>สโคปเว็บไซต์</h3>
@@ -288,7 +299,7 @@ export default function QuoteCalculatorPage() {
             </tbody>
           </table>
         )}
-        {projectKind === 'website' && result.laterModules.length > 0 && (
+        {showWeb && result.laterModules.length > 0 && (
           <div style={{ marginTop: 18 }}>
             <h3>สิ่งที่เพิ่มได้ทีหลัง</h3>
             <ul className="later-list">

@@ -130,7 +130,7 @@ export type InvoiceTotals = {
   totalToPay: number
 }
 
-export type QuoteProjectKind = 'photography' | 'website'
+export type QuoteProjectKind = 'photography' | 'website' | 'combined'
 
 export type QuoteProfession =
   | 'wedding'

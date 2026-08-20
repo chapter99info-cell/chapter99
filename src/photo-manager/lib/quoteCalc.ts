@@ -32,12 +32,34 @@ const PHOTO_IDS = new Set<QuoteProfession>([
   'photographer',
 ])
 
-export function resolveProjectKind(scope: Pick<QuoteCalcScope, 'projectKind' | 'profession'>): QuoteProjectKind {
-  if (scope.projectKind === 'photography' || scope.projectKind === 'website') return scope.projectKind
-  return PHOTO_IDS.has(scope.profession) ? 'photography' : 'website'
+export function hasPhotoScope(scope: Pick<QuoteCalcScope, 'photoHours'>): boolean {
+  return Number(scope.photoHours) > 0
 }
 
-/** Same formula as calculateQuote — zeros hidden-scope inputs so only the visible project type is priced. */
+export function hasWebScope(
+  scope: Pick<QuoteCalcScope, 'webPages' | 'webBooking' | 'webGallery' | 'webBilingual' | 'modules'>,
+): boolean {
+  return (
+    Number(scope.webPages) > 0 ||
+    Boolean(scope.webBooking) ||
+    Boolean(scope.webGallery) ||
+    Boolean(scope.webBilingual) ||
+    (scope.modules?.length ?? 0) > 0
+  )
+}
+
+export function resolveProjectKind(scope: Pick<QuoteCalcScope, 'projectKind' | 'profession' | 'photoHours' | 'webPages' | 'webBooking' | 'webGallery' | 'webBilingual' | 'modules'>): QuoteProjectKind {
+  if (scope.projectKind === 'photography' || scope.projectKind === 'website' || scope.projectKind === 'combined') {
+    return scope.projectKind
+  }
+  const photo = hasPhotoScope(scope)
+  const web = hasWebScope(scope)
+  if (photo && web) return 'combined'
+  if (PHOTO_IDS.has(scope.profession)) return 'photography'
+  return 'website'
+}
+
+/** Price only the visible project type. Combined keeps photo + web + backend. */
 export function activeQuoteScope(scope: QuoteCalcScope): QuoteCalcScope {
   const projectKind = resolveProjectKind(scope)
   if (projectKind === 'photography') {
@@ -51,12 +73,15 @@ export function activeQuoteScope(scope: QuoteCalcScope): QuoteCalcScope {
       modules: [],
     }
   }
-  return {
-    ...scope,
-    projectKind,
-    photoHours: 0,
-    photoCount: 0,
+  if (projectKind === 'website') {
+    return {
+      ...scope,
+      projectKind,
+      photoHours: 0,
+      photoCount: 0,
+    }
   }
+  return { ...scope, projectKind: 'combined' }
 }
 
 export const BACKEND_MODULES: { id: string; label: string; rateId: string }[] = [
@@ -115,8 +140,8 @@ export function rateMap(rates: QuoteRate[]): Record<string, number> {
 
 export function emptyQuoteScope(): QuoteCalcScope {
   return {
-    projectKind: 'photography',
-    profession: 'wedding',
+    projectKind: 'combined',
+    profession: 'massage-spa',
     professionOther: '',
     photoHours: 2,
     photoCount: 40,
@@ -198,7 +223,8 @@ export function professionOptionsForKind(
   kind: QuoteProjectKind,
   current: QuoteProfession,
 ): { id: QuoteProfession; label: string }[] {
-  const list = kind === 'photography' ? PHOTO_PROFESSIONS : WEB_PROFESSIONS
+  const list =
+    kind === 'photography' ? PHOTO_PROFESSIONS : kind === 'website' ? WEB_PROFESSIONS : [...PHOTO_PROFESSIONS, ...WEB_PROFESSIONS]
   if (list.some((p) => p.id === current)) return list
   const extra = QUOTE_PROFESSIONS.find((p) => p.id === current)
   return extra ? [...list, extra] : list
@@ -208,7 +234,8 @@ export function toQuoteDraft(scope: QuoteCalcScope, rates: QuoteRate[]): QuoteCa
   const active = activeQuoteScope(scope)
   const calc = calculateQuote(active, rates)
   return {
-    ...active,
+    ...scope,
+    projectKind: active.projectKind,
     ratesSnapshot: rateMap(rates),
     setupFull: calc.setupFull,
     setupIntro: calc.setupIntro,
@@ -220,10 +247,9 @@ export function toQuoteDraft(scope: QuoteCalcScope, rates: QuoteRate[]): QuoteCa
 
 export function scopeFromDraft(d: QuoteCalcDraft | undefined): QuoteCalcScope {
   if (!d) return emptyQuoteScope()
-  const profession = d.profession
-  return {
-    projectKind: resolveProjectKind({ projectKind: d.projectKind, profession }),
-    profession,
+  const base: QuoteCalcScope = {
+    projectKind: d.projectKind,
+    profession: d.profession,
     professionOther: d.professionOther ?? '',
     photoHours: d.photoHours,
     photoCount: d.photoCount,
@@ -233,10 +259,27 @@ export function scopeFromDraft(d: QuoteCalcDraft | undefined): QuoteCalcScope {
     webBilingual: d.webBilingual,
     modules: d.modules ?? [],
   }
+  return { ...base, projectKind: resolveProjectKind(base) }
+}
+
+/** Nichaphan & Kampanat — 2hr photo, 40 images, 1 web page, booking+gallery, 4 backend modules. */
+export function nichaphanQuoteScope(): QuoteCalcScope {
+  return {
+    projectKind: 'combined',
+    profession: 'hair-beauty',
+    professionOther: '',
+    photoHours: 2,
+    photoCount: 40,
+    webPages: 1,
+    webBooking: true,
+    webGallery: true,
+    webBilingual: false,
+    modules: ['queue_calendar', 'invoicing', 'reminders', 'tax_expense'],
+  }
 }
 
 /** Rebuild line items from a saved draft (frozen rates). */
 export function resultFromDraft(d: QuoteCalcDraft): QuoteCalcResult {
   const rates: QuoteRate[] = Object.entries(d.ratesSnapshot).map(([id, amount]) => ({ id, amount, label: id }))
-  return calculateQuote(d, rates)
+  return calculateQuote(activeQuoteScope(d), rates)
 }

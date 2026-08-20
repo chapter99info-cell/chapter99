@@ -1,5 +1,5 @@
 /* Chapter99 main site — static asset cache only; HTML/API/data always network-first */
-const CACHE_NAME = 'chapter99-site-v3'
+const CACHE_NAME = 'chapter99-site-v4'
 const PRECACHE = [
   '/manifest.json',
   '/icons/icon-192.png',
