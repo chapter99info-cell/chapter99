@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { emailCopy, EMAIL_KIND_LABEL, mailtoHref, type EmailKind } from '../lib/emails'
 import { defaultPrepTips } from '../lib/prepTips'
-import { addMinutes, timelineForJob } from '../lib/timeline'
+import { addMinutes, autoDaySummary, callTimeForJob, daySummaryText, timelineForJob } from '../lib/timeline'
 import { usePhotoStore } from '../store/StoreContext'
 import { PrepTipsCard } from './PrepTipsCard'
-import { ClientSelect, PageTitle } from './ui'
+import { ClientConfirmBar, ClientSelect, PageTitle } from './ui'
 
 export function TimelinePage() {
   const { clients, patchClient } = usePhotoStore()
@@ -12,14 +12,14 @@ export function TimelinePage() {
   const client = clients.find((c) => c.id === id) ?? clients[0]
   if (!client) return <p>ยังไม่มีลูกค้า</p>
   const isWedding = client.type === 'wedding'
-  const t0 = client.ceremonyTime || (isWedding ? '16:00' : '09:00')
+  const t0 = callTimeForJob(client.type, client.ceremonyTime)
   const rows = timelineForJob(client.type)
   const timeLabel = isWedding ? 'เวลาพิธีเริ่ม (Ceremony Start)' : 'เวลานัดเริ่มถ่าย (Call time)'
   const sub = isWedding
-    ? 'ใส่เวลาพิธีเริ่ม ระบบคำนวณตารางถ่าย Photo/Video ให้อัตโนมัติ'
+    ? 'ใส่เวลาพิธีเริ่ม ระบบคำนวณตารางถ่าย Photo/Video ให้อัตโนมัติ — หน้านี้สำหรับทีมงานเท่านั้น'
     : client.type === 'engagement'
-      ? 'ตารางวันถ่าย Pre-wedding / Engagement — ไม่มีพิธี เค้ก หรือ first dance'
-      : 'ตารางเซสชันสั้น Portrait / Family — ถึงงาน ถ่าย แรป'
+      ? 'ตารางวันถ่าย Pre-wedding / Engagement สำหรับทีมงาน — ลูกค้าไม่เห็นหน้ารายนาทีนี้'
+      : 'ตารางเซสชันสั้น Portrait / Family สำหรับทีมงาน — ลูกค้าไม่เห็นหน้ารายนาทีนี้'
 
   return (
     <>
@@ -42,7 +42,7 @@ export function TimelinePage() {
           </div>
         </div>
         <p className="muted" style={{ margin: 0 }}>
-          เทมเพลต: {client.typeLabel}
+          เทมเพลต: {client.typeLabel} · ลูกค้าไม่เห็นตาราง PHOTO/VIDEO นี้ — สรุปสั้นอยู่ที่หน้าสรุปงานวันถ่าย
         </p>
       </div>
       <div className="card">
@@ -134,24 +134,43 @@ export function BriefPage() {
   const [id, setId] = useState(clients[0]?.id ?? '')
   const client = clients.find((c) => c.id === id) ?? clients[0]
   if (!client) return <p>ยังไม่มีลูกค้า</p>
+  const autoPlan = autoDaySummary(client.type, client.ceremonyTime)
+  const plan = daySummaryText(client)
   const text = `สรุปงานวันถ่าย — ${client.name}
 
 📅 วันที่: ${client.date}
 📍 สถานที่: ${client.location}
 🎯 ประเภทงาน: ${client.typeLabel}
 ⏱ พิธีเริ่ม: ${client.ceremonyTime} น. (ทีมงานถึงก่อน 30 นาที)
+🗓 แผนวันถ่าย: ${plan}
 🎨 สไตล์ภาพ: โทนธรรมชาติ อบอุ่น แสงนุ่ม
 👥 ผู้ติดต่อหน้างาน: ${client.name} (${client.phone})
 
 หมายเหตุ: กรุณายืนยันความพร้อมล่วงหน้า 3 วันก่อนวันงาน`
-  const link = `${window.location.origin}/pm/confirm/${client.confirmToken}?k=brief`
   return (
     <>
-      <PageTitle sub="สร้างหน้าสรุปคิวงาน ส่งลิงก์ให้ลูกค้าคอนเฟิร์ม">สรุปงานวันถ่าย (Shoot Brief)</PageTitle>
+      <PageTitle sub="สร้างหน้าสรุปคิวงาน ส่งลิงก์ให้ลูกค้าคอนเฟิร์ม — ไม่ส่งตารางถ่ายรายนาทีของทีมงาน">สรุปงานวันถ่าย (Shoot Brief)</PageTitle>
       <div className="card">
         <div className="field" style={{ maxWidth: 360 }}>
           <label>เลือกลูกค้า</label>
           <ClientSelect clients={clients} value={client.id} onChange={setId} />
+        </div>
+        <div className="field">
+          <label>สรุปวันถ่ายที่ลูกค้าเห็น — ว่างไว้ = สร้างจากตารางเวลาอัตโนมัติ (แก้ได้ก่อนส่งลิงก์)</label>
+          <textarea
+            rows={3}
+            value={client.daySummary}
+            placeholder={autoPlan}
+            onChange={(e) => void patchClient(client.id, { daySummary: e.target.value })}
+          />
+          <button
+            type="button"
+            className="btn ghost sm"
+            style={{ marginTop: 8 }}
+            onClick={() => void patchClient(client.id, { daySummary: '' })}
+          >
+            ใช้ข้อความจากตารางเวลา
+          </button>
         </div>
         <div className="field">
           <label>เคล็ดลับเตรียมตัวที่ลูกค้าเห็น — แก้ได้เฉพาะงานนี้ (ว่าง = ใช้มาตรฐานตามประเภทงาน)</label>
@@ -174,16 +193,11 @@ export function BriefPage() {
       <div className="card">
         <div className="doc-preview">{text}</div>
         <PrepTipsCard client={client} />
-        <div className="link-box">
-          <span>🔗</span>
-          <span className="url">{link}</span>
-          <a className="btn ghost sm" href={link} target="_blank" rel="noreferrer">
-            เปิดดูหน้าที่ลูกค้าเห็น
-          </a>
-          <span className={`confirm-status ${client.briefConfirmed ? 'confirmed' : 'waiting'}`}>
-            {client.briefConfirmed ? '✓ ลูกค้ายืนยันแล้ว' : '● รอลูกค้ายืนยัน'}
-          </span>
-        </div>
+        <ClientConfirmBar
+          client={client}
+          kind="brief"
+          onEnsureToken={(token) => patchClient(client.id, { confirmToken: token })}
+        />
       </div>
     </>
   )

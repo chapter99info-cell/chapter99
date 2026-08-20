@@ -15,6 +15,13 @@ export function formatThaiDate(iso: string): string {
   return `${day} ${TH_MONTHS[month]} ${yearBE}`
 }
 
+/** Client-facing Gregorian date, e.g. "29 August 2026". */
+export function formatClientDate(iso: string): string {
+  const d = new Date(iso + 'T12:00:00')
+  if (Number.isNaN(d.getTime())) return iso
+  return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })
+}
+
 export function daysUntil(iso: string, from = new Date()): number {
   const a = new Date(from.getFullYear(), from.getMonth(), from.getDate())
   const b = new Date(iso + 'T12:00:00')

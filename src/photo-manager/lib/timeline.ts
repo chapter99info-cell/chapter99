@@ -49,9 +49,46 @@ export function timelineForJob(type: JobType | string): TimelineRow[] {
   return WEDDING_TIMELINE
 }
 
+export function callTimeForJob(type: JobType | string, ceremonyTime?: string): string {
+  const t = ceremonyTime?.trim()
+  if (t) return t
+  return type === 'wedding' ? '16:00' : '09:00'
+}
+
 export function addMinutes(hhmm: string, mins: number): string {
   const [h, m] = hhmm.split(':').map(Number)
-  const d = new Date(2000, 0, 1, h, m)
+  const d = new Date(2000, 0, 1, h || 0, m || 0)
   d.setMinutes(d.getMinutes() + mins)
   return d.toTimeString().slice(0, 5)
+}
+
+function formatDurationTh(mins: number): string {
+  const abs = Math.max(0, Math.round(mins))
+  const h = Math.floor(abs / 60)
+  const m = abs % 60
+  if (h === 0) return `${m} นาที`
+  if (m === 0) return `${h} ชม.`
+  return `${h} ชม. ${m} นาที`
+}
+
+/** Client-facing day plan from the crew timeline — no shot-list detail. */
+export function autoDaySummary(type: JobType | string, ceremonyTime?: string): string {
+  const rows = timelineForJob(type)
+  if (!rows.length) return ''
+  const t0 = callTimeForJob(type, ceremonyTime)
+  const start = addMinutes(t0, rows[0].off)
+  const end = addMinutes(t0, rows[rows.length - 1].off)
+  const duration = formatDurationTh(rows[rows.length - 1].off - rows[0].off)
+  const parts = [`งานวันนี้ประมาณ ${duration} (${start}–${end})`]
+  const outfitChanges = rows.filter((r) => /เปลี่ยนชุด/.test(`${r.photo} ${r.video}`)).length
+  if (outfitChanges > 0) parts.push(`มีเปลี่ยนชุด ${outfitChanges} รอบ`)
+  const golden = rows.some((r) => /golden\s*hour|พระอาทิตย์ตก|sunset/i.test(`${r.photo} ${r.video}`))
+  if (golden) parts.push('ปิดท้ายด้วยช่วง Golden Hour พระอาทิตย์ตก 🌇')
+  return parts.join(' ')
+}
+
+export function daySummaryText(client: { type: JobType | string; ceremonyTime?: string; daySummary?: string }): string {
+  const custom = client.daySummary?.trim()
+  if (custom) return custom
+  return autoDaySummary(client.type, client.ceremonyTime)
 }

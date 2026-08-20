@@ -34,14 +34,20 @@ function num(v: unknown): number | null {
   return Number.isFinite(n) ? n : null
 }
 
-function num0(v: unknown): number {
-  return num(v) ?? 0
+function parseAddonPrices(v: unknown): Record<string, number> {
+  if (!v || typeof v !== 'object' || Array.isArray(v)) return {}
+  const out: Record<string, number> = {}
+  for (const [k, val] of Object.entries(v as Record<string, unknown>)) {
+    const n = Number(val)
+    if (Number.isFinite(n)) out[k] = n
+  }
+  return out
 }
 
 type ClientRow = Record<string, unknown>
 
 const CLIENT_OPS =
-  'id,name,type,type_label,package_id,date_display,date_iso,ceremony_time,location,status,status_label,phone,email,addon_ids,checklist,brief_confirmed,contract_confirmed,confirm_token,gallery,quote,prep_tips'
+  'id,name,type,type_label,package_id,date_display,date_iso,ceremony_time,location,status,status_label,phone,email,addon_ids,checklist,brief_confirmed,contract_confirmed,confirm_token,gallery,quote,prep_tips,day_summary'
 
 function financeBlank() {
   return {
@@ -83,6 +89,7 @@ export function rowToClient(r: ClientRow, finance?: ClientRow | null): Client {
     phone: String(r.phone ?? ''),
     email: String(r.email ?? ''),
     addonIds: Array.isArray(r.addon_ids) ? (r.addon_ids as string[]) : Array.isArray(r.addonIds) ? (r.addonIds as string[]) : [],
+    addonPrices: parseAddonPrices(finance?.addon_prices ?? finance?.addonPrices ?? r.addonPrices),
     checklist,
     briefConfirmed: Boolean(r.brief_confirmed ?? r.briefConfirmed),
     contractConfirmed: Boolean(r.contract_confirmed ?? r.contractConfirmed),
@@ -91,6 +98,7 @@ export function rowToClient(r: ClientRow, finance?: ClientRow | null): Client {
     payment: pay,
     quote,
     prepTips: String(r.prep_tips ?? r.prepTips ?? ''),
+    daySummary: String(r.day_summary ?? r.daySummary ?? ''),
   }
 }
 
@@ -117,6 +125,7 @@ function clientOpsRow(c: Client) {
     gallery: c.gallery,
     quote: c.quote,
     prep_tips: c.prepTips ?? '',
+    day_summary: c.daySummary ?? '',
   }
 }
 
@@ -127,6 +136,7 @@ function clientFinanceRow(c: Client) {
     custom_price: c.customPrice,
     fixed_price: c.fixedPrice,
     payment: c.payment,
+    addon_prices: c.addonPrices ?? {},
   }
 }
 
@@ -148,6 +158,12 @@ function rowToAddon(r: Record<string, unknown>): Addon {
     price: num0(r.price),
     suggestsExpense: (r.suggests_expense as Addon['suggestsExpense']) ?? undefined,
   }
+}
+
+function mergeAddonCatalog(rows: Record<string, unknown>[]): Addon[] {
+  const mapped = rows.map((r) => rowToAddon(r))
+  const have = new Set(mapped.map((a) => a.id))
+  return mapped.length ? [...mapped, ...ADDONS.filter((a) => !have.has(a.id))] : ADDONS
 }
 
 function rowToExpense(r: Record<string, unknown>): Expense {
@@ -201,8 +217,11 @@ async function loadQuoteRates(sb: SupabaseClient): Promise<QuoteRate[]> {
 
 async function loadSnapshot(sb: SupabaseClient, isOwner: boolean): Promise<DbSnapshot> {
   let clients = await sb.from('pm_clients').select(CLIENT_OPS)
+  if (clients.error && /day_summary/i.test(clients.error.message ?? '')) {
+    clients = await sb.from('pm_clients').select(CLIENT_OPS.replace(',day_summary', ''))
+  }
   if (clients.error && /prep_tips/i.test(clients.error.message ?? '')) {
-    clients = await sb.from('pm_clients').select(CLIENT_OPS.replace(',prep_tips', ''))
+    clients = await sb.from('pm_clients').select(CLIENT_OPS.replace(',day_summary', '').replace(',prep_tips', ''))
   }
   const pkgs = sb.from('pm_packages').select('*')
   const adds = sb.from('pm_addons').select('*')
@@ -233,7 +252,7 @@ async function loadSnapshot(sb: SupabaseClient, isOwner: boolean): Promise<DbSna
       vendors: ((r as { vendors: VendorSheet['vendors'] }).vendors ?? []) as VendorSheet['vendors'],
     })),
     packages: (packages.data ?? []).length ? (packages.data ?? []).map((r) => rowToPackage(r as Record<string, unknown>)) : ALL_PACKAGES,
-    addons: (addons.data ?? []).length ? (addons.data ?? []).map((r) => rowToAddon(r as Record<string, unknown>)) : ADDONS,
+    addons: mergeAddonCatalog(addons.data ?? []),
     profiles: [],
     brandLogos,
     quoteRates,
@@ -300,7 +319,17 @@ export const supabaseAdapter: DataAdapter = {
   async save(data) {
     const sb = pmClient()
     const { error: cErr } = await sb.from('pm_clients').upsert(data.clients.map(clientOpsRow))
-    if (cErr) throw cErr
+    if (cErr && /day_summary/i.test(cErr.message ?? '')) {
+      const { error: retry } = await sb.from('pm_clients').upsert(
+        data.clients.map((c) => {
+          const { day_summary: _, ...row } = clientOpsRow(c)
+          return row
+        }),
+      )
+      if (retry) throw retry
+    } else if (cErr) {
+      throw cErr
+    }
     const { error: vErr } = await sb.from('pm_vendor_sheets').upsert(
       data.vendorSheets.map((s) => ({ client_id: s.clientId, vendors: s.vendors })),
     )
@@ -310,7 +339,20 @@ export const supabaseAdapter: DataAdapter = {
     const { data: prof } = await sb.from('pm_profiles').select('role').eq('id', userData.user.id).maybeSingle()
     if (prof?.role !== 'owner') return
     const { error: fErr } = await sb.from('pm_client_finance').upsert(data.clients.map(clientFinanceRow))
-    if (fErr) throw fErr
+    if (fErr && /addon_prices/i.test(fErr.message ?? '')) {
+      const { error: retry } = await sb.from('pm_client_finance').upsert(
+        data.clients.map((c) => ({
+          client_id: c.id,
+          deposit: c.deposit,
+          custom_price: c.customPrice,
+          fixed_price: c.fixedPrice,
+          payment: c.payment,
+        })),
+      )
+      if (retry) throw retry
+    } else if (fErr) {
+      throw fErr
+    }
     const { error: eErr } = await sb.from('pm_expenses').upsert(
       data.expenses.map((e) => ({
         id: e.id,

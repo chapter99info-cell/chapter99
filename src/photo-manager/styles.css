@@ -70,6 +70,8 @@
 .pm-root input[type='checkbox'] { width: 20px; height: 20px; min-height: 0; }
 .pm-root label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 6px; }
 .pm-root .field { margin-bottom: 16px; }
+.pm-root .addon { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; font-size: 13.5px; color: var(--ink); }
+.pm-root .addon-price { width: 96px; min-width: 96px; flex-shrink: 0; padding: 8px 10px; min-height: 40px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; }
 .pm-root .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .pm-root .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
 .pm-root .doc-preview { background: #fff; border: 1px solid var(--line); color: #2a2620; border-radius: 10px; padding: 26px 28px; font-size: 13px; line-height: 1.8; white-space: pre-wrap; max-height: 440px; overflow: auto; word-break: break-word; }
@@ -146,8 +148,20 @@
 .pm-root .check-btn:disabled { opacity: .6; }
 .pm-root .banner { background: #fff6e8; border: 1px solid #e8d4a8; border-radius: 12px; padding: 14px 16px; margin-bottom: 18px; font-size: 13px; line-height: 1.6; }
 .pm-root .client-phone { background: #fff; width: 100%; max-width: 420px; border-radius: 18px; margin: 24px auto; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.15); }
+.pm-root .client-phone.wide { max-width: 560px; }
 .pm-root .client-phone .cp-head { background: var(--sage-dark); color: #fff; padding: 18px 20px; font-family: Fraunces, serif; }
 .pm-root .cp-body { padding: 20px; font-size: 13px; line-height: 1.8; white-space: pre-wrap; overflow-wrap: anywhere; }
+.pm-root .cp-brief, .pm-root .cp-contract { padding: 16px 16px 8px; }
+.pm-root .cp-brief h3 { font-family: Fraunces, serif; font-size: 17px; font-weight: 600; color: var(--sage-dark); margin: 0 0 12px; }
+.pm-root .cp-brief dl, .pm-root .contract-dl { margin: 0; display: grid; gap: 8px; }
+.pm-root .cp-brief dl > div, .pm-root .contract-dl > div { display: grid; gap: 2px; }
+.pm-root .cp-brief dt, .pm-root .contract-dl dt { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+.pm-root .cp-brief dd, .pm-root .contract-dl dd { margin: 0; font-size: 14px; line-height: 1.45; color: var(--ink); }
+.pm-root .day-plan {
+  margin-top: 14px; padding: 12px 14px; background: var(--sage-pale); border-radius: 10px; border: 1px solid var(--line);
+}
+.pm-root .day-plan-h { font-size: 12.5px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.pm-root .day-plan p { margin: 0; font-size: 15px; line-height: 1.65; color: var(--ink); }
 .pm-root .cp-actions { padding: 16px 20px 22px; border-top: 1px solid #eee; }
 .pm-root .cp-confirm-btn { all: unset; cursor: pointer; display: block; text-align: center; background: var(--sage); color: #fff; font-weight: 700; padding: 12px; border-radius: 10px; width: 100%; box-sizing: border-box; min-height: 44px; }
 .pm-root .prep-tips {
@@ -157,6 +171,33 @@
 .pm-root .prep-tips h4 {
   font-family: Fraunces, serif; font-size: 15px; font-weight: 600; margin: 0 0 4px; color: var(--sage-dark);
 }
+.pm-root .prep-tips-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.pm-root .prep-tips-top h4 { margin: 0; }
+.pm-root .prep-lang { display: flex; gap: 2px; background: rgba(55,90,76,.12); border-radius: 100px; padding: 2px; flex-shrink: 0; }
+.pm-root .prep-lang button {
+  all: unset; cursor: pointer; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 100px; color: var(--muted);
+}
+.pm-root .prep-lang button.on { background: var(--sage-dark); color: #fff; }
+.pm-root .contract-card { margin: 0; color: var(--ink); }
+.pm-root .contract-card h4 { color: var(--ink); font-size: 16px; font-weight: 700; }
+.pm-root .contract-h {
+  font-family: inherit; font-size: 17px; font-weight: 700; color: var(--ink);
+  line-height: 1.35; margin: 1.35em 0 0.5em; letter-spacing: 0;
+}
+.pm-root .contract-card .prep-tips-block { margin-top: 14px; }
+.pm-root .contract-card .prep-tips-block:first-of-type { margin-top: 12px; }
+.pm-root .contract-row, .pm-root .contract-p {
+  margin: 0 0 8px; font-size: 15px; line-height: 1.65; font-weight: 400; color: var(--ink);
+}
+.pm-root .contract-lab { font-weight: 700; color: inherit; }
+.pm-root .contract-gst { color: var(--muted); }
+.pm-root .contract-gst .contract-lab { color: inherit; }
+.pm-root .contract-terms { margin: 0; padding-left: 0; list-style: none; }
+.pm-root .contract-terms li { margin-bottom: 12px; font-size: 15px; line-height: 1.65; font-weight: 400; color: var(--ink); }
+.pm-root .contract-terms li strong, .pm-root .contract-terms li .contract-lab {
+  display: inline; font-size: inherit; font-weight: 700; color: inherit; margin: 0;
+}
+.pm-root .contract-terms li span { display: inline; font-weight: 400; }
 .pm-root .prep-tips-lead { margin: 0 0 10px; font-size: 12px; color: var(--muted); }
 .pm-root .prep-tips-block { margin-top: 8px; }
 .pm-root .prep-tips-h { font-size: 12.5px; font-weight: 700; color: var(--sage-dark); margin-bottom: 4px; }
@@ -203,6 +244,18 @@
   .pm-root .inv-footer { grid-template-columns: 1fr; }
   .pm-root .pkg-grid { grid-template-columns: 1fr; }
   .pm-root .calc-pair { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .pm-root .cp-contract .contract-row,
+  .pm-root .cp-contract .contract-terms li {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  .pm-root .cp-contract .contract-h {
+    font-size: 18px;
+    margin-top: 1.55em;
+  }
+  .pm-root .contract-card h4 { font-size: 16px; }
 }
 @media (max-width: 860px) {
   .pm-root .app {

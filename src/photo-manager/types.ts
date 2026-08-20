@@ -47,6 +47,8 @@ export type Client = {
   phone: string
   email: string
   addonIds: string[]
+  /** Per-client add-on prices (AUD inc GST). Missing key = catalog price. */
+  addonPrices: Record<string, number>
   checklist: Checklist
   briefConfirmed: boolean
   contractConfirmed: boolean
@@ -68,6 +70,8 @@ export type Client = {
   }
   /** Empty = use default tips for this job type. */
   prepTips: string
+  /** Empty = auto-generate a short day plan from the crew timeline. */
+  daySummary: string
 }
 
 export type Vendor = {

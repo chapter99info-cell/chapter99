@@ -12,7 +12,7 @@ const LINKS = [
   { to: '/pm/contract', ico: '✎', label: 'สัญญา' },
   { to: '/pm/quote', ico: '◇', label: 'ใบเสนอราคา' },
   { to: '/pm/invoice', ico: '▤', label: 'ใบแจ้งหนี้' },
-  { to: '/pm/timeline', ico: '◷', label: 'ตารางเวลาวันงาน' },
+  { to: '/pm/timeline', ico: '◷', label: 'ตารางเวลา (ทีมงาน)' },
   { to: '/pm/vendors', ico: '☰', label: 'Vendor Sheet' },
   { to: '/pm/brief', ico: '◐', label: 'สรุปงานวันถ่าย' },
   { to: '/pm/email', ico: '✉', label: 'อีเมลลูกค้า' },

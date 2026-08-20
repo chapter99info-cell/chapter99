@@ -19,6 +19,8 @@ const sqlFiles = [
   path.join(__dirname, '../photo-manager/supabase/006_prep_tips.sql'),
   path.join(__dirname, '../photo-manager/supabase/007_recurring_expenses.sql'),
   path.join(__dirname, '../photo-manager/supabase/008_quote_calculator.sql'),
+  path.join(__dirname, '../photo-manager/supabase/009_addon_prices.sql'),
+  path.join(__dirname, '../photo-manager/supabase/010_day_summary.sql'),
 ]
 const pmUrl = (process.env.VITE_PM_SUPABASE_URL || '').trim()
 const agencyUrl = (process.env.VITE_SUPABASE_URL || '').trim()

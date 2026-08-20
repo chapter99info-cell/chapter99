@@ -80,6 +80,7 @@ export const ADDONS: Addon[] = [
   { id: 'drone', name: 'Aerial drone', price: 475 },
   { id: 'extra-album', name: 'Extra photo album', price: 1000 },
   { id: 'raw-footage', name: 'Raw/unedited footage', price: 500 },
+  { id: 'short-reels', name: 'Short video / Reels (with stills)', price: 349 },
 ]
 
 export const EXPENSE_PRESETS = [
@@ -110,6 +111,13 @@ export const TYPE_LABEL: Record<string, string> = {
   wedding: 'งานแต่งงาน',
   engagement: 'Pre-Wedding / Engagement',
   portrait: 'Portrait/Branding',
+  family: 'Family Portrait',
+}
+
+export const TYPE_LABEL_EN: Record<string, string> = {
+  wedding: 'Wedding',
+  engagement: 'Pre-Wedding / Engagement',
+  portrait: 'Portrait / Branding',
   family: 'Family Portrait',
 }
 

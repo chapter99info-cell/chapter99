@@ -1,3 +1,4 @@
+import { ADDONS } from '../../data/catalog'
 import { defaultBrandLogos } from '../../lib/brand'
 import { mergeQuoteRates } from '../../lib/quoteCalc'
 import { seedSnapshot } from '../../lib/seed'
@@ -53,9 +54,16 @@ export const localAdapter: DataAdapter = {
         ...existing,
         brandLogos: existing.brandLogos?.length ? existing.brandLogos : defaultBrandLogos(),
         quoteRates: mergeQuoteRates(existing.quoteRates),
+        addons: (() => {
+          const list = existing.addons?.length ? existing.addons : ADDONS
+          const have = new Set(list.map((a) => a.id))
+          return [...list, ...ADDONS.filter((a) => !have.has(a.id))]
+        })(),
         clients: (existing.clients ?? []).map((c) => ({
           ...c,
           prepTips: c.prepTips ?? '',
+          daySummary: c.daySummary ?? '',
+          addonPrices: c.addonPrices ?? {},
         })),
         expenses: (existing.expenses ?? []).map((e) => ({
           ...e,

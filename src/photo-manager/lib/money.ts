@@ -30,6 +30,17 @@ export function standardBase(client: Client, packages: { id: string; price: numb
   return client.fixedPrice ?? 0
 }
 
+export function addonUnitPrice(client: Pick<Client, 'addonPrices'>, addon: { id: string; price: number }): number {
+  const ov = client.addonPrices?.[addon.id]
+  if (ov != null && Number.isFinite(Number(ov))) return Number(ov)
+  return addon.price
+}
+
+export function formatAddonLine(name: string, price: number): string {
+  if (price === 0) return `${name} (ของแถม / Complimentary)`
+  return `${name} (+AUD ${money(price)})`
+}
+
 export function invoiceTotals(
   client: Client,
   packages: { id: string; price: number }[],
@@ -39,7 +50,8 @@ export function invoiceTotals(
   const std = standardBase(client, packages)
   const base = client.customPrice != null ? client.customPrice : std
   const selected = addons.filter((a) => client.addonIds.includes(a.id))
-  const addonsTotal = selected.reduce((s, a) => s + a.price, 0)
+  const priced = selected.map((a) => ({ id: a.id, name: a.name, price: addonUnitPrice(client, a) }))
+  const addonsTotal = priced.reduce((s, a) => s + a.price, 0)
   const gstInclusive = base + addonsTotal
   const { subtotal, gst } = gstSplit(gstInclusive)
   const surchargeRate = SURCHARGE[method]
@@ -48,7 +60,7 @@ export function invoiceTotals(
     base,
     standardBase: std,
     discountDelta: base - std,
-    addons: selected.map((a) => ({ id: a.id, name: a.name, price: a.price })),
+    addons: priced,
     addonsTotal,
     gstInclusive,
     subtotal,

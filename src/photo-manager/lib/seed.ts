@@ -11,10 +11,11 @@ function token() {
 
 const blankChecklist = () => ({ preshoot: false, balance: false, gallery: false, review: false })
 
-function client(partial: Omit<Client, 'typeLabel' | 'statusLabel' | 'gallery' | 'payment' | 'quote' | 'addonIds' | 'checklist' | 'briefConfirmed' | 'contractConfirmed' | 'confirmToken' | 'customPrice' | 'prepTips'> & Partial<Client>): Client {
+function client(partial: Omit<Client, 'typeLabel' | 'statusLabel' | 'gallery' | 'payment' | 'quote' | 'addonIds' | 'addonPrices' | 'checklist' | 'briefConfirmed' | 'contractConfirmed' | 'confirmToken' | 'customPrice' | 'prepTips' | 'daySummary'> & Partial<Client>): Client {
   return {
     customPrice: null,
     addonIds: [],
+    addonPrices: {},
     checklist: blankChecklist(),
     briefConfirmed: false,
     contractConfirmed: false,
@@ -23,6 +24,7 @@ function client(partial: Omit<Client, 'typeLabel' | 'statusLabel' | 'gallery' | 
     payment: { method: 'bank', reference: '', paidAt: null },
     quote: { expiryISO: '', issued: false },
     prepTips: defaultPrepTips(partial.type),
+    daySummary: '',
     typeLabel: TYPE_LABEL[partial.type],
     statusLabel: STATUS_LABEL[partial.status],
     ...partial,

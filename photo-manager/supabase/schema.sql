@@ -53,7 +53,8 @@ create table if not exists public.pm_clients (
   confirm_token text unique,
   gallery jsonb not null default '{}'::jsonb,
   quote jsonb not null default '{}'::jsonb,
-  prep_tips text not null default ''
+  prep_tips text not null default '',
+  day_summary text not null default ''
 );
 
 -- Money never lives on pm_clients (staff can read that table). Owner-only.
@@ -62,7 +63,8 @@ create table if not exists public.pm_client_finance (
   deposit numeric not null default 0,
   custom_price numeric,
   fixed_price numeric,
-  payment jsonb not null default '{}'::jsonb
+  payment jsonb not null default '{}'::jsonb,
+  addon_prices jsonb not null default '{}'::jsonb
 );
 
 create table if not exists public.pm_expenses (
@@ -243,7 +245,9 @@ begin
     'gallery', coalesce(r.gallery, '{}'::jsonb),
     'payment', coalesce(f.payment, '{}'::jsonb),
     'quote', coalesce(r.quote, '{}'::jsonb),
-    'prepTips', coalesce(r.prep_tips, '')
+    'prepTips', coalesce(r.prep_tips, ''),
+    'daySummary', coalesce(r.day_summary, ''),
+    'addonPrices', coalesce(f.addon_prices, '{}'::jsonb)
   );
 end;
 $$;
@@ -319,7 +323,8 @@ insert into public.pm_addons (id, name, price, suggests_expense) values
   ('freelance-video','Hire freelance videographer (extra)',800,'{"category":"Freelancer / contractor","description":"Freelance videographer hire (typical average cost)","typicalAmount":400}'::jsonb),
   ('drone','Aerial drone',475,null),
   ('extra-album','Extra photo album',1000,null),
-  ('raw-footage','Raw/unedited footage',500,null)
+  ('raw-footage','Raw/unedited footage',500,null),
+  ('short-reels','Short video / Reels (with stills)',349,null)
 on conflict (id) do nothing;
 
 -- Per-job-type logos (same wedding.png for all types until remapped in Settings/Brand).

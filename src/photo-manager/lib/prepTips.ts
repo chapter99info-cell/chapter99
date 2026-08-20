@@ -36,10 +36,52 @@ const FAMILY = `ชุด / Outfit
 เวลามาถึง
 • มาถึงก่อนนัดสักไม่กี่นาที ให้เด็กได้คุ้นกล้องก่อนเริ่มถ่ายจริง`
 
+const COUPLE_EN = `Outfit
+• If you are unsure about outfits, bring a second option — we can pick what suits the light and location on the day
+• Avoid busy prints, large logos, and highly reflective fabric; cleaner looks photograph better
+• Complementary colours work well; you do not need matching outfits so you stay distinct in frame
+
+Skin & hair
+• Natural makeup with a little dimension holds up better in photos than a heavy matte finish
+• For long sessions, pack a small touch-up kit (blotting paper, lip colour, comb)
+
+Timing
+• Please be ready about 15 minutes before call time so we do not lose the first light and can set frames straight away
+
+Weather
+• Outdoor jobs have a rain backup — we will agree shade or cover in advance so you do not need to stress about the sky
+
+Golden hour
+• We protect golden hour on the timeline; the soft light and skin tone are worth being on time for`
+
+const PORTRAIT_EN = `Outfit
+• Solid or quiet tones photograph better than busy prints
+• Complementary colours work well; you do not need matching outfits
+
+Arrival
+• Arrive a few minutes early so you can settle, fix hair or collars, then start shooting`
+
+const FAMILY_EN = `Outfit
+• Solid or quiet tones photograph better than busy prints
+• Complementary family colours work well; nobody needs identical outfits
+
+Kids
+• Bring a small snack or toy for breaks between shots
+• Choose a time when children still have energy — morning or after a nap usually beats tired or hungry
+
+Arrival
+• Arrive a few minutes early so kids can get used to the camera before we start`
+
 export function defaultPrepTips(type: JobType | string): string {
   if (type === 'portrait') return PORTRAIT
   if (type === 'family') return FAMILY
   return COUPLE
+}
+
+export function defaultPrepTipsEn(type: JobType | string): string {
+  if (type === 'portrait') return PORTRAIT_EN
+  if (type === 'family') return FAMILY_EN
+  return COUPLE_EN
 }
 
 export function resolvedPrepTips(client: Pick<Client, 'type' | 'prepTips'>): string {

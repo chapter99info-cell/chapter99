@@ -388,6 +388,7 @@ export function blankClient(): Client {
     phone: '',
     email: '',
     addonIds: [],
+    addonPrices: {},
     checklist: { preshoot: false, balance: false, gallery: false, review: false },
     briefConfirmed: false,
     contractConfirmed: false,
@@ -396,6 +397,7 @@ export function blankClient(): Client {
     payment: { method: 'bank', reference: '', paidAt: null },
     quote: { expiryISO: iso, issued: false },
     prepTips: '',
+    daySummary: '',
   }
 }
 

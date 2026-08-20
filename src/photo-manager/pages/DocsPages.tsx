@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { contractText } from '../lib/contract'
-import { gstSplit, invoiceTotals, money } from '../lib/money'
+import { addonUnitPrice, gstSplit, invoiceTotals, money } from '../lib/money'
 import { professionLabel, resultFromDraft } from '../lib/quoteCalc'
 import { usePhotoStore } from '../store/StoreContext'
 import type { Client, PaymentMethod } from '../types'
 import { BrandMark } from './BrandMark'
-import { ClientSelect, PageTitle } from './ui'
+import { ClientConfirmBar, ClientSelect, PageTitle } from './ui'
 import { PM_ABN } from '../lib/brand'
 
 export function PriceControls({
@@ -46,30 +46,55 @@ export function PriceControls({
       </div>
       )}
       <div className="field">
-        <label>Add-ons (บวกบนราคาฐานเสมอ)</label>
-        {data.addons.map((a) => (
-          <label key={a.id} className="addon">
-            <input
-              type="checkbox"
-              checked={client.addonIds.includes(a.id)}
-              onChange={(e) => {
-                const ids = e.target.checked
-                  ? [...client.addonIds, a.id]
-                  : client.addonIds.filter((id) => id !== a.id)
-                onPatch({ addonIds: ids })
-              }}
-            />
-            <span>
-              {a.name} — {money(a.price)}
-              {a.suggestsExpense && isOwner && (
-                <span className="muted">
-                  {' '}
-                  · รายได้ลูกค้า {money(a.price)} ไม่ใช่ต้นทุนจ้าง (~{money(a.suggestsExpense.typicalAmount)})
-                </span>
+        <label>Add-ons (บวกบนราคาฐานเสมอ — แก้ราคาได้ต่องาน รวม 0 = ของแถม)</label>
+        {data.addons.map((a) => {
+          const on = client.addonIds.includes(a.id)
+          const charged = addonUnitPrice(client, a)
+          return (
+            <label key={a.id} className="addon">
+              <input
+                type="checkbox"
+                checked={on}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    onPatch({
+                      addonIds: [...client.addonIds, a.id],
+                      addonPrices: { ...(client.addonPrices ?? {}), [a.id]: addonUnitPrice(client, a) },
+                    })
+                    return
+                  }
+                  const { [a.id]: _, ...rest } = client.addonPrices ?? {}
+                  onPatch({ addonIds: client.addonIds.filter((id) => id !== a.id), addonPrices: rest })
+                }}
+              />
+              <span style={{ flex: 1 }}>
+                {a.name}
+                {a.suggestsExpense && isOwner && (
+                  <span className="muted">
+                    {' '}
+                    · รายได้ลูกค้า ไม่ใช่ต้นทุนจ้าง (~{money(a.suggestsExpense.typicalAmount)})
+                  </span>
+                )}
+                {on && charged === 0 && <span className="muted"> · ของแถม / Complimentary</span>}
+              </span>
+              {on && (
+                <input
+                  type="number"
+                  min={0}
+                  step={1}
+                  className="addon-price"
+                  value={charged}
+                  onChange={(ev) => {
+                    const n = Number(ev.target.value)
+                    onPatch({
+                      addonPrices: { ...(client.addonPrices ?? {}), [a.id]: Number.isFinite(n) ? n : 0 },
+                    })
+                  }}
+                />
               )}
-            </span>
-          </label>
-        ))}
+            </label>
+          )
+        })}
       </div>
       {showSurcharge && (
         <div className="field">
@@ -108,7 +133,6 @@ export function ContractPage() {
 
   if (!client) return <p>ยังไม่มีลูกค้า</p>
   const text = contractText(client, data.packages, data.addons)
-  const link = `${window.location.origin}/pm/confirm/${client.confirmToken}?k=contract`
 
   return (
     <>
@@ -159,21 +183,16 @@ export function ContractPage() {
             <button className="btn ghost sm" onClick={() => navigator.clipboard.writeText(text)}>
               คัดลอกข้อความ
             </button>
-            <button className="btn sm" onClick={() => window.print()}>
+            <button className="btn ghost sm" onClick={() => window.print()}>
               พิมพ์ / PDF
             </button>
           </div>
         </div>
-        <div className="link-box no-print">
-          <span>🔗</span>
-          <span className="url">{link}</span>
-          <a className="btn ghost sm" href={link} target="_blank" rel="noreferrer">
-            เปิดหน้าที่ลูกค้าเห็น
-          </a>
-          <span className={`confirm-status ${client.contractConfirmed ? 'confirmed' : 'waiting'}`}>
-            {client.contractConfirmed ? '✓ ลูกค้ายืนยันแล้ว' : '● รอลูกค้ายืนยัน'}
-          </span>
-        </div>
+        <ClientConfirmBar
+          client={client}
+          kind="contract"
+          onEnsureToken={(token) => patchClient(client.id, { confirmToken: token })}
+        />
       </div>
     </>
   )
@@ -280,10 +299,10 @@ function DocPreview({ client, kind }: { client: Client; kind: 'invoice' | 'quote
           </tr>
           {t.addons.map((a) => (
             <tr key={a.id}>
-              <td>{a.name}</td>
-              <td>1</td>
-              <td>{money(a.price / 1.1)}</td>
-              <td>{money(a.price / 1.1)}</td>
+              <td>{a.price === 0 ? `${a.name} (ของแถม / Complimentary)` : a.name}</td>
+              <td>{a.price === 0 ? 'Gift' : '1'}</td>
+              <td>{a.price === 0 ? 'Complimentary' : money(a.price / 1.1)}</td>
+              <td>{a.price === 0 ? 'Complimentary' : money(a.price / 1.1)}</td>
             </tr>
           ))}
           <tr>
