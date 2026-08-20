@@ -1,8 +1,9 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { ADDONS, ALL_PACKAGES } from '../../data/catalog'
 import { defaultBrandLogos } from '../../lib/brand'
+import { defaultQuoteRates, mergeQuoteRates } from '../../lib/quoteCalc'
 import { seedSnapshot } from '../../lib/seed'
-import type { Addon, BrandLogo, CatalogPackage, Client, DbSnapshot, Expense, Session, VendorSheet } from '../../types'
+import type { Addon, BrandLogo, CatalogPackage, Client, DbSnapshot, Expense, QuoteRate, Session, VendorSheet } from '../../types'
 import type { DataAdapter } from './types'
 
 const url = import.meta.env.VITE_PM_SUPABASE_URL
@@ -40,7 +41,7 @@ function num0(v: unknown): number {
 type ClientRow = Record<string, unknown>
 
 const CLIENT_OPS =
-  'id,name,type,type_label,package_id,date_display,date_iso,ceremony_time,location,status,status_label,phone,email,addon_ids,checklist,brief_confirmed,contract_confirmed,confirm_token,gallery,quote'
+  'id,name,type,type_label,package_id,date_display,date_iso,ceremony_time,location,status,status_label,phone,email,addon_ids,checklist,brief_confirmed,contract_confirmed,confirm_token,gallery,quote,prep_tips'
 
 function financeBlank() {
   return {
@@ -89,6 +90,7 @@ export function rowToClient(r: ClientRow, finance?: ClientRow | null): Client {
     gallery,
     payment: pay,
     quote,
+    prepTips: String(r.prep_tips ?? r.prepTips ?? ''),
   }
 }
 
@@ -114,6 +116,7 @@ function clientOpsRow(c: Client) {
     confirm_token: c.confirmToken,
     gallery: c.gallery,
     quote: c.quote,
+    prep_tips: c.prepTips ?? '',
   }
 }
 
@@ -148,6 +151,7 @@ function rowToAddon(r: Record<string, unknown>): Addon {
 }
 
 function rowToExpense(r: Record<string, unknown>): Expense {
+  const freq = r.frequency === 'monthly' || r.frequency === 'yearly' ? r.frequency : 'once'
   return {
     id: String(r.id),
     dateISO: String(r.date_iso),
@@ -155,6 +159,8 @@ function rowToExpense(r: Record<string, unknown>): Expense {
     description: String(r.description),
     amount: num0(r.amount),
     linkedClientId: (r.linked_client_id as string | null) ?? null,
+    frequency: freq,
+    endedISO: r.ended_iso ? String(r.ended_iso).slice(0, 10) : null,
   }
 }
 
@@ -181,22 +187,38 @@ async function loadBrandLogos(sb: SupabaseClient): Promise<BrandLogo[]> {
   return (data as BrandLogo[]).map((r) => ({ type: String(r.type), logo_url: String(r.logo_url ?? '') }))
 }
 
+async function loadQuoteRates(sb: SupabaseClient): Promise<QuoteRate[]> {
+  const { data, error } = await sb.from('pm_quote_rates').select('id,amount,label')
+  if (error || !data?.length) return defaultQuoteRates()
+  return mergeQuoteRates(
+    (data as QuoteRate[]).map((r) => ({
+      id: String(r.id),
+      amount: Number(r.amount) || 0,
+      label: String(r.label ?? ''),
+    })),
+  )
+}
+
 async function loadSnapshot(sb: SupabaseClient, isOwner: boolean): Promise<DbSnapshot> {
-  const ops = sb.from('pm_clients').select(CLIENT_OPS)
+  let clients = await sb.from('pm_clients').select(CLIENT_OPS)
+  if (clients.error && /prep_tips/i.test(clients.error.message ?? '')) {
+    clients = await sb.from('pm_clients').select(CLIENT_OPS.replace(',prep_tips', ''))
+  }
   const pkgs = sb.from('pm_packages').select('*')
   const adds = sb.from('pm_addons').select('*')
   const vendors = sb.from('pm_vendor_sheets').select('*')
   const financeQ = isOwner ? sb.from('pm_client_finance').select('*') : Promise.resolve({ data: [] as ClientRow[], error: null })
   const expensesQ = isOwner ? sb.from('pm_expenses').select('*') : Promise.resolve({ data: [] as Record<string, unknown>[], error: null })
   const logosQ = loadBrandLogos(sb)
-  const [clients, expenses, vendorSheets, packages, addons, finance, brandLogos] = await Promise.all([
-    ops,
+  const ratesQ = isOwner ? loadQuoteRates(sb) : Promise.resolve(defaultQuoteRates())
+  const [expenses, vendorSheets, packages, addons, finance, brandLogos, quoteRates] = await Promise.all([
     expensesQ,
     vendors,
     pkgs,
     adds,
     financeQ,
     logosQ,
+    ratesQ,
   ])
   if (clients.error) throw clients.error
   const finMap = new Map<string, ClientRow>()
@@ -214,6 +236,7 @@ async function loadSnapshot(sb: SupabaseClient, isOwner: boolean): Promise<DbSna
     addons: (addons.data ?? []).length ? (addons.data ?? []).map((r) => rowToAddon(r as Record<string, unknown>)) : ADDONS,
     profiles: [],
     brandLogos,
+    quoteRates,
   }
 }
 
@@ -269,7 +292,7 @@ export const supabaseAdapter: DataAdapter = {
     const { data } = await sb.auth.getSession()
     if (!data.session) {
       const brandLogos = await loadBrandLogos(sb)
-      return { ...seedSnapshot(), clients: [], expenses: [], vendorSheets: [], packages: ALL_PACKAGES, addons: ADDONS, profiles: [], brandLogos }
+      return { ...seedSnapshot(), clients: [], expenses: [], vendorSheets: [], packages: ALL_PACKAGES, addons: ADDONS, profiles: [], brandLogos, quoteRates: defaultQuoteRates() }
     }
     const session = await sessionFromUser(sb, data.session.user.id, data.session.user.email ?? '', 'Saen')
     return loadSnapshot(sb, session.role === 'owner')
@@ -296,9 +319,25 @@ export const supabaseAdapter: DataAdapter = {
         description: e.description,
         amount: e.amount,
         linked_client_id: e.linkedClientId,
+        frequency: e.frequency ?? 'once',
+        ended_iso: e.endedISO,
       })),
     )
-    if (eErr) throw eErr
+    if (eErr && /frequency|ended_iso/i.test(eErr.message ?? '')) {
+      const { error: retry } = await sb.from('pm_expenses').upsert(
+        data.expenses.map((e) => ({
+          id: e.id,
+          date_iso: e.dateISO,
+          category: e.category,
+          description: e.description,
+          amount: e.amount,
+          linked_client_id: e.linkedClientId,
+        })),
+      )
+      if (retry) throw retry
+    } else if (eErr) {
+      throw eErr
+    }
     const { error: pErr } = await sb.from('pm_packages').upsert(
       data.packages.map((p) => ({
         id: p.id,
@@ -323,6 +362,12 @@ export const supabaseAdapter: DataAdapter = {
         data.brandLogos.map((r) => ({ type: r.type, logo_url: r.logo_url })),
       )
       if (logoErr && logoErr.code !== 'PGRST205') throw logoErr
+    }
+    if (data.quoteRates?.length) {
+      const { error: rateErr } = await sb.from('pm_quote_rates').upsert(
+        data.quoteRates.map((r) => ({ id: r.id, amount: r.amount, label: r.label })),
+      )
+      if (rateErr && rateErr.code !== 'PGRST205') throw rateErr
     }
   },
   async login(email, password) {

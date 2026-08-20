@@ -12,6 +12,7 @@ import TaxPage from './pages/TaxPage'
 import PackagesPage from './pages/PackagesPage'
 import ConfirmPage from './pages/ConfirmPage'
 import BrandPage from './pages/BrandPage'
+import QuoteCalculatorPage from './pages/QuoteCalculatorPage'
 import './styles.css'
 
 function Fonts() {
@@ -45,6 +46,7 @@ function Inner() {
           <Route path="calendar" element={<CalendarPage />} />
           <Route path="contract" element={<ContractPage />} />
           <Route path="quote" element={<QuotePage />} />
+          <Route path="quote-calculator" element={<OwnerQuoteCalc />} />
           <Route path="invoice" element={<InvoicePage />} />
           <Route path="timeline" element={<TimelinePage />} />
           <Route path="vendors" element={<VendorsPage />} />
@@ -71,6 +73,12 @@ function OwnerTax() {
   const { isOwner } = usePhotoStore()
   if (!isOwner) return <Navigate to="/pm" replace />
   return <TaxPage />
+}
+
+function OwnerQuoteCalc() {
+  const { isOwner } = usePhotoStore()
+  if (!isOwner) return <Navigate to="/pm" replace />
+  return <QuoteCalculatorPage />
 }
 
 function OwnerBrand() {

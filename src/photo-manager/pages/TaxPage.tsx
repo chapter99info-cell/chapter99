@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react'
 import { EXPENSE_PRESETS } from '../data/catalog'
+import { addDaysISO, categoryTotals, expenseOverlapsYear, FREQ_LABEL, monthExpenseTotal, occurrencesInYear, yearExpenseTotal } from '../lib/expenses'
 import { gstSplit, incomeReceipt, invoiceTotals, money } from '../lib/money'
 import { usePhotoStore } from '../store/StoreContext'
+import type { Expense, ExpenseFrequency } from '../types'
 import { PageTitle } from './ui'
 
 function BarLine({ months }: { months: { label: string; income: number; expense: number }[] }) {
@@ -74,21 +76,29 @@ export default function TaxPage() {
   const thisYear = new Date().getFullYear()
   const [year, setYear] = useState(thisYear)
   const [preset, setPreset] = useState('')
-  const [draft, setDraft] = useState({ dateISO: new Date().toISOString().slice(0, 10), category: '', description: '', amount: '' })
+  const [draft, setDraft] = useState({
+    dateISO: new Date().toISOString().slice(0, 10),
+    category: '',
+    description: '',
+    amount: '',
+    frequency: 'once' as ExpenseFrequency,
+  })
+
+  const byCat = useMemo(() => categoryTotals(expenses, year), [expenses, year])
 
   if (!isOwner) {
     return <p>หน้านี้สำหรับเจ้าของเท่านั้น</p>
   }
 
   const yearClients = clients.filter((c) => new Date(c.dateISO).getFullYear() === year)
-  const yearExpenses = expenses.filter((e) => new Date(e.dateISO).getFullYear() === year)
+  const yearExpenses = expenses.filter((e) => expenseOverlapsYear(e, year))
   const income = yearClients.reduce((s, c) => {
     const t = invoiceTotals(c, data.packages, data.addons)
     if (c.status === 'paid') return s + t.gstInclusive
     return s + c.deposit
   }, 0)
   const gstOnIncome = gstSplit(income).gst
-  const expenseSum = yearExpenses.reduce((s, e) => s + e.amount, 0)
+  const expenseSum = yearExpenseTotal(expenses, year)
   const net = income - expenseSum
 
   const months = Array.from({ length: 12 }, (_, i) => {
@@ -99,15 +109,8 @@ export default function TaxPage() {
       const t = invoiceTotals(c, data.packages, data.addons)
       return s + (c.status === 'paid' ? t.gstInclusive : c.deposit)
     }, 0)
-    const me = yearExpenses.filter((e) => new Date(e.dateISO).getMonth() === i).reduce((s, e) => s + e.amount, 0)
-    return { label, income: mi, expense: me }
+    return { label, income: mi, expense: monthExpenseTotal(expenses, year, i) }
   })
-
-  const byCat = useMemo(() => {
-    const map = new Map<string, number>()
-    yearExpenses.forEach((e) => map.set(e.category, (map.get(e.category) ?? 0) + e.amount))
-    return [...map.entries()].map(([label, value]) => ({ label, value }))
-  }, [yearExpenses])
 
   function csv() {
     const lines = [
@@ -117,10 +120,13 @@ export default function TaxPage() {
         const rec = incomeReceipt(c, data.packages, data.addons)
         return `income,${c.dateISO},"${c.name.replace(/"/g, '""')}",job,${t.gstInclusive.toFixed(2)},${t.gst.toFixed(2)},${t.subtotal.toFixed(2)},${rec}`
       }),
-      ...yearExpenses.map((e) => {
-        const split = gstSplit(e.amount)
-        return `expense,${e.dateISO},"${e.description.replace(/"/g, '""')}",${e.category},${e.amount.toFixed(2)},${split.gst.toFixed(2)},${split.subtotal.toFixed(2)},`
-      }),
+      ...yearExpenses.flatMap((e) =>
+        occurrencesInYear(e, year).map((o) => {
+          const split = gstSplit(o.amount)
+          const freq = e.frequency && e.frequency !== 'once' ? ` (${e.frequency})` : ''
+          return `expense,${o.dateISO},"${e.description.replace(/"/g, '""')}${freq}",${e.category},${o.amount.toFixed(2)},${split.gst.toFixed(2)},${split.subtotal.toFixed(2)},`
+        }),
+      ),
     ]
     const blob = new Blob([lines.join('\n')], { type: 'text/csv' })
     const a = document.createElement('a')
@@ -174,7 +180,10 @@ export default function TaxPage() {
         ) : (
           <div className="chart-fallback">ยังไม่มีข้อมูลปีนี้สำหรับกราฟ</div>
         )}
-        <div className="chart-fallback muted">แท่งเขียว = รายรับ · แท่งแดง = รายจ่าย · เส้นน้ำเงิน = รายรับ</div>
+        <div className="chart-fallback muted">
+          แท่งเขียว = รายรับ · แท่งแดง = รายจ่าย · เส้นน้ำเงิน = รายรับ — รายเดือนคิดทุกเดือนตั้งแต่เริ่มจนหยุด /
+          รายปีคิดในเดือนที่ครบรอบวันเริ่ม
+        </div>
       </div>
       <div className="card">
         <h3>รายจ่ายตามหมวด</h3>
@@ -235,22 +244,38 @@ export default function TaxPage() {
         </div>
         <div className="grid3">
           <div className="field">
-            <label>วันที่</label>
+            <label>วันที่เริ่ม / วันจ่าย</label>
             <input type="date" value={draft.dateISO} onChange={(e) => setDraft({ ...draft, dateISO: e.target.value })} />
           </div>
           <div className="field">
-            <label>หมวด</label>
-            <input value={draft.category} onChange={(e) => setDraft({ ...draft, category: e.target.value })} />
+            <label>ความถี่</label>
+            <select
+              value={draft.frequency}
+              onChange={(e) => setDraft({ ...draft, frequency: e.target.value as ExpenseFrequency })}
+            >
+              <option value="once">ครั้งเดียว</option>
+              <option value="monthly">รายเดือน</option>
+              <option value="yearly">รายปี</option>
+            </select>
           </div>
           <div className="field">
             <label>ยอด AUD</label>
             <input value={draft.amount} onChange={(e) => setDraft({ ...draft, amount: e.target.value })} />
           </div>
         </div>
-        <div className="field">
-          <label>รายละเอียด</label>
-          <input value={draft.description} onChange={(e) => setDraft({ ...draft, description: e.target.value })} />
+        <div className="grid2">
+          <div className="field">
+            <label>หมวด</label>
+            <input value={draft.category} onChange={(e) => setDraft({ ...draft, category: e.target.value })} />
+          </div>
+          <div className="field">
+            <label>รายละเอียด</label>
+            <input value={draft.description} onChange={(e) => setDraft({ ...draft, description: e.target.value })} />
+          </div>
         </div>
+        <p className="muted">
+          รายเดือน / รายปี บันทึกครั้งเดียว — สรุปภาษีเดือนถัดไปจะนับให้อัตโนมัติจนกว่าจะกดหยุด
+        </p>
         <button
           className="btn sm"
           onClick={() => {
@@ -261,6 +286,8 @@ export default function TaxPage() {
               description: draft.description,
               amount: Number(draft.amount),
               linkedClientId: null,
+              frequency: draft.frequency,
+              endedISO: null,
             })
             setDraft({ ...draft, amount: '' })
           }}
@@ -270,32 +297,100 @@ export default function TaxPage() {
         <table style={{ marginTop: 16 }}>
           <thead>
             <tr>
-              <th>วันที่</th>
+              <th>เริ่ม</th>
+              <th>ความถี่</th>
               <th>หมวด</th>
               <th>รายละเอียด</th>
               <th>ยอด</th>
+              <th>หยุดตั้งแต่</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {yearExpenses.map((e) => (
-              <tr key={e.id}>
-                <td>
-                  <input type="date" value={e.dateISO} onChange={(ev) => updateExpense({ ...e, dateISO: ev.target.value })} />
-                </td>
-                <td>{e.category}</td>
-                <td>{e.description}</td>
-                <td className="mono">{money(e.amount)}</td>
-                <td>
-                  <button className="btn ghost sm" onClick={() => deleteExpense(e.id)}>
-                    ลบ
-                  </button>
-                </td>
-              </tr>
+              <ExpenseRow key={e.id} e={e} onUpdate={updateExpense} onDelete={deleteExpense} onAdd={addExpense} />
             ))}
           </tbody>
         </table>
       </div>
     </>
+  )
+}
+
+function ExpenseRow({
+  e,
+  onUpdate,
+  onDelete,
+  onAdd,
+}: {
+  e: Expense
+  onUpdate: (e: Expense) => Promise<void>
+  onDelete: (id: string) => Promise<void>
+  onAdd: (e: Omit<Expense, 'id'>) => Promise<void>
+}) {
+  const today = new Date().toISOString().slice(0, 10)
+  const recurring = (e.frequency ?? 'once') !== 'once'
+  return (
+    <tr>
+      <td>
+        <input type="date" value={e.dateISO} onChange={(ev) => void onUpdate({ ...e, dateISO: ev.target.value })} />
+      </td>
+      <td>
+        {recurring ? <span className="rec-badge">🔁 {FREQ_LABEL[e.frequency ?? 'once']}</span> : FREQ_LABEL.once}
+      </td>
+      <td>{e.category}</td>
+      <td>{e.description}</td>
+      <td>
+        <input
+          type="number"
+          className="mono"
+          style={{ width: 96 }}
+          defaultValue={e.amount}
+          onBlur={(ev) => {
+            const amount = Number(ev.target.value)
+            if (!Number.isFinite(amount) || amount === e.amount) return
+            if (!recurring || e.dateISO >= today) {
+              void onUpdate({ ...e, amount })
+              return
+            }
+            const cut = addDaysISO(today, -1)
+            void onUpdate({ ...e, endedISO: cut < e.dateISO ? e.dateISO : cut }).then(() =>
+              onAdd({
+                dateISO: today,
+                category: e.category,
+                description: e.description,
+                amount,
+                linkedClientId: e.linkedClientId,
+                frequency: e.frequency,
+                endedISO: null,
+              }),
+            )
+          }}
+        />
+      </td>
+      <td>
+        {recurring ? (
+          <input
+            type="date"
+            value={e.endedISO ?? ''}
+            onChange={(ev) => void onUpdate({ ...e, endedISO: ev.target.value || null })}
+          />
+        ) : (
+          '—'
+        )}
+      </td>
+      <td>
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+          {recurring && !e.endedISO && (
+            <button className="btn ghost sm" type="button" onClick={() => void onUpdate({ ...e, endedISO: today })}>
+              หยุดวันนี้
+            </button>
+          )}
+          <button className="btn ghost sm" type="button" onClick={() => void onDelete(e.id)}>
+            ลบ
+          </button>
+        </div>
+      </td>
+    </tr>
   )
 }

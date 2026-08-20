@@ -9,13 +9,11 @@ export const SURCHARGE: Record<PaymentMethod, number> = {
 
 export function money(n: number): string {
   const rounded = Math.round(n * 100) / 100
-  return (
-    '$' +
-    rounded.toLocaleString('en-AU', {
-      minimumFractionDigits: Number.isInteger(rounded) ? 0 : 2,
-      maximumFractionDigits: 2,
-    })
-  )
+  const formatted = Math.abs(rounded).toLocaleString('en-AU', {
+    minimumFractionDigits: Number.isInteger(rounded) ? 0 : 2,
+    maximumFractionDigits: 2,
+  })
+  return (rounded < 0 ? '-$' : '$') + formatted
 }
 
 export function gstSplit(inclusive: number): { subtotal: number; gst: number; total: number } {

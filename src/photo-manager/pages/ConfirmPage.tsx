@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { contractText } from '../lib/contract'
 import { BrandMark } from './BrandMark'
+import { PrepTipsCard } from './PrepTipsCard'
 import { usePhotoStore } from '../store/StoreContext'
 import type { Client } from '../types'
 
@@ -74,6 +75,7 @@ export default function ConfirmPage() {
       ) : (
         <>
           <div className="cp-body">{body}</div>
+          <PrepTipsCard client={client} />
           <div className="cp-actions">
             <input value={name} onChange={(e) => setName(e.target.value)} placeholder="พิมพ์ชื่อ-นามสกุลเพื่อยืนยัน" />
             <button

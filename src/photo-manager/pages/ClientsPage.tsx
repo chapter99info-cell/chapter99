@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { ALL_PACKAGES } from '../data/catalog'
 import { invoiceTotals, money } from '../lib/money'
+import { defaultPrepTips, isDefaultPrepTips } from '../lib/prepTips'
 import { blankClient, usePhotoStore } from '../store/StoreContext'
 import type { Client, JobStatus, JobType } from '../types'
 import { ChecklistIcons, PageTitle, Tag } from './ui'
@@ -131,6 +132,7 @@ function ClientEditor({
                 type,
                 packageId: type === 'wedding' ? 'w1' : type === 'engagement' ? 'e1' : null,
                 fixedPrice: type === 'portrait' ? 650 : type === 'family' ? 450 : null,
+                prepTips: isDefaultPrepTips(c.prepTips, c.type) ? defaultPrepTips(type) : c.prepTips,
               })
             }}
           >
@@ -195,6 +197,23 @@ function ClientEditor({
           <label>มัดจำที่ได้รับ (AUD)</label>
           <input type="number" value={c.deposit} onChange={(e) => setC({ ...c, deposit: Number(e.target.value) })} />
         </div>
+      </div>
+      <div className="field">
+        <label>เคล็ดลับเตรียมตัว (ลูกค้าเห็นใน brief / ลิงก์ยืนยัน) — ว่างไว้ = ใช้ค่าเริ่มต้นตามประเภทงาน</label>
+        <textarea
+          rows={8}
+          value={c.prepTips}
+          placeholder={defaultPrepTips(c.type)}
+          onChange={(e) => setC({ ...c, prepTips: e.target.value })}
+        />
+        <button
+          type="button"
+          className="btn ghost sm"
+          style={{ marginTop: 8 }}
+          onClick={() => setC({ ...c, prepTips: defaultPrepTips(c.type) })}
+        >
+          ใช้ข้อความมาตรฐานของประเภทนี้
+        </button>
       </div>
       <div className="muted" style={{ marginBottom: 10 }}>
         เช็กลิสต์ — กดสลับได้ทันที (ส่งอีเมลเตือน / เก็บยอด / ส่งแกลเลอรี / ขอรีวิว ก็ติ๊กให้อัตโนมัติ)

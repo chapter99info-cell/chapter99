@@ -151,25 +151,34 @@ export function Services() {
             </a>
           </div>
 
-          <div ref={c3} id="pricing" className="feat-card solid fadeup">
+          <div ref={c3} id="value-promise" className="feat-card solid fadeup">
             <span className="feat-num">03</span>
             <h3>{t({ th: 'ราคาไม่ผูกมัด', en: 'No lock-in pricing' })}</h3>
             <ul className="feat-list">
               <li>
                 <Check />
-                Starter — A$199 + A$19/mo
+                {t({
+                  th: 'เลือกลายงานก่อน แล้วค่อยดูแพ็กเกจ 3–4 ใบ',
+                  en: 'Pick a service line, then see 3–4 packages',
+                })}
               </li>
               <li>
                 <Check />
-                Professional — A$499 + A$49/mo
+                {t({
+                  th: 'ไม่มีสัญญาผูกมัดระยะยาว',
+                  en: 'No long lock-in contracts',
+                })}
               </li>
               <li>
                 <Check />
-                Ultimate — A$999 + A$89/mo
+                {t({
+                  th: 'คุยงานก่อนเสมอสำหรับโปรดักชันใหญ่',
+                  en: 'Large productions are quoted after a brief',
+                })}
               </li>
             </ul>
-            <a className="feat-more" href="#contact">
-              <span>{t({ th: 'ดูรายละเอียด', en: 'View details' })}</span> <Arrow />
+            <a className="feat-more" href="#pricing">
+              <span>{t({ th: 'ดูราคา', en: 'View rates' })}</span> <Arrow />
             </a>
           </div>
         </div>

@@ -42,6 +42,10 @@ export const photographyFaq: FaqSection = {
           th: 'ยกเลิกงานหลังเริ่มดำเนินการแล้ว ขอสงวนสิทธิ์ไม่คืนเงินมัดจำ',
           en: 'Cancelling after work has started forfeits the deposit',
         },
+        {
+          th: 'งานถ่ายภาพทุกครั้งต้องมีใบเสนอราคายืนยันขอบเขตงาน (วันที่ สถานที่ ระยะเวลา ราคา) ก่อนเริ่มงานเสมอ แม้ลูกค้าจะเป็นผู้ใช้บริการเว็บ Front+Back หรือบริการอื่นของ Chapter99 อยู่แล้วก็ตาม เพราะเป็นการจ้างงานคนละส่วนกัน ไม่มีการรวมสิทธิ์การถ่ายภาพไว้ในแพ็กบริการรายเดือนใดๆ',
+          en: 'Every photography job needs a confirmed quote (date, location, duration, price) before work starts — even if the client already uses Chapter99 Web Front+Back or another service. These are separate engagements. No monthly package includes photography.',
+        },
       ],
     },
     {
@@ -169,6 +173,10 @@ export const webFaq: FaqSection = {
           th: 'ไม่รวม: ฟีเจอร์นอกสเปก, สกุลเงินอื่นนอก AUD, การเชื่อมต่อ third-party ที่ไม่ได้ระบุไว้',
           en: 'Excludes: out-of-spec features, non-AUD currencies, unspecified third-party integrations',
         },
+        {
+          th: 'ขอบเขตงานของแพ็กเว็บ Front+Back ครอบคลุมเฉพาะระบบเว็บไซต์ ระบบจอง และระบบหลังบ้าน ตามที่ระบุในแพ็กที่เลือกเท่านั้น ไม่รวมงานถ่ายภาพ วิดีโอ หรือคอนเทนต์สร้างสรรค์อื่นใด หากต้องการภาพถ่ายจริงประกอบเว็บไซต์ สามารถจองคิวถ่ายภาพแยกได้ที่หน้า \'ราคาช่างภาพ\'',
+          en: 'Web Front+Back covers only the website, booking, and back-office systems listed in the chosen plan — not photography, video, or other creative content. For real photos on the site, book a shoot separately from the photography rates page.',
+        },
       ],
     },
     {
@@ -198,6 +206,10 @@ export const webFaq: FaqSection = {
         {
           th: 'ร้านรับเงินเองผ่านเครื่องรูดบัตร/HICAPS terminal ที่มีอยู่แล้ว เราแค่บันทึกตัวเลขไว้ออกรายงาน',
           en: 'The shop collects payment via their own card terminal/HICAPS — we just log the numbers for reporting',
+        },
+        {
+          th: 'งานถ่ายภาพและวิดีโอไม่รวมอยู่ในค่าบริการเว็บ Front+Back หรือบริการอื่นๆ ไม่ว่าแพ็กใดทั้งสิ้น ค่าบริการรายเดือนของระบบเว็บ Front+Back ครอบคลุมเฉพาะระบบ (เว็บไซต์ ระบบจอง ระบบหลังบ้าน และฟีเจอร์ที่ระบุไว้ในแพ็กนั้นๆ) เท่านั้น งานถ่ายภาพหรือวิดีโอทุกครั้ง — ไม่ว่าลูกค้าจะเป็นสมาชิกแพ็กเว็บ/หลังบ้านอยู่แล้วหรือไม่ — ถือเป็นการจ้างงานแยกต่างหาก คิดราคาตามอัตราที่ระบุไว้ในหน้า \'ราคาช่างภาพ\' และต้องมีใบเสนอราคายืนยันก่อนเริ่มงานทุกครั้ง',
+          en: 'Photography and video are not included in Web Front+Back or any other service package. The monthly Web Front+Back fee covers the system only (website, booking, back office, and features listed in that plan). Every photography or video job — whether or not the client already subscribes to a web/back-office plan — is a separate engagement, billed at the photography rates page, and requires a confirmed quote before work starts.',
         },
       ],
     },
@@ -260,6 +272,10 @@ export const otherFaq: FaqSection = {
         {
           th: 'ลูกค้าจัดหาอุปกรณ์ (จอ/แท็บเล็ต) เอง — Chapter99 ไม่ขายฮาร์ดแวร์',
           en: "Customer supplies their own hardware (screen/tablet) — Chapter99 doesn't sell hardware",
+        },
+        {
+          th: 'งานถ่ายภาพและวิดีโอไม่รวมอยู่ในค่าบริการเว็บ Front+Back หรือบริการอื่นๆ ไม่ว่าแพ็กใดทั้งสิ้น ค่าบริการรายเดือนของระบบเว็บ Front+Back ครอบคลุมเฉพาะระบบ (เว็บไซต์ ระบบจอง ระบบหลังบ้าน และฟีเจอร์ที่ระบุไว้ในแพ็กนั้นๆ) เท่านั้น งานถ่ายภาพหรือวิดีโอทุกครั้ง — ไม่ว่าลูกค้าจะเป็นสมาชิกแพ็กเว็บ/หลังบ้านอยู่แล้วหรือไม่ — ถือเป็นการจ้างงานแยกต่างหาก คิดราคาตามอัตราที่ระบุไว้ในหน้า \'ราคาช่างภาพ\' และต้องมีใบเสนอราคายืนยันก่อนเริ่มงานทุกครั้ง',
+          en: 'Photography and video are not included in Web Front+Back or any other service package. The monthly Web Front+Back fee covers the system only (website, booking, back office, and features listed in that plan). Every photography or video job — whether or not the client already subscribes to a web/back-office plan — is a separate engagement, billed at the photography rates page, and requires a confirmed quote before work starts.',
         },
       ],
     },

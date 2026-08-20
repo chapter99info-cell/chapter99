@@ -1,6 +1,7 @@
 import { useRef, useState, type DragEvent, type MouseEvent } from 'react'
 import { STATUS_LABEL, TYPE_LABEL } from '../data/catalog'
 import { formatThaiDate, isoFromDate, monthGrid, toBuddhistISOParts } from '../lib/dates'
+import { isDefaultPrepTips } from '../lib/prepTips'
 import { blankClient, usePhotoStore } from '../store/StoreContext'
 import type { Client, JobStatus, JobType } from '../types'
 import { PageTitle, Tag } from './ui'
@@ -14,6 +15,7 @@ function applyType(c: Client, type: JobType): Client {
     typeLabel: TYPE_LABEL[type],
     packageId: type === 'wedding' ? 'w1' : type === 'engagement' ? 'e1' : null,
     fixedPrice: type === 'portrait' ? 650 : type === 'family' ? 450 : null,
+    prepTips: isDefaultPrepTips(c.prepTips, c.type) ? '' : c.prepTips,
   }
 }
 

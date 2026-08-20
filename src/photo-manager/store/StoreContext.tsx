@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
-import type { Addon, BrandLogo, CatalogPackage, Client, DbSnapshot, Expense, PaymentMethod, Role, Session, VendorSheet } from '../types'
+import type { Addon, BrandLogo, CatalogPackage, Client, DbSnapshot, Expense, PaymentMethod, QuoteRate, Role, Session, VendorSheet } from '../types'
 import { localAdapter } from './adapters/local'
 import { supabaseAdapter, isPmSupabaseConfigured } from './adapters/supabase'
 import { emptyVendorSheet } from '../lib/seed'
@@ -47,6 +47,7 @@ type Store = {
   requestPasswordReset: (email: string) => Promise<void>
   saveCatalog: (packages: CatalogPackage[], addons: Addon[]) => Promise<void>
   saveBrandLogos: (logos: BrandLogo[]) => Promise<void>
+  saveQuoteRates: (rates: QuoteRate[]) => Promise<void>
   pinOffer: { email: string } | null
   devicePinEmail: string | null
   dismissPinOffer: () => void
@@ -71,6 +72,7 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
     addons: [],
     profiles: [],
     brandLogos: [],
+    quoteRates: [],
   })
   const [session, setSession] = useState<Session | null>(null)
   const [needsOwner, setNeedsOwner] = useState(false)
@@ -299,6 +301,10 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
     await persist({ ...data, brandLogos: logos })
   }
 
+  const saveQuoteRates = async (rates: QuoteRate[]) => {
+    await persist({ ...data, quoteRates: rates })
+  }
+
   const confirmByToken = async (token: string, kind: 'brief' | 'contract') => {
     const ok = await adapter.confirmToken(token, kind)
     if (!ok) return null
@@ -340,6 +346,7 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
     requestPasswordReset,
     saveCatalog,
     saveBrandLogos,
+    saveQuoteRates,
     pinOffer,
     devicePinEmail,
     dismissPinOffer,
@@ -388,6 +395,7 @@ export function blankClient(): Client {
     gallery: { pictime: '', drive: '', password: '' },
     payment: { method: 'bank', reference: '', paidAt: null },
     quote: { expiryISO: iso, issued: false },
+    prepTips: '',
   }
 }
 

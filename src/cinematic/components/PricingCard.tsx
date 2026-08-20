@@ -30,6 +30,7 @@ type PricingCardProps = {
 
 export function PricingCard({ tier }: PricingCardProps) {
   const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
   const [spot, setSpot] = useState<CSSProperties>({
     '--spot-x': '-9999px',
     '--spot-y': '-9999px',
@@ -73,23 +74,35 @@ export function PricingCard({ tier }: PricingCardProps) {
         >
           {t(tier.cta)}
         </a>
-        <ul className="price-features">
-          {tier.features.map((feature, i) => {
-            const text = label(feature.label);
-            return (
-              <li key={i} className={feature.included ? undefined : 'off'}>
-                <span className="dot">
-                  {feature.included ? <CheckIcon /> : <CrossIcon />}
-                </span>
-                {/[<>]/.test(text) ? (
-                  <span dangerouslySetInnerHTML={{ __html: text }} />
-                ) : (
-                  <span>{text}</span>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+        <button
+          type="button"
+          className="price-details-toggle"
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open
+            ? t({ th: 'ซ่อนรายละเอียด', en: 'Hide details' })
+            : t({ th: 'ดูรายละเอียด', en: 'See details' })}
+        </button>
+        {open && (
+          <ul className="price-features">
+            {tier.features.map((feature, i) => {
+              const text = label(feature.label);
+              return (
+                <li key={i} className={feature.included ? undefined : 'off'}>
+                  <span className="dot">
+                    {feature.included ? <CheckIcon /> : <CrossIcon />}
+                  </span>
+                  {/[<>]/.test(text) ? (
+                    <span dangerouslySetInnerHTML={{ __html: text }} />
+                  ) : (
+                    <span>{text}</span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </div>
   );

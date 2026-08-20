@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { contractText } from '../lib/contract'
-import { invoiceTotals, money } from '../lib/money'
+import { gstSplit, invoiceTotals, money } from '../lib/money'
+import { professionLabel, resultFromDraft } from '../lib/quoteCalc'
 import { usePhotoStore } from '../store/StoreContext'
 import type { Client, PaymentMethod } from '../types'
 import { BrandMark } from './BrandMark'
@@ -177,6 +179,44 @@ export function ContractPage() {
   )
 }
 
+function QuoteCalcRows({ client }: { client: Client }) {
+  const d = client.quote.calculator
+  if (!d) return null
+  const calc = resultFromDraft(d)
+  const discount = Math.max(0, d.setupFull - d.setupIntro)
+  return (
+    <>
+      <tr>
+        <td colSpan={4}>
+          สโคป: {professionLabel(d)}
+          {d.photoCount ? ` · ส่งมอบ ${d.photoCount} ภาพ` : ''}
+        </td>
+      </tr>
+      {calc.lines
+        .filter((l) => l.kind === 'setup')
+        .map((l) => {
+          const ex = gstSplit(l.amount).subtotal
+          return (
+            <tr key={l.label}>
+              <td>{l.label}</td>
+              <td>1</td>
+              <td>{money(ex)}</td>
+              <td>{money(ex)}</td>
+            </tr>
+          )
+        })}
+      {discount > 0 && (
+        <tr>
+          <td>ราคาเริ่มต้นแนะนำ (ส่วนต่างจากราคาเต็ม)</td>
+          <td>1</td>
+          <td>{money(-gstSplit(discount).subtotal)}</td>
+          <td>{money(-gstSplit(discount).subtotal)}</td>
+        </tr>
+      )}
+    </>
+  )
+}
+
 function DocPreview({ client, kind }: { client: Client; kind: 'invoice' | 'quote' }) {
   const { data } = usePhotoStore()
   const t = invoiceTotals(client, data.packages, data.addons)
@@ -184,6 +224,9 @@ function DocPreview({ client, kind }: { client: Client; kind: 'invoice' | 'quote
   const invNo =
     (kind === 'quote' ? 'QT' : 'INV') + client.date.replace(/\s/g, '').slice(0, 6) + client.id.slice(-2)
   const title = kind === 'quote' ? 'Quotation' : 'Invoice'
+  const depositPaid = client.deposit > 0 ? client.deposit : 0
+  const balanceDue = Math.max(0, t.totalToPay - depositPaid)
+  const dueLabel = client.date ? `Balance due on/before ${client.date}` : 'Balance due'
   return (
     <>
       <div className="inv-head">
@@ -218,6 +261,10 @@ function DocPreview({ client, kind }: { client: Client; kind: 'invoice' | 'quote
           </tr>
         </thead>
         <tbody>
+          {kind === 'quote' && client.quote.calculator ? (
+            <QuoteCalcRows client={client} />
+          ) : (
+            <>
           <tr>
             <td>
               {pkg ? `${pkg.name} — ${client.typeLabel}` : `Photography session — ${client.typeLabel}`}
@@ -245,6 +292,8 @@ function DocPreview({ client, kind }: { client: Client; kind: 'invoice' | 'quote
             <td>Included</td>
             <td>Included</td>
           </tr>
+            </>
+          )}
           <tr>
             <td colSpan={3}>Subtotal</td>
             <td>{money(t.subtotal)}</td>
@@ -263,20 +312,47 @@ function DocPreview({ client, kind }: { client: Client; kind: 'invoice' | 'quote
               <td>{money(t.surcharge)}</td>
             </tr>
           )}
+          {kind === 'invoice' && depositPaid > 0 && (
+            <tr className="inv-deposit">
+              <td colSpan={3}>Deposit paid</td>
+              <td>{money(-depositPaid)}</td>
+            </tr>
+          )}
           {kind === 'invoice' && (
             <tr className="inv-total-row">
-              <td colSpan={3}>Total to pay</td>
-              <td>{money(t.totalToPay)}</td>
+              <td colSpan={3}>{dueLabel}</td>
+              <td>{money(balanceDue)}</td>
             </tr>
           )}
           {kind === 'quote' && (
             <tr className="inv-total-row">
-              <td colSpan={3}>Quoted total (inc. GST)</td>
+              <td colSpan={3}>{client.quote.calculator ? 'ราคาเริ่มต้นแนะนำ (inc. GST)' : 'Quoted total (inc. GST)'}</td>
               <td>{money(t.gstInclusive)}</td>
             </tr>
           )}
         </tbody>
       </table>
+      {kind === 'quote' && client.quote.calculator && (
+        <div className="muted" style={{ marginTop: 12, lineHeight: 1.7 }}>
+          ราคาเต็มตามสโคป (จุดอ้างอิง): {money(client.quote.calculator.setupFull)}
+          {client.quote.calculator.monthlyIntro > 0 && (
+            <>
+              <br />
+              หลังบ้านที่เลือก: {money(client.quote.calculator.monthlyIntro)}/เดือน (ราคาเต็ม{' '}
+              {money(client.quote.calculator.monthlyFull)}/เดือน)
+            </>
+          )}
+          {resultFromDraft(client.quote.calculator).laterModules.length > 0 && (
+            <>
+              <br />
+              สิ่งที่เพิ่มได้ทีหลัง:{' '}
+              {resultFromDraft(client.quote.calculator)
+                .laterModules.map((m) => `${m.label} ${money(m.amount)}/เดือน`)
+                .join(' · ')}
+            </>
+          )}
+        </div>
+      )}
       <div className="inv-footer">
         <div>
           <h4>Payment Details</h4>
@@ -353,6 +429,8 @@ export function InvoicePage() {
                   description: `Freelance videographer for ${client.name}`,
                   amount: 400,
                   linkedClientId: client.id,
+                  frequency: 'once',
+                  endedISO: null,
                 })
                 setExpensePrompt(false)
               }}
@@ -400,7 +478,8 @@ export function InvoicePage() {
 
 export function QuotePage() {
   const { clients, patchClient } = usePhotoStore()
-  const [id, setId] = useState(clients[0]?.id ?? '')
+  const [params] = useSearchParams()
+  const [id, setId] = useState(params.get('client') || clients[0]?.id || '')
   const client = clients.find((c) => c.id === id) ?? clients[0]
   const defaultExpiry = (() => {
     const d = new Date()
@@ -428,6 +507,14 @@ export function QuotePage() {
               onChange={(e) => patchClient(client.id, { quote: { ...client.quote, expiryISO: e.target.value, issued: true } })}
             />
           </div>
+        </div>
+        <div className="row" style={{ marginBottom: 12 }}>
+          <Link className="btn ghost sm" to={`/pm/quote-calculator?client=${client.id}`}>
+            ตัวคำนวณสโคป
+          </Link>
+          {client.quote.calculator && (
+            <span className="muted">ใช้ราคาเริ่มต้นจากตัวคำนวณ {client.quote.calculator.savedAt}</span>
+          )}
         </div>
         <PriceControls client={client} onPatch={(p) => patchClient(client.id, p)} />
         <GstLines client={client} />

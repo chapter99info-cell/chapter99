@@ -1,4 +1,5 @@
 import { defaultBrandLogos } from '../../lib/brand'
+import { mergeQuoteRates } from '../../lib/quoteCalc'
 import { seedSnapshot } from '../../lib/seed'
 import { hashPassword, packHash, verifyPassword } from '../../lib/crypto'
 import type { DataAdapter } from './types'
@@ -51,6 +52,16 @@ export const localAdapter: DataAdapter = {
       return {
         ...existing,
         brandLogos: existing.brandLogos?.length ? existing.brandLogos : defaultBrandLogos(),
+        quoteRates: mergeQuoteRates(existing.quoteRates),
+        clients: (existing.clients ?? []).map((c) => ({
+          ...c,
+          prepTips: c.prepTips ?? '',
+        })),
+        expenses: (existing.expenses ?? []).map((e) => ({
+          ...e,
+          frequency: e.frequency ?? 'once',
+          endedISO: e.endedISO ?? null,
+        })),
       }
     }
     const seed = seedSnapshot()

@@ -1,4 +1,6 @@
 import { defaultBrandLogos } from './brand'
+import { defaultQuoteRates } from './quoteCalc'
+import { defaultPrepTips } from './prepTips'
 import { ADDONS, ALL_PACKAGES, STATUS_LABEL, TYPE_LABEL, VENDOR_ROLES } from '../data/catalog'
 import { formatThaiDate } from './dates'
 import type { Client, DbSnapshot, Expense, Profile, VendorSheet } from '../types'
@@ -9,7 +11,7 @@ function token() {
 
 const blankChecklist = () => ({ preshoot: false, balance: false, gallery: false, review: false })
 
-function client(partial: Omit<Client, 'typeLabel' | 'statusLabel' | 'gallery' | 'payment' | 'quote' | 'addonIds' | 'checklist' | 'briefConfirmed' | 'contractConfirmed' | 'confirmToken' | 'customPrice'> & Partial<Client>): Client {
+function client(partial: Omit<Client, 'typeLabel' | 'statusLabel' | 'gallery' | 'payment' | 'quote' | 'addonIds' | 'checklist' | 'briefConfirmed' | 'contractConfirmed' | 'confirmToken' | 'customPrice' | 'prepTips'> & Partial<Client>): Client {
   return {
     customPrice: null,
     addonIds: [],
@@ -20,6 +22,7 @@ function client(partial: Omit<Client, 'typeLabel' | 'statusLabel' | 'gallery' | 
     gallery: { pictime: '', drive: '', password: '' },
     payment: { method: 'bank', reference: '', paidAt: null },
     quote: { expiryISO: '', issued: false },
+    prepTips: defaultPrepTips(partial.type),
     typeLabel: TYPE_LABEL[partial.type],
     statusLabel: STATUS_LABEL[partial.status],
     ...partial,
@@ -114,6 +117,8 @@ export const SEED_EXPENSES: Expense[] = [
     description: 'Public liability insurance',
     amount: 380,
     linkedClientId: null,
+    frequency: 'yearly',
+    endedISO: null,
   },
   {
     id: 'x2',
@@ -122,6 +127,8 @@ export const SEED_EXPENSES: Expense[] = [
     description: 'Pic-Time gallery subscription',
     amount: 29,
     linkedClientId: null,
+    frequency: 'monthly',
+    endedISO: null,
   },
 ]
 
@@ -144,5 +151,6 @@ export function seedSnapshot(): DbSnapshot {
     addons: ADDONS,
     profiles: SEED_PROFILES,
     brandLogos: defaultBrandLogos(),
+    quoteRates: defaultQuoteRates(),
   }
 }

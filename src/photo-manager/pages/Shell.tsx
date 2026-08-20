@@ -75,6 +75,9 @@ export default function Shell() {
           ))}
           {isOwner && (
             <>
+              <NavLink to="/pm/quote-calculator" className={({ isActive }) => (isActive ? 'active' : '')} onClick={closeNav}>
+                <span className="ico">▣</span> คำนวณใบเสนอราคา
+              </NavLink>
               <NavLink to="/pm/packages" className={({ isActive }) => (isActive ? 'active' : '')} onClick={closeNav}>
                 <span className="ico">◈</span> ราคาแพ็กเกจ
               </NavLink>

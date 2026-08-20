@@ -64,7 +64,10 @@ export type Client = {
   quote: {
     expiryISO: string
     issued: boolean
+    calculator?: QuoteCalcDraft
   }
+  /** Empty = use default tips for this job type. */
+  prepTips: string
 }
 
 export type Vendor = {
@@ -79,6 +82,8 @@ export type VendorSheet = {
   vendors: Vendor[]
 }
 
+export type ExpenseFrequency = 'once' | 'monthly' | 'yearly'
+
 export type Expense = {
   id: string
   dateISO: string
@@ -86,6 +91,9 @@ export type Expense = {
   description: string
   amount: number
   linkedClientId: string | null
+  frequency: ExpenseFrequency
+  /** Inclusive last day this recurring item still applies. Null = ongoing. */
+  endedISO: string | null
 }
 
 export type Profile = {
@@ -118,6 +126,42 @@ export type InvoiceTotals = {
   totalToPay: number
 }
 
+export type QuoteProfession =
+  | 'massage-spa'
+  | 'hair-beauty'
+  | 'photographer'
+  | 'tutoring'
+  | 'fitness'
+  | 'other'
+
+export type QuoteCalcScope = {
+  profession: QuoteProfession
+  professionOther: string
+  photoHours: number
+  photoCount: number
+  webPages: number
+  webBooking: boolean
+  webGallery: boolean
+  webBilingual: boolean
+  modules: string[]
+}
+
+/** Frozen snapshot stored on client.quote so later rate edits do not rewrite issued quotes. */
+export type QuoteCalcDraft = QuoteCalcScope & {
+  ratesSnapshot: Record<string, number>
+  setupFull: number
+  setupIntro: number
+  monthlyFull: number
+  monthlyIntro: number
+  savedAt: string
+}
+
+export type QuoteRate = {
+  id: string
+  amount: number
+  label: string
+}
+
 export type BrandLogo = {
   type: string
   logo_url: string
@@ -131,4 +175,5 @@ export type DbSnapshot = {
   addons: Addon[]
   profiles: Profile[]
   brandLogos: BrandLogo[]
+  quoteRates: QuoteRate[]
 }

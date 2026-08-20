@@ -33,12 +33,14 @@ export function BrandMark({
   }
 
   return (
-    <div className="pm-brand-mark">
-      <img src={src} alt="Chapter99 Photography" className={compact ? 'pm-doc-logo sm' : 'pm-doc-logo'} />
-      <div className="inv-brand" style={{ fontSize: compact ? 14 : 16, marginTop: 6, ...wordStyle }}>
-        Chapter99 Photography
+    <div className={`pm-brand-mark ${compact ? 'compact' : ''}`}>
+      <img src={src} alt="" className={compact ? 'pm-doc-logo sm' : 'pm-doc-logo'} />
+      <div className="pm-brand-copy">
+        <div className="inv-brand" style={{ fontSize: compact ? 14 : 18, ...wordStyle }}>
+          Chapter99 Photography
+        </div>
+        {address && <div className="tagline">{meta}</div>}
       </div>
-      {address && <div className="tagline">{meta}</div>}
     </div>
   )
 }

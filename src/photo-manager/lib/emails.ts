@@ -1,4 +1,5 @@
-import type { Client } from '../types'
+import type { Addon, CatalogPackage, Client } from '../types'
+import { invoiceTotals, money, suggestedDeposit } from './money'
 
 export type EmailKind =
   | 'confirm'
@@ -19,43 +20,80 @@ export const EMAIL_KIND_LABEL: Record<EmailKind, string> = {
   remind: 'ทวงยอดคงเหลือ / Balance reminder',
 }
 
-export function emailCopy(kind: EmailKind, c: Client, lang: 'th' | 'en', extras?: { gallery?: string; reviewUrl?: string }): { subject: string; body: string } {
-  if (lang === 'en') return en(kind, c, extras)
-  return th(kind, c, extras)
+type Catalog = { packages: CatalogPackage[]; addons: Addon[] }
+
+export function emailCopy(
+  kind: EmailKind,
+  c: Client,
+  lang: 'th' | 'en',
+  extras?: { gallery?: string; reviewUrl?: string },
+  catalog?: Catalog,
+): { subject: string; body: string } {
+  const price = catalog ? priceBlock(c, catalog, lang) : ''
+  if (lang === 'en') return en(kind, c, extras, price)
+  return th(kind, c, extras, price)
 }
 
-function th(kind: EmailKind, c: Client, extras?: { gallery?: string; reviewUrl?: string }) {
+function priceBlock(c: Client, catalog: Catalog, lang: 'th' | 'en'): string {
+  const t = invoiceTotals(c, catalog.packages, catalog.addons)
+  const pkg = catalog.packages.find((p) => p.id === c.packageId)
+  const name = pkg?.name ?? c.typeLabel
+  const deposit = c.deposit > 0 ? c.deposit : suggestedDeposit(t.gstInclusive)
+  const depositNote =
+    c.deposit > 0 ? (lang === 'th' ? 'มัดจำที่ได้รับ' : 'deposit received') : lang === 'th' ? 'มัดจำแนะนำ' : 'suggested deposit'
+  if (lang === 'th') {
+    return `แพ็กเกจ: ${name} — ราคา ${money(t.gstInclusive)} (${depositNote} ${money(deposit)})`
+  }
+  return `Package: ${name} — ${money(t.gstInclusive)} (${depositNote} ${money(deposit)})`
+}
+
+function withPrice(body: string, price: string) {
+  if (!price) return body.replace(/\n__PRICE__\n?/g, '\n').replace('__PRICE__', '')
+  return body.replace('__PRICE__', price)
+}
+
+function th(kind: EmailKind, c: Client, extras: { gallery?: string; reviewUrl?: string } | undefined, price: string) {
   switch (kind) {
     case 'confirm':
       return {
         subject: `ยืนยันคิวงานถ่ายภาพ — ${c.date}`,
-        body: `สวัสดีค่ะ/ครับ คุณ${c.name}
+        body: withPrice(
+          `สวัสดีค่ะ/ครับ คุณ${c.name}
 
 Chapter99 Photography ขอยืนยันคิวงาน${c.typeLabel} วันที่ ${c.date} ณ ${c.location} ค่ะ
 เวลานัดหมาย / พิธีเริ่ม: ${c.ceremonyTime} น.
+__PRICE__
 
 ขอบคุณค่ะ
 Chapter99 Photography (Saen)`,
+          price,
+        ),
       }
     case 'invoice':
       return {
         subject: `ใบแจ้งหนี้และมัดจำ — ${c.name}`,
-        body: `สวัสดีค่ะ/ครับ คุณ${c.name}
+        body: withPrice(
+          `สวัสดีค่ะ/ครับ คุณ${c.name}
 
 ส่งใบแจ้งหนี้พร้อมยอดมัดจำสำหรับงาน${c.typeLabel} วันที่ ${c.date} ค่ะ กรุณาโอนเพื่อยืนยันคิวงาน (มัดจำไม่สามารถคืนได้เมื่อจองวันที่แล้ว)
+__PRICE__
 
 โอน Bank / PayID ไม่มีค่าธรรมเนียมเพิ่ม
 บัตรเครดิต/เดบิต +2% · Afterpay +5% (ยอดตามใบแจ้งหนี้)
 
 ขอบคุณค่ะ
 Chapter99 Photography`,
+          price,
+        ),
       }
     case 'preshoot':
       return {
         subject: `เตือนก่อนวันถ่าย 3 วัน — ${c.date}`,
-        body: `สวัสดีค่ะ/ครับ คุณ${c.name}
+        body: withPrice(
+          `สวัสดีค่ะ/ครับ คุณ${c.name}
 
 อีก 3 วันจะถึงงาน${c.typeLabel} วันที่ ${c.date} ณ ${c.location} ค่ะ
+__PRICE__
 
 กรุณาเตรียม:
 • แผนสำรองหากอากาศไม่เอื้อ (ที่ร่มใกล้เคียง)
@@ -66,6 +104,8 @@ Chapter99 Photography`,
 
 ขอบคุณค่ะ
 Chapter99 Photography`,
+          price,
+        ),
       }
     case 'thanks':
       return {
@@ -110,48 +150,62 @@ Chapter99 Photography (Saen)`,
     case 'remind':
       return {
         subject: `แจ้งเตือนยอดคงเหลือ — ${c.date}`,
-        body: `สวัสดีค่ะ/ครับ คุณ${c.name}
+        body: withPrice(
+          `สวัสดีค่ะ/ครับ คุณ${c.name}
 
 รบกวนแจ้งเตือนยอดคงเหลือสำหรับงาน${c.typeLabel} วันที่ ${c.date} ค่ะ กรุณาชำระก่อนหรือในวันงาน
+__PRICE__
 
 ขอบคุณค่ะ
 Chapter99 Photography`,
+          price,
+        ),
       }
   }
 }
 
-function en(kind: EmailKind, c: Client, extras?: { gallery?: string; reviewUrl?: string }) {
+function en(kind: EmailKind, c: Client, extras: { gallery?: string; reviewUrl?: string } | undefined, price: string) {
   switch (kind) {
     case 'confirm':
       return {
         subject: `Booking confirmation — ${c.date}`,
-        body: `Hello ${c.name},
+        body: withPrice(
+          `Hello ${c.name},
 
 Chapter99 Photography confirms your ${c.typeLabel} on ${c.date} at ${c.location}.
 Call time / ceremony start: ${c.ceremonyTime}.
+__PRICE__
 
 Thank you,
 Chapter99 Photography (Saen)`,
+          price,
+        ),
       }
     case 'invoice':
       return {
         subject: `Invoice and deposit — ${c.name}`,
-        body: `Hello ${c.name},
+        body: withPrice(
+          `Hello ${c.name},
 
 Please find your invoice and deposit request for the ${c.typeLabel} on ${c.date}. The date is reserved once the non-refundable deposit is received.
+__PRICE__
 
 Bank transfer / PayID: no surcharge.
 Card +2% · Afterpay +5% (amount shown on the invoice).
 
 Thank you,
 Chapter99 Photography`,
+          price,
+        ),
       }
     case 'preshoot':
       return {
         subject: `3-day pre-shoot reminder — ${c.date}`,
-        body: `Hello ${c.name},
+        body: withPrice(
+          `Hello ${c.name},
 
 Your ${c.typeLabel} is in 3 days (${c.date} at ${c.location}).
+__PRICE__
 
 Please confirm:
 • Weather backup plan (nearby covered area)
@@ -162,6 +216,8 @@ Please confirm:
 
 Thank you,
 Chapter99 Photography`,
+          price,
+        ),
       }
     case 'thanks':
       return {
@@ -206,12 +262,16 @@ Chapter99 Photography (Saen)`,
     case 'remind':
       return {
         subject: `Balance reminder — ${c.date}`,
-        body: `Hello ${c.name},
+        body: withPrice(
+          `Hello ${c.name},
 
 A reminder that the remaining balance for your ${c.typeLabel} on ${c.date} is due on or before the event.
+__PRICE__
 
 Thank you,
 Chapter99 Photography`,
+          price,
+        ),
       }
   }
 }

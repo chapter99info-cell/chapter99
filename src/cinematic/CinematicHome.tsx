@@ -6,11 +6,9 @@ import { About } from './components/About';
 import { Services } from './components/Services';
 import { Portfolio } from './components/Portfolio';
 import { Gallery } from './components/Gallery';
-import { PhotographyRates } from './components/PhotographyRates';
+import { PricingHub } from './components/PricingHub';
 import { AIBridge } from './components/AIBridge';
-import { WebRates } from './components/WebRates';
 import { Approach } from './components/Approach';
-import { OtherServicesRates } from './components/OtherServicesRates';
 import { Footer } from './components/Footer';
 import './styles/mockup.css';
 
@@ -36,11 +34,9 @@ export default function CinematicHome() {
         <Services />
         <Portfolio />
         <Gallery />
-        <PhotographyRates />
+        <PricingHub />
         <AIBridge />
-        <WebRates />
         <Approach />
-        <OtherServicesRates />
         <Footer />
       </div>
     </LanguageProvider>

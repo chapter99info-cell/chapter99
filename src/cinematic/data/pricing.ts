@@ -92,7 +92,7 @@ export const photographyTiers: PricingTier[] = [
     },
     cta: { th: 'เริ่มแพ็กนี้', en: 'Start this package' },
     ctaVariant: 'primary',
-    badge: { th: 'คุ้มสุด', en: 'Best Value' },
+    badge: { th: '★ ยอดนิยม', en: '★ Most popular' },
     innerBg: '#252525',
     features: [
       {
@@ -129,6 +129,60 @@ export const photographyCopy = {
     en: "*AI photo top-up is only for promotional content and general graphics (e.g. promo posts, price signs, quote cards) — never AI-generated food, storefront, or staff photos, so end customers are never misled into thinking it's a real photo.",
   },
 } as const;
+
+const SUPABASE_VDO =
+  'https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO';
+
+export type PricingCategoryId = 'photo' | 'web' | 'other';
+
+export const pricingTrust = {
+  label: { th: 'ราคา', en: 'Pricing' },
+  heading: { th: 'เลือกลายงานก่อน แล้วค่อยดูราคา', en: 'Pick a service line, then see prices' },
+  body: {
+    th: 'ช่างภาพมืออาชีพมากกว่า 10 ปี ถ่ายงานแต่งกว่า 100 งานทั่วออสเตรเลีย และงานภาพร้านอาหาร/สปาให้ธุรกิจไทยในออสเตรเลีย เลือกลายงานด้านล่างก่อน — ราคาจะโชว์เฉพาะสายที่เลือก ไม่ใช่ทุกแพ็กเกจพร้อมกัน',
+    en: 'A photographer with 10+ years behind the camera, 100+ weddings shot across Australia, and commercial work for Thai F&B and spa businesses. Choose a line below first — you only see that category\'s packages, not every price on the page.',
+  },
+} as const;
+
+export const pricingCategories: {
+  id: PricingCategoryId;
+  hash: string;
+  title: Bilingual;
+  blurb: Bilingual;
+  videoSrc: string;
+}[] = [
+  {
+    id: 'photo',
+    hash: 'photo-rates',
+    title: { th: 'ช่างภาพ F&B / สปา', en: 'F&B & Spa Photography' },
+    blurb: {
+      th: 'ถ่ายอาหาร ร้านนวด และคอนเทนต์ร้านค้า — ไม่จำกัดจำนวนภาพ',
+      en: 'Food, spa, and shop content — unlimited photos in the booked time',
+    },
+    videoSrc: `${SUPABASE_VDO}/foodshot.mp4`,
+  },
+  {
+    id: 'web',
+    hash: 'web-rates',
+    title: { th: 'เว็บ Front+Back', en: 'Web Front+Back' },
+    blurb: {
+      th: 'เว็บ PWA จองคิวและระบบหลังบ้าน สำหรับร้านไทยในออสเตรเลีย',
+      en: 'PWA website, booking, and back office for Thai businesses in Australia',
+    },
+    videoSrc: `${SUPABASE_VDO}/chapter99hero.mp4`,
+  },
+  {
+    id: 'other',
+    hash: 'other-rates',
+    title: { th: 'บริการอื่นๆ', en: 'Other Services' },
+    blurb: {
+      th: 'QR เมนู แผนที่ ลิงก์รีวิว และป้ายดิจิทัล — ซื้อแยกหรือเป็นแพ็ก',
+      en: 'QR menus, maps, review links, and digital signage — à la carte or bundled',
+    },
+    videoSrc: `${SUPABASE_VDO}/01luxurious.mp4`,
+  },
+];
+
 
 export const productionCopy = {
   eyebrowLarge: { th: 'งานใหญ่', en: 'Large jobs' },
@@ -213,7 +267,7 @@ export const webTiers: PricingTier[] = [
     },
     cta: { th: 'เริ่มเลย', en: 'Get started' },
     ctaVariant: 'primary',
-    badge: 'Best Value',
+    badge: { th: '★ ยอดนิยม', en: '★ Most popular' },
     innerBg: '#252525',
     features: [
       {
@@ -328,7 +382,7 @@ export const otherTiers: PricingTier[] = [
     },
     cta: { th: 'เริ่มแพ็กนี้', en: 'Start this package' },
     ctaVariant: 'primary',
-    badge: 'Best Value',
+    badge: { th: '★ ยอดนิยม', en: '★ Most popular' },
     innerBg: '#252525',
     features: [
       {

@@ -52,7 +52,8 @@ create table if not exists public.pm_clients (
   contract_confirmed boolean not null default false,
   confirm_token text unique,
   gallery jsonb not null default '{}'::jsonb,
-  quote jsonb not null default '{}'::jsonb
+  quote jsonb not null default '{}'::jsonb,
+  prep_tips text not null default ''
 );
 
 -- Money never lives on pm_clients (staff can read that table). Owner-only.
@@ -70,7 +71,9 @@ create table if not exists public.pm_expenses (
   category text not null,
   description text not null,
   amount numeric not null,
-  linked_client_id text references public.pm_clients(id)
+  linked_client_id text references public.pm_clients(id),
+  frequency text not null default 'once' check (frequency in ('once', 'monthly', 'yearly')),
+  ended_iso date
 );
 
 create table if not exists public.pm_vendor_sheets (
@@ -239,7 +242,8 @@ begin
     'confirmToken', r.confirm_token,
     'gallery', coalesce(r.gallery, '{}'::jsonb),
     'payment', coalesce(f.payment, '{}'::jsonb),
-    'quote', coalesce(r.quote, '{}'::jsonb)
+    'quote', coalesce(r.quote, '{}'::jsonb),
+    'prepTips', coalesce(r.prep_tips, '')
   );
 end;
 $$;
@@ -349,3 +353,27 @@ insert into public.pm_brand_logos (type, logo_url) values
   ('portrait', 'https://auidjqalknebeqoxhwex.supabase.co/storage/v1/object/public/Photos%20media/photos/wedding.png'),
   ('family', 'https://auidjqalknebeqoxhwex.supabase.co/storage/v1/object/public/Photos%20media/photos/wedding.png')
 on conflict (type) do nothing;
+
+create table if not exists public.pm_quote_rates (
+  id text primary key,
+  amount numeric not null,
+  label text not null
+);
+alter table public.pm_quote_rates enable row level security;
+drop policy if exists "pm quote rates owner" on public.pm_quote_rates;
+create policy "pm quote rates owner" on public.pm_quote_rates
+  for all using (public.pm_is_owner()) with check (public.pm_is_owner());
+grant select, insert, update, delete on public.pm_quote_rates to authenticated;
+insert into public.pm_quote_rates (id, amount, label) values
+  ('photo_hourly', 80, 'ถ่ายภาพ — ต่อชั่วโมง'),
+  ('web_per_page', 150, 'เว็บ — ต่อหน้า'),
+  ('web_booking', 180, 'เว็บ — ฟอร์มจองคิว'),
+  ('web_gallery', 120, 'เว็บ — แกลเลอรี'),
+  ('web_bilingual', 150, 'เว็บ — สองภาษา (ไทย+อังกฤษ)'),
+  ('backend_queue_calendar', 15, 'หลังบ้าน — คิว/ปฏิทิน'),
+  ('backend_invoicing', 15, 'หลังบ้าน — ใบแจ้งหนี้'),
+  ('backend_reminders', 15, 'หลังบ้าน — เตือนลูกค้า'),
+  ('backend_tax_expense', 15, 'หลังบ้าน — ภาษี/รายจ่าย'),
+  ('backend_multi_staff', 15, 'หลังบ้าน — หลายพนักงาน'),
+  ('intro_factor', 0.7, 'ตัวคูณราคาเริ่มต้น')
+on conflict (id) do nothing;

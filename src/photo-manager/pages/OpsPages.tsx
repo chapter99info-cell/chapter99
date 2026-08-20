@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { emailCopy, EMAIL_KIND_LABEL, mailtoHref, type EmailKind } from '../lib/emails'
+import { defaultPrepTips } from '../lib/prepTips'
 import { addMinutes, timelineForJob } from '../lib/timeline'
 import { usePhotoStore } from '../store/StoreContext'
+import { PrepTipsCard } from './PrepTipsCard'
 import { ClientSelect, PageTitle } from './ui'
 
 export function TimelinePage() {
@@ -128,7 +130,7 @@ export function VendorsPage() {
 }
 
 export function BriefPage() {
-  const { clients } = usePhotoStore()
+  const { clients, patchClient } = usePhotoStore()
   const [id, setId] = useState(clients[0]?.id ?? '')
   const client = clients.find((c) => c.id === id) ?? clients[0]
   if (!client) return <p>ยังไม่มีลูกค้า</p>
@@ -151,9 +153,27 @@ export function BriefPage() {
           <label>เลือกลูกค้า</label>
           <ClientSelect clients={clients} value={client.id} onChange={setId} />
         </div>
+        <div className="field">
+          <label>เคล็ดลับเตรียมตัวที่ลูกค้าเห็น — แก้ได้เฉพาะงานนี้ (ว่าง = ใช้มาตรฐานตามประเภทงาน)</label>
+          <textarea
+            rows={10}
+            value={client.prepTips}
+            placeholder={defaultPrepTips(client.type)}
+            onChange={(e) => void patchClient(client.id, { prepTips: e.target.value })}
+          />
+          <button
+            type="button"
+            className="btn ghost sm"
+            style={{ marginTop: 8 }}
+            onClick={() => void patchClient(client.id, { prepTips: defaultPrepTips(client.type) })}
+          >
+            ใช้ข้อความมาตรฐานของ {client.typeLabel}
+          </button>
+        </div>
       </div>
       <div className="card">
         <div className="doc-preview">{text}</div>
+        <PrepTipsCard client={client} />
         <div className="link-box">
           <span>🔗</span>
           <span className="url">{link}</span>
@@ -170,16 +190,37 @@ export function BriefPage() {
 }
 
 export function EmailPage() {
-  const { clients, patchClient } = usePhotoStore()
+  const { clients, patchClient, data } = usePhotoStore()
   const [id, setId] = useState(clients[0]?.id ?? '')
   const [kind, setKind] = useState<EmailKind>('confirm')
   const [lang, setLang] = useState<'th' | 'en'>('th')
   const client = clients.find((c) => c.id === id) ?? clients[0]
+  const [subject, setSubject] = useState('')
+  const [body, setBody] = useState('')
+  const generated = client
+    ? emailCopy(
+        kind,
+        client,
+        lang,
+        { gallery: [client.gallery.pictime, client.gallery.drive].filter(Boolean).join(' | ') },
+        { packages: data.packages, addons: data.addons },
+      )
+    : { subject: '', body: '' }
+  const genKey = client
+    ? `${client.id}|${kind}|${lang}|${client.packageId}|${client.customPrice}|${client.deposit}`
+    : ''
+
+  useEffect(() => {
+    if (!generated.subject) return
+    setSubject(generated.subject)
+    setBody(generated.body)
+    // Reset only when client / template / language / price inputs change — not on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [genKey])
+
   if (!client) return <p>ยังไม่มีลูกค้า</p>
-  const copy = emailCopy(kind, client, lang, {
-    gallery: [client.gallery.pictime, client.gallery.drive].filter(Boolean).join(' | '),
-  })
-  const href = mailtoHref(client.email, copy.subject, copy.body)
+
+  const href = mailtoHref(client.email, subject || generated.subject, body || generated.body)
 
   async function onSendIntent() {
     if (kind === 'preshoot') {
@@ -192,7 +233,7 @@ export function EmailPage() {
 
   return (
     <>
-      <PageTitle sub="ร่างอีเมลสองภาษา EN/TH — กดส่งแล้วเช็กลิสต์จะติ๊กให้อัตโนมัติเมื่อเป็นเตือนก่อนถ่ายหรือขอรีวิว">
+      <PageTitle sub="ร่างอีเมลสองภาษา EN/TH — แก้ข้อความได้ก่อนเปิดเมลหรือคัดลอก">
         ร่างอีเมลถึงลูกค้า
       </PageTitle>
       <div className="card">
@@ -222,17 +263,20 @@ export function EmailPage() {
         </div>
       </div>
       <div className="card">
-        <h3>ตัวอย่างอีเมล</h3>
-        <div className="doc-preview">
-          {copy.subject}
-          {'\n\n'}
-          {copy.body}
+        <h3>ร่างอีเมล (แก้ได้)</h3>
+        <div className="field">
+          <label>หัวข้อ</label>
+          <input value={subject} onChange={(e) => setSubject(e.target.value)} />
+        </div>
+        <div className="field">
+          <label>เนื้อหา</label>
+          <textarea className="email-draft" rows={16} value={body} onChange={(e) => setBody(e.target.value)} />
         </div>
         <div className="row" style={{ marginTop: 12 }}>
           <a className="btn sm" href={href} onClick={() => void onSendIntent()}>
             ✉ เปิดในเมล (mailto)
           </a>
-          <button className="btn ghost sm" onClick={() => navigator.clipboard.writeText(`${copy.subject}\n\n${copy.body}`)}>
+          <button className="btn ghost sm" onClick={() => navigator.clipboard.writeText(`${subject}\n\n${body}`)}>
             คัดลอก
           </button>
         </div>
