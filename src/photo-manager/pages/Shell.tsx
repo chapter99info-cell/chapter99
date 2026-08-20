@@ -3,6 +3,7 @@ import { usePhotoStore } from '../store/StoreContext'
 import { useState } from 'react'
 import PinSetupModal from './PinSetupModal'
 import EnablePinModal from './EnablePinModal'
+import AppLockScreen from './AppLockScreen'
 
 const LINKS = [
   { to: '/pm', end: true, ico: '◈', label: 'แดชบอร์ด' },
@@ -19,7 +20,7 @@ const LINKS = [
 ]
 
 export default function Shell() {
-  const { session, isOwner, logout, addStaff, adapterId, pinOffer, savePinForDevice, dismissPinOffer, devicePinEmail, forgetDevicePin, enableDevicePin } =
+  const { session, isOwner, logout, addStaff, adapterId, pinOffer, savePinForDevice, dismissPinOffer, devicePinEmail, forgetDevicePin, enableDevicePin, pinLocked } =
     usePhotoStore()
   const [staffOpen, setStaffOpen] = useState(false)
   const [staff, setStaff] = useState({ name: '', email: '', password: '' })
@@ -27,6 +28,7 @@ export default function Shell() {
   const [navOpen, setNavOpen] = useState(false)
   const [pinMsg, setPinMsg] = useState('')
   const [enablePin, setEnablePin] = useState(false)
+  if (pinLocked) return <AppLockScreen />
   if (!session) return <Navigate to="/pm/login" replace />
 
   function closeNav() {

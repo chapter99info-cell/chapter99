@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { getDevicePinMeta } from '../lib/devicePin'
 import { usePhotoStore } from '../store/StoreContext'
-import PinPad from './PinPad'
+import AppLockScreen from './AppLockScreen'
 import { PageTitle } from './ui'
 
 export default function LoginPage() {
-  const { session, login, bootstrapOwner, registerStaff, adapterId, supabaseReady, needsOwner, requestPasswordReset, unlockWithPin } =
+  const { session, login, bootstrapOwner, registerStaff, adapterId, supabaseReady, needsOwner, requestPasswordReset, pinLocked } =
     usePhotoStore()
   const [mode, setMode] = useState<'login' | 'staff'>('login')
   const [email, setEmail] = useState(needsOwner ? 'chapter99manager@gmail.com' : '')
@@ -14,9 +13,8 @@ export default function LoginPage() {
   const [name, setName] = useState('Saen')
   const [err, setErr] = useState('')
   const [resetNote, setResetNote] = useState('')
-  const pinMeta = getDevicePinMeta()
-  const [usePassword, setUsePassword] = useState(!pinMeta)
 
+  if (pinLocked) return <AppLockScreen />
   if (session) return <Navigate to="/pm" replace />
 
   return (
@@ -55,27 +53,6 @@ export default function LoginPage() {
               onClick={() => bootstrapOwner(email, password, name).catch((e) => setErr(String(e.message ?? e)))}
             >
               สร้างบัญชีเจ้าของ
-            </button>
-          </>
-        ) : !usePassword && pinMeta ? (
-          <>
-            <p className="muted" style={{ textAlign: 'center' }}>
-              ปลดล็อกเครื่องนี้ · {pinMeta.email}
-            </p>
-            <PinPad
-              onSubmit={async (pin) => {
-                setErr('')
-                try {
-                  await unlockWithPin(pin)
-                } catch (e) {
-                  setErr(String(e instanceof Error ? e.message : e))
-                  if (!getDevicePinMeta()) setUsePassword(true)
-                }
-              }}
-            />
-            {err && <p className="warn">{err}</p>}
-            <button className="btn ghost" style={{ marginTop: 12, width: '100%', justifyContent: 'center' }} onClick={() => setUsePassword(true)}>
-              ใช้อีเมล / รหัสผ่านแทน
             </button>
           </>
         ) : (
@@ -121,11 +98,6 @@ export default function LoginPage() {
                 >
                   ลืมรหัสผ่าน
                 </button>
-                {pinMeta && (
-                  <button className="btn ghost sm" style={{ marginTop: 10 }} onClick={() => setUsePassword(false)}>
-                    ใช้ PIN เครื่องนี้
-                  </button>
-                )}
                 {resetNote && <p className="muted">{resetNote}</p>}
               </>
             ) : (

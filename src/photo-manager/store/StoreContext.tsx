@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import type { Addon, BrandLogo, CatalogPackage, Client, DbSnapshot, Expense, PaymentMethod, Role, Session, VendorSheet } from '../types'
 import { localAdapter } from './adapters/local'
 import { supabaseAdapter, isPmSupabaseConfigured } from './adapters/supabase'
@@ -11,6 +11,7 @@ import type { DataAdapter } from './adapters/types'
 import { clearDevicePin, getDevicePinMeta, saveDevicePin, unlockDevicePin } from '../lib/devicePin'
 
 const SESSION_KEY = 'chapter99-pm-session'
+const IDLE_LOCK_MS = 8 * 60 * 1000
 
 function activeAdapter(): DataAdapter {
   if (isPmSupabaseConfigured) return supabaseAdapter
@@ -53,6 +54,8 @@ type Store = {
   enableDevicePin: (password: string, pin: string) => Promise<void>
   unlockWithPin: (pin: string) => Promise<void>
   forgetDevicePin: () => void
+  appUnlocked: boolean
+  pinLocked: boolean
 }
 
 const Ctx = createContext<Store | null>(null)
@@ -74,21 +77,29 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<string | null>(null)
   const [pinOffer, setPinOffer] = useState<{ email: string; password: string } | null>(null)
   const [devicePinEmail, setDevicePinEmail] = useState<string | null>(() => getDevicePinMeta()?.email ?? null)
+  const [appUnlocked, setAppUnlocked] = useState(() => !getDevicePinMeta())
+  const heldSession = useRef<Session | null>(null)
 
   useEffect(() => {
     let cancelled = false
     ;(async () => {
       try {
+        const pinMeta = getDevicePinMeta()
+        setDevicePinEmail(pinMeta?.email ?? null)
         const [restored, ownerNeeded] = await Promise.all([adapter.restoreSession(), adapter.needsOwner()])
         if (cancelled) return
         setNeedsOwner(ownerNeeded)
-        if (restored) {
+        if (pinMeta) {
+          heldSession.current = restored
+          setAppUnlocked(false)
+        } else if (restored) {
           setSession(restored)
           sessionStorage.setItem(SESSION_KEY, JSON.stringify(restored))
+          setData(await adapter.load())
+          setAppUnlocked(true)
+        } else {
+          setAppUnlocked(true)
         }
-        const snap = await adapter.load()
-        if (cancelled) return
-        setData(snap)
       } catch (e) {
         setError(e instanceof Error ? e.message : 'Load failed')
       } finally {
@@ -101,15 +112,35 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
   }, [adapter])
 
   useEffect(() => {
-    if (!session || !adapter.subscribe) return
+    if (!session || !appUnlocked || !adapter.subscribe) return
     return adapter.subscribe(() => {
       void adapter.load().then(setData)
     })
-  }, [adapter, session])
+  }, [adapter, session, appUnlocked])
+
+  useEffect(() => {
+    if (!devicePinEmail || !appUnlocked) return
+    let timer = 0
+    const lock = () => setAppUnlocked(false)
+    const bump = () => {
+      window.clearTimeout(timer)
+      timer = window.setTimeout(lock, IDLE_LOCK_MS)
+    }
+    bump()
+    const opts: AddEventListenerOptions = { capture: true, passive: true }
+    const events = ['pointerdown', 'keydown', 'touchstart', 'mousemove', 'scroll', 'wheel'] as const
+    events.forEach((e) => window.addEventListener(e, bump, opts))
+    return () => {
+      window.clearTimeout(timer)
+      events.forEach((e) => window.removeEventListener(e, bump, opts))
+    }
+  }, [devicePinEmail, appUnlocked])
 
   const applySession = useCallback(async (s: Session, creds?: { email: string; password: string }) => {
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(s))
+    heldSession.current = s
     setSession(s)
+    setAppUnlocked(true)
     setData(await adapter.load())
     const email = (creds?.email ?? s.email).trim().toLowerCase()
     const meta = getDevicePinMeta()
@@ -140,8 +171,10 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     sessionStorage.removeItem(SESSION_KEY)
+    heldSession.current = null
     setSession(null)
     setPinOffer(null)
+    setAppUnlocked(!getDevicePinMeta())
     void adapter.logout()
   }
 
@@ -165,6 +198,7 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
     await saveDevicePin(creds.email, creds.password, pin)
     setDevicePinEmail(creds.email.trim().toLowerCase())
     setPinOffer(null)
+    setAppUnlocked(true)
   }
 
   const enableDevicePin = async (password: string, pin: string) => {
@@ -173,27 +207,38 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
     await saveDevicePin(session.email, password, pin)
     setDevicePinEmail(session.email.trim().toLowerCase())
     setPinOffer(null)
+    setAppUnlocked(true)
   }
 
   const unlockWithPin = async (pin: string) => {
     const creds = await unlockDevicePin(pin)
-    const restored = await adapter.restoreSession()
-    if (restored && restored.email.trim().toLowerCase() === creds.email) {
+    const email = creds.email.trim().toLowerCase()
+    if (session && session.email.trim().toLowerCase() === email) {
+      setAppUnlocked(true)
+      return
+    }
+    const restored = heldSession.current ?? (await adapter.restoreSession())
+    if (restored && restored.email.trim().toLowerCase() === email) {
+      heldSession.current = restored
       sessionStorage.setItem(SESSION_KEY, JSON.stringify(restored))
       setSession(restored)
       setData(await adapter.load())
+      setAppUnlocked(true)
       setPinOffer(null)
       return
     }
     try {
       const s = await adapter.login(creds.email, creds.password)
+      heldSession.current = s
       sessionStorage.setItem(SESSION_KEY, JSON.stringify(s))
       setSession(s)
       setData(await adapter.load())
+      setAppUnlocked(true)
       setPinOffer(null)
     } catch {
       clearDevicePin()
       setDevicePinEmail(null)
+      setAppUnlocked(true)
       throw new Error('เซสชันหมดอายุแล้ว และรหัสที่เก็บในเครื่องใช้ไม่ได้ — กรุณาเข้าสู่ระบบด้วยอีเมลและรหัสผ่าน')
     }
   }
@@ -201,6 +246,7 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
   const forgetDevicePin = () => {
     clearDevicePin()
     setDevicePinEmail(null)
+    setAppUnlocked(true)
   }
 
   const addStaff = async (email: string, password: string, name: string) => {
@@ -333,6 +379,8 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
     enableDevicePin,
     unlockWithPin,
     forgetDevicePin,
+    appUnlocked,
+    pinLocked: Boolean(devicePinEmail) && !appUnlocked,
   }
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
