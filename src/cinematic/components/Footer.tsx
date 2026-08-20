@@ -69,6 +69,7 @@ export function Footer() {
           <p dangerouslySetInnerHTML={{ __html: t(footerCopy.copyright) }} />
           <a href="#privacy">{t(footerCopy.privacy)}</a>
           <a href="#terms">{t(footerCopy.terms)}</a>
+          <a href="/pm/login">{t(footerCopy.systems)}</a>
         </div>
       </div>
     </footer>

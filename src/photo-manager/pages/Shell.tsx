@@ -1,6 +1,8 @@
 import { NavLink, Navigate, Outlet } from 'react-router-dom'
 import { usePhotoStore } from '../store/StoreContext'
 import { useState } from 'react'
+import PinSetupModal from './PinSetupModal'
+import EnablePinModal from './EnablePinModal'
 
 const LINKS = [
   { to: '/pm', end: true, ico: '◈', label: 'แดชบอร์ด' },
@@ -17,15 +19,36 @@ const LINKS = [
 ]
 
 export default function Shell() {
-  const { session, isOwner, logout, addStaff, adapterId } = usePhotoStore()
+  const { session, isOwner, logout, addStaff, adapterId, pinOffer, savePinForDevice, dismissPinOffer, devicePinEmail, forgetDevicePin, enableDevicePin } =
+    usePhotoStore()
   const [staffOpen, setStaffOpen] = useState(false)
   const [staff, setStaff] = useState({ name: '', email: '', password: '' })
   const [inviteMsg, setInviteMsg] = useState('')
+  const [navOpen, setNavOpen] = useState(false)
+  const [pinMsg, setPinMsg] = useState('')
+  const [enablePin, setEnablePin] = useState(false)
   if (!session) return <Navigate to="/pm/login" replace />
 
+  function closeNav() {
+    setNavOpen(false)
+  }
+
   return (
-    <div className="app">
-      <nav className="sidebar">
+    <div className={`app ${navOpen ? 'nav-open' : ''}`}>
+      <header className="mobile-bar">
+        <button type="button" className="nav-toggle" aria-label={navOpen ? 'ปิดเมนู' : 'เปิดเมนู'} onClick={() => setNavOpen((v) => !v)}>
+          {navOpen ? '✕' : '☰'}
+        </button>
+        <div className="mobile-bar-title">
+          <strong>Chapter99</strong>
+          <span>Manager</span>
+        </div>
+        <button type="button" className="btn ghost sm" onClick={logout}>
+          ออก
+        </button>
+      </header>
+      {navOpen && <button type="button" className="nav-scrim" aria-label="ปิดเมนู" onClick={closeNav} />}
+      <nav className={`sidebar ${navOpen ? 'open' : ''}`}>
         <div className="brand">
           <svg width="30" height="30" viewBox="0 0 40 40" fill="none">
             <rect x="6" y="14" width="28" height="18" rx="3" stroke="#f3efe3" strokeWidth="1.6" />
@@ -39,19 +62,25 @@ export default function Shell() {
         </div>
         <div className="navlist">
           {LINKS.map((l) => (
-            <NavLink key={l.to} to={l.to} end={l.end} className={({ isActive }) => (isActive ? 'active' : '')}>
+            <NavLink
+              key={l.to}
+              to={l.to}
+              end={l.end}
+              className={({ isActive }) => (isActive ? 'active' : '')}
+              onClick={closeNav}
+            >
               <span className="ico">{l.ico}</span> {l.label}
             </NavLink>
           ))}
           {isOwner && (
             <>
-              <NavLink to="/pm/packages" className={({ isActive }) => (isActive ? 'active' : '')}>
+              <NavLink to="/pm/packages" className={({ isActive }) => (isActive ? 'active' : '')} onClick={closeNav}>
                 <span className="ico">◈</span> ราคาแพ็กเกจ
               </NavLink>
-              <NavLink to="/pm/tax" className={({ isActive }) => (isActive ? 'active' : '')}>
+              <NavLink to="/pm/tax" className={({ isActive }) => (isActive ? 'active' : '')} onClick={closeNav}>
                 <span className="ico">$</span> สรุปภาษี
               </NavLink>
-              <NavLink to="/pm/brand" className={({ isActive }) => (isActive ? 'active' : '')}>
+              <NavLink to="/pm/brand" className={({ isActive }) => (isActive ? 'active' : '')} onClick={closeNav}>
                 <span className="ico">◎</span> โลโก้เอกสาร
               </NavLink>
             </>
@@ -61,10 +90,32 @@ export default function Shell() {
           {session.name} · {session.role}
           <br />
           store: {adapterId}
+          {devicePinEmail && (
+            <>
+              <br />
+              PIN เครื่องนี้: เปิดแล้ว
+            </>
+          )}
           <br />
           {isOwner && (
             <button className="btn ghost sm" style={{ marginTop: 8, color: '#cfe0d6' }} onClick={() => setStaffOpen((v) => !v)}>
               + พนักงาน
+            </button>
+          )}
+          {devicePinEmail ? (
+            <button
+              className="btn ghost sm"
+              style={{ marginTop: 8, color: '#cfe0d6' }}
+              onClick={() => {
+                forgetDevicePin()
+                setPinMsg('ลบ PIN เครื่องนี้แล้ว')
+              }}
+            >
+              ลบ PIN เครื่องนี้
+            </button>
+          ) : (
+            <button className="btn ghost sm" style={{ marginTop: 8, color: '#cfe0d6' }} onClick={() => setEnablePin(true)}>
+              ตั้ง PIN เครื่องนี้
             </button>
           )}
           <button className="btn ghost sm" style={{ marginTop: 8, color: '#cfe0d6' }} onClick={logout}>
@@ -95,11 +146,18 @@ export default function Shell() {
             </div>
           )}
           {inviteMsg && <div style={{ marginTop: 8, color: '#cfe0d6' }}>{inviteMsg}</div>}
+          {pinMsg && <div style={{ marginTop: 8, color: '#cfe0d6' }}>{pinMsg}</div>}
         </div>
       </nav>
       <main>
         <Outlet />
       </main>
+      {pinOffer && (
+        <PinSetupModal email={pinOffer.email} onSave={savePinForDevice} onSkip={dismissPinOffer} />
+      )}
+      {enablePin && (
+        <EnablePinModal email={session.email} onSave={enableDevicePin} onClose={() => setEnablePin(false)} />
+      )}
     </div>
   )
 }

@@ -8,6 +8,7 @@ import { STATUS_LABEL, TYPE_LABEL } from '../data/catalog'
 import { invoiceTotals } from '../lib/money'
 import { newId, staffSafeExpenses } from './adapters/types'
 import type { DataAdapter } from './adapters/types'
+import { clearDevicePin, getDevicePinMeta, saveDevicePin, unlockDevicePin } from '../lib/devicePin'
 
 const SESSION_KEY = 'chapter99-pm-session'
 
@@ -45,6 +46,13 @@ type Store = {
   requestPasswordReset: (email: string) => Promise<void>
   saveCatalog: (packages: CatalogPackage[], addons: Addon[]) => Promise<void>
   saveBrandLogos: (logos: BrandLogo[]) => Promise<void>
+  pinOffer: { email: string; password: string } | null
+  devicePinEmail: string | null
+  dismissPinOffer: () => void
+  savePinForDevice: (pin: string) => Promise<void>
+  enableDevicePin: (password: string, pin: string) => Promise<void>
+  unlockWithPin: (pin: string) => Promise<void>
+  forgetDevicePin: () => void
 }
 
 const Ctx = createContext<Store | null>(null)
@@ -64,6 +72,8 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
   const [needsOwner, setNeedsOwner] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [pinOffer, setPinOffer] = useState<{ email: string; password: string } | null>(null)
+  const [devicePinEmail, setDevicePinEmail] = useState<string | null>(() => getDevicePinMeta()?.email ?? null)
 
   useEffect(() => {
     let cancelled = false
@@ -97,6 +107,24 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
     })
   }, [adapter, session])
 
+  const applySession = useCallback(async (s: Session, creds?: { email: string; password: string }) => {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(s))
+    setSession(s)
+    setData(await adapter.load())
+    const email = (creds?.email ?? s.email).trim().toLowerCase()
+    const meta = getDevicePinMeta()
+    if (meta && meta.email !== email) {
+      clearDevicePin()
+      setDevicePinEmail(null)
+    }
+    if (creds && !getDevicePinMeta()) {
+      setPinOffer({ email, password: creds.password })
+    } else {
+      setPinOffer(null)
+    }
+    setDevicePinEmail(getDevicePinMeta()?.email ?? null)
+  }, [adapter])
+
   const persist = useCallback(
     async (next: DbSnapshot) => {
       setData(next)
@@ -107,31 +135,72 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string) => {
     const s = await adapter.login(email, password)
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(s))
-    setSession(s)
-    setData(await adapter.load())
+    await applySession(s, { email, password })
   }
 
   const logout = () => {
     sessionStorage.removeItem(SESSION_KEY)
     setSession(null)
+    setPinOffer(null)
     void adapter.logout()
   }
 
   const bootstrapOwner = async (email: string, password: string, name: string) => {
     const s = await adapter.bootstrapOwner(email, password, name)
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(s))
-    setSession(s)
     setNeedsOwner(false)
-    setData(await adapter.load())
+    await applySession(s, { email, password })
   }
 
   const registerStaff = async (email: string, password: string, name: string) => {
     if (!adapter.registerStaff) throw new Error('ลงทะเบียนพนักงานใช้ได้เมื่อเชื่อม Supabase')
     const s = await adapter.registerStaff(email, password, name)
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(s))
-    setSession(s)
-    setData(await adapter.load())
+    await applySession(s, { email, password })
+  }
+
+  const dismissPinOffer = () => setPinOffer(null)
+
+  const savePinForDevice = async (pin: string) => {
+    const creds = pinOffer
+    if (!creds) throw new Error('ไม่มีรหัสผ่านในหน่วยความจำ — เข้าสู่ระบบด้วยอีเมลอีกครั้งแล้วตั้ง PIN')
+    await saveDevicePin(creds.email, creds.password, pin)
+    setDevicePinEmail(creds.email.trim().toLowerCase())
+    setPinOffer(null)
+  }
+
+  const enableDevicePin = async (password: string, pin: string) => {
+    if (!session) throw new Error('ต้องเข้าสู่ระบบก่อน')
+    await adapter.login(session.email, password)
+    await saveDevicePin(session.email, password, pin)
+    setDevicePinEmail(session.email.trim().toLowerCase())
+    setPinOffer(null)
+  }
+
+  const unlockWithPin = async (pin: string) => {
+    const creds = await unlockDevicePin(pin)
+    const restored = await adapter.restoreSession()
+    if (restored && restored.email.trim().toLowerCase() === creds.email) {
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify(restored))
+      setSession(restored)
+      setData(await adapter.load())
+      setPinOffer(null)
+      return
+    }
+    try {
+      const s = await adapter.login(creds.email, creds.password)
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify(s))
+      setSession(s)
+      setData(await adapter.load())
+      setPinOffer(null)
+    } catch {
+      clearDevicePin()
+      setDevicePinEmail(null)
+      throw new Error('เซสชันหมดอายุแล้ว และรหัสที่เก็บในเครื่องใช้ไม่ได้ — กรุณาเข้าสู่ระบบด้วยอีเมลและรหัสผ่าน')
+    }
+  }
+
+  const forgetDevicePin = () => {
+    clearDevicePin()
+    setDevicePinEmail(null)
   }
 
   const addStaff = async (email: string, password: string, name: string) => {
@@ -257,6 +326,13 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
     requestPasswordReset,
     saveCatalog,
     saveBrandLogos,
+    pinOffer,
+    devicePinEmail,
+    dismissPinOffer,
+    savePinForDevice,
+    enableDevicePin,
+    unlockWithPin,
+    forgetDevicePin,
   }
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
