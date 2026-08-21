@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
 .pm-root {
   --bg: #faf8f2;
   --surface: #ffffff;
@@ -80,7 +82,7 @@
 }
 .pm-root .muted { color: var(--muted); font-size: 12.5px; }
 .pm-root .inv-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 18px; flex-wrap: wrap; }
-.pm-root .inv-brand { font-family: Fraunces, serif; font-weight: 700; font-size: 20px; color: var(--sage-dark); line-height: 1.2; }
+.pm-root .inv-brand { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 20px; color: var(--sage-dark); line-height: 1.2; }
 .pm-root .pm-brand-mark { display: flex; align-items: center; gap: 14px; }
 .pm-root .pm-brand-mark.compact { gap: 10px; }
 .pm-root .pm-brand-copy { min-width: 0; }
@@ -89,12 +91,12 @@
 .pm-root .client-phone .cp-head .pm-doc-logo { margin-bottom: 0; }
 .pm-root .client-phone .cp-head small { display: block; margin-top: 6px; font-family: 'IBM Plex Sans Thai', sans-serif; opacity: .9; }
 .pm-root .tagline { font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 400; font-size: 11.5px; color: var(--muted); margin-top: 3px; }
-.pm-root .inv-num { font-family: Fraunces, serif; font-size: 22px; font-weight: 700; color: var(--sage-dark); }
+.pm-root .inv-num { font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: 700; color: var(--sage-dark); }
 .pm-root table.inv-table th { border-bottom: 2px solid var(--sage); }
 .pm-root .inv-total-row td { font-weight: 700; font-family: 'IBM Plex Mono', monospace; color: var(--sage-dark); font-size: 17px; border-top: 2px solid var(--sage-dark); }
 .pm-root .inv-deposit td { color: var(--muted); }
 .pm-root .inv-footer { background: var(--blue); color: #fff; border-radius: 10px; padding: 20px 24px; margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.pm-root .inv-footer h4 { margin: 0 0 8px; font-family: Fraunces, serif; font-size: 14px; }
+.pm-root .inv-footer h4 { margin: 0 0 8px; font-family: 'Montserrat', sans-serif; font-size: 14px; }
 .pm-root .inv-footer div { font-size: 12.5px; line-height: 1.7; opacity: .95; }
 .pm-root .inv-terms { margin: 10px 2px 0; font-size: 11.5px; color: var(--muted); line-height: 1.5; }
 .pm-root .pkg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 6px; }
@@ -162,7 +164,7 @@
 .pm-root .banner { background: #fff6e8; border: 1px solid #e8d4a8; border-radius: 12px; padding: 14px 16px; margin-bottom: 18px; font-size: 13px; line-height: 1.6; }
 .pm-root .client-phone { background: #fff; width: 100%; max-width: 420px; border-radius: 18px; margin: 24px auto; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.15); }
 .pm-root .client-phone.wide { max-width: 560px; }
-.pm-root .client-phone .cp-head { background: var(--sage-dark); color: #fff; padding: 18px 20px; font-family: Fraunces, serif; }
+.pm-root .client-phone .cp-head { background: var(--sage-dark); color: #fff; padding: 18px 20px; font-family: 'Montserrat', sans-serif; }
 .pm-root .cp-body { padding: 20px; font-size: 13px; line-height: 1.8; white-space: pre-wrap; overflow-wrap: anywhere; }
 .pm-root .cp-brief, .pm-root .cp-contract { padding: 16px 16px 8px; }
 .pm-root .cp-brief h3 { font-family: Fraunces, serif; font-size: 17px; font-weight: 600; color: var(--sage-dark); margin: 0 0 12px; }
@@ -192,7 +194,7 @@
 }
 .pm-root .prep-lang button.on { background: var(--sage-dark); color: #fff; }
 .pm-root .contract-card { margin: 0; color: var(--ink); }
-.pm-root .contract-card h4 { color: var(--ink); font-size: 16px; font-weight: 700; }
+.pm-root .contract-card h4 { color: var(--ink); font-size: 16px; font-weight: 700; font-family: 'Montserrat', sans-serif; }
 .pm-root .contract-h {
   font-family: inherit; font-size: 17px; font-weight: 700; color: var(--ink);
   line-height: 1.35; margin: 1.35em 0 0.5em; letter-spacing: 0;
