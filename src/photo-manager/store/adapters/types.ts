@@ -6,6 +6,7 @@ export type DataAdapter = {
   needsOwner(): Promise<boolean>
   load(): Promise<DbSnapshot>
   save(data: DbSnapshot): Promise<void>
+  deleteClient(id: string): Promise<void>
   login(email: string, password: string): Promise<Session>
   completePinLogin?(tokenHash: string): Promise<Session>
   currentAccessToken?(): Promise<string | null>
