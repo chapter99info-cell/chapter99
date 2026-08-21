@@ -95,7 +95,7 @@ function ClientEditor({
   onClose: () => void
   onSave: (c: Client) => void
 }) {
-  const { patchClient } = usePhotoStore()
+  const { patchClient, deleteClient } = usePhotoStore()
   const [c, setC] = useState(client)
   const [savingCheck, setSavingCheck] = useState<string | null>(null)
   const pkgs = ALL_PACKAGES.filter((p) => (c.type === 'wedding' ? p.kind === 'wedding' : p.kind === 'engagement'))
@@ -264,6 +264,19 @@ function ClientEditor({
         <button className="btn ghost sm" onClick={onClose}>
           ยกเลิก
         </button>
+        {exists && (
+          <button
+            className="btn ghost sm"
+            style={{ color: 'var(--rust)', borderColor: 'var(--rust)' }}
+            onClick={async () => {
+              if (!window.confirm(`ลบลูกค้า "${c.name}" ถาวร? กู้คืนไม่ได้`)) return
+              await deleteClient(c.id)
+              onClose()
+            }}
+          >
+            ลบลูกค้า
+          </button>
+        )}
         <button className="btn sm" onClick={() => onSave(c)}>
           บันทึก
         </button>
