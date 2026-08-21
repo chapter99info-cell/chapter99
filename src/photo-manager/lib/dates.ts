@@ -1,5 +1,3 @@
-const TH_MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.']
-
 export function toBuddhistISOParts(iso: string) {
   const d = new Date(iso + 'T12:00:00')
   return {
@@ -10,9 +8,11 @@ export function toBuddhistISOParts(iso: string) {
   }
 }
 
+/** App-wide date display, English/Gregorian, e.g. "29 Aug 2026". */
 export function formatThaiDate(iso: string): string {
-  const { day, month, yearBE } = toBuddhistISOParts(iso)
-  return `${day} ${TH_MONTHS[month]} ${yearBE}`
+  const d = new Date(iso + 'T12:00:00')
+  if (Number.isNaN(d.getTime())) return iso
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
 /** Client-facing Gregorian date, e.g. "29 August 2026". */
