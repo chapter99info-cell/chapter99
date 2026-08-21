@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { ALL_PACKAGES } from '../data/catalog'
 import { defaultsForJobType } from '../lib/categories'
+import { formatThaiDate } from '../lib/dates'
 import { invoiceTotals, money } from '../lib/money'
 import { defaultPrepTips, isDefaultPrepTips } from '../lib/prepTips'
 import { blankClient, usePhotoStore } from '../store/StoreContext'
@@ -44,7 +45,16 @@ export default function ClientsPage() {
                     <span className="muted">{c.phone}</span>
                   </td>
                   <td>{c.typeLabel}</td>
-                  <td>{c.date}</td>
+                  <td>
+                    {c.preWeddingDateISO ? (
+                      <>
+                        <div>Pre-Wed: {formatThaiDate(c.preWeddingDateISO)}</div>
+                        <div>Wedding: {c.date}</div>
+                      </>
+                    ) : (
+                      c.date
+                    )}
+                  </td>
                   {isOwner && <td className="mono">{money(t.gstInclusive)}</td>}
                   {isOwner && <td className="mono">{money(c.deposit)}</td>}
                   <td>
@@ -140,6 +150,26 @@ function ClientEditor({
           <label>วันถ่าย (ISO)</label>
           <input type="date" value={c.dateISO} onChange={(e) => setC({ ...c, dateISO: e.target.value })} />
         </div>
+        <div className="field">
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+            <input
+              type="checkbox"
+              checked={c.preWeddingDateISO != null}
+              onChange={(e) => setC({ ...c, preWeddingDateISO: e.target.checked ? '' : null })}
+            />
+            รวม Pre-Wedding + Wedding Day (จองคนละวัน ลูกค้าคนเดียวกัน)
+          </label>
+        </div>
+        {c.preWeddingDateISO != null && (
+          <div className="field">
+            <label>วันถ่าย Pre-Wedding (ISO)</label>
+            <input
+              type="date"
+              value={c.preWeddingDateISO}
+              onChange={(e) => setC({ ...c, preWeddingDateISO: e.target.value })}
+            />
+          </div>
+        )}
         <div className="field">
           <label>เวลาพิธี</label>
           <input type="time" value={c.ceremonyTime} onChange={(e) => setC({ ...c, ceremonyTime: e.target.value })} />
