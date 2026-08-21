@@ -418,6 +418,12 @@ export const supabaseAdapter: DataAdapter = {
       if (rateErr && rateErr.code !== 'PGRST205') throw rateErr
     }
   },
+  async deleteClient(id) {
+    const sb = pmClient()
+    await sb.from('pm_client_finance').delete().eq('client_id', id)
+    await sb.from('pm_clients').delete().eq('id', id)
+  },
+
   async login(email, password) {
     const sb = pmClient()
     const { data, error } = await sb.auth.signInWithPassword({ email: email.trim(), password })
