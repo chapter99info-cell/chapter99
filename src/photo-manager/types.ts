@@ -54,6 +54,9 @@ export type Client = {
   dateISO: string
   preWeddingDateISO?: string | null
   ceremonyTime: string
+  weddingEndTime?: string | null
+  preWeddingStartTime?: string | null
+  preWeddingEndTime?: string | null
   location: string
   deposit: number
   status: JobStatus
