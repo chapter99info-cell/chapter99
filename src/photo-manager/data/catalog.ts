@@ -52,7 +52,7 @@ export const ENGAGEMENT_PACKAGES: CatalogPackage[] = [
     name: 'Package 2',
     price: 1700,
     hours: 4,
-    blurb: ['Sunset & After Dark 4 ชม.', '1 ช่างภาพ + ผู้ช่วย', 'พื้นที่ถ่ายซิดนีย์ ไม่จำกัดจำนวนภาพ', 'รีทัชภาพ + Online Gallery ฟรี'],
+    blurb: ['Sunset & After Dark 4 ชม.', '1 ช่างภาพ', 'พื้นที่ถ่ายซิดนีย์ ไม่จำกัดจำนวนภาพ', 'รีทัชภาพ + Online Gallery ฟรี'],
   },
   {
     id: 'e3',
@@ -60,7 +60,7 @@ export const ENGAGEMENT_PACKAGES: CatalogPackage[] = [
     name: 'Package 3',
     price: 2400,
     hours: 8,
-    blurb: ['เต็มวัน 8 ชม.', '1 ช่างภาพ + ผู้ช่วย + รถรับส่ง', 'พื้นที่ถ่ายซิดนีย์ ไม่จำกัดจำนวนภาพ', 'รีทัชภาพ + Wedding guest photobook'],
+    blurb: ['เต็มวัน 8 ชม.', '1 ช่างภาพ + รถรับส่ง', 'พื้นที่ถ่ายซิดนีย์ ไม่จำกัดจำนวนภาพ', 'รีทัชภาพ + Wedding guest photobook'],
   },
 ]
 
