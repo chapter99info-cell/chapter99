@@ -171,9 +171,37 @@ function ClientEditor({
           </div>
         )}
         <div className="field">
-          <label>เวลาพิธี</label>
+          <label>เวลาเริ่ม Wedding Day</label>
           <input type="time" value={c.ceremonyTime} onChange={(e) => setC({ ...c, ceremonyTime: e.target.value })} />
         </div>
+        <div className="field">
+          <label>เวลาจบ Wedding Day</label>
+          <input
+            type="time"
+            value={c.weddingEndTime ?? ''}
+            onChange={(e) => setC({ ...c, weddingEndTime: e.target.value || null })}
+          />
+        </div>
+        {c.preWeddingDateISO != null && (
+          <>
+            <div className="field">
+              <label>เวลาเริ่ม Pre-Wedding</label>
+              <input
+                type="time"
+                value={c.preWeddingStartTime ?? ''}
+                onChange={(e) => setC({ ...c, preWeddingStartTime: e.target.value || null })}
+              />
+            </div>
+            <div className="field">
+              <label>เวลาจบ Pre-Wedding</label>
+              <input
+                type="time"
+                value={c.preWeddingEndTime ?? ''}
+                onChange={(e) => setC({ ...c, preWeddingEndTime: e.target.value || null })}
+              />
+            </div>
+          </>
+        )}
         <div className="field">
           <label>สถานที่</label>
           <input value={c.location} onChange={(e) => setC({ ...c, location: e.target.value })} />
