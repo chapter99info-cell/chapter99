@@ -13,6 +13,7 @@ export const sheetsAdapter: DataAdapter = {
   needsOwner: async () => true,
   load: blocked,
   save: blocked,
+  deleteClient: blocked,
   login: blocked,
   logout: async () => {},
   bootstrapOwner: blocked,
