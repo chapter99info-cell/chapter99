@@ -100,8 +100,19 @@ export default function ConfirmPage() {
 
 function BriefConfirmBody({ client }: { client: Client }) {
   const date = formatClientDate(client.dateISO)
+  const preWeddingDate = client.preWeddingDateISO ? formatClientDate(client.preWeddingDateISO) : null
   const typeEn = TYPE_LABEL_EN[client.type] ?? client.typeLabel
   const plan = daySummaryText(client)
+  const weddingTimeRange = client.ceremonyTime
+    ? client.weddingEndTime
+      ? `${client.ceremonyTime}–${client.weddingEndTime}`
+      : client.ceremonyTime
+    : '—'
+  const preWeddingTimeRange = client.preWeddingStartTime
+    ? client.preWeddingEndTime
+      ? `${client.preWeddingStartTime}–${client.preWeddingEndTime}`
+      : client.preWeddingStartTime
+    : '—'
   return (
     <div className="cp-brief">
       <h3>Shoot brief · สรุปงานวันถ่าย</h3>
@@ -110,9 +121,15 @@ function BriefConfirmBody({ client }: { client: Client }) {
           <dt>Client</dt>
           <dd>{client.name}</dd>
         </div>
+        {preWeddingDate && (
+          <div>
+            <dt>Pre-Wedding · วันถ่ายก่อนงาน</dt>
+            <dd>{preWeddingDate} · {preWeddingTimeRange}</dd>
+          </div>
+        )}
         <div>
-          <dt>Date · วันที่</dt>
-          <dd>{date}</dd>
+          <dt>{preWeddingDate ? 'Wedding Day · วันงานจริง' : 'Date · วันที่'}</dt>
+          <dd>{date} · {weddingTimeRange}</dd>
         </div>
         <div>
           <dt>Location · สถานที่</dt>
@@ -124,10 +141,6 @@ function BriefConfirmBody({ client }: { client: Client }) {
             {typeEn}
             {client.typeLabel !== typeEn ? ` · ${client.typeLabel}` : ''}
           </dd>
-        </div>
-        <div>
-          <dt>Call time · เวลานัด</dt>
-          <dd>{client.ceremonyTime ? `${client.ceremonyTime}` : '—'}</dd>
         </div>
       </dl>
       {plan ? (
