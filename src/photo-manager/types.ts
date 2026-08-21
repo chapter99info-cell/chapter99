@@ -52,6 +52,7 @@ export type Client = {
   customPrice: number | null
   date: string
   dateISO: string
+  preWeddingDateISO: string | null
   ceremonyTime: string
   location: string
   deposit: number
