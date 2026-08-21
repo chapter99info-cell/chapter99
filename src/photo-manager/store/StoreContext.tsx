@@ -380,6 +380,7 @@ export function blankClient(): Client {
     customPrice: null,
     date: formatThaiDate(iso),
     dateISO: iso,
+    preWeddingDateISO: null,
     ceremonyTime: '16:00',
     location: '',
     deposit: 0,
