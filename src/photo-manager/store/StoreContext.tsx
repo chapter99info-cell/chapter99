@@ -35,6 +35,7 @@ type Store = {
   registerStaff: (email: string, password: string, name: string) => Promise<void>
   addStaff: (email: string, password: string, name: string) => Promise<string | void>
   upsertClient: (c: Client) => Promise<void>
+  deleteClient: (id: string) => Promise<void>
   patchClient: (id: string, patch: Partial<Client>) => Promise<void>
   addExpense: (e: Omit<Expense, 'id'>) => Promise<void>
   updateExpense: (e: Expense) => Promise<void>
@@ -245,6 +246,11 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
     await persist({ ...data, clients, vendorSheets })
   }
 
+  const deleteClient = async (id: string) => {
+    await adapter.deleteClient(id)
+    await persist({ ...data, clients: data.clients.filter((c) => c.id !== id) })
+  }
+
   const patchClient = async (id: string, patch: Partial<Client>) => {
     const next = { ...data, clients: data.clients.map((c) => (c.id === id ? { ...c, ...patch } : c)) }
     const c = next.clients.find((x) => x.id === id)
@@ -334,6 +340,7 @@ export function PhotoStoreProvider({ children }: { children: ReactNode }) {
     registerStaff,
     addStaff,
     upsertClient,
+    deleteClient,
     patchClient,
     addExpense,
     updateExpense,
