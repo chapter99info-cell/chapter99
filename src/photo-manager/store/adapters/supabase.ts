@@ -51,7 +51,7 @@ function parseAddonPrices(v: unknown): Record<string, number> {
 type ClientRow = Record<string, unknown>
 
 const CLIENT_OPS =
-  'id,name,type,type_label,package_id,date_display,date_iso,ceremony_time,location,status,status_label,phone,email,addon_ids,checklist,brief_confirmed,contract_confirmed,confirm_token,gallery,quote,prep_tips,day_summary'
+  'id,name,type,type_label,package_id,date_display,date_iso,pre_wedding_date_iso,ceremony_time,location,status,status_label,phone,email,addon_ids,checklist,brief_confirmed,contract_confirmed,confirm_token,gallery,quote,prep_tips,day_summary'
 
 function financeBlank() {
   return {
@@ -85,6 +85,7 @@ export function rowToClient(r: ClientRow, finance?: ClientRow | null): Client {
     customPrice: num(finance?.custom_price ?? finance?.customPrice ?? r.customPrice),
     date: String(r.date_display ?? r.date ?? ''),
     dateISO: String(r.date_iso ?? r.dateISO ?? ''),
+    preWeddingDateISO: (r.pre_wedding_date_iso as string | null) ?? (r.preWeddingDateISO as string | null) ?? null,
     ceremonyTime: String(r.ceremony_time ?? r.ceremonyTime ?? ''),
     location: String(r.location ?? ''),
     deposit: num0(finance?.deposit ?? r.deposit),
@@ -115,6 +116,7 @@ function clientOpsRow(c: Client) {
     package_id: c.packageId,
     date_display: c.date,
     date_iso: c.dateISO,
+    pre_wedding_date_iso: c.preWeddingDateISO ?? null,
     ceremony_time: c.ceremonyTime,
     location: c.location,
     status: c.status,
