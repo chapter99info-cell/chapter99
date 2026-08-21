@@ -79,6 +79,10 @@ export const localAdapter: DataAdapter = {
   async save(data) {
     write(data)
   },
+  async deleteClient(id) {
+    const data = (await this.load()) as DbSnapshot
+    write({ ...data, clients: data.clients.filter((c) => c.id !== id) })
+  },
   async login(email, password) {
     const data = (await this.load()) as DbSnapshot
     const profile = data.profiles.find((p) => p.email === email.trim().toLowerCase())
