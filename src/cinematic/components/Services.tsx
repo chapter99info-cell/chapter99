@@ -43,6 +43,22 @@ export function Services() {
 
         <div className="feat-grid">
           <div ref={c0} id="photo" className="feat-card media fadeup">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/ipad.mp4"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                zIndex: 0,
+              }}
+            />
+            <div style={{ position: 'relative', zIndex: 1 }}>
             <span
               style={{
                 fontFamily: "'Sarabun'",
@@ -85,6 +101,7 @@ export function Services() {
               </span>{' '}
               <Arrow />
             </a>
+            </div>
           </div>
 
           <div ref={c1} id="web" className="feat-card solid fadeup">
