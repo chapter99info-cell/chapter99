@@ -57,6 +57,21 @@ export function Approach() {
         <div ref={rowRef} className="ap-row fadeup">
           <div className="ap-left">
             <div className="ap-portrait">
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/AQPLAjurgF7V3ln8lqHsABzZ0x__kstH3gR0F0iuT8eOsiFM0s0f_u_NXxay7HhHXGLtIYvQt5cY4DqNfZcUPDOr2viuImJWsdxmp6-PMIo_VQ.mp4"
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: 6,
+                }}
+              />
               {glitches.map((g, i) => (
                 <span
                   key={i}
