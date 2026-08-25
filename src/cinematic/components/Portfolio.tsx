@@ -45,7 +45,18 @@ export function Portfolio() {
         <div ref={gridRef} className="portfolio-grid fadeup">
           {portfolioItems.map((item) => (
             <div key={item.name} className="proj-card">
-              <div className="proj-img" style={{ background: item.gradient }} />
+              <div
+                className="proj-img"
+                style={
+                  item.image
+                    ? {
+                        backgroundImage: `url(${item.image})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                      }
+                    : { background: item.gradient }
+                }
+              />
               <PixelGrid />
               <span className="proj-plus">+</span>
               <div className="proj-plate">

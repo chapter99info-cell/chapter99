@@ -5,6 +5,7 @@ export type PortfolioItem = {
   category: string;
   year: string;
   gradient: string;
+  image?: string;
 };
 
 export const portfolioItems: PortfolioItem[] = [
@@ -13,24 +14,32 @@ export const portfolioItems: PortfolioItem[] = [
     category: 'Photography + Web Rebrand',
     year: '2026',
     gradient: 'linear-gradient(160deg,#E3D2A6,#C8AF74)',
+    image:
+      'https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/Photos/Price%20package/784734079_10243557062692323_4129553270065030035_n.jpg',
   },
   {
     name: 'Thai Garlic Restaurant',
     category: 'QR Digital Menu + Booking',
     year: '2025',
     gradient: 'linear-gradient(160deg,#E9C6AC,#CE9868)',
+    image:
+      'https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/Photos/Price%20package/633795568_10240611778182051_3822552331228764108_n.jpg',
   },
   {
     name: 'Princess Thai Massage',
     category: 'PWA Booking + Digital Menu',
     year: '2025',
     gradient: 'linear-gradient(160deg,#CBDABF,#9FB68D)',
+    image:
+      'https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/Photos/Price%20package/784432951_10243557063132334_5172406906984522494_n.jpg',
   },
   {
     name: 'Jasmine Massage & Spa',
     category: 'Brand Photography + PWA',
     year: '2024',
     gradient: 'linear-gradient(160deg,#D9C2D8,#A987AC)',
+    image:
+      'https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/Photos/Price%20package/784717655_10243557061972305_1001377768889718974_n.jpg',
   },
 ];
 
