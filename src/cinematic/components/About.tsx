@@ -78,14 +78,30 @@ export function About() {
 
         <div ref={desktopRef} className="about2-desktop fadeup">
           <div className="col-left">
-            <div className="about2-img r1" />
+            <video
+              className="about2-img r1"
+              autoPlay
+              loop
+              muted
+              playsInline
+              src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/hero_cover01.mp4"
+              style={{ objectFit: 'cover', width: '100%', height: '100%', display: 'block' }}
+            />
           </div>
           <div className="col-mid">
             <p dangerouslySetInnerHTML={{ __html: t(aboutCopy.bodyDesktop) }} />
             <RollButton label={roll} />
           </div>
           <div className="col-right">
-            <div className="about2-img r3" />
+            <video
+              className="about2-img r3"
+              autoPlay
+              loop
+              muted
+              playsInline
+              src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/VDO/hf_20260605_050850_dc39cb41-a876-4895-aabb-af78fba0405e.mp4"
+              style={{ objectFit: 'cover', width: '100%', height: '100%', display: 'block' }}
+            />
           </div>
         </div>
       </div>
