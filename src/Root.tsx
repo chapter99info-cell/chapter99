@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import App from './App'
 import { useServiceWorker } from './hooks/usePwa'
 import { LanguageProvider } from './i18n/LanguageContext'
+import PricingPage from './pages/PricingPage'
 
 const AdminApp = lazy(() => import('./admin/AdminApp'))
 const PortalApp = lazy(() => import('./portal/PortalApp'))
@@ -32,6 +33,7 @@ export default function Root() {
             </LanguageProvider>
           }
         />
+        <Route path="/pricing" element={<PricingPage />} />
         <Route
           path="/admin/*"
           element={
