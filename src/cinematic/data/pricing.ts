@@ -31,6 +31,7 @@ export const photographyTiers: PricingTier[] = [
       en: 'Shoot for as long as booked, unlimited photos',
     },
     cta: { th: 'จองคิวถ่ายภาพ', en: 'Book a photo shoot' },
+    ctaHref: '#contact',
     ctaVariant: 'secondary',
     features: [
       { label: { th: '1 ชม. — A$199', en: '1 hr — A$199' }, included: true },
@@ -58,6 +59,7 @@ export const photographyTiers: PricingTier[] = [
       en: 'Reels/Shorts shot in studio or on location',
     },
     cta: { th: 'จองคิวถ่ายวิดีโอ', en: 'Book a video shoot' },
+    ctaHref: '#contact',
     ctaVariant: 'secondary',
     features: [
       {
