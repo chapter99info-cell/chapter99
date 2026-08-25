@@ -5,7 +5,7 @@ import { Hero } from './components/Hero';
 import { About } from './components/About';
 import { Services } from './components/Services';
 import { Portfolio } from './components/Portfolio';
-import { Gallery } from './components/Gallery';
+// import { Gallery } from './components/Gallery';
 import { PricingHub } from './components/PricingHub';
 import { AIBridge } from './components/AIBridge';
 import { Approach } from './components/Approach';
@@ -33,7 +33,7 @@ export default function CinematicHome() {
         <About />
         <Services />
         <Portfolio />
-        <Gallery />
+        {/* <Gallery /> */}
         <PricingHub />
         <AIBridge />
         <Approach />
