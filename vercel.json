@@ -1,7 +1,15 @@
 {
   "rewrites": [
     {
-      "source": "/((?!api/|admin/sw.js|admin/manifest.json|admin/icon-).*)",
+      "source": "/demo/mama-made-roti",
+      "destination": "/demos/mama-made-roti/index.html"
+    },
+    {
+      "source": "/demo/mama-made-roti/",
+      "destination": "/demos/mama-made-roti/index.html"
+    },
+    {
+      "source": "/((?!api/|admin/sw.js|admin/manifest.json|admin/icon-|demos/).*)",
       "destination": "/index.html"
     }
   ]
