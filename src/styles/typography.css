@@ -2076,3 +2076,50 @@ figcaption {
     gap: 4px;
   }
 }
+
+.photo-packages {
+  position: relative;
+  isolation: isolate;
+}
+
+.photo-packages::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(520px circle at var(--spot-x, 62%) var(--spot-y, 40%), rgba(231, 196, 114, 0.18), transparent 48%);
+  z-index: 0;
+}
+
+.photo-packages .section-title,
+.photo-packages .photo-options,
+.photo-packages .note {
+  position: relative;
+  z-index: 1;
+}
+
+.photo-options article {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.photo-options article.is-hot,
+.photo-options article:hover {
+  box-shadow: 0 22px 40px rgba(12, 33, 54, 0.12);
+}
+
+.photo-only.is-hot,
+.photo-only:hover {
+  border-color: #e7c472;
+}
+
+.photo-bundle.is-hot,
+.photo-bundle:hover {
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.28);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-options article {
+    transition: none;
+    transform: none !important;
+  }
+}

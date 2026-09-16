@@ -1,9 +1,40 @@
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { photographyOffers } from '../data/pricing'
 
 export function PhotoPackages() {
+  const ref = useRef<HTMLElement>(null)
+  const reduce = useRef(false)
+  const [spot, setSpot] = useState({ x: 62, y: 40 })
+  const [hot, setHot] = useState<string | null>(null)
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+
+  useEffect(() => {
+    reduce.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  }, [])
+
+  function onMove(e: MouseEvent<HTMLElement>) {
+    if (reduce.current) return
+    const box = ref.current?.getBoundingClientRect()
+    if (!box) return
+    const x = ((e.clientX - box.left) / box.width) * 100
+    const y = ((e.clientY - box.top) / box.height) * 100
+    setSpot({ x, y })
+    setTilt({ x: (x - 50) / 16, y: (y - 45) / 20 })
+  }
+
   return (
-    <section id="photo-packages" className="photo-packages">
+    <section
+      id="photo-packages"
+      ref={ref}
+      className="photo-packages"
+      onMouseMove={onMove}
+      onMouseLeave={() => {
+        setTilt({ x: 0, y: 0 })
+        setHot(null)
+      }}
+      style={{ '--spot-x': `${spot.x}%`, '--spot-y': `${spot.y}%` } as CSSProperties}
+    >
       <div className="section-title">
         <div>
           <p className="eyebrow">PHOTOGRAPHY BY CHAPTER99 / CHOOSE YOUR PACKAGE</p>
@@ -20,7 +51,11 @@ export function PhotoPackages() {
         </p>
       </div>
       <div className="photo-options">
-        <article className="photo-only">
+        <article
+          className={`photo-only${hot === 'only' ? ' is-hot' : ''}`}
+          style={{ transform: `translate(${tilt.x * -0.8}px, ${tilt.y}px)` }}
+          onMouseEnter={() => setHot('only')}
+        >
           <p className="eyebrow">01 / PHOTOGRAPHY ONLY</p>
           <h3>{photographyOffers.photoOnly.title}</h3>
           <p>
@@ -46,7 +81,11 @@ export function PhotoPackages() {
             คุยงานถ่ายภาพอย่างเดียว ↗
           </Link>
         </article>
-        <article className="photo-bundle">
+        <article
+          className={`photo-bundle${hot === 'bundle' ? ' is-hot' : ''}`}
+          style={{ transform: `translate(${tilt.x * 0.9}px, ${tilt.y * 1.1}px)` }}
+          onMouseEnter={() => setHot('bundle')}
+        >
           <p className="eyebrow">02 / PHOTOGRAPHY + WEBSITE</p>
           <h3>{photographyOffers.photoPlusWeb.title}</h3>
           <p>
