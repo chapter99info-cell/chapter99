@@ -1,37 +1,23 @@
-import { Bell, CalendarClock, CheckSquare, FileText, Globe, HelpCircle, Home, Image as ImageIcon, LayoutGrid, Lightbulb, List, MessageSquare, Settings, Sparkles, Star, Store, Users, Video } from 'lucide-react'
-import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
+import { Bell, CalendarClock, FileText, HelpCircle, Home, LayoutGrid, MessageSquare, Settings, Sparkles, Star, Store, Users } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Dock } from '../components/ui/dock'
 import { ToolkitDailyPanels } from '../components/ToolkitDailyPanels'
 import { CONTACT_EMAIL } from '../data/pricing'
 import {
-  checklistItems,
   documentTemplates,
   legalTemplateNote,
   messagePurposes,
   navItems,
-  photoSlots,
   surchargeNotice,
   tipPool,
   toolkitDisclaimer,
 } from '../data/toolkit'
-import { generateCustomerMessage, generateDocument, generateTip } from '../lib/generateCopy'
-import {
-  compressImage,
-  deriveChecklist,
-  loadToolkit,
-  saveToolkit,
-  type ToolkitPhoto,
-  type ToolkitService,
-  type ToolkitState,
-} from '../lib/toolkitStore'
+import { generateCustomerMessage, generateDocument } from '../lib/generateCopy'
+import { loadToolkit, saveToolkit, type ToolkitState } from '../lib/toolkitStore'
 
-const sections = ['home', 'tools', 'messages', 'docs', 'services', 'website', 'photos', 'checklist', 'tips', 'videos', 'settings', 'queue', 'guests', 'reminders', 'reviews'] as const
+const sections = ['home', 'tools', 'messages', 'docs', 'settings', 'queue', 'guests', 'reminders', 'reviews'] as const
 type Section = (typeof sections)[number]
-
-function uid() {
-  return crypto.randomUUID()
-}
 
 function copyText(text: string) {
   return navigator.clipboard.writeText(text)
@@ -41,10 +27,10 @@ function FieldHint({ children }: { children: string }) {
   return <p className="field-hint">{children}</p>
 }
 
-const waveIcons = [Store, List, Globe, Sparkles] as const
+const waveIcons = [Store, FileText, CalendarClock, Sparkles] as const
 const waveLines = {
-  th: ['กำลังเตรียมข้อมูลร้าน…', 'กำลังจัดบริการและราคา…', 'กำลังประกอบตัวอย่างเว็บ…'],
-  en: ['Preparing shop details…', 'Sorting services and prices…', 'Building the website preview…'],
+  th: ['กำลังเตรียมข้อมูลร้าน…', 'กำลังเปิดแม่แบบเอกสาร…', 'กำลังจัดคิววันนี้…'],
+  en: ['Preparing shop details…', 'Opening document templates…', 'Sorting today’s queue…'],
 }
 
 function StepWave({ th }: { th: boolean }) {
@@ -89,9 +75,7 @@ export function BusinessToolkitPage() {
   const [purpose, setPurpose] = useState<(typeof messagePurposes)[number]['id']>('confirm')
   const [docId, setDocId] = useState<(typeof documentTemplates)[number]['id']>('cancel')
   const [status, setStatus] = useState('')
-  const [tipIndex, setTipIndex] = useState(0)
   const [extra, setExtra] = useState('')
-  const [previewPhoto, setPreviewPhoto] = useState<ToolkitPhoto | null>(null)
   const docPreviewRef = useRef<HTMLElement>(null)
   const th = state.lang === 'th'
 
@@ -102,12 +86,9 @@ export function BusinessToolkitPage() {
   useEffect(() => {
     const hash = location.hash.replace('#', '') as Section
     if (sections.includes(hash)) setPanel(hash)
+    else if (location.hash) setPanel('tools')
   }, [location.hash])
 
-  const checks = useMemo(() => deriveChecklist(state), [state])
-  const done = Object.values(checks).filter(Boolean).length
-  const pct = Math.round((done / checklistItems.length) * 100)
-  const mainPhoto = state.photos.find((p) => p.slots.includes('main')) ?? state.photos[0]
   const dockItems = useMemo(
     () =>
       navItems.map((item) => {
@@ -118,10 +99,7 @@ export function BusinessToolkitPage() {
           guests: Users,
           reminders: Bell,
           reviews: Star,
-          services: List,
-          website: Globe,
           docs: FileText,
-          photos: ImageIcon,
           settings: Settings,
           help: HelpCircle,
         }
@@ -153,37 +131,6 @@ export function BusinessToolkitPage() {
 
   function t(a: string, b: string) {
     return th ? a : b
-  }
-
-  function onUpload(files: FileList | null) {
-    if (!files?.length) return
-    const room = Math.max(0, 8 - state.photos.length)
-    void Promise.all([...files].slice(0, room).map((file) => compressImage(file))).then((urls) => {
-      const next: ToolkitPhoto[] = urls.map((dataUrl, i) => ({
-        id: uid(),
-        name: files[i].name,
-        dataUrl,
-        slots: ['gallery'],
-      }))
-      setState((s) => ({ ...s, photos: [...s.photos, ...next] }))
-      setStatus(t('บีบอัดรูปแล้ว เก็บในเครื่องนี้เท่านั้น', 'Images compressed and stored on this device only'))
-    })
-  }
-
-  function addService(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    const data = new FormData(e.currentTarget)
-    const item: ToolkitService = {
-      id: uid(),
-      name: String(data.get('name') ?? '').trim(),
-      duration: String(data.get('duration') ?? '').trim(),
-      price: String(data.get('price') ?? '').trim(),
-      description: String(data.get('description') ?? '').trim(),
-      photoId: String(data.get('photoId') ?? ''),
-    }
-    if (!item.name) return
-    setState((s) => ({ ...s, services: [...s.services, item] }))
-    e.currentTarget.reset()
   }
 
   async function copyDraft() {
@@ -224,8 +171,8 @@ export function BusinessToolkitPage() {
                   <h1>{t('วิธีที่เราช่วยร้าน', 'How we help the shop')}</h1>
                   <p>
                     {t(
-                      'หน้านี้เป็นสมุดงานของร้านบนเครื่องคุณ ใช้ทดลองกรอกข้อมูล บริการ รูป และดูตัวอย่างเว็บ ยังไม่ใช่เว็บออนไลน์ ไม่รับจอง และไม่รับเงิน',
-                      'This page is a shop workbook on your device. Try details, services and photos, then preview a site. It is not live, does not take bookings, and does not take payment.',
+                      'หน้านี้เป็นสมุดงานของร้านบนเครื่องคุณ ใช้จดคิว ลูกค้าประจำ ข้อความ และเอกสาร ยังไม่ใช่ระบบจองออนไลน์ ไม่รับเงิน และไม่ส่ง SMS แทนคุณ',
+                      'This page is a shop workbook on your device for queue notes, regulars, messages and templates. It is not live booking, does not take payment, and does not send SMS for you.',
                     )}
                   </p>
                   <p className="note">{toolkitDisclaimer}</p>
@@ -241,12 +188,6 @@ export function BusinessToolkitPage() {
                     { id: 'reviews' as Section, Icon: Star, th: 'ดูแลรีวิว', en: 'Review care', body: t('ร่างคำตอบรีวิวมืออาชีพ และวิธีชวนลูกค้าให้รีวิว', 'Draft a professional reply and a way to ask for reviews.') },
                     { id: 'messages' as Section, Icon: MessageSquare, th: 'สร้างข้อความ', en: 'Write a message', body: t('แปลและร่างภาษาอังกฤษ แล้วคัดลอกไปส่งเอง', 'Draft English, then copy yourself.') },
                     { id: 'docs' as Section, Icon: FileText, th: 'สร้างเอกสาร', en: 'Documents', body: t('แม่แบบนโยบายร้าน ไม่ใช่คำปรึกษากฎหมาย', 'Shop templates. Not legal advice.') },
-                    { id: 'services' as Section, Icon: List, th: 'บริการและราคา', en: 'Services and prices', body: t('เพิ่มชื่อ ระยะเวลา ราคา และรูป', 'Name, duration, price and photo.') },
-                    { id: 'website' as Section, Icon: Globe, th: 'เว็บไซต์ของฉัน', en: 'My website', body: t('ดูตัวอย่างจากข้อมูลบนเครื่องนี้', 'Preview from details on this device.') },
-                    { id: 'photos' as Section, Icon: ImageIcon, th: 'คลังรูปภาพ', en: 'Photo library', body: t('อัปโหลด บีบอัด แล้วเลือกใช้บนเว็บ', 'Upload, compress, then place on the site.') },
-                    { id: 'checklist' as Section, Icon: CheckSquare, th: 'รายการตรวจสอบ', en: 'Business checklist', body: t(`ความพร้อม ${pct}%`, `${pct}% ready`) },
-                    { id: 'tips' as Section, Icon: Lightbulb, th: 'ไอเดียและคำแนะนำ', en: 'Ideas and tips', body: t('กดเมื่อต้องการข้อความแนะนำ', 'Runs only when you tap.') },
-                    { id: 'videos' as Section, Icon: Video, th: 'วิดีโอสอนใช้งาน', en: 'How-to videos', body: t('โครงสำหรับคลิปในอนาคต', 'Placeholder for future clips.') },
                   ].map((card) => (
                     <button type="button" className="toolkit-model-card" key={card.id} onClick={() => go(card.id)}>
                       <span className="toolkit-model-icon" aria-hidden="true">
@@ -269,13 +210,13 @@ export function BusinessToolkitPage() {
                     </button>
                   </li>
                   <li>
-                    <button type="button" onClick={() => go('services')}>
-                      2 · {t('เพิ่มบริการและราคา', 'Add services and prices')}
+                    <button type="button" onClick={() => go('docs')}>
+                      2 · {t('เปิดแม่แบบเอกสาร', 'Open document templates')}
                     </button>
                   </li>
                   <li>
-                    <button type="button" onClick={() => go('website')}>
-                      3 · {t('สร้างเว็บไซต์', 'Preview website')}
+                    <button type="button" onClick={() => go('queue')}>
+                      3 · {t('จดคิววันนี้', "Add today's queue")}
                     </button>
                   </li>
                 </ol>
@@ -364,7 +305,6 @@ export function BusinessToolkitPage() {
                           const text = generateDocument(doc.id, state.profile)
                           setDocId(doc.id)
                           setDraft(text)
-                          setState((s) => ({ ...s, checklist: { ...s.checklist, policy: true } }))
                           setStatus(t('เปิดแม่แบบด้านล่างแล้ว คัดลอกไปใช้ในร้านได้', 'Template opened below. Copy it into the shop.'))
                           window.requestAnimationFrame(() => {
                             docPreviewRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -403,263 +343,23 @@ export function BusinessToolkitPage() {
             </section>
           ) : null}
 
-          {panel === 'services' ? (
-            <section>
-              <h2>{t('บริการและราคา', 'Services and prices')}</h2>
-              <p className="toolkit-explain">
-                {t(
-                  'เขียนรายการที่ร้านทำให้ลูกค้า เช่น นวดไทย 60 นาที ราคาเท่าไหร่ กดเพิ่มบริการ แล้วชื่อจะโผล่ด้านล่าง ใช้ดูบนเครื่องนี้และไปประกอบตัวอย่างเว็บ ยังไม่ใช่เมนูออนไลน์ และยังไม่รับจอง',
-                  'List what the shop offers, such as Thai massage, 60 minutes, and the price. Tap add, then the name appears below. It stays on this device and can fill the website preview. It is not a live menu and does not take bookings.',
-                )}
-              </p>
-              <p className="note">
-                {t(
-                  'ใส่ตัวเลขราคาอย่างเดียว รายการด้านล่างจะขึ้นต้น A$ ให้ดู ไม่ต้องใส่เครื่องหมายเงิน ตัวเลขนี้เป็นของร้าน ไม่ใช่ราคาขายของ Chapter99',
-                  'Type numbers only. The list below shows A$ for reading. Do not type a currency sign. These figures are yours, not a Chapter99 sale price.',
-                )}
-              </p>
-              <form className="toolkit-form" onSubmit={addService}>
-                <label>
-                  {t('ชื่อบริการ', 'Service name')}
-                  <input name="name" required placeholder={t('เช่น นวดไทย', 'e.g. Thai Massage')} />
-                  <FieldHint>{t('ชื่อนี้ลูกค้าจะเห็นตอนเลือกจอง เช่น นวดไทย, นวดน้ำมัน', 'Customers see this name when they book, e.g. Thai massage.')}</FieldHint>
-                </label>
-                <label>
-                  {t('ระยะเวลา', 'Duration')}
-                  <input name="duration" placeholder={t('เช่น 60 นาที', 'e.g. 60 min')} />
-                  <FieldHint>{t('เวลาที่ใช้ให้บริการจริง ลูกค้าจะเห็นตอนเลือกเวลานัด', 'The real treatment time. Customers see it when picking a slot.')}</FieldHint>
-                </label>
-                <label>
-                  {t('ราคา', 'Price')}
-                  <input name="price" inputMode="numeric" placeholder={t('เช่น 80', 'e.g. 80')} />
-                  <FieldHint>{t('ใส่ตัวเลขอย่างเดียว ไม่ต้องใส่ $ หรือ A$ รายการด้านล่างจะขึ้นต้น A$ ให้ดู', 'Numbers only. Do not type $ or A$. The list below shows A$ for reading.')}</FieldHint>
-                </label>
-                <label>
-                  {t('คำอธิบายสั้น', 'Short description')}
-                  <textarea name="description" rows={2} placeholder={t('เช่น นวดเพื่อผ่อนคลาย', 'e.g. Relaxing massage')} />
-                  <FieldHint>{t('อธิบายสั้นๆ ให้ลูกค้าเข้าใจง่าย ไม่บังคับกรอกก็ได้', 'A short note for customers. You can leave this blank.')}</FieldHint>
-                </label>
-                <label>
-                  {t('รูปของบริการนี้', 'Photo for this service')}
-                  <select name="photoId">
-                    <option value="">{t('ไม่ผูกกับรูป', 'No photo yet')}</option>
-                    {state.photos.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.name}
-                      </option>
-                    ))}
-                  </select>
-                  <FieldHint>{t('เลือกรูปที่จะโชว์คู่กับบริการนี้บนเว็บไซต์ ไม่บังคับ', 'Pick the photo shown with this service on the website. Optional.')}</FieldHint>
-                </label>
-                <button className="btn" type="submit">
-                  {t('เพิ่มบริการ', 'Add service')}
-                </button>
-              </form>
-              <ul className="toolkit-list">
-                {state.services.map((svc) => (
-                  <li key={svc.id}>
-                    <strong>{svc.name}</strong>
-                    <span>
-                      {svc.duration} · {svc.price ? `A$${svc.price}` : t('ยังไม่มีราคา', 'No price')}
-                    </span>
-                    <button type="button" onClick={() => setState((s) => ({ ...s, services: s.services.filter((x) => x.id !== svc.id) }))}>
-                      {t('ลบ', 'Remove')}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
-
-          {panel === 'website' ? (
-            <section>
-              <h2>{t('เว็บไซต์ของฉัน', 'My website')}</h2>
-              <p className="toolkit-explain">
-                {t(
-                  'นี่คือตัวอย่างหน้าร้านจากข้อมูลที่กรอกบนเครื่องนี้ ใช้ดูว่าชื่อ บริการ และรูปจะเรียงอย่างไร ยังไม่ใช่เว็บที่ลูกค้าเปิดจากอินเทอร์เน็ต',
-                  'This is a preview from details on this device. Use it to see how the name, services and photos sit. It is not a website customers can open on the internet.',
-                )}
-              </p>
-              <p className="note">{t('ตัวอย่างจากข้อมูลบนเครื่องนี้ ยังไม่ใช่เว็บไซต์ออนไลน์', 'Preview from this device. Not a live website.')}</p>
-              <article className="site-preview">
-                {mainPhoto ? <img src={mainPhoto.dataUrl} alt={t('รูปหลักของร้าน / รูปที่อัปโหลดบนเครื่องนี้', 'Main shop photo uploaded on this device')} /> : <div className="site-preview-empty">{t('ยังไม่มีรูปหลัก', 'No main photo yet')}</div>}
-                <div>
-                  <p className="eyebrow">{state.profile.type || 'LOCAL BUSINESS'}</p>
-                  <h3>{state.profile.name || 'Your shop name'}</h3>
-                  <p>{state.profile.about || t('กรอกเรื่องร้านที่การตั้งค่า แล้วกลับมาดูตัวอย่าง', 'Add a shop story in Settings, then return here.')}</p>
-                  <ul>
-                    {state.services.map((svc) => (
-                      <li key={svc.id}>
-                        {svc.name} — {svc.price ? `A$${svc.price}` : ''}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-              <div className="actions">
-                <button className="btn" type="button" onClick={() => go('photos')}>
-                  {t('ดูตัวอย่างเว็บไซต์ / จัดรูป', 'Arrange photos')}
-                </button>
-                <Link to="/contact?need=shop">{t('ต้องการเว็บไซต์จริงให้เราสร้างให้', 'Ask us to build the live site')}</Link>
-              </div>
-            </section>
-          ) : null}
-
-          {panel === 'photos' ? (
-            <section>
-              <h2>{t('คลังรูปภาพ', 'Photo library')}</h2>
-              <p className="toolkit-explain">
-                {t(
-                  'หน้านี้ไว้เก็บรูปของร้านบนเครื่องนี้ สูงสุด 8 รูป ไม่ส่งขึ้นเซิร์ฟเวอร์ กดป้ายใต้รูปเพื่อบอกว่าจะใช้ที่ไหน เช่น หน้าหลัก บริการ หรือแกลเลอรี แล้วไปดูที่เว็บไซต์ของฉัน ยังไม่ขึ้นเว็บสาธารณะ',
-                  'Keep shop photos on this device, up to 8 files. They are not uploaded to a server. Tap a tag under a photo to mark where it belongs, such as the homepage, a service or the gallery, then open My website. Nothing goes live yet.',
-                )}
-              </p>
-              <p className="note">{t('เก็บในเบราว์เซอร์นี้สูงสุด 8 รูป บีบอัดก่อนบันทึก ไม่ส่งขึ้นเซิร์ฟเวอร์', 'Up to 8 photos in this browser. Compressed locally. Not uploaded to a server.')}</p>
-              <label className="btn">
-                {t('เพิ่มรูปภาพ', 'Add photos')}
-                <input type="file" accept="image/*" multiple hidden onChange={(e) => onUpload(e.target.files)} />
-              </label>
-              <FieldHint>{t('เลือกรูปจากมือถือ แตะรูปเพื่อดูใหญ่ กดป้ายเพื่อใช้บนเว็บ', 'Pick from your phone. Tap a photo to enlarge. Tap a tag to use it.')}</FieldHint>
-              <div className="photo-grid">
-                {state.photos.map((photo) => (
-                  <article className="photo-card" key={photo.id}>
-                    <button
-                      type="button"
-                      className="photo-thumb"
-                      onClick={() => setPreviewPhoto(photo)}
-                    >
-                      <img src={photo.dataUrl} alt={`${photo.name} / ${t('รูปที่อัปโหลดบนเครื่องนี้ กดเพื่อดูใหญ่', 'uploaded on this device. Tap to enlarge')}`} />
-                    </button>
-                    <p className="photo-name" title={photo.name}>
-                      {photo.name}
-                    </p>
-                    <div className="slot-picks">
-                      {photoSlots.map((slot) => {
-                        const on = photo.slots.includes(slot.id)
-                        return (
-                          <button
-                            key={slot.id}
-                            type="button"
-                            aria-pressed={on}
-                            title={th ? slot.th : slot.en}
-                            aria-label={th ? slot.th : slot.en}
-                            onClick={() =>
-                              setState((s) => ({
-                                ...s,
-                                photos: s.photos.map((p) =>
-                                  p.id === photo.id
-                                    ? {
-                                        ...p,
-                                        slots: on ? p.slots.filter((x) => x !== slot.id) : [...p.slots, slot.id],
-                                      }
-                                    : p,
-                                ),
-                              }))
-                            }
-                          >
-                            {th ? slot.shortTh : slot.shortEn}
-                          </button>
-                        )
-                      })}
-                    </div>
-                    <button
-                      type="button"
-                      className="photo-remove"
-                      onClick={() => setState((s) => ({ ...s, photos: s.photos.filter((p) => p.id !== photo.id) }))}
-                    >
-                      {t('ลบ', 'Remove')}
-                    </button>
-                  </article>
-                ))}
-              </div>
-              <div className="actions">
-                <button className="btn" type="button" onClick={() => go('website')}>
-                  {t('ขั้นถัดไป · ดูตัวอย่างเว็บไซต์', 'Next · see website preview')} ↗
-                </button>
-                <button type="button" onClick={() => go('services')}>
-                  {t('ผูกรูปกับบริการ', 'Link a photo to a service')}
-                </button>
-              </div>
-              {previewPhoto ? (
-                <div className="photo-lightbox" role="dialog" aria-modal="true" aria-label={t('ดูรูปใหญ่', 'Larger photo')}>
-                  <button type="button" className="photo-lightbox-close" onClick={() => setPreviewPhoto(null)}>
-                    {t('ปิด', 'Close')}
-                  </button>
-                  <img src={previewPhoto.dataUrl} alt={`${previewPhoto.name} / ${t('รูปใหญ่บนเครื่องนี้', 'enlarged photo on this device')}`} />
-                </div>
-              ) : null}
-            </section>
-          ) : null}
-
-          {panel === 'checklist' ? (
-            <section>
-              <h2>
-                {t('รายการตรวจสอบธุรกิจ', 'Business checklist')} · {pct}%
-              </h2>
-              <ul className="check-list">
-                {checklistItems.map((item) => (
-                  <li key={item.id}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={item.id === 'policy' ? Boolean(state.checklist.policy) : checks[item.id]}
-                        onChange={() => {
-                          if (item.id === 'policy') {
-                            setState((s) => ({ ...s, checklist: { ...s.checklist, policy: !s.checklist.policy } }))
-                          }
-                        }}
-                        disabled={item.id !== 'policy'}
-                      />
-                      {th ? item.th : item.en}
-                    </label>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ) : null}
-
-          {panel === 'tips' ? (
-            <section>
-              <h2>{t('ไอเดียและคำแนะนำ', 'Ideas and tips')}</h2>
-              <p>{generateTip(state.profile, tipIndex)}</p>
-              <button
-                className="btn"
-                type="button"
-                onClick={() => {
-                  setTipIndex((n) => n + 1)
-                  setStatus(t('สร้างเมื่อกดปุ่มเท่านั้น', 'Generated only when you tap.'))
-                }}
-              >
-                {t('ขอไอเดียถัดไป', 'Next idea')}
-              </button>
-            </section>
-          ) : null}
-
-          {panel === 'videos' ? (
-            <section>
-              <h2>{t('วิดีโอสอนใช้งาน', 'How-to videos')}</h2>
-              <p className="note">{t('ยังไม่มีโฮสต์วิดีโอในโปรเจกต์นี้ จึงเป็นโครงไว้ก่อน', 'This project has no video host yet, so this is a placeholder.')}</p>
-              <div className="video-slot">{t('คลิปสั้น: กรอกข้อมูลร้าน / เพิ่มบริการ / คัดลอกข้อความ', 'Short clips: shop details / services / copy a message')}</div>
-            </section>
-          ) : null}
-
           {panel === 'settings' ? (
             <section>
               <h2>{t('การตั้งค่า / ข้อมูลร้าน', 'Settings / shop profile')}</h2>
               <p className="toolkit-explain">
                 {t(
-                  'กรอกแล้วข้อมูลอยู่บนเครื่องนี้ทันที ไม่ต้องกดส่ง ไม่ไปอีเมล และยังไม่ขึ้นเว็บสาธารณะ ขั้นถัดไปคือเพิ่มบริการและราคา แล้วเปิดเว็บไซต์ของฉันเพื่อดูตัวอย่าง',
-                  'What you type stays on this device straight away. There is no send button, no email, and no public website yet. Next, add services and prices, then open My website to see a preview.',
+                  'กรอกแล้วข้อมูลอยู่บนเครื่องนี้ทันที ไม่ต้องกดส่ง ไม่ไปอีเมล ขั้นถัดไปคือเปิดแม่แบบเอกสาร หรือจดคิววันนี้',
+                  'What you type stays on this device straight away. There is no send button and no email. Next, open document templates or add today’s queue.',
                 )}
               </p>
               <p className="note">{t('เก็บเฉพาะข้อมูลร้านบนเครื่องนี้ ไม่เก็บเบอร์หรืออีเมลลูกค้า ชื่อเล่นในคิวอยู่บนเครื่องนี้เท่านั้น', 'Only shop details on this device. No customer phone or email. First names in the queue stay here.')}</p>
               {(
                 [
-                  ['name', t('ชื่อร้าน', 'Shop name'), t('ชื่อที่ลูกค้าเห็นบนหน้าเว็บ', 'The name customers see on your website.')],
+                  ['name', t('ชื่อร้าน', 'Shop name'), t('ชื่อที่ลูกค้าเห็นตอนคัดลอกข้อความ', 'The name used when you copy shop messages.')],
                   ['type', t('ประเภทร้าน', 'Business type'), t('เช่น นวด สปา หรือร้านอาหาร', 'e.g. massage, spa, or restaurant.')],
                   ['phone', t('เบอร์ร้าน', 'Shop phone'), t('เบอร์ร้านสำหรับลูกค้าโทร ไม่ใช่เบอร์ลูกค้า', 'The shop number customers can call. Not a customer number.')],
                   ['address', t('ที่อยู่ร้าน', 'Shop address'), t('ที่อยู่ที่ลูกค้าจะมาตามนัด', 'The address customers use to find the shop.')],
-                  ['hours', t('เวลาเปิดร้าน', 'Opening hours'), t('วันและเวลาเปิดที่ลูกค้าเห็นบนเว็บ', 'Opening days and times shown on the website.')],
+                  ['hours', t('เวลาเปิดร้าน', 'Opening hours'), t('วันและเวลาเปิดของร้าน', 'Opening days and times for the shop.')],
                 ] as const
               ).map(([key, label, hint]) => (
                 <label key={key}>
@@ -672,9 +372,9 @@ export function BusinessToolkitPage() {
                 </label>
               ))}
               <label>
-                {t('เรื่องร้านสำหรับเว็บ', 'Website story')}
+                {t('เรื่องร้านสั้น ๆ', 'Short shop story')}
                 <textarea rows={3} value={state.profile.about} onChange={(e) => setState((s) => ({ ...s, profile: { ...s.profile, about: e.target.value } }))} />
-                <FieldHint>{t('ข้อความต้อนรับสั้นๆ บนหน้าแรกของร้าน', 'A short welcome on the shop homepage.')}</FieldHint>
+                <FieldHint>{t('ข้อความต้อนรับสั้นๆ ของร้าน', 'A short welcome for the shop.')}</FieldHint>
               </label>
               <label>
                 {t('โน้ตการรับชำระเงิน', 'Payment note')}
@@ -682,11 +382,11 @@ export function BusinessToolkitPage() {
                 <FieldHint>{t('บอกลูกค้าว่าจ่ายเงินอย่างไร เช่น จ่ายที่ร้าน', 'Tell customers how to pay, e.g. pay in store.')}</FieldHint>
               </label>
               <div className="actions">
-                <button className="btn" type="button" onClick={() => go('services')}>
-                  {t('ขั้นถัดไป · เพิ่มบริการและราคา', 'Next · add services and prices')} ↗
+                <button className="btn" type="button" onClick={() => go('docs')}>
+                  {t('ขั้นถัดไป · เปิดแม่แบบเอกสาร', 'Next · open document templates')} ↗
                 </button>
-                <button type="button" onClick={() => go('website')}>
-                  {t('ดูตัวอย่างเว็บไซต์', 'See website preview')}
+                <button type="button" onClick={() => go('queue')}>
+                  {t('จดคิววันนี้', "Add today's queue")}
                 </button>
               </div>
             </section>

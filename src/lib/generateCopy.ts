@@ -58,14 +58,3 @@ export function generateReviewInvite(profile: ToolkitProfile) {
   const link = profile.reviewLink.trim() || '[paste your Google review link]'
   return `ถ้าคุณพอใจกับบริการวันนี้ ช่วยรีวิวสั้น ๆ ให้ ${shopName} ได้ที่\n${link}\n\nพิมพ์บรรทัดลิงก์นี้ติดหน้าร้าน หรือนำไปทำ QR ด้วยแอปของคุณ เครื่องมือนี้ไม่ส่งข้อความแทนคุณ และไม่เก็บเบอร์ลูกค้า`
 }
-
-export function generateTip(profile: ToolkitProfile, index: number) {
-  const name = shop(profile)
-  const tips = [
-    `Write a one-sentence welcome in English on the homepage so guests know ${name} is open to book.`,
-    'Describe each service in one short sentence plus duration and price in AUD.',
-    'Ask for a Google review after a completed visit using copy-and-send. Do not save the customer’s number in this toolkit.',
-    'Use a clear shopfront photo as the main image, then one photo per service.',
-  ]
-  return tips[index % tips.length]
-}

@@ -82,12 +82,7 @@ export function ToolkitDailyPanels({ panel, state, setState, t, setStatus, copyT
           </label>
           <label>
             {t('บริการ', 'Service')}
-            <input name="service" list="toolkit-services" placeholder={t('เช่น นวดไทย 60 นาที', 'e.g. Thai massage 60 min')} />
-            <datalist id="toolkit-services">
-              {state.services.map((s) => (
-                <option key={s.id} value={s.name} />
-              ))}
-            </datalist>
+            <input name="service" placeholder={t('เช่น นวดไทย 60 นาที', 'e.g. Thai massage 60 min')} />
           </label>
           <label>
             {t('ชื่อเล่นลูกค้า', 'First name only')}
