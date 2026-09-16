@@ -8,6 +8,7 @@ export type ToolkitProfile = {
   hours: string
   about: string
   payNote: string
+  reviewLink: string
 }
 
 export type ToolkitService = {
@@ -26,11 +27,28 @@ export type ToolkitPhoto = {
   slots: PhotoSlot[]
 }
 
+export type ToolkitQueueItem = {
+  id: string
+  date: string
+  time: string
+  service: string
+  firstName: string
+}
+
+export type ToolkitGuest = {
+  id: string
+  name: string
+  note: string
+  lastVisit: string
+}
+
 export type ToolkitState = {
   lang: 'th' | 'en'
   profile: ToolkitProfile
   services: ToolkitService[]
   photos: ToolkitPhoto[]
+  queue: ToolkitQueueItem[]
+  guests: ToolkitGuest[]
   checklist: Record<string, boolean>
 }
 
@@ -44,6 +62,7 @@ const emptyProfile: ToolkitProfile = {
   hours: '',
   about: '',
   payNote: '',
+  reviewLink: '',
 }
 
 function defaultChecklist() {
@@ -56,6 +75,8 @@ export function defaultToolkitState(): ToolkitState {
     profile: emptyProfile,
     services: [],
     photos: [],
+    queue: [],
+    guests: [],
     checklist: defaultChecklist(),
   }
 }
@@ -71,6 +92,8 @@ export function loadToolkit(): ToolkitState {
       profile: { ...emptyProfile, ...parsed.profile },
       services: parsed.services ?? [],
       photos: parsed.photos ?? [],
+      queue: Array.isArray(parsed.queue) ? parsed.queue : [],
+      guests: Array.isArray(parsed.guests) ? parsed.guests : [],
       checklist: { ...defaultChecklist(), ...parsed.checklist },
     }
   } catch {

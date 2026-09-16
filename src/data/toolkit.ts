@@ -1,5 +1,5 @@
 export const toolkitDisclaimer =
-  'ชุดเครื่องมือฟรีนี้ทำงานในเบราว์เซอร์ของคุณ ไม่ส่ง SMS อัตโนมัติ ไม่เก็บรายชื่อหรือเบอร์ลูกค้า และไม่ใช่คำปรึกษากฎหมาย'
+  'ชุดเครื่องมือฟรีนี้ทำงานในเบราว์เซอร์ของคุณ ไม่ส่ง SMS อัตโนมัติ ไม่เก็บเบอร์หรืออีเมลลูกค้า และไม่ใช่คำปรึกษากฎหมาย'
 
 export const legalTemplateNote =
   'เอกสารด้านล่างเป็นแม่แบบธุรกิจทั่วไป ไม่ใช่คำปรึกษากฎหมาย ร้านควรให้ผู้เชี่ยวชาญตรวจก่อนใช้จริง'
@@ -107,6 +107,10 @@ export const tipPool = [
 export const navItems = [
   { id: 'home', to: '/business-toolkit', th: 'หน้าหลัก', en: 'Home' },
   { id: 'tools', to: '/business-toolkit#tools', th: 'เครื่องมือธุรกิจฟรี', en: 'Free toolkit' },
+  { id: 'queue', to: '/business-toolkit#queue', th: 'คิววันนี้', en: "Today's queue" },
+  { id: 'guests', to: '/business-toolkit#guests', th: 'ลูกค้าของฉัน', en: 'My customers' },
+  { id: 'reminders', to: '/business-toolkit#reminders', th: 'ตัวช่วยแจ้งเตือน', en: 'Reminders' },
+  { id: 'reviews', to: '/business-toolkit#reviews', th: 'ดูแลรีวิว', en: 'Review care' },
   { id: 'services', to: '/business-toolkit#services', th: 'บริการของฉัน', en: 'My services' },
   { id: 'website', to: '/business-toolkit#website', th: 'เว็บไซต์ของฉัน', en: 'My website' },
   { id: 'docs', to: '/business-toolkit#docs', th: 'เอกสารและเทมเพลต', en: 'Documents' },

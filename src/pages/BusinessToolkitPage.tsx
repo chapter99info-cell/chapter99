@@ -1,7 +1,8 @@
-import { CheckSquare, FileText, Globe, HelpCircle, Home, Image as ImageIcon, LayoutGrid, Lightbulb, List, MessageSquare, Settings, Sparkles, Store, Video } from 'lucide-react'
+import { Bell, CalendarClock, CheckSquare, FileText, Globe, HelpCircle, Home, Image as ImageIcon, LayoutGrid, Lightbulb, List, MessageSquare, Settings, Sparkles, Star, Store, Users, Video } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Dock } from '../components/ui/dock'
+import { ToolkitDailyPanels } from '../components/ToolkitDailyPanels'
 import { CONTACT_EMAIL } from '../data/pricing'
 import {
   checklistItems,
@@ -25,7 +26,7 @@ import {
   type ToolkitState,
 } from '../lib/toolkitStore'
 
-const sections = ['home', 'tools', 'messages', 'docs', 'services', 'website', 'photos', 'checklist', 'tips', 'videos', 'settings'] as const
+const sections = ['home', 'tools', 'messages', 'docs', 'services', 'website', 'photos', 'checklist', 'tips', 'videos', 'settings', 'queue', 'guests', 'reminders', 'reviews'] as const
 type Section = (typeof sections)[number]
 
 function uid() {
@@ -113,6 +114,10 @@ export function BusinessToolkitPage() {
         const icons = {
           home: Home,
           tools: LayoutGrid,
+          queue: CalendarClock,
+          guests: Users,
+          reminders: Bell,
+          reviews: Star,
           services: List,
           website: Globe,
           docs: FileText,
@@ -197,7 +202,7 @@ export function BusinessToolkitPage() {
       <div className="toolkit-toolbar">
         <div>
           <p className="eyebrow">FREE BUSINESS TOOLKIT</p>
-          <strong>{state.profile.name || t('ร้านตัวอย่างบนเครื่องนี้', 'Shop preview on this device')}</strong>
+          <strong>{t('เครื่องมือธุรกิจฟรี', 'Free business toolkit')}</strong>
         </div>
         <div className="lang-switch" role="group" aria-label="Language">
           <button type="button" aria-pressed={th} onClick={() => setState((s) => ({ ...s, lang: 'th' }))}>
@@ -230,6 +235,10 @@ export function BusinessToolkitPage() {
                 </div>
                 <div className="toolkit-model-grid">
                   {[
+                    { id: 'queue' as Section, Icon: CalendarClock, th: 'คิววันนี้', en: "Today's queue", body: t('ดูคิววันนี้เรียงเวลา ไม่ต้องจดใส่กระดาษหรือจำเอง', 'See today in time order. No paper list to remember.') },
+                    { id: 'guests' as Section, Icon: Users, th: 'ลูกค้าของฉัน', en: 'My customers', body: t('จดจำลูกค้าประจำและสิ่งที่เขาชอบ ไม่ต้องจำเอง', 'Remember regulars and what they like.') },
+                    { id: 'reminders' as Section, Icon: Bell, th: 'ตัวช่วยแจ้งเตือน', en: 'Reminder helper', body: t('สร้างข้อความเตือนนัดล่วงหน้า คัดลอกไปส่งเองได้ทันที', 'Draft a reminder, then copy and send it yourself.') },
+                    { id: 'reviews' as Section, Icon: Star, th: 'ดูแลรีวิว', en: 'Review care', body: t('ร่างคำตอบรีวิวมืออาชีพ และวิธีชวนลูกค้าให้รีวิว', 'Draft a professional reply and a way to ask for reviews.') },
                     { id: 'messages' as Section, Icon: MessageSquare, th: 'สร้างข้อความ', en: 'Write a message', body: t('แปลและร่างภาษาอังกฤษ แล้วคัดลอกไปส่งเอง', 'Draft English, then copy yourself.') },
                     { id: 'docs' as Section, Icon: FileText, th: 'สร้างเอกสาร', en: 'Documents', body: t('แม่แบบนโยบายร้าน ไม่ใช่คำปรึกษากฎหมาย', 'Shop templates. Not legal advice.') },
                     { id: 'services' as Section, Icon: List, th: 'บริการและราคา', en: 'Services and prices', body: t('เพิ่มชื่อ ระยะเวลา ราคา และรูป', 'Name, duration, price and photo.') },
@@ -272,6 +281,17 @@ export function BusinessToolkitPage() {
                 </ol>
               </section>
             </>
+          ) : null}
+
+          {panel === 'queue' || panel === 'guests' || panel === 'reminders' || panel === 'reviews' ? (
+            <ToolkitDailyPanels
+              panel={panel}
+              state={state}
+              setState={setState}
+              t={t}
+              setStatus={setStatus}
+              copyText={copyText}
+            />
           ) : null}
 
           {panel === 'messages' ? (
@@ -632,7 +652,7 @@ export function BusinessToolkitPage() {
                   'What you type stays on this device straight away. There is no send button, no email, and no public website yet. Next, add services and prices, then open My website to see a preview.',
                 )}
               </p>
-              <p className="note">{t('เก็บเฉพาะข้อมูลร้านบนเครื่องนี้ ไม่เก็บรายชื่อลูกค้า', 'Only shop details on this device. No customer list.')}</p>
+              <p className="note">{t('เก็บเฉพาะข้อมูลร้านบนเครื่องนี้ ไม่เก็บเบอร์หรืออีเมลลูกค้า ชื่อเล่นในคิวอยู่บนเครื่องนี้เท่านั้น', 'Only shop details on this device. No customer phone or email. First names in the queue stay here.')}</p>
               {(
                 [
                   ['name', t('ชื่อร้าน', 'Shop name'), t('ชื่อที่ลูกค้าเห็นบนหน้าเว็บ', 'The name customers see on your website.')],
