@@ -1,5 +1,5 @@
 import { CheckSquare, FileText, Globe, HelpCircle, Home, Image as ImageIcon, LayoutGrid, Lightbulb, List, MessageSquare, Settings, Sparkles, Store, Video } from 'lucide-react'
-import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Dock } from '../components/ui/dock'
 import { CONTACT_EMAIL } from '../data/pricing'
@@ -91,6 +91,7 @@ export function BusinessToolkitPage() {
   const [tipIndex, setTipIndex] = useState(0)
   const [extra, setExtra] = useState('')
   const [previewPhoto, setPreviewPhoto] = useState<ToolkitPhoto | null>(null)
+  const docPreviewRef = useRef<HTMLElement>(null)
   const th = state.lang === 'th'
 
   useEffect(() => {
@@ -321,30 +322,64 @@ export function BusinessToolkitPage() {
           {panel === 'docs' ? (
             <section>
               <h2>{t('เอกสารและเทมเพลต', 'Documents')}</h2>
+              <p className="toolkit-explain">
+                {t(
+                  'กดใช้งานเพื่อเปิดแม่แบบบนเครื่องนี้ แล้วคัดลอกไปติดร้านหรือเว็บ ไม่ใช่คำปรึกษากฎหมาย และยังไม่ส่งไปให้ทนายตรวจ',
+                  'Tap Use to open the template on this device, then copy it onto the shop wall or website. This is not legal advice and is not a lawyer review.',
+                )}
+              </p>
               <p className="note">{legalTemplateNote}</p>
               <div className="toolkit-cards compact">
-                {documentTemplates.map((doc) => (
-                  <article key={doc.id}>
-                    <h3>{th ? doc.th : doc.en}</h3>
-                    <button
-                      className="btn small"
-                      type="button"
-                      onClick={() => {
-                        setDocId(doc.id)
-                        setDraft(generateDocument(doc.id, state.profile))
-                        setState((s) => ({ ...s, checklist: { ...s.checklist, policy: true } }))
-                      }}
-                    >
-                      {t('ใช้งาน', 'Use')}
-                    </button>
-                  </article>
-                ))}
+                {documentTemplates.map((doc) => {
+                  const selected = docId === doc.id && Boolean(draft)
+                  return (
+                    <article key={doc.id} className={selected ? 'is-selected' : undefined}>
+                      <h3>{th ? doc.th : doc.en}</h3>
+                      <p>{th ? doc.whyTh : doc.whyEn}</p>
+                      <button
+                        className="btn small"
+                        type="button"
+                        aria-pressed={selected}
+                        onClick={() => {
+                          const text = generateDocument(doc.id, state.profile)
+                          setDocId(doc.id)
+                          setDraft(text)
+                          setState((s) => ({ ...s, checklist: { ...s.checklist, policy: true } }))
+                          setStatus(t('เปิดแม่แบบด้านล่างแล้ว คัดลอกไปใช้ในร้านได้', 'Template opened below. Copy it into the shop.'))
+                          window.requestAnimationFrame(() => {
+                            docPreviewRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                          })
+                        }}
+                      >
+                        {selected ? t('กำลังดู', 'Viewing') : t('ใช้งาน', 'Use')}
+                      </button>
+                    </article>
+                  )
+                })}
               </div>
-              <textarea readOnly rows={10} value={draft || generateDocument(docId, state.profile)} aria-label={t('เอกสารที่สร้างแล้ว', 'Generated document')} />
-              <FieldHint>{t('กดใช้งานการ์ดด้านบน แล้วคัดลอกไปวางในร้าน', 'Tap a card above, then copy this text into your shop.')}</FieldHint>
-              <button className="btn" type="button" onClick={() => void copyDraft()}>
-                {t('คัดลอกเอกสาร', 'Copy document')}
-              </button>
+              <article className="toolkit-doc-preview" ref={docPreviewRef} id="doc-preview" aria-live="polite">
+                <h3>
+                  {th
+                    ? documentTemplates.find((d) => d.id === docId)?.th
+                    : documentTemplates.find((d) => d.id === docId)?.en}
+                </h3>
+                <p className="note">
+                  {draft
+                    ? t('แก้ข้อความในช่องนี้ได้ แล้วคัดลอกไปวาง', 'You can edit this box, then copy it.')
+                    : t('กดใช้งานการ์ดด้านบน เพื่อเปิดแม่แบบในช่องนี้', 'Tap Use on a card above to open the template here.')}
+                </p>
+                <textarea
+                  rows={12}
+                  value={draft}
+                  onChange={(e) => setDraft(e.target.value)}
+                  aria-label={t('เอกสารที่สร้างแล้ว', 'Generated document')}
+                  placeholder={t('แม่แบบจะโชว์ที่นี่หลังกดใช้งาน', 'The template appears here after you tap Use.')}
+                />
+                <FieldHint>{t('คัดลอกไปวางในร้าน เครื่องมือนี้ไม่ส่งเอกสารออกไปให้ใคร', 'Copy into the shop. This toolkit does not send the document anywhere.')}</FieldHint>
+                <button className="btn" type="button" onClick={() => void copyDraft()} disabled={!draft}>
+                  {t('คัดลอกเอกสาร', 'Copy document')}
+                </button>
+              </article>
             </section>
           ) : null}
 

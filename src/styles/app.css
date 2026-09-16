@@ -122,7 +122,7 @@ nav a:not(.btn):hover:after,nav a[aria-current=page]:after{transform:scaleX(1)}
 .contact-paths a:not(.btn){min-height:44px;display:inline-flex;align-items:center;text-decoration:underline;text-underline-offset:4px}
 .contact-email-link{margin:12px 0 0;font-size:15px}
 .contact-email-link a{color:#0c2136;text-decoration:underline;text-underline-offset:4px}
-.toolkit{padding:28px 0 120px}
+.toolkit{padding:28px 0 160px}
 .toolkit-shell{max-width:1280px;margin:0 auto;padding:0 44px;display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:28px;align-items:start}
 .toolkit-toolbar{max-width:1280px;margin:0 auto 20px;padding:0 44px;display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}
 .lang-switch{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
@@ -147,9 +147,17 @@ nav a:not(.btn):hover:after,nav a[aria-current=page]:after{transform:scaleX(1)}
 .toolkit-model-card span:last-child{font-size:12px;line-height:1.5;color:#9aa8b4}
 .toolkit-cards.compact{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .toolkit-cards.compact article,.toolkit-rail article,.site-preview,.video-slot{background:#fffdf8;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 24px #10213712}
+.toolkit-cards.compact article{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.toolkit-cards.compact article h3{margin:0;font-size:1.05rem}
+.toolkit-cards.compact article p{margin:0;font-size:13px;line-height:1.65;color:var(--muted)}
+.toolkit-cards.compact article.is-selected{border-color:#e7c472;box-shadow:0 10px 24px #10213722}
+.toolkit-doc-preview{margin:20px 0 28px;padding:20px 18px 18px;background:#fffdf8;border:1px solid #e7c47266;border-radius:16px;scroll-margin-bottom:120px}
+.toolkit-doc-preview h3{margin:0 0 8px;font-size:1.1rem}
+.toolkit-doc-preview .btn{margin-top:8px}
 .toolkit-form input,.toolkit-form textarea,.toolkit-form select,.toolkit label input,.toolkit label textarea,.toolkit label select,.toolkit textarea{width:100%;margin:6px 0 0;padding:12px;border:1px solid var(--line);border-radius:8px;min-height:44px;font:inherit}
 .toolkit label{display:block;font-size:13px;margin-bottom:4px}
 .toolkit-explain{font-size:16px;line-height:1.75;max-width:42em;margin:0 0 12px;color:var(--ink)}
+.field-hint{margin:6px 0 0;font-size:12px;line-height:1.6;color:var(--muted)}
 .toolkit-list,.check-list{list-style:none;padding:0;margin:16px 0}
 .toolkit-list li,.check-list li{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center}
 .photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
