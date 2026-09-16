@@ -183,10 +183,16 @@ export function ContactPage() {
           </label>
         </fieldset>
         <button className="btn" type="submit">
-          {wantsToolkitFollowUp ? 'ขอเปิดใช้ Toolkit ฟรี ↗' : 'เตรียมอีเมลคุยกับทีม Chapter99 ↗'}
+          {wantsToolkitFollowUp ? 'ขอเปิดใช้ Toolkit ฟรี ↗' : 'ส่งอีเมลถึง chapter99info@gmail.com ↗'}
         </button>
         <p className="note">
-          เปิดแอปอีเมลให้คุณตรวจและกดส่งเอง หน้านี้ไม่บันทึกข้อมูลบนคลาวด์ และไม่แสดงว่าส่งสำเร็จจนกว่าคุณจะส่งจากแอปอีเมล
+          กดปุ่มแล้วจะเปิดแอปอีเมลถึง{' '}
+          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+          {' '}ให้คุณตรวจข้อความแล้วกดส่งเอง หน้านี้ไม่บันทึกข้อมูลบนคลาวด์
+        </p>
+        <p className="contact-email-link">
+          หรือส่งตรงที่{' '}
+          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
         </p>
         {error ? (
           <p className="form-status error" role="alert">

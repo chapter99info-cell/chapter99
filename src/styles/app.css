@@ -120,6 +120,8 @@ nav a:not(.btn):hover:after,nav a[aria-current=page]:after{transform:scaleX(1)}
 }
 .contact-paths{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:20px 0 8px}
 .contact-paths a:not(.btn){min-height:44px;display:inline-flex;align-items:center;text-decoration:underline;text-underline-offset:4px}
+.contact-email-link{margin:12px 0 0;font-size:15px}
+.contact-email-link a{color:#0c2136;text-decoration:underline;text-underline-offset:4px}
 .toolkit{padding:28px 0 120px}
 .toolkit-shell{max-width:1280px;margin:0 auto;padding:0 44px;display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:28px;align-items:start}
 .toolkit-toolbar{max-width:1280px;margin:0 auto 20px;padding:0 44px;display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}
