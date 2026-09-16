@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { restaurantAddons, restaurantPlans, restaurantPriceNote, type RestaurantPlan } from '../data/pricing'
+import { restaurantPlans, type RestaurantPlan } from '../data/pricing'
 
 function Card({ plan }: { plan: RestaurantPlan }) {
   return (
@@ -48,50 +48,6 @@ export function RestaurantPlans({ heading }: { heading?: boolean }) {
         {restaurantPlans.map((plan) => (
           <Card key={plan.id} plan={plan} />
         ))}
-      </div>
-      <p className="note">{restaurantPriceNote}</p>
-      <div className="delivery-frame">
-        <div className="delivery-copy">
-          <p className="eyebrow">HOW WE INSTALL</p>
-          <h2>
-            เลือกวิธีติดตั้ง
-            <br />
-            <em>ที่เหมาะกับที่ตั้งร้าน</em>
-          </h2>
-          <p>
-            ร้านในซิดนีย์หรือใกล้เคียง นัดไปหน้างานได้ ร้านในรัฐอื่นตั้งค่าและสอนผ่านวิดีโอคอล ราคายืนยันอีกครั้งในใบเสนอราคา
-          </p>
-        </div>
-        <div className="delivery-groups">
-          <ol className="delivery-steps" aria-label="บริการหน้างานในซิดนีย์">
-            <li className="delivery-label">IN SYDNEY & SURROUNDS · บริการหน้างาน</li>
-            {restaurantAddons.sydney.map((item, i) => (
-              <li key={item.name}>
-                <span className="delivery-num">{i + 1}</span>
-                <article className="delivery-card">
-                  <strong>
-                    {item.name} · {item.price}
-                  </strong>
-                  <p>{item.note}</p>
-                </article>
-              </li>
-            ))}
-          </ol>
-          <ol className="delivery-steps" aria-label="บริการทางไกลทั่วออสเตรเลีย">
-            <li className="delivery-label">OUTSIDE SYDNEY · ทางไกลทั่วออสเตรเลีย</li>
-            {restaurantAddons.remote.map((item, i) => (
-              <li key={item.name}>
-                <span className="delivery-num">{i + 1}</span>
-                <article className="delivery-card">
-                  <strong>
-                    {item.name} · {item.price}
-                  </strong>
-                  <p>{item.note}</p>
-                </article>
-              </li>
-            ))}
-          </ol>
-        </div>
       </div>
     </>
   )
