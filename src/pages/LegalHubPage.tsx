@@ -11,8 +11,10 @@ export function LegalHubPage() {
         <br />
         <em>แยกชั้นให้อ่านง่าย</em>
       </h1>
-      <LegalBoundaryPath />
-      <LegalPolicyPath />
+      <div className="legal-hub-grid">
+        <LegalBoundaryPath />
+        <LegalPolicyPath />
+      </div>
       <LegalLayersSteps />
     </article>
   )

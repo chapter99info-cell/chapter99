@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from 'react'
 import { Activity, FileText, Layers, MessageCircleQuestion, Receipt, Store } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { legalDocs } from '../data/legal'
@@ -28,8 +29,38 @@ export function LegalBoundaryPath() {
     ...legalDocs.filter((d) => d.layer === 'terms'),
   ]
 
+  const stageRef = useRef<HTMLElement>(null)
+  const [spot, setSpot] = useState({ x: 18, y: 18 })
+  const reduce = useRef(false)
+
+  useEffect(() => {
+    reduce.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  }, [])
+
+  function onMove(e: MouseEvent<HTMLElement>) {
+    if (reduce.current) return
+    const stage = stageRef.current
+    if (!stage) return
+    const box = stage.getBoundingClientRect()
+    setSpot({
+      x: ((e.clientX - box.left) / box.width) * 100,
+      y: ((e.clientY - box.top) / box.height) * 100,
+    })
+  }
+
+  function onLeave() {
+    setSpot({ x: 18, y: 18 })
+  }
+
   return (
-    <section className="legal-light" aria-labelledby="legal-light-title">
+    <section
+      ref={stageRef}
+      className="legal-light"
+      aria-labelledby="legal-light-title"
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      style={{ '--spot-x': `${spot.x}%`, '--spot-y': `${spot.y}%` } as CSSProperties}
+    >
       <h2 id="legal-light-title">เส้นแบ่งงาน</h2>
       <p className="legal-light-lead">
         Chapter99 เป็นผู้ให้บริการเทคโนโลยีและงานดิจิทัลของร้าน ลูกค้าเป็นเจ้าของธุรกิจและบริการวิชาชีพ

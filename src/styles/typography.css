@@ -196,8 +196,42 @@ figcaption {
 
 .trust-summary,
 .legal-page {
-  padding-top: 56px;
-  padding-bottom: 56px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 56px 48px 80px;
+}
+
+.legal-page > .eyebrow {
+  color: #957022;
+}
+
+.legal-page > h1 {
+  max-width: 18ch;
+  margin-bottom: 36px;
+}
+
+.legal-page > h1 em {
+  color: #ac8332;
+}
+
+.legal-hub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.legal-page .legal-light,
+.legal-page .legal-path,
+.legal-page .legal-how {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.legal-page .legal-how {
+  margin-top: 24px;
 }
 
 .trust-feed {
@@ -357,32 +391,69 @@ figcaption {
 }
 
 .legal-light {
-  padding: 8px 0 48px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 36px 32px 32px;
+  background: #fffdf8;
+  border: 1px solid #e7c47266;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
 }
 
-.legal-light h2 {
-  margin: 0 0 12px;
+.legal-light::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    280px circle at var(--spot-x, 18%) var(--spot-y, 18%),
+    rgba(231, 196, 114, 0.2),
+    transparent 58%
+  );
+  z-index: 0;
+}
+
+.legal-light > * {
+  position: relative;
+  z-index: 1;
+}
+
+.legal-light h2,
+.legal-path h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  line-height: 1.3;
+  min-height: 2.6em;
+}
+
+.legal-light-lead,
+.legal-path-lead {
+  margin: 0 0 24px;
+  min-height: 4.8em;
+  font-size: 0.98rem;
+  line-height: 1.7;
 }
 
 .legal-light-lead {
-  max-width: 40rem;
-  margin: 0 0 40px;
   color: var(--muted);
-  font-size: 1.05rem;
-  line-height: 1.8;
 }
 
-.legal-light-list {
+.legal-light-list,
+.legal-path-list {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 28px;
+  gap: 12px;
   position: relative;
-  max-width: 44rem;
+  flex: 1;
+  max-width: none;
 }
 
-.legal-light-list::before {
+.legal-light-list::before,
+.legal-path-list::before {
   content: '';
   position: absolute;
   top: 18px;
@@ -392,11 +463,33 @@ figcaption {
   background: #e7c472;
 }
 
-.legal-light-list li {
+.legal-path-list::before {
+  background: rgba(231, 196, 114, 0.35);
+}
+
+.legal-light-list li,
+.legal-path-list li {
   display: grid;
   grid-template-columns: 40px 1fr;
-  gap: 20px;
-  align-items: start;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.legal-light-list li > div {
+  display: grid;
+  align-content: start;
+  min-height: 108px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid #e7c47255;
+  background: rgba(255, 253, 248, 0.88);
+  transition: transform 0.28s ease-out, border-color 0.28s ease-out, box-shadow 0.28s ease-out;
+}
+
+.legal-light-list li:hover > div {
+  transform: translateY(-3px);
+  border-color: #e7c472;
+  box-shadow: 0 12px 28px #10213714;
 }
 
 .legal-light-icon {
@@ -409,14 +502,14 @@ figcaption {
   display: grid;
   place-items: center;
   z-index: 1;
-  box-shadow: 0 0 0 8px var(--paper, #faf8f2);
+  box-shadow: 0 0 0 6px #fffdf8;
 }
 
 .legal-light-list strong,
 .legal-light-list a {
   display: block;
   font-weight: 500;
-  font-size: 1.12rem;
+  font-size: 1.02rem;
   color: var(--ink);
   margin-bottom: 6px;
 }
@@ -428,19 +521,20 @@ figcaption {
 .legal-light-list p {
   margin: 0;
   color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.75;
+  font-size: 0.92rem;
+  line-height: 1.65;
 }
 
 .legal-path {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  margin: 40px 0 0;
-  padding: 56px 40px 48px;
-  background: #0b0b0b;
+  padding: 36px 32px 32px;
+  background: #0c2136;
   color: #f4f4f4;
   border-radius: 22px;
+  display: flex;
+  flex-direction: column;
 }
 
 .legal-path::before {
@@ -531,8 +625,55 @@ figcaption {
 }
 
 .legal-path-card:hover {
-  border-color: #4a4330;
-  background: #1b1b1b;
+  border-color: #e7c472;
+  background: #1a334c;
+}
+
+.legal-hub-grid .legal-path h2 {
+  text-align: left;
+  color: #fff;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+}
+
+.legal-hub-grid .legal-path-lead {
+  text-align: left;
+  max-width: none;
+  margin: 0 0 24px;
+  color: #c3cdd4;
+}
+
+.legal-hub-grid .legal-path-list {
+  margin: 0;
+  max-width: none;
+  gap: 12px;
+}
+
+.legal-hub-grid .legal-path-num {
+  background: #0c2136;
+  border-color: rgba(231, 196, 114, 0.4);
+  box-shadow: 0 0 0 6px #0c2136;
+}
+
+.legal-hub-grid .legal-path-card {
+  min-height: 108px;
+  background: #152a40;
+  border-color: rgba(231, 196, 114, 0.22);
+}
+
+.legal-hub-grid .legal-path-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px #0005;
+}
+
+.legal-hub-grid .legal-path-icon {
+  background: #0c2136;
+}
+
+.legal-path-card small {
+  display: block;
+  color: #9aa8b4;
+  font-size: 0.88rem;
+  line-height: 1.6;
 }
 
 .legal-path-icon {
@@ -581,6 +722,22 @@ figcaption {
   opacity: 1;
 }
 
+@media (max-width: 900px) {
+  .legal-page {
+    padding: 36px 24px 56px;
+  }
+  .legal-hub-grid {
+    grid-template-columns: 1fr;
+  }
+  .legal-light h2,
+  .legal-path h2,
+  .legal-light-lead,
+  .legal-path-lead,
+  .legal-hub-grid .legal-path-lead {
+    min-height: 0;
+  }
+}
+
 @media (max-width: 700px) {
   .legal-path {
     padding: 40px 18px 32px;
@@ -593,6 +750,8 @@ figcaption {
 @media (prefers-reduced-motion: reduce) {
   .legal-path::before,
   .legal-path-card,
+  .legal-light::before,
+  .legal-light-list li > div,
   .trust-feed::before,
   .trust-feed li,
   .trust-feed-icon {
@@ -607,8 +766,8 @@ figcaption {
   margin: 48px 0 0;
   width: 100%;
   max-width: none;
-  padding: 88px 48px 96px;
-  background: #0b0b0b;
+  padding: 72px 40px 80px;
+  background: #0c2136;
   color: #f3f3f3;
   text-align: center;
   border-radius: 22px;
@@ -679,21 +838,21 @@ figcaption {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  border: 1px solid #4a4a4a;
-  background: #0b0b0b;
+  border: 1px solid rgba(231, 196, 114, 0.4);
+  background: #0c2136;
   display: grid;
   place-items: center;
   font-size: 0.85rem;
   letter-spacing: 0.08em;
   color: #e8e8e8;
-  box-shadow: 0 0 0 10px #0b0b0b;
+  box-shadow: 0 0 0 10px #0c2136;
   transition: transform 0.28s ease-out, border-color 0.28s ease-out, box-shadow 0.28s ease-out;
 }
 
 .legal-how-steps li:hover .legal-how-num {
   border-color: #e7c472;
   transform: scale(1.08);
-  box-shadow: 0 0 0 10px #0b0b0b, 0 0 24px rgba(231, 196, 114, 0.28);
+  box-shadow: 0 0 0 10px #0c2136, 0 0 24px rgba(231, 196, 114, 0.28);
 }
 
 .legal-how-steps strong {
