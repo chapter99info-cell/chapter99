@@ -892,9 +892,92 @@ figcaption {
 .legal-subnav {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 18px;
-  margin-top: 40px;
-  font-size: 0.95rem;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 4px;
+  margin: 48px auto 8px;
+  padding: 44px 12px 12px;
+  width: fit-content;
+  max-width: 100%;
+  background: #0c2136f2;
+  border: 1px solid rgba(231, 196, 114, 0.28);
+  border-radius: 28px;
+  box-shadow: 0 16px 40px #10213733;
+}
+
+.legal-subnav a:after {
+  display: none;
+}
+
+.legal-dock-btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 14px;
+  color: #f7f5ed;
+}
+
+.legal-dock-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: transparent;
+  transition: transform 0.28s ease-out, background 0.28s ease-out, color 0.28s ease-out;
+}
+
+.legal-dock-tip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%) translateY(6px);
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #e7c472;
+  color: #102137;
+  font-size: 0.72rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.28s ease-out, transform 0.28s ease-out, visibility 0.28s;
+}
+
+.legal-dock-btn:hover .legal-dock-icon,
+.legal-dock-btn:focus-visible .legal-dock-icon {
+  transform: translateY(-6px) scale(1.12);
+  background: rgba(231, 196, 114, 0.18);
+  color: #e7c472;
+}
+
+.legal-dock-btn:hover .legal-dock-tip,
+.legal-dock-btn:focus-visible .legal-dock-tip,
+.legal-dock-btn:active .legal-dock-tip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.legal-dock-btn[aria-current='page'] .legal-dock-icon {
+  background: rgba(231, 196, 114, 0.18);
+  color: #e7c472;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .legal-dock-icon,
+  .legal-dock-tip {
+    transition: none;
+  }
+  .legal-dock-btn:hover .legal-dock-icon,
+  .legal-dock-btn:focus-visible .legal-dock-icon {
+    transform: none;
+  }
 }
 
 .legal-checks {

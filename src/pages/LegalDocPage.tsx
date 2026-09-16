@@ -1,6 +1,7 @@
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
+import { LegalDocDock } from '../components/LegalDocDock'
 import { LegalReadPath } from '../components/LegalReadPath'
-import { LEGAL_NOTICE, LEGAL_VERSION, getLegalDoc, layerLabel, legalNav } from '../data/legal'
+import { LEGAL_NOTICE, LEGAL_VERSION, getLegalDoc, layerLabel } from '../data/legal'
 
 export function LegalDocPage() {
   const { slug } = useParams()
@@ -35,13 +36,7 @@ export function LegalDocPage() {
           </section>
         ))
       )}
-      <nav className="legal-subnav" aria-label="เอกสารอื่นใน Trust Centre">
-        {legalNav.map((item) => (
-          <Link key={item.to} to={item.to}>
-            {item.label}
-          </Link>
-        ))}
-      </nav>
+      <LegalDocDock />
     </article>
   )
 }
