@@ -640,15 +640,15 @@ export function BusinessToolkitPage() {
         </div>
 
         <aside className="toolkit-rail">
-          <article>
+          <article className="rail-notice">
             <p className="eyebrow">{t('ประกาศสำคัญ', 'Notice')}</p>
             <p>{surchargeNotice}</p>
           </article>
-          <article>
+          <article className="rail-tip">
             <p className="eyebrow">{t('เคล็ดลับวันนี้', 'Today’s tip')}</p>
             <p>{th ? tipPool[0].th : tipPool[0].en}</p>
           </article>
-          <article>
+          <article className="rail-help">
             <p className="eyebrow">{t('ต้องการความช่วยเหลือ?', 'Need help?')}</p>
             <Link className="btn small" to="/contact?need=toolkit">
               {t('แชทกับเรา / นัดคุย', 'Talk with us')}
