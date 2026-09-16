@@ -21,10 +21,17 @@
 input[type=text],input[type=url],input[type=email],input[type=tel]{width:100%;padding:12px;border:1px solid var(--line);border-radius:4px;background:transparent;color:var(--ink);margin-bottom:20px;font-size:13px;min-height:44px}
 body{overflow-x:hidden}
 img{max-width:100%;height:auto}
-.new-hero-scene{overflow:hidden;isolation:isolate}
-.new-hero-scene>img{max-width:none;width:72%;height:390px;object-fit:cover;position:absolute;right:12px;top:24px;z-index:0;border-radius:90px 12px 12px 12px;transform:rotate(4deg);pointer-events:none}
-.new-hero-scene .booking-preview,.new-hero-scene .floating-note,.new-hero-scene .collage-sticker{position:relative;z-index:1}
-.new-hero-scene .floating-note{position:absolute;right:8px;bottom:18px}
+.new-hero-scene{overflow:hidden;isolation:isolate;position:relative}
+.new-hero-scene::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:2;background:radial-gradient(280px circle at var(--spot-x,62%) var(--spot-y,40%),rgba(231,196,114,.22),transparent 55%);mix-blend-mode:soft-light}
+.new-hero-scene>img{max-width:none;width:72%;height:390px;object-fit:cover;position:absolute;right:12px;top:24px;z-index:0;border-radius:90px 12px 12px 12px;transform:rotate(4deg) translate(calc(var(--tilt-x,0px) * -.35), calc(var(--tilt-y,0px) * -.35));transition:transform .18s ease;pointer-events:none}
+.new-hero-scene .booking-preview,.new-hero-scene .floating-note,.new-hero-scene .collage-sticker{z-index:1}
+.new-hero-scene .booking-preview{transition:transform .18s ease, box-shadow .18s ease;transform:rotate(-3deg) translate(var(--tilt-x,0px), var(--tilt-y,0px))}
+.new-hero-scene .collage-sticker{transition:transform .18s ease;transform:rotate(-8deg) translate(calc(var(--tilt-x,0px) * -1.1), calc(var(--tilt-y,0px) * -1.15))}
+.new-hero-scene .floating-note{position:absolute;right:8px;bottom:18px;transition:transform .18s ease;transform:rotate(5deg) translate(calc(var(--tilt-x,0px) * 1.2), calc(var(--tilt-y,0px) * -.8))}
+.new-hero-scene:hover .booking-preview{box-shadow:0 28px 60px #0005}
+@media (prefers-reduced-motion:reduce){
+  .new-hero-scene::after,.new-hero-scene>img,.new-hero-scene .booking-preview,.new-hero-scene .collage-sticker,.new-hero-scene .floating-note{transition:none}
+}
 .concept-caption{font-size:10px;color:var(--muted);margin-top:8px;display:block}
 .page-main{min-height:60vh}
 @media(max-width:900px){

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { CoverflowGallery } from '../components/CoverflowGallery'
 import { HeroBookingDemo } from '../components/HeroBookingDemo'
+import { HeroScene } from '../components/HeroScene'
 import { HowTogether } from '../components/HowTogether'
 import { MixBuilder } from '../components/MixBuilder'
 import { PlansGrid } from '../components/PlansGrid'
@@ -37,7 +38,7 @@ export function HomePage() {
             PHOTOGRAPHY <b>＋</b> WEBSITE <b>＋</b> OWNER CARE
           </div>
         </div>
-        <div className="new-hero-scene">
+        <HeroScene>
           <img src="/images/concept-wellness.svg" alt="ภาพแนวคิดลูกประคบและผ้าขนหนู / ไม่ใช่ภาพร้านจริง" />
           <small>DEMO · ข้อมูลสาธิต ไม่ใช่ภาพร้านจริง</small>
           <div className="collage-sticker" aria-hidden="true">
@@ -56,7 +57,7 @@ export function HomePage() {
             </p>
           </div>
           <span className="hero-index">01 — THE NEXT CHAPTER</span>
-        </div>
+        </HeroScene>
       </section>
       <CoverflowGallery />
       <div className="ribbon checks">
