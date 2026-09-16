@@ -132,7 +132,7 @@ export function HomePage() {
           </div>
           <p>ใช้ดูว่าเริ่มจากหน้าร้านอย่างเดียว หรือมีคนช่วยดูแลต่อ ราคายืนยันในใบเสนอราคาหลังคุย ไม่ใช่ราคาขายบนหน้านี้</p>
         </div>
-        <PlansGrid compact note={homePriceNote} />
+        <PlansGrid compact />
       </section>
       <section className="photo-bridge reveal">
         <div>
@@ -153,7 +153,6 @@ export function HomePage() {
             <span>02 / ภาพถ่าย + เว็บไซต์</span>
             <strong>วางแผนวันถ่ายและหน้าเว็บพร้อมกัน ↗</strong>
           </Link>
-          <small>ค่าถ่ายภาพและราคาแพ็กรวมรอยืนยัน จึงยังไม่แสดงยอดประหยัด</small>
         </div>
       </section>
       <section id="about" className="about-new reveal">
