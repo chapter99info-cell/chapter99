@@ -123,7 +123,7 @@ export function PlansGrid({ note, compact }: { note?: string; compact?: boolean 
           )
         })}
       </ul>
-      <p className="note">{note ?? `${priceDisclaimer} · ${currencyNote}`}</p>
+      {compact ? null : <p className="note">{note ?? `${priceDisclaimer} · ${currencyNote}`}</p>}
     </div>
   )
 }
