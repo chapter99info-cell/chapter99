@@ -113,9 +113,6 @@ export function PhotoPackages() {
           </Link>
         </article>
       </div>
-      <p className="note">
-        ค่าถ่ายภาพ ราคาแพ็กรวม เวลาถ่าย และขอบเขตภาพแต่งยังไม่ยืนยัน จึงยังไม่คิดยอดส่วนลดหรือยอดประหยัด
-      </p>
     </section>
   )
 }
