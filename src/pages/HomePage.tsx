@@ -6,7 +6,6 @@ import { HowTogether } from '../components/HowTogether'
 import { MixBuilder } from '../components/MixBuilder'
 import { PlansGrid } from '../components/PlansGrid'
 import { PromiseDock } from '../components/PromiseDock'
-import { SelectedWork } from '../components/SelectedWork'
 import { ShopEscape } from '../components/ShopEscape'
 import { SystemModel } from '../components/SystemModel'
 import { TrustSummary } from '../components/TrustSummary'
@@ -107,7 +106,6 @@ export function HomePage() {
           </div>
         </div>
       </section>
-      <SelectedWork />
       <section className="demo-callout reveal">
         <div>
           <p className="eyebrow">DON'T JUST IMAGINE IT. TRY IT.</p>
