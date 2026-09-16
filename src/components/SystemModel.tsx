@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from 'react'
 import { Link } from 'react-router-dom'
 
 const items = [
@@ -85,8 +86,38 @@ function Icon({ name }: { name: string }) {
 }
 
 export function SystemModel() {
+  const ref = useRef<HTMLElement>(null)
+  const reduce = useRef(false)
+  const [spot, setSpot] = useState({ x: 72, y: 28 })
+  const [hot, setHot] = useState<string | null>(null)
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+
+  useEffect(() => {
+    reduce.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  }, [])
+
+  function onMove(e: MouseEvent<HTMLElement>) {
+    if (reduce.current) return
+    const box = ref.current?.getBoundingClientRect()
+    if (!box) return
+    const x = ((e.clientX - box.left) / box.width) * 100
+    const y = ((e.clientY - box.top) / box.height) * 100
+    setSpot({ x, y })
+    setTilt({ x: (x - 58) / 14, y: (y - 40) / 18 })
+  }
+
   return (
-    <section id="system" className="how-model reveal">
+    <section
+      id="system"
+      ref={ref}
+      className="how-model reveal"
+      onMouseMove={onMove}
+      onMouseLeave={() => {
+        setTilt({ x: 0, y: 0 })
+        setHot(null)
+      }}
+      style={{ '--spot-x': `${spot.x}%`, '--spot-y': `${spot.y}%` } as CSSProperties}
+    >
       <div className="how-model-copy">
         <p className="eyebrow">OUR MODEL</p>
         <h2>
@@ -100,8 +131,15 @@ export function SystemModel() {
         </Link>
       </div>
       <div className="how-model-grid">
-        {items.map((item) => (
-          <article key={item.kicker}>
+        {items.map((item, i) => (
+          <article
+            key={item.kicker}
+            className={hot === item.kicker ? 'is-hot' : undefined}
+            style={{
+              transform: `translate(${tilt.x * (i % 2 === 0 ? 0.6 : 1)}px, ${tilt.y * (i < 2 ? 0.8 : 1.1)}px)`,
+            }}
+            onMouseEnter={() => setHot(item.kicker)}
+          >
             <span className="how-model-icon" aria-hidden="true">
               <Icon name={item.icon} />
             </span>
