@@ -149,7 +149,7 @@ nav a:not(.btn):hover:after,nav a[aria-current=page]:after{transform:scaleX(1)}
 .toolkit-cards.compact article,.toolkit-rail article,.site-preview,.video-slot{background:#fffdf8;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 24px #10213712}
 .toolkit-form input,.toolkit-form textarea,.toolkit-form select,.toolkit label input,.toolkit label textarea,.toolkit label select,.toolkit textarea{width:100%;margin:6px 0 0;padding:12px;border:1px solid var(--line);border-radius:8px;min-height:44px;font:inherit}
 .toolkit label{display:block;font-size:13px;margin-bottom:4px}
-.toolkit-lead{font-size:16px;line-height:1.75;max-width:42em;margin:0 0 12px;color:var(--ink)}
+.toolkit-explain{font-size:16px;line-height:1.75;max-width:42em;margin:0 0 12px;color:var(--ink)}
 .toolkit-list,.check-list{list-style:none;padding:0;margin:16px 0}
 .toolkit-list li,.check-list li{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center}
 .photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}

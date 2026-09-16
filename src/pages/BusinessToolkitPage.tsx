@@ -351,7 +351,7 @@ export function BusinessToolkitPage() {
           {panel === 'services' ? (
             <section>
               <h2>{t('บริการและราคา', 'Services and prices')}</h2>
-              <p className="toolkit-lead">
+              <p className="toolkit-explain">
                 {t(
                   'เขียนรายการที่ร้านทำให้ลูกค้า เช่น นวดไทย 60 นาที ราคาเท่าไหร่ กดเพิ่มบริการ แล้วชื่อจะโผล่ด้านล่าง ใช้ดูบนเครื่องนี้และไปประกอบตัวอย่างเว็บ ยังไม่ใช่เมนูออนไลน์ และยังไม่รับจอง',
                   'List what the shop offers, such as Thai massage, 60 minutes, and the price. Tap add, then the name appears below. It stays on this device and can fill the website preview. It is not a live menu and does not take bookings.',
@@ -419,7 +419,7 @@ export function BusinessToolkitPage() {
           {panel === 'website' ? (
             <section>
               <h2>{t('เว็บไซต์ของฉัน', 'My website')}</h2>
-              <p className="toolkit-lead">
+              <p className="toolkit-explain">
                 {t(
                   'นี่คือตัวอย่างหน้าร้านจากข้อมูลที่กรอกบนเครื่องนี้ ใช้ดูว่าชื่อ บริการ และรูปจะเรียงอย่างไร ยังไม่ใช่เว็บที่ลูกค้าเปิดจากอินเทอร์เน็ต',
                   'This is a preview from details on this device. Use it to see how the name, services and photos sit. It is not a website customers can open on the internet.',
@@ -577,6 +577,12 @@ export function BusinessToolkitPage() {
           {panel === 'settings' ? (
             <section>
               <h2>{t('การตั้งค่า / ข้อมูลร้าน', 'Settings / shop profile')}</h2>
+              <p className="toolkit-explain">
+                {t(
+                  'กรอกแล้วข้อมูลอยู่บนเครื่องนี้ทันที ไม่ต้องกดส่ง ไม่ไปอีเมล และยังไม่ขึ้นเว็บสาธารณะ ขั้นถัดไปคือเพิ่มบริการและราคา แล้วเปิดเว็บไซต์ของฉันเพื่อดูตัวอย่าง',
+                  'What you type stays on this device straight away. There is no send button, no email, and no public website yet. Next, add services and prices, then open My website to see a preview.',
+                )}
+              </p>
               <p className="note">{t('เก็บเฉพาะข้อมูลร้านบนเครื่องนี้ ไม่เก็บรายชื่อลูกค้า', 'Only shop details on this device. No customer list.')}</p>
               {(
                 [
@@ -606,6 +612,14 @@ export function BusinessToolkitPage() {
                 <input value={state.profile.payNote} onChange={(e) => setState((s) => ({ ...s, profile: { ...s.profile, payNote: e.target.value } }))} placeholder={t('เช่น จ่ายที่ร้าน', 'e.g. Pay in store')} />
                 <FieldHint>{t('บอกลูกค้าว่าจ่ายเงินอย่างไร เช่น จ่ายที่ร้าน', 'Tell customers how to pay, e.g. pay in store.')}</FieldHint>
               </label>
+              <div className="actions">
+                <button className="btn" type="button" onClick={() => go('services')}>
+                  {t('ขั้นถัดไป · เพิ่มบริการและราคา', 'Next · add services and prices')} ↗
+                </button>
+                <button type="button" onClick={() => go('website')}>
+                  {t('ดูตัวอย่างเว็บไซต์', 'See website preview')}
+                </button>
+              </div>
             </section>
           ) : null}
 
