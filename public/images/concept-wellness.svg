@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="t d">
+  <title id="t">ภาพแนวคิดบรรยากาศ wellness</title>
+  <desc id="d">ภาพประกอบแนวคิด ไม่ใช่ภาพร้านหรือพนักงานจริง</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b3a4a"/>
+      <stop offset="1" stop-color="#3d5c4a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#g)"/>
+  <ellipse cx="430" cy="430" rx="240" ry="70" fill="#0d2433" opacity=".35"/>
+  <rect x="250" y="280" width="300" height="140" rx="20" fill="#f4efe3"/>
+  <circle cx="320" cy="250" r="48" fill="#d7c08a"/>
+  <circle cx="400" cy="240" r="56" fill="#c9b07a"/>
+  <circle cx="480" cy="252" r="44" fill="#e2d0a0"/>
+  <rect x="280" y="360" width="240" height="18" rx="8" fill="#e8d9b0"/>
+  <text x="40" y="560" fill="#f7f5ed" font-size="18" font-family="Georgia,serif">แนวคิดภาพถ่ายร้านนวด</text>
+</svg>

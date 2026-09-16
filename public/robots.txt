@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://chapter99.example/sitemap.xml
