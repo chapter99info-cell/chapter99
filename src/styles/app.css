@@ -189,14 +189,14 @@ nav a:not(.btn):hover:after,nav a[aria-current=page]:after{transform:scaleX(1)}
 .toolkit-rail{display:flex;flex-direction:column;gap:14px;position:sticky;top:16px}
 .toolkit-rail .eyebrow{letter-spacing:.12em;margin:0 0 10px}
 .toolkit-rail article p:last-of-type{margin:0;font-size:14px;line-height:1.7}
-.rail-notice{background:#0c2136;color:#e8eef4;border-color:#0c2136}
-.rail-notice .eyebrow{color:#e7c472}
-.rail-tip{background:#f8f1dc;border-color:#e7c472;border-left:6px solid #e7c472}
-.rail-tip .eyebrow{color:#957022}
-.rail-help{background:#152a40;color:#f7f5ed;border-color:#152a40;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
-.rail-help .eyebrow{color:#e7c472}
-.rail-help .btn{background:#e7c472;color:#102137}
-.rail-help a:not(.btn){color:#f7f5ed;text-decoration:underline;text-underline-offset:3px;min-height:40px;display:inline-flex;align-items:center}
+.toolkit-rail article.rail-notice{background:#0c2136;color:#e8eef4;border-color:#0c2136}
+.toolkit-rail article.rail-notice .eyebrow{color:#e7c472}
+.toolkit-rail article.rail-tip{background:#f8f1dc;border-color:#e7c472;border-left:6px solid #e7c472}
+.toolkit-rail article.rail-tip .eyebrow{color:#957022}
+.toolkit-rail article.rail-help{background:#152a40;color:#f7f5ed;border-color:#152a40;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.toolkit-rail article.rail-help .eyebrow{color:#e7c472}
+.toolkit-rail article.rail-help .btn{background:#e7c472;color:#102137}
+.toolkit-rail article.rail-help a:not(.btn){color:#f7f5ed;text-decoration:underline;text-underline-offset:3px;min-height:40px;display:inline-flex;align-items:center}
 .video-slot{min-height:140px;display:grid;place-items:center;text-align:center}
 .hero-dock{position:fixed;left:50%;bottom:16px;z-index:30;transform:translateX(-50%);width:min(920px,calc(100% - 24px));pointer-events:none}
 .hero-dock-bar{pointer-events:auto;display:flex;align-items:flex-end;justify-content:center;gap:2px;margin:0 auto;padding:8px 10px;border-radius:28px;background:#0c2136f2;box-shadow:0 16px 40px #10213755;border:1px solid rgba(231,196,114,.28);backdrop-filter:blur(12px);overflow-x:auto}

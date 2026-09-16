@@ -453,6 +453,12 @@ export function BusinessToolkitPage() {
           {panel === 'photos' ? (
             <section>
               <h2>{t('คลังรูปภาพ', 'Photo library')}</h2>
+              <p className="toolkit-explain">
+                {t(
+                  'หน้านี้ไว้เก็บรูปของร้านบนเครื่องนี้ สูงสุด 8 รูป ไม่ส่งขึ้นเซิร์ฟเวอร์ กดป้ายใต้รูปเพื่อบอกว่าจะใช้ที่ไหน เช่น หน้าหลัก บริการ หรือแกลเลอรี แล้วไปดูที่เว็บไซต์ของฉัน ยังไม่ขึ้นเว็บสาธารณะ',
+                  'Keep shop photos on this device, up to 8 files. They are not uploaded to a server. Tap a tag under a photo to mark where it belongs, such as the homepage, a service or the gallery, then open My website. Nothing goes live yet.',
+                )}
+              </p>
               <p className="note">{t('เก็บในเบราว์เซอร์นี้สูงสุด 8 รูป บีบอัดก่อนบันทึก ไม่ส่งขึ้นเซิร์ฟเวอร์', 'Up to 8 photos in this browser. Compressed locally. Not uploaded to a server.')}</p>
               <label className="btn">
                 {t('เพิ่มรูปภาพ', 'Add photos')}
@@ -510,6 +516,14 @@ export function BusinessToolkitPage() {
                     </button>
                   </article>
                 ))}
+              </div>
+              <div className="actions">
+                <button className="btn" type="button" onClick={() => go('website')}>
+                  {t('ขั้นถัดไป · ดูตัวอย่างเว็บไซต์', 'Next · see website preview')} ↗
+                </button>
+                <button type="button" onClick={() => go('services')}>
+                  {t('ผูกรูปกับบริการ', 'Link a photo to a service')}
+                </button>
               </div>
               {previewPhoto ? (
                 <div className="photo-lightbox" role="dialog" aria-modal="true" aria-label={t('ดูรูปใหญ่', 'Larger photo')}>
