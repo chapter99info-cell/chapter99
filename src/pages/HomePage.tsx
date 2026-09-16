@@ -5,6 +5,7 @@ import { HeroScene } from '../components/HeroScene'
 import { HowTogether } from '../components/HowTogether'
 import { MixBuilder } from '../components/MixBuilder'
 import { PlansGrid } from '../components/PlansGrid'
+import { PromiseDock } from '../components/PromiseDock'
 import { SelectedWork } from '../components/SelectedWork'
 import { ShopEscape } from '../components/ShopEscape'
 import { SystemModel } from '../components/SystemModel'
@@ -60,21 +61,7 @@ export function HomePage() {
         </HeroScene>
       </section>
       <CoverflowGallery />
-      <div className="ribbon checks">
-        <span>คุยภาษาไทย</span>
-        <span>เริ่มจากวิธีทำงานของร้าน</span>
-        <span>ตรวจตัวอย่างก่อนเปิดใช้</span>
-        <span>ตกลงขอบเขตดูแลให้ชัด</span>
-      </div>
-      <div className="agency-services">
-        <span>ภาพที่เล่าเรื่องร้าน</span>
-        <b>✳</b>
-        <span>เว็บที่ลูกค้ากดง่าย</span>
-        <b>✳</b>
-        <span>งานหน้าร้านที่ทีมเข้าใจ</span>
-        <b>✳</b>
-        <span>ดูแลต่อเมื่อพร้อม</span>
-      </div>
+      <PromiseDock />
       <SystemModel />
       <section id="industries" className="industries reveal">
         <div className="section-title">

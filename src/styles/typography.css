@@ -1920,3 +1920,117 @@ figcaption {
     transition: none;
   }
 }
+
+.promise-dock {
+  max-width: 1280px;
+  margin: 8px auto 28px;
+  padding: 28px 48px 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.promise-dock-bar {
+  list-style: none;
+  margin: 0;
+  padding: 14px 18px 18px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: #161616;
+  border-radius: 999px;
+  min-height: 88px;
+}
+
+.promise-dock-bar li {
+  position: relative;
+  margin: 0;
+}
+
+.promise-dock-bar button {
+  width: 52px;
+  height: 52px;
+  border: 0;
+  border-radius: 50%;
+  background: #2a2a2a;
+  color: #f4f1ea;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.promise-dock-bar button svg {
+  width: 22px;
+  height: 22px;
+}
+
+.promise-dock-bar button span {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 12px);
+  transform: translateX(-50%) translateY(6px);
+  white-space: nowrap;
+  background: #0c2136;
+  color: #f7f5ed;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 8px 20px rgba(12, 33, 54, 0.2);
+}
+
+.promise-dock-bar button.is-hot,
+.promise-dock-bar button:hover,
+.promise-dock-bar button:focus-visible {
+  background: #e7c472;
+  color: #0c2136;
+  transform: translateY(-6px);
+}
+
+.promise-dock-bar button.is-hot span,
+.promise-dock-bar button:hover span,
+.promise-dock-bar button:focus-visible span {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 700px) {
+  .promise-dock {
+    padding: 16px 12px;
+  }
+  .promise-dock-bar {
+    border-radius: 28px;
+    max-width: 100%;
+  }
+  .promise-dock-bar button span {
+    white-space: normal;
+    width: 10rem;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promise-dock-bar button span {
+    position: static;
+    transform: none;
+    opacity: 1;
+    white-space: normal;
+    width: auto;
+    background: transparent;
+    color: #c5cdd6;
+    box-shadow: none;
+    padding: 4px 0 0;
+  }
+  .promise-dock-bar button {
+    width: auto;
+    height: auto;
+    border-radius: 16px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+}
