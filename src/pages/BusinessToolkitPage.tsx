@@ -218,8 +218,8 @@ export function BusinessToolkitPage() {
                   <h1>{t('วิธีที่เราช่วยร้าน', 'How we help the shop')}</h1>
                   <p>
                     {t(
-                      'เครื่องมือฟรีที่ช่วยให้ธุรกิจของคุณทำงานง่ายขึ้น ไม่ต้องเก่งคอม ก็ใช้งานได้ง่าย',
-                      'Free tools that keep shop work simple. You do not need to be technical.',
+                      'หน้านี้เป็นสมุดงานของร้านบนเครื่องคุณ ใช้ทดลองกรอกข้อมูล บริการ รูป และดูตัวอย่างเว็บ ยังไม่ใช่เว็บออนไลน์ ไม่รับจอง และไม่รับเงิน',
+                      'This page is a shop workbook on your device. Try details, services and photos, then preview a site. It is not live, does not take bookings, and does not take payment.',
                     )}
                   </p>
                   <p className="note">{toolkitDisclaimer}</p>
@@ -351,6 +351,18 @@ export function BusinessToolkitPage() {
           {panel === 'services' ? (
             <section>
               <h2>{t('บริการและราคา', 'Services and prices')}</h2>
+              <p className="toolkit-lead">
+                {t(
+                  'เขียนรายการที่ร้านทำให้ลูกค้า เช่น นวดไทย 60 นาที ราคาเท่าไหร่ กดเพิ่มบริการ แล้วชื่อจะโผล่ด้านล่าง ใช้ดูบนเครื่องนี้และไปประกอบตัวอย่างเว็บ ยังไม่ใช่เมนูออนไลน์ และยังไม่รับจอง',
+                  'List what the shop offers, such as Thai massage, 60 minutes, and the price. Tap add, then the name appears below. It stays on this device and can fill the website preview. It is not a live menu and does not take bookings.',
+                )}
+              </p>
+              <p className="note">
+                {t(
+                  'ใส่ตัวเลขราคาอย่างเดียว รายการด้านล่างจะขึ้นต้น A$ ให้ดู ไม่ต้องใส่เครื่องหมายเงิน ตัวเลขนี้เป็นของร้าน ไม่ใช่ราคาขายของ Chapter99',
+                  'Type numbers only. The list below shows A$ for reading. Do not type a currency sign. These figures are yours, not a Chapter99 sale price.',
+                )}
+              </p>
               <form className="toolkit-form" onSubmit={addService}>
                 <label>
                   {t('ชื่อบริการ', 'Service name')}
@@ -365,7 +377,7 @@ export function BusinessToolkitPage() {
                 <label>
                   {t('ราคา', 'Price')}
                   <input name="price" inputMode="numeric" placeholder={t('เช่น 80', 'e.g. 80')} />
-                  <FieldHint>{t('ใส่ตัวเลขอย่างเดียว ไม่ต้องใส่ $ หรือ A$ ระบบจะใส่ให้เอง', 'Numbers only. Do not type $ or A$. The site adds that.')}</FieldHint>
+                  <FieldHint>{t('ใส่ตัวเลขอย่างเดียว ไม่ต้องใส่ $ หรือ A$ รายการด้านล่างจะขึ้นต้น A$ ให้ดู', 'Numbers only. Do not type $ or A$. The list below shows A$ for reading.')}</FieldHint>
                 </label>
                 <label>
                   {t('คำอธิบายสั้น', 'Short description')}
@@ -407,6 +419,12 @@ export function BusinessToolkitPage() {
           {panel === 'website' ? (
             <section>
               <h2>{t('เว็บไซต์ของฉัน', 'My website')}</h2>
+              <p className="toolkit-lead">
+                {t(
+                  'นี่คือตัวอย่างหน้าร้านจากข้อมูลที่กรอกบนเครื่องนี้ ใช้ดูว่าชื่อ บริการ และรูปจะเรียงอย่างไร ยังไม่ใช่เว็บที่ลูกค้าเปิดจากอินเทอร์เน็ต',
+                  'This is a preview from details on this device. Use it to see how the name, services and photos sit. It is not a website customers can open on the internet.',
+                )}
+              </p>
               <p className="note">{t('ตัวอย่างจากข้อมูลบนเครื่องนี้ ยังไม่ใช่เว็บไซต์ออนไลน์', 'Preview from this device. Not a live website.')}</p>
               <article className="site-preview">
                 {mainPhoto ? <img src={mainPhoto.dataUrl} alt={t('รูปหลักของร้าน / รูปที่อัปโหลดบนเครื่องนี้', 'Main shop photo uploaded on this device')} /> : <div className="site-preview-empty">{t('ยังไม่มีรูปหลัก', 'No main photo yet')}</div>}
