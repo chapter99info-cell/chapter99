@@ -153,7 +153,15 @@ nav a:not(.btn):hover:after,nav a[aria-current=page]:after{transform:scaleX(1)}
 .toolkit-cards.compact article.is-selected{border-color:#e7c472;box-shadow:0 10px 24px #10213722}
 .toolkit-doc-preview{margin:20px 0 28px;padding:20px 18px 18px;background:#fffdf8;border:1px solid #e7c47266;border-radius:16px;scroll-margin-bottom:120px}
 .toolkit-doc-preview h3{margin:0 0 8px;font-size:1.1rem}
-.toolkit-doc-preview .btn{margin-top:8px}
+.toolkit-doc-group{margin:20px 0 8px}
+.toolkit-doc-group-title{margin:0 0 12px;font-size:0.95rem;letter-spacing:0.08em;text-transform:uppercase;color:#957022}
+.toolkit-print-sheet{display:none}
+@media print{
+  .site-header,.site-footer,.hero-dock,.toolkit-toolbar,.toolkit-rail,.toolkit-lead,.toolkit-doc-group,.toolkit-explain,.note,.field-hint,.actions,.lang-switch,nav{display:none !important}
+  .toolkit-doc-preview{border:0;box-shadow:none;padding:0}
+  .toolkit-doc-preview textarea,.toolkit-doc-preview .btn{display:none}
+  .toolkit-print-sheet{display:block;white-space:pre-wrap;font:18px/1.7 Prompt,Tahoma,sans-serif;color:#1a1a1a}
+}
 .toolkit-form input,.toolkit-form textarea,.toolkit-form select,.toolkit label input,.toolkit label textarea,.toolkit label select,.toolkit textarea{width:100%;margin:6px 0 0;padding:12px;border:1px solid var(--line);border-radius:8px;min-height:44px;font:inherit}
 .toolkit label{display:block;font-size:13px;margin-bottom:4px}
 .toolkit-explain{font-size:16px;line-height:1.75;max-width:42em;margin:0 0 12px;color:var(--ink)}

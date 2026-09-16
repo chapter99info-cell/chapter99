@@ -1,4 +1,4 @@
-import { documentTemplates, messagePurposes } from '../data/toolkit'
+import { documentTemplates, messagePurposes, surchargeNotice } from '../data/toolkit'
 import type { ToolkitProfile } from './toolkitStore'
 
 type MsgId = (typeof messagePurposes)[number]['id']
@@ -26,13 +26,97 @@ export function generateDocument(id: DocId, profile: ToolkitProfile) {
   const name = shop(profile)
   const address = profile.address.trim() || '[shop address]'
   const bodies: Record<DocId, string> = {
-    cancel: `${name} — Cancellation Policy\n\nPlease tell us as soon as you cannot attend. Same-day cancellations may be treated as a missed booking. This template is general information, not legal advice.`,
-    booking: `${name} — Booking Terms\n\nBookings are held for the named guest. Please arrive on time. Payment is completed at the shop unless we agree otherwise. This template is not legal advice.`,
-    refund: `${name} — Refund Policy\n\nIf a session cannot go ahead because of the shop, we will offer another time. Refunds for completed services are considered case by case. This template is not legal advice.`,
-    ack: `${name} — Client Acknowledgement\n\nI have read the shop information provided to me and will tell the therapist about any health concerns before treatment. This template is not legal advice.`,
-    photo: `${name} — Photography Terms\n\nPhotos taken for the shop website remain for business use as agreed. Personal images of guests are not used without permission. This template is not legal advice.`,
-    privacy: `${name} — Privacy Notice\n\nWe collect only the business details needed to run this shop. This free toolkit does not store customer emails or phone numbers. Address: ${address}. This template is not legal advice.`,
-    web: `${name} — Website Terms\n\nContent on this preview is for information. Prices and times should be confirmed with the shop. This template is not legal advice.`,
+    intake: `${name}
+แบบฟอร์มซักประวัติก่อนนวด / Pre-Massage Health Intake
+
+วันที่ / Date: __________    ชื่อเล่นลูกค้า / Guest first name: __________
+บริการ / Service: __________    นักนวด / Therapist: __________
+
+กรุณาทำเครื่องหมายถ้าใช่ และเขียนรายละเอียดสั้น ๆ
+Please tick if yes and add a short note. Do not write a phone number on this copy if you will leave it in the shop folder.
+
+[ ] บาดเจ็บหรือผ่าตัดเร็ว ๆ นี้ / Recent injury or surgery
+รายละเอียด / Details: ________________________________
+
+[ ] แพ้น้ำมัน โลชั่น ถั่ว หรือกลิ่นหอม / Allergy to oils, lotions, nuts or fragrance
+รายละเอียด / Details: ________________________________
+
+[ ] ตั้งครรภ์ / Pregnancy
+[ ] โรคผิวหนัง / Skin condition
+[ ] โรคหัวใจ / Heart condition
+[ ] ความดันสูง / High blood pressure
+[ ] เบาหวาน / Diabetes
+จุดที่ไม่ให้นวด / Areas to avoid: ________________________________
+
+ข้าพเจ้ายืนยันว่าข้อมูลข้างต้นถูกต้องตามที่ทราบในวันนี้ และร้านนวดไม่ใช่สถานพยาบาล
+I confirm this information is accurate as far as I know today. This shop is not a medical clinic.
+
+ลายมือชื่อลูกค้า / Guest signature: __________    วันที่ / Date: __________
+ร้านเก็บแผ่นนี้ที่เคาน์เตอร์ ไม่ส่งเข้าระบบออนไลน์ของเครื่องมือฟรี
+Keep this paper at the shop. This free toolkit does not store the form online.
+
+แม่แบบทั่วไป ไม่ใช่คำปรึกษากฎหมายหรือคำแนะนำทางการแพทย์`,
+    surcharge: `${name}
+ประกาศ Card Surcharge / Card surcharge notice
+
+${surchargeNotice}
+
+ค่าธรรมเนียมบัตรของร้านนี้ (ถ้ามี) / This shop’s card surcharge (if any): ______ %
+ราคาก่อนคิดบัตร / Price before any card fee: shown at the counter
+วันที่มีผลตามที่ร้านตรวจแล้ว / Effective date after the shop checks the rule: 1 October 2026
+
+พิมพ์ติดเคาน์เตอร์ให้ลูกค้าเห็นก่อนจ่าย
+Print and display at the counter before payment.
+
+แม่แบบนี้ใช้ข้อความชุดเดียวกับประกาศสำคัญในเครื่องมือฟรี ไม่ใช่คำปรึกษากฎหมาย`,
+    cancel: `${name} — Cancellation Policy / นโยบายยกเลิก
+
+Please tell us as soon as you cannot attend. Same-day cancellations may be treated as a missed booking.
+กรุณาบอกทันทีถ้ามาไม่ได้ การยกเลิกวันเดียวกันอาจถือว่าคิวนั้นใช้แล้ว
+
+This template is general information, not legal advice.
+แม่แบบทั่วไป ไม่ใช่คำปรึกษากฎหมาย`,
+    booking: `${name} — Booking Terms / ข้อตกลงการจอง
+
+Bookings are held for the named guest. Please arrive on time. Payment is completed at the shop unless we agree otherwise.
+คิวถูกถือให้ชื่อที่จอง กรุณามาตามเวลา จ่ายที่ร้าน เว้นแต่ตกลงเป็นอย่างอื่น
+
+This template is not legal advice.
+แม่แบบนี้ไม่ใช่คำปรึกษากฎหมาย`,
+    refund: `${name} — Refund Policy / นโยบายคืนเงิน
+
+If a session cannot go ahead because of the shop, we will offer another time. Refunds for completed services are considered case by case.
+ถ้าร้านทำให้คิวไม่ได้ ร้านจะเสนอเวลาใหม่ การคืนเงินหลังบริการจบแล้วพิจารณาเป็นรายกรณี
+
+This template is not legal advice.
+แม่แบบนี้ไม่ใช่คำปรึกษากฎหมาย`,
+    ack: `${name}
+ใบรับทราบของลูกค้า / Client acknowledgement
+
+ข้าพเจ้าได้อ่านข้อมูลร้าน และจะบอกนักนวดก่อนเริ่มนวด หากมีอาการบาดเจ็บ ภูมิแพ้น้ำมัน ตั้งครรภ์ ความดัน เบาหวาน หรือจุดที่ไม่ให้นวด
+I have read the shop information and will tell the therapist before treatment about injury, oil allergy, pregnancy, blood pressure, diabetes, or areas to avoid.
+
+ข้าพเจ้าเข้าใจว่าร้านนวดไม่ใช่สถานพยาบาล และบริการนี้ไม่ใช่การรักษาโรค
+I understand this is a massage shop, not a medical clinic, and this is not medical treatment.
+
+ลายมือชื่อลูกค้า / Guest signature: __________    วันที่ / Date: __________
+
+แม่แบบพร้อมใช้งาน ไม่ใช่คำปรึกษากฎหมาย
+This template is ready to use. It is not legal advice.`,
+    privacy: `${name} — Privacy Notice / ประกาศความเป็นส่วนตัว
+
+We collect only the business details needed to run this shop. This free toolkit does not store customer emails or phone numbers. Address: ${address}.
+เราเก็บเท่าที่จำเป็นต่อการเปิดร้าน เครื่องมือฟรีนี้ไม่เก็บอีเมลหรือเบอร์ลูกค้า ที่อยู่ร้าน: ${address}
+
+This template is not legal advice.
+แม่แบบนี้ไม่ใช่คำปรึกษากฎหมาย`,
+    web: `${name} — Website Terms / ข้อกำหนดเว็บไซต์
+
+Content on a shop website is for information. Prices and times should be confirmed with the shop.
+เนื้อหาบนเว็บเป็นข้อมูลทั่วไป ราคาและเวลาให้ยืนกับร้าน
+
+This template is not legal advice.
+แม่แบบนี้ไม่ใช่คำปรึกษากฎหมาย`,
   }
   return bodies[id]
 }

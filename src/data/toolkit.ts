@@ -16,14 +16,40 @@ export const messagePurposes = [
 
 export const documentTemplates = [
   {
+    id: 'intake',
+    group: 'often',
+    th: 'แบบฟอร์มซักประวัติก่อนนวด',
+    en: 'Pre-massage health intake',
+    whyTh: 'ถามอาการบาดเจ็บ ภูมิแพ้ หรือโรคประจำตัวลูกค้า ก่อนเริ่มนวด ป้องกันปัญหาทั้งสองฝ่าย',
+    whyEn: 'Ask about injury, allergy or health conditions before massage, to protect both guest and shop.',
+  },
+  {
+    id: 'surcharge',
+    group: 'often',
+    th: 'ประกาศ Card Surcharge (พิมพ์ติดหน้าร้าน)',
+    en: 'Card surcharge notice (print)',
+    whyTh: 'แจ้งลูกค้าเรื่องค่าธรรมเนียมบัตรก่อนจ่ายเงิน พิมพ์ติดเคาน์เตอร์ได้เลย',
+    whyEn: 'Tell guests about card fees before they pay. Print and put it on the counter.',
+  },
+  {
     id: 'cancel',
+    group: 'often',
     th: 'นโยบายยกเลิก',
     en: 'Cancellation Policy',
     whyTh: 'ใช้ติดหน้าร้านหรือตอนจอง เพื่อบอกว่าเลิกนัดเมื่อไหร่ยังถือว่าคิวนั้นใช้ได้',
     whyEn: 'Use on the shop wall or at booking to say when a cancelled slot still counts.',
   },
   {
+    id: 'ack',
+    group: 'often',
+    th: 'ใบรับทราบของลูกค้า',
+    en: 'Client Acknowledgement',
+    whyTh: 'ให้ลูกค้าอ่านและลงชื่อก่อนรับบริการ ยืนยันว่าแจ้งเรื่องสุขภาพแล้ว',
+    whyEn: 'Guest reads and signs before treatment, confirming health notes were shared.',
+  },
+  {
     id: 'booking',
+    group: 'legal',
     th: 'ข้อตกลงการจอง',
     en: 'Booking Terms',
     whyTh: 'ใช้ตอนรับจอง อธิบายว่าคิวถูกถือให้ใคร จ่ายที่ไหน และมาสายแล้วอย่างไร',
@@ -31,27 +57,15 @@ export const documentTemplates = [
   },
   {
     id: 'refund',
+    group: 'legal',
     th: 'นโยบายคืนเงิน',
     en: 'Refund Policy',
     whyTh: 'ใช้เมื่อร้านเลื่อนคิวเอง หรือลูกค้าถามว่าเงินคืนได้เมื่อไหร่',
     whyEn: 'Use when the shop moves a booking, or a guest asks when money can be returned.',
   },
   {
-    id: 'ack',
-    th: 'ใบรับทราบของลูกค้า',
-    en: 'Client Acknowledgement',
-    whyTh: 'ให้ลูกค้าอ่านก่อนรับบริการ ยืนยันว่าแจ้งเรื่องสุขภาพแล้ว',
-    whyEn: 'Give this to a guest before treatment so they confirm health notes were shared.',
-  },
-  {
-    id: 'photo',
-    th: 'ข้อตกลงงานถ่ายภาพ',
-    en: 'Photography Terms',
-    whyTh: 'ใช้ตอนจ้างถ่ายภาพร้าน ว่ารูปไปขึ้นเว็บได้อย่างไร และห้ามใช้รูปลูกค้าโดยไม่ขอ',
-    whyEn: 'Use when hiring shop photos: website use, and no guest photos without permission.',
-  },
-  {
     id: 'privacy',
+    group: 'legal',
     th: 'ประกาศความเป็นส่วนตัว',
     en: 'Privacy Notice',
     whyTh: 'ติดเว็บหรือหน้าร้าน บอกว่าเก็บข้อมูลร้านอะไรบ้าง เครื่องมือนี้ไม่เก็บเบอร์ลูกค้า',
@@ -59,6 +73,7 @@ export const documentTemplates = [
   },
   {
     id: 'web',
+    group: 'legal',
     th: 'ข้อกำหนดเว็บไซต์',
     en: 'Website Terms',
     whyTh: 'ใส่ท้ายเว็บ ว่าราคาและเวลาให้ยืนกับร้าน ไม่ใช่สัญญาขายออนไลน์',

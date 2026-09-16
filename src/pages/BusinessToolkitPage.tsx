@@ -73,7 +73,7 @@ export function BusinessToolkitPage() {
   const [panel, setPanel] = useState<Section>('home')
   const [draft, setDraft] = useState('')
   const [purpose, setPurpose] = useState<(typeof messagePurposes)[number]['id']>('confirm')
-  const [docId, setDocId] = useState<(typeof documentTemplates)[number]['id']>('cancel')
+  const [docId, setDocId] = useState<(typeof documentTemplates)[number]['id']>('intake')
   const [status, setStatus] = useState('')
   const [extra, setExtra] = useState('')
   const docPreviewRef = useRef<HTMLElement>(null)
@@ -290,33 +290,42 @@ export function BusinessToolkitPage() {
                 )}
               </p>
               <p className="note">{legalTemplateNote}</p>
-              <div className="toolkit-cards compact">
-                {documentTemplates.map((doc) => {
-                  const selected = docId === doc.id && Boolean(draft)
-                  return (
-                    <article key={doc.id} className={selected ? 'is-selected' : undefined}>
-                      <h3>{th ? doc.th : doc.en}</h3>
-                      <p>{th ? doc.whyTh : doc.whyEn}</p>
-                      <button
-                        className="btn small"
-                        type="button"
-                        aria-pressed={selected}
-                        onClick={() => {
-                          const text = generateDocument(doc.id, state.profile)
-                          setDocId(doc.id)
-                          setDraft(text)
-                          setStatus(t('เปิดแม่แบบด้านล่างแล้ว คัดลอกไปใช้ในร้านได้', 'Template opened below. Copy it into the shop.'))
-                          window.requestAnimationFrame(() => {
-                            docPreviewRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                          })
-                        }}
-                      >
-                        {selected ? t('กำลังดู', 'Viewing') : t('ใช้งาน', 'Use')}
-                      </button>
-                    </article>
-                  )
-                })}
-              </div>
+              {(['often', 'legal'] as const).map((group) => (
+                <div key={group} className="toolkit-doc-group">
+                  <h3 className="toolkit-doc-group-title">
+                    {group === 'often' ? t('ใช้บ่อยที่สุด', 'Used most often') : t('เอกสารกฎหมายพื้นฐาน', 'Basic legal documents')}
+                  </h3>
+                  <div className="toolkit-cards compact">
+                    {documentTemplates
+                      .filter((doc) => doc.group === group)
+                      .map((doc) => {
+                        const selected = docId === doc.id && Boolean(draft)
+                        return (
+                          <article key={doc.id} className={selected ? 'is-selected' : undefined}>
+                            <h3>{th ? doc.th : doc.en}</h3>
+                            <p>{th ? doc.whyTh : doc.whyEn}</p>
+                            <button
+                              className="btn small"
+                              type="button"
+                              aria-pressed={selected}
+                              onClick={() => {
+                                const text = generateDocument(doc.id, state.profile)
+                                setDocId(doc.id)
+                                setDraft(text)
+                                setStatus(t('เปิดแม่แบบด้านล่างแล้ว คัดลอกหรือพิมพ์ได้', 'Template opened below. Copy or print it.'))
+                                window.requestAnimationFrame(() => {
+                                  docPreviewRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                                })
+                              }}
+                            >
+                              {t('ใช้งาน', 'Use')}
+                            </button>
+                          </article>
+                        )
+                      })}
+                  </div>
+                </div>
+              ))}
               <article className="toolkit-doc-preview" ref={docPreviewRef} id="doc-preview" aria-live="polite">
                 <h3>
                   {th
@@ -325,20 +334,28 @@ export function BusinessToolkitPage() {
                 </h3>
                 <p className="note">
                   {draft
-                    ? t('แก้ข้อความในช่องนี้ได้ แล้วคัดลอกไปวาง', 'You can edit this box, then copy it.')
+                    ? t('แก้ข้อความในช่องนี้ได้ แล้วคัดลอกหรือพิมพ์ อย่าใส่เบอร์ลูกค้าถ้าจะแปะแผ่นนี้ที่ร้าน', 'You can edit this box, then copy or print. Do not add a guest phone number if this paper stays in the shop.')
                     : t('กดใช้งานการ์ดด้านบน เพื่อเปิดแม่แบบในช่องนี้', 'Tap Use on a card above to open the template here.')}
                 </p>
                 <textarea
-                  rows={12}
+                  rows={16}
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}
                   aria-label={t('เอกสารที่สร้างแล้ว', 'Generated document')}
                   placeholder={t('แม่แบบจะโชว์ที่นี่หลังกดใช้งาน', 'The template appears here after you tap Use.')}
                 />
-                <FieldHint>{t('คัดลอกไปวางในร้าน เครื่องมือนี้ไม่ส่งเอกสารออกไปให้ใคร', 'Copy into the shop. This toolkit does not send the document anywhere.')}</FieldHint>
-                <button className="btn" type="button" onClick={() => void copyDraft()} disabled={!draft}>
-                  {t('คัดลอกเอกสาร', 'Copy document')}
-                </button>
+                <pre className="toolkit-print-sheet" aria-hidden="true">
+                  {draft}
+                </pre>
+                <FieldHint>{t('คัดลอกไปวางในร้าน หรือพิมพ์ติดเคาน์เตอร์ เครื่องมือนี้ไม่ส่งเอกสารออกไปให้ใคร', 'Copy into the shop or print for the counter. This toolkit does not send the document anywhere.')}</FieldHint>
+                <div className="actions">
+                  <button className="btn" type="button" onClick={() => void copyDraft()} disabled={!draft}>
+                    {t('คัดลอกเอกสาร', 'Copy document')}
+                  </button>
+                  <button className="btn small" type="button" disabled={!draft} onClick={() => window.print()}>
+                    {t('พิมพ์', 'Print')}
+                  </button>
+                </div>
               </article>
             </section>
           ) : null}
