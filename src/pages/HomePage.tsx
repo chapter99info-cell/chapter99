@@ -3,7 +3,6 @@ import { CoverflowGallery } from '../components/CoverflowGallery'
 import { HeroBookingDemo } from '../components/HeroBookingDemo'
 import { HeroScene } from '../components/HeroScene'
 import { HowTogether } from '../components/HowTogether'
-import { MixBuilder } from '../components/MixBuilder'
 import { PlansGrid } from '../components/PlansGrid'
 import { PromiseDock } from '../components/PromiseDock'
 import { ShopEscape } from '../components/ShopEscape'
@@ -122,7 +121,6 @@ export function HomePage() {
         </div>
       </section>
       <HowTogether />
-      <MixBuilder />
       <section id="plans" className="new-plans reveal">
         <div className="section-title">
           <div>
