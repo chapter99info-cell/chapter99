@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { AboutPage } from './pages/AboutPage'
 import { ContactPage } from './pages/ContactPage'
@@ -12,6 +12,7 @@ import { WorkPage } from './pages/WorkPage'
 import { BusinessToolkitPage } from './pages/BusinessToolkitPage'
 import SiteHomePage from './site/HomePage'
 import { SitePricingPage } from './pages/SitePricingPage'
+import { NotFoundPage } from './pages/NotFoundPage'
 
 export default function App() {
   return (
@@ -29,8 +30,8 @@ export default function App() {
         <Route path="/legal/:slug" element={<LegalDocPage />} />
         <Route path="/demo/massage" element={<DemoMassagePage />} />
         <Route path="/business-toolkit" element={<BusinessToolkitPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
 }

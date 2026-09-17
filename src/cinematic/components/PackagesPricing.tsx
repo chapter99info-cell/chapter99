@@ -18,6 +18,7 @@ import { useTranslation } from '../i18n/LanguageContext';
 import { siteIcons } from '../../site/media';
 import { PackAnimatedPricing } from './PackAnimatedPricing';
 import { PricingCard } from './PricingCard';
+import { PricePackDock } from '../../site/PricePackBar';
 
 const AUDIT_MAIL =
   'mailto:chapter99solutions@gmail.com?subject=Chapter99%20Business%20Audit';
@@ -97,6 +98,9 @@ export function PackagesPricing() {
             <span className="about-label">{t(selected.kicker)}</span>
             <h2>{t(selected.heading)}</h2>
             <p>{t(selected.sub)}</p>
+          </div>
+          <div className="pack-dock-page">
+            <PricePackDock />
           </div>
           <PackAnimatedPricing key={pack} packId={pack} tiers={selected.tiers} />
           <p className="rate-note">{t(selected.note)}</p>

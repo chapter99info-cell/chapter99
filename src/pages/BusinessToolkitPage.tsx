@@ -1,7 +1,7 @@
 import { Bell, CalendarClock, FileText, HelpCircle, Home, LayoutGrid, MessageSquare, Settings, Sparkles, Star, Store, Users } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Dock } from '../components/ui/dock'
+import { Dock } from '../components/ui/hero-dock'
 import { ToolkitDailyPanels } from '../components/ToolkitDailyPanels'
 import { CONTACT_EMAIL } from '../data/pricing'
 import {

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import QRCode from 'qrcode';
 import { siteIcons, siteMedia } from './media';
 import { useTranslation } from '../cinematic/i18n/LanguageContext';
+import { CopySnippet } from './SiteUx';
 
 const DEMO = 'https://www.chapter99info.tech/?shop=mira';
 const MIRA = 'https://www.mirathaimassage.com.au/';
@@ -167,16 +168,9 @@ export function MassageToolkit() {
               <img className="tool-ico" src={siteIcons.profile} alt="" />
               {t({ th: 'แบบฟอร์มลูกค้าใหม่', en: 'New-client intake' })}
             </h3>
-            <pre className="tool-pre">{lang === 'en' ? INTAKE_EN : INTAKE_TH}</pre>
-            <button
-              type="button"
-              className="btn primary"
-              onClick={() => copyText('intake', lang === 'en' ? INTAKE_EN : INTAKE_TH)}
-            >
-              {copied === 'intake'
-                ? t({ th: 'คัดลอกแล้ว', en: 'Copied' })
-                : t({ th: 'คัดลอกไปใช้ที่ร้าน', en: 'Copy for the shop' })}
-            </button>
+            <CopySnippet text={lang === 'en' ? INTAKE_EN : INTAKE_TH}>
+              {lang === 'en' ? INTAKE_EN : INTAKE_TH}
+            </CopySnippet>
           </article>
         </div>
       </div>

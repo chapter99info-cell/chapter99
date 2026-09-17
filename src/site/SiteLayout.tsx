@@ -5,6 +5,7 @@ import type { Lang } from '../cinematic/i18n/types';
 import { siteContact, siteIcons, siteMedia } from './media';
 import { PricePackBar } from './PricePackBar';
 import { SiteDock } from './SiteDock';
+import { SearchButton, SiteUx } from './SiteUx';
 import './site.css';
 
 const AUDIT_MAIL =
@@ -72,6 +73,7 @@ function SiteChrome({ children }: { children: ReactNode }) {
             )}
           </nav>
           <div className="nav-end">
+            <SearchButton />
             <a className="navcta" href={AUDIT_MAIL}>
               {t({ th: 'Book a Business Audit', en: 'Book a Business Audit' })}
             </a>
@@ -110,10 +112,14 @@ function SiteChrome({ children }: { children: ReactNode }) {
               </Link>
             ),
           )}
+          <div className="drawer-tools">
+            <SearchButton />
+          </div>
         </div>
       </header>
+      <SiteUx />
       <PricePackBar />
-      {children}
+      <div id="main">{children}</div>
       <SiteDock />
       <footer>
         <div className="container">

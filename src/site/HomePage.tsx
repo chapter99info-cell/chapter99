@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from '../cinematic/i18n/LanguageContext';
 import { MassageToolkit } from './MassageToolkit';
 import { siteContact, siteIcons, siteMedia } from './media';
+import { FaqSection, NewsletterCard } from './SiteUx';
 import { SiteLayout } from './SiteLayout';
 
 const AUDIT_MAIL =
@@ -454,9 +455,11 @@ function HomeInner() {
               </a>
             </div>
           </div>
+          <NewsletterCard />
         </div>
       </section>
 
+      <FaqSection />
       <MassageToolkit />
     </main>
   );
