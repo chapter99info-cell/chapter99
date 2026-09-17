@@ -114,10 +114,10 @@ h1{font-size:clamp(44px,6vw,72px);max-width:690px;margin:18px 0}
 .demo-ico{width:31px;height:31px;object-fit:contain;flex-shrink:0}
 .demoRow strong{font-size:13px}
 .demoRow small{display:block;color:#9fb0c8;font-size:10.5px;margin-top:2px}
-.proofGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px;margin-top:35px}
-.proof{border:1px solid #273d5e;background:#0b1b35;border-radius:13px;overflow:hidden}
-.beforeAfter{display:grid;height:150px;overflow:hidden}
-.beforeAfter img{width:100%;height:100%;object-fit:cover}
+.proofGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px;margin-top:35px;align-items:stretch}
+.proof{display:flex;flex-direction:column;border:1px solid #273d5e;background:#0b1b35;border-radius:13px;overflow:hidden}
+.beforeAfter{position:relative;aspect-ratio:4/3;width:100%;overflow:hidden;background:#071427;flex-shrink:0}
+.beforeAfter img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .proofBody{padding:15px}
 .proofBody strong{font-size:13px}
 .proofBody small{display:block;color:#9eb0c9;margin-top:5px;font-size:10.5px}
