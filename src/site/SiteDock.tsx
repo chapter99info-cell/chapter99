@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Dock, DockIcon, DockItem, DockLabel } from '@/components/ui/mac-dock';
 import { useTranslation } from '../cinematic/i18n/LanguageContext';
-import { siteIcons } from './media';
+import { siteContact, siteIcons } from './media';
 
 export function SiteDock() {
   const { t } = useTranslation();
@@ -39,7 +39,7 @@ export function SiteDock() {
     },
     {
       title: t({ th: 'ทัก Facebook', en: 'Message on Facebook' }),
-      href: 'https://www.facebook.com/profile.php?id=61586534972406',
+      href: siteContact.facebook,
       icon: siteIcons.chat,
     },
   ];

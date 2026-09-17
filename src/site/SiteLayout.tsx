@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { LanguageProvider, useTranslation } from '../cinematic/i18n/LanguageContext';
 import type { Lang } from '../cinematic/i18n/types';
-import { siteIcons, siteMedia } from './media';
+import { siteContact, siteIcons, siteMedia } from './media';
 import { PricePackBar } from './PricePackBar';
 import { SiteDock } from './SiteDock';
 import './site.css';
@@ -144,10 +144,10 @@ function SiteChrome({ children }: { children: ReactNode }) {
                 <a href={AUDIT_MAIL}>Business Audit</a>
                 <div className="footer-contact">
                   <a href={AUDIT_MAIL}><img src={siteIcons.gmail} alt="Email" /></a>
-                  <a href="https://wa.me/61452044382" target="_blank" rel="noreferrer">
+                  <a href={siteContact.whatsapp} target="_blank" rel="noreferrer">
                     <img src={siteIcons.whatsapp} alt="WhatsApp" />
                   </a>
-                  <a href="https://www.facebook.com/profile.php?id=61586534972406" target="_blank" rel="noreferrer">
+                  <a href={siteContact.facebook} target="_blank" rel="noreferrer">
                     <img src={siteIcons.chat} alt="Facebook" />
                   </a>
                   <img src={siteIcons.instagram} alt="" />

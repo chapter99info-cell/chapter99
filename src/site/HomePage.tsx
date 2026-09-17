@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from '../cinematic/i18n/LanguageContext';
 import { MassageToolkit } from './MassageToolkit';
-import { siteIcons, siteMedia } from './media';
+import { siteContact, siteIcons, siteMedia } from './media';
 import { SiteLayout } from './SiteLayout';
 
 const AUDIT_MAIL =
@@ -61,10 +61,10 @@ function HomeInner() {
             </div>
             <div className="channel-row" aria-label="Contact channels">
               <a href={AUDIT_MAIL}><img src={siteIcons.gmail} alt="Email" /></a>
-              <a href="https://wa.me/61452044382" target="_blank" rel="noreferrer">
+              <a href={siteContact.whatsapp} target="_blank" rel="noreferrer">
                 <img src={siteIcons.whatsapp} alt="WhatsApp" />
               </a>
-              <a href="https://www.facebook.com/profile.php?id=61586534972406" target="_blank" rel="noreferrer">
+              <a href={siteContact.facebook} target="_blank" rel="noreferrer">
                 <img src={siteIcons.chat} alt="Facebook" />
               </a>
               <span><img src={siteIcons.instagram} alt="" /></span>
