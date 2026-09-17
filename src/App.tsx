@@ -5,23 +5,23 @@ import { ContactPage } from './pages/ContactPage'
 import { LegalDocPage } from './pages/LegalDocPage'
 import { LegalHubPage } from './pages/LegalHubPage'
 import { DemoMassagePage } from './pages/DemoMassagePage'
-import { HomePage } from './pages/HomePage'
 import { MassagePage } from './pages/MassagePage'
 import { PhotographyPage } from './pages/PhotographyPage'
-import { PricingPage } from './pages/PricingPage'
 import { RestaurantsPage } from './pages/RestaurantsPage'
 import { WorkPage } from './pages/WorkPage'
 import { BusinessToolkitPage } from './pages/BusinessToolkitPage'
+import SiteHomePage from './site/HomePage'
+import { SitePricingPage } from './pages/SitePricingPage'
 
 export default function App() {
   return (
     <Routes>
+      <Route path="/" element={<SiteHomePage />} />
+      <Route path="/pricing" element={<SitePricingPage />} />
       <Route element={<Layout />}>
-        <Route path="/" element={<HomePage />} />
         <Route path="/massage" element={<MassagePage />} />
         <Route path="/restaurants" element={<RestaurantsPage />} />
         <Route path="/photography" element={<PhotographyPage />} />
-        <Route path="/pricing" element={<PricingPage />} />
         <Route path="/work" element={<WorkPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
