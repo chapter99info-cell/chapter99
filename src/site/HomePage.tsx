@@ -158,6 +158,23 @@ function HomeInner() {
               <small>Content · Retention · Care</small>
             </div>
           </div>
+          <p className="lead" style={{ marginTop: 28 }}>
+            {t({
+              th: 'คุณดูแลลูกค้า เราดูแลระบบหลังร้าน',
+              en: 'You look after customers. We look after the back office.',
+            })}
+          </p>
+          <p className="lead" style={{ maxWidth: 640, margin: '8px auto 0' }}>
+            {t({
+              th: 'เว็บคือหน้าประตู การจอง การชำระเงิน และงานประจำวันคือระบบหลังร้าน',
+              en: 'The website is the front door. Booking, payment and daily operations are the back office.',
+            })}
+          </p>
+          <div style={{ marginTop: 22 }}>
+            <Link className="btn primary" to="/pricing">
+              {t({ th: 'ดูแพ็กเกจ & ราคา', en: 'View packages & pricing' })}
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -284,19 +301,19 @@ function HomeInner() {
               <div className="emoji"><img src={siteIcons.search} alt="" /></div>
               <h3>STARTER</h3>
               <p>{t({ th: 'เพิ่งเริ่ม ต้องการฐานที่แข็ง', en: 'Just getting started. Need a strong foundation.' })}</p>
-              <Link to="/pricing">Start Simple →</Link>
+              <Link to="/pricing#packages">Start Simple →</Link>
             </div>
             <div className="stage">
               <div className="emoji"><img src={siteIcons.smartphone} alt="" /></div>
               <h3>GROWING</h3>
               <p>{t({ th: 'ลูกค้ามากขึ้น ต้องการระบบที่ดีกว่า', en: 'Getting more customers. Need better systems.' })}</p>
-              <Link to="/pricing">Build & Optimise →</Link>
+              <Link to="/pricing#packages">Build & Optimise →</Link>
             </div>
             <div className="stage">
               <div className="emoji"><img src={siteIcons.settings} alt="" /></div>
               <h3>ESTABLISHED</h3>
               <p>{t({ th: 'งานแน่น ต้องการรายงานและระบบ', en: 'Busy and complex. Need automation and reports.' })}</p>
-              <Link to="/pricing">Streamline & Scale →</Link>
+              <Link to="/pricing#packages">Streamline & Scale →</Link>
             </div>
             <div className="stage">
               <div className="emoji"><img src={siteIcons.location} alt="" /></div>

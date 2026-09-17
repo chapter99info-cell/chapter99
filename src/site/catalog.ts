@@ -23,8 +23,8 @@ export const siteCatalog: SiteEntry[] = [
     href: '/pricing',
     title: { th: 'แพ็กเกจและราคา', en: 'Packages & Pricing' },
     blurb: {
-      th: 'Starter Growth Premium และแพ็กถ่ายภาพ + เว็บ',
-      en: 'Starter, Growth, Premium and photo + web packages',
+      th: 'START Presence · GROW Operations · SCALE Infrastructure และ Square Setup เป็น add-on',
+      en: 'START Presence, GROW Operations, SCALE Infrastructure, plus Square Setup as an add-on',
     },
   },
   {

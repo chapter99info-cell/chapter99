@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { hashToPack, pricePacks, type PricePackId } from '../data/industryPacks';
+import {
+  businessPacks,
+  hashToPack,
+  queryToPack,
+  squarePack,
+  type PricePackId,
+} from '../data/industryPacks';
 import {
   PACKAGE_SCOPE_PRICE,
   businessStages,
@@ -27,18 +33,29 @@ export function PackagesPricing() {
   const { t } = useTranslation();
   const location = useLocation();
   const fromHash = hashToPack(location.hash);
-  const [pack, setPack] = useState<PricePackId>(fromHash ?? 'massage');
-  const selected = pricePacks.find((item) => item.id === pack) ?? pricePacks[0];
+  const fromQuery = queryToPack(location.search);
+  const initial =
+    fromHash && fromHash !== 'square'
+      ? fromHash
+      : fromQuery && fromQuery !== 'square'
+        ? fromQuery
+        : 'massage';
+  const [pack, setPack] = useState<PricePackId>(initial);
+  const selected = businessPacks.find((item) => item.id === pack) ?? businessPacks[0];
 
   useEffect(() => {
     const apply = () => {
-      const next = hashToPack(window.location.hash) ?? hashToPack(location.hash);
-      if (next) setPack(next);
+      const next =
+        hashToPack(window.location.hash) ??
+        queryToPack(window.location.search) ??
+        hashToPack(location.hash) ??
+        queryToPack(location.search);
+      if (next && next !== 'square') setPack(next);
     };
     apply();
     window.addEventListener('hashchange', apply);
     return () => window.removeEventListener('hashchange', apply);
-  }, [location.hash]);
+  }, [location.hash, location.search]);
 
   return (
     <main className="pkg-page">
@@ -92,21 +109,6 @@ export function PackagesPricing() {
           </div>
         </section>
 
-        <section id="price-packs" className="pkg-section">
-          <span id="square-setup" />
-          <div className="rates-head">
-            <span className="about-label">{t(selected.kicker)}</span>
-            <h2>{t(selected.heading)}</h2>
-            <p>{t(selected.sub)}</p>
-          </div>
-          <div className="pack-dock-page">
-            <PricePackDock />
-          </div>
-          <PackAnimatedPricing key={pack} packId={pack} tiers={selected.tiers} />
-          <p className="rate-note">{t(selected.note)}</p>
-          {pack === 'square' && <SquareCosts />}
-        </section>
-
         <section id="packages" className="pkg-section">
           <div className="rates-head">
             <span className="about-label">{t(packagesCopy.sectionKicker)}</span>
@@ -119,6 +121,34 @@ export function PackagesPricing() {
             ))}
           </div>
           <p className="rate-note">{t(packagesCopy.priceNote)}</p>
+        </section>
+
+        <section id="square-setup" className="pkg-section">
+          <div className="rates-head">
+            <span className="about-label">{t(squareSetup.tag)}</span>
+            <h2>{t(squareSetup.title)}</h2>
+            <p>{t(squareSetup.subtitle)}</p>
+          </div>
+          <div className="price-grid price-grid-one">
+            {squarePack.tiers.map((tier) => (
+              <PricingCard key={tier.id} tier={tier} showFeatures />
+            ))}
+          </div>
+          <p className="rate-note square-fee-note">{t(squareSetup.note)}</p>
+          <SquareCosts />
+        </section>
+
+        <section id="price-packs" className="pkg-section">
+          <div className="rates-head">
+            <span className="about-label">{t(selected.kicker)}</span>
+            <h2>{t(selected.heading)}</h2>
+            <p>{t(selected.sub)}</p>
+          </div>
+          <div className="pack-dock-page">
+            <PricePackDock />
+          </div>
+          <PackAnimatedPricing key={pack} packId={pack} tiers={selected.tiers} />
+          <p className="rate-note">{t(selected.note)}</p>
         </section>
 
         <section id="stages" className="pkg-section">

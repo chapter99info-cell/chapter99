@@ -1,23 +1,27 @@
-import { Camera, CreditCard, HeartHandshake, UtensilsCrossed } from 'lucide-react';
+import { Camera, HeartHandshake, UtensilsCrossed } from 'lucide-react';
 import { Dock, DockIcon, DockItem, DockLabel } from '@/components/ui/dock';
 import { useLocation } from 'react-router-dom';
-import { hashToPack, pricePacks, type PricePackId } from '../cinematic/data/industryPacks';
+import {
+  businessPacks,
+  hashToPack,
+  type PricePackId,
+} from '../cinematic/data/industryPacks';
 import { useTranslation } from '../cinematic/i18n/LanguageContext';
 
-const ICONS: Record<PricePackId, typeof HeartHandshake> = {
+const ICONS: Record<Exclude<PricePackId, 'square'>, typeof HeartHandshake> = {
   massage: HeartHandshake,
   restaurant: UtensilsCrossed,
   photo: Camera,
-  square: CreditCard,
 };
 
 const iconClass = 'h-full w-full text-[#d7e1ef]';
 
 function goToPack(pathname: string, hash: string) {
   const next = hash.startsWith('#') ? hash : `#${hash}`;
+  const target = next === '#square-setup' || next === '#pack-square' ? 'square-setup' : 'price-packs';
   if (pathname === '/pricing') {
     window.location.hash = next;
-    document.getElementById('price-packs')?.scrollIntoView({
+    document.getElementById(target)?.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
     });
@@ -33,8 +37,8 @@ export function PricePackDock() {
 
   return (
     <Dock className="items-end bg-[#07162c] pb-3" panelHeight={56} magnification={64}>
-      {pricePacks.map((pack) => {
-        const Icon = ICONS[pack.id];
+      {businessPacks.map((pack) => {
+        const Icon = ICONS[pack.id as Exclude<PricePackId, 'square'>];
         const selected = location.pathname === '/pricing' && active === pack.id;
         return (
           <button
@@ -63,7 +67,7 @@ export function PricePackDock() {
 
 export function PricePackBar() {
   return (
-    <div className="pack-bar" role="navigation" aria-label="Price packs">
+    <div className="pack-bar" role="navigation" aria-label="Business types">
       <div className="container pack-bar-inner">
         <PricePackDock />
       </div>

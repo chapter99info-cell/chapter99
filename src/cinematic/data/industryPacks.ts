@@ -87,7 +87,7 @@ const squareTiers: PricingTier[] = [
     cta: squareSetup.cta,
     ctaHref: AUDIT,
     ctaVariant: 'primary',
-    badge: { th: '4 · Add-on', en: '4 · Add-on' },
+    badge: { th: 'Optional Add-on', en: 'Optional Add-on' },
     features: squareSetup.items.map((item) => ({ label: item, included: true })),
     footnotes: [squareSetup.note, squareSetup.ownership],
   },
@@ -161,14 +161,14 @@ export const pricePacks: {
   },
   {
     id: 'square',
-    hash: 'pack-square',
-    href: '/pricing#pack-square',
-    label: { th: '4. Square Setup', en: '4. Square Setup' },
+    hash: 'square-setup',
+    href: '/pricing#square-setup',
+    label: { th: 'Square Setup', en: 'Square Setup' },
     short: { th: 'จ่าย', en: 'Pay' },
-    kicker: { th: 'Add-on · รับชำระเงิน', en: 'Add-on · payments' },
+    kicker: { th: 'Optional Add-on', en: 'Optional Add-on' },
     heading: {
-      th: 'Square Setup — A$199',
-      en: 'Square Setup — A$199',
+      th: 'Square Setup',
+      en: 'Square Setup',
     },
     sub: squareSetup.subtitle,
     note: squareSetup.note,
@@ -176,11 +176,23 @@ export const pricePacks: {
   },
 ];
 
+export const businessPacks = pricePacks.filter((pack) => pack.id !== 'square');
+export const squarePack = pricePacks.find((pack) => pack.id === 'square')!;
+
 export function hashToPack(hash: string): PricePackId | null {
   const id = hash.replace(/^#/, '');
   if (id === 'pack-massage') return 'massage';
   if (id === 'pack-restaurant') return 'restaurant';
   if (id === 'pack-photo' || id === 'photo-rates') return 'photo';
   if (id === 'pack-square' || id === 'square-setup') return 'square';
+  return null;
+}
+
+export function queryToPack(search: string): PricePackId | null {
+  const type = new URLSearchParams(search.startsWith('?') ? search.slice(1) : search).get('type');
+  if (type === 'massage') return 'massage';
+  if (type === 'restaurant' || type === 'restaurants') return 'restaurant';
+  if (type === 'photo' || type === 'photography') return 'photo';
+  if (type === 'square') return 'square';
   return null;
 }

@@ -51,7 +51,7 @@ export function RestaurantsPage() {
       <section className="cta">
         <h2>ให้เว็บเข้ากับวิธีที่ร้านทำงาน</h2>
         <p>ร้านอาหารแยกจากเดโมร้านนวด เพราะขั้นตอนหน้าร้านต่างกัน</p>
-        <Link className="btn" to="/pricing?type=restaurant">
+        <Link className="btn" to="/pricing#pack-restaurant">
           ดูแพ็กเกจร้านอาหาร ↗
         </Link>
       </section>

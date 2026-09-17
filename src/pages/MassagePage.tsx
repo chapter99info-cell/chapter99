@@ -20,7 +20,7 @@ export function MassagePage() {
             <Link className="btn" to="/demo/massage">
               ลองจองและรับคิว ↗
             </Link>
-            <Link to="/pricing?type=massage">ดูราคาร้านนวด →</Link>
+            <Link to="/pricing#pack-massage">ดูราคาร้านนวด →</Link>
             <Link to="/business-toolkit">ลองเครื่องมือฟรี →</Link>
           </div>
         </div>
@@ -69,7 +69,7 @@ export function MassagePage() {
       <section className="cta">
         <h2>เลือกงานที่อยากให้เบาลง</h2>
         <p>รายละเอียดแพ็กเกจใช้ชุดราคาทดลองชุดเดียวกับหน้าแรก</p>
-        <Link className="btn" to="/pricing?type=massage">
+        <Link className="btn" to="/pricing#pack-massage">
           ดูแพ็กเกจร้านนวด ↗
         </Link>
       </section>

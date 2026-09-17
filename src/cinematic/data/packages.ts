@@ -212,11 +212,11 @@ export const journeySteps: { key: string; title: Bilingual; body: Bilingual }[] 
 ];
 
 export const squareSetup = {
-  tag: { th: '4 · Square Setup', en: '4 · Square Setup' },
-  title: SQUARE_SETUP_HEADING,
+  tag: { th: 'Add-on · ไม่ใช่แพ็กเกจที่ 4', en: 'Optional add-on · not Package 4' },
+  title: { th: 'Square Setup', en: 'Square Setup' },
   subtitle: {
-    th: 'ตั้งระบบ Square ให้พร้อมใช้งาน — Square เป็นแพลตฟอร์มภายนอก ไม่ใช่ตัวตนของ Chapter99',
-    en: 'Set Square up so it is ready to use. Square is a third-party payment/POS platform, not Chapter99’s identity.',
+    th: 'ตั้งระบบรับชำระเงินให้พร้อมใช้งาน',
+    en: 'Set up payments so the shop can take money.',
   },
   amount: SQUARE_SETUP_FEE,
   per: { th: 'ครั้งเดียว · ค่าบริการ Setup ของ Chapter99', en: 'one-time · Chapter99 setup/service fee' },
@@ -234,8 +234,8 @@ export const squareSetup = {
     en: 'The shop owns the Square account, verification, bank account and payment relationship. Chapter99 assists configuration as agreed. We never store raw card data.',
   },
   note: {
-    th: 'A$199 คือค่าบริการ Setup ของ Chapter99\nค่าซอฟต์แวร์ ค่าธรรมเนียมการรับชำระเงิน และ Hardware ของ Square จ่ายให้ Square ตามการใช้งานจริง',
-    en: 'A$199 is Chapter99’s setup/service fee.\nSquare software, processing fees and hardware are paid to Square according to actual use.',
+    th: 'A$199 คือค่าบริการ Setup ของ Chapter99\nค่าซอฟต์แวร์ ค่าธรรมเนียมการรับชำระเงิน และ Hardware ของ Square คิดแยกตามการใช้งานจริง',
+    en: 'A$199 is Chapter99’s setup/service fee.\nSquare software, processing fees and hardware are charged separately according to actual use.',
   },
   surcharge: {
     th: 'ตั้งแต่ 1 ตุลาคม 2026 ออสเตรเลียไม่อนุญาต card surcharge ตามมติ RBA ราคาที่ลูกค้าเห็นในเว็บ/การจองควรเป็นราคาที่จ่ายจริง โดยไม่บวกค่าธรรมเนียมบัตรแยก',
@@ -318,8 +318,8 @@ export const industries = [
       th: 'โฟกัส: จอง → แจ้งเตือน → เจ้าของร้านใช้งาน → ชำระเงิน / ใบเสร็จ',
       en: 'Focus: booking → notification → owner operation → payment / receipt.',
     },
-    href: '/pricing#pack-massage',
-    cta: { th: 'ดูราคาแพ็กร้านนวด', en: 'See massage packages' },
+    href: '/massage',
+    cta: { th: 'ดูหน้าร้านนวด', en: 'See massage page' },
   },
   {
     num: '02 · RESTAURANT',
@@ -328,8 +328,8 @@ export const industries = [
       th: 'โฟกัส: ค้นหา → เมนู / บริการ → จองหรือสั่ง → ชำระเงิน → งานประจำวัน',
       en: 'Focus: find → menu / services → booking or order → payment → daily operation.',
     },
-    href: '/pricing#pack-restaurant',
-    cta: { th: 'ดูราคาแพ็กร้านอาหาร', en: 'See restaurant packages' },
+    href: '/restaurants',
+    cta: { th: 'ดูหน้าร้านอาหาร', en: 'See restaurant page' },
   },
   {
     num: '03 · PHOTOGRAPHY',
@@ -338,34 +338,34 @@ export const industries = [
       th: 'โฟกัส: งานภาพ → สินทรัพย์ธุรกิจ → เว็บ / Google / พอร์ตโฟลิโอ → สอบถาม / จอง',
       en: 'Focus: photography → business assets → website / Google / portfolio → enquiry / booking.',
     },
-    href: '/pricing#pack-photo',
-    cta: { th: 'ดูราคาแพ็กช่างภาพ', en: 'See photography packages' },
+    href: '/photography',
+    cta: { th: 'ดูหน้าช่างภาพ', en: 'See photography page' },
   },
 ] as const;
 
 export const priceArchitecture = [
   {
-    title: { th: '01 · ค่าติดตั้งครั้งเดียวของ Chapter99', en: '01 · One-time Chapter99 implementation' },
-    body: { th: 'วางโครง สร้าง ตั้งค่า ทดสอบ และเปิดใช้งานตามแพ็กเกจ', en: 'Structure, build, configure, test and launch according to the package' },
+    title: { th: '01 · ค่าติดตั้งของ Chapter99', en: '01 · Chapter99 implementation' },
+    body: { th: 'วางโครง สร้าง ตั้งค่า ทดสอบ และเปิดใช้งานตามแพ็ก START / GROW / SCALE', en: 'Structure, build, configure, test and launch according to START / GROW / SCALE' },
   },
   {
-    title: { th: '02 · งานภาพ / วิดีโอ / คอนเทนต์', en: '02 · Photography / video / content' },
-    body: { th: 'คิดแยกตามงานผลิต ไม่รวมปนในค่าเว็บโดยอัตโนมัติ', en: 'Quoted as production work — not automatically bundled into a website fee' },
+    title: { th: '02 · Add-on ของ Chapter99 (ถ้าเลือก)', en: '02 · Optional Chapter99 add-ons' },
+    body: { th: 'เช่น Square Setup A$199 และงานภาพ/คอนเทนต์ตาม Product Catalog — ไม่ใช่แพ็กเกจที่ 4', en: 'For example Square Setup A$199 and photography/content from the Product Catalog — not Package 4' },
   },
   {
-    title: { th: '03 · ค่าซอฟต์แวร์ / แพลตฟอร์มภายนอก', en: '03 · Software / third-party platform costs' },
-    body: { th: 'เช่น Square — จ่ายให้ผู้ให้บริการตามการใช้งานจริง', en: 'For example Square — paid to the provider according to actual use' },
+    title: { th: '03 · ค่าซอฟต์แวร์บุคคลที่สาม', en: '03 · Third-party software' },
+    body: { th: 'แผนซอฟต์แวร์เช่น Square จ่ายให้ผู้ให้บริการตามการใช้งานจริง', en: 'Software plans such as Square are paid to the provider according to actual use' },
   },
   {
-    title: { th: '04 · การเชื่อมระบบเพิ่ม (optional)', en: '04 · Optional integrations' },
-    body: { th: 'เลือกตามขอบเขต ไม่ใช่แพ็กเกจหลัก', en: 'Selected by scope — not a core package' },
+    title: { th: '04 · ค่าธรรมเนียมรับชำระเงิน', en: '04 · Payment processing' },
+    body: { th: 'คิดแยกตามผู้รับชำระเงิน ไม่รวมในค่า Setup ของ Chapter99', en: 'Charged by the payment provider. Not included in Chapter99 setup fees' },
   },
   {
-    title: { th: '05 · Monthly care / support', en: '05 · Monthly care / support' },
+    title: { th: '05 · ฮาร์ดแวร์', en: '05 · Hardware' },
+    body: { th: 'เครื่องอ่านบัตร เครื่องคิดเงิน และอุปกรณ์อื่น จ่ายแยกเมื่อร้านเลือกซื้อ', en: 'Card readers, terminals and other devices are paid separately if the shop buys them' },
+  },
+  {
+    title: { th: '06 · Monthly care / support', en: '06 · Monthly care / support' },
     body: { th: 'ดูแลตามแผนที่ตกลง ไม่สัญญาซัพพอร์ตไม่จำกัด', en: 'Care within the agreed plan. Unlimited support is not promised.' },
-  },
-  {
-    title: { th: '06 · Add-ons', en: '06 · Add-ons' },
-    body: { th: 'สาขา พนักงาน บริการ คอนเทนต์ หรืองานพิเศษ จาก Product Catalog', en: 'Locations, staff, services, content or specialist work from the Product Catalog' },
   },
 ] as const;

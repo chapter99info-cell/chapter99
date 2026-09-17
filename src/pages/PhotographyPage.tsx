@@ -19,6 +19,13 @@ export function PhotographyPage() {
         </p>
       </section>
       <PhotoPackages />
+      <section className="cta">
+        <h2>เลือกแพ็กเกจระบบของร้าน</h2>
+        <p>หน้านี้อธิบายงานภาพ START / GROW / SCALE อยู่ที่ Packages & Pricing</p>
+        <a className="btn" href="/pricing#pack-photo">
+          ดู Packages & Pricing ↗
+        </a>
+      </section>
     </>
   )
 }

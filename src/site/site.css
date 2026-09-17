@@ -208,6 +208,7 @@ body.site-app{
 .site-pricing .rates-head{text-align:center;max-width:720px;margin:0 auto 36px}
 .site-pricing .rates-head h2{font-size:clamp(28px,4vw,44px);color:var(--navy)}
 .site-pricing .rates-head p{color:var(--muted);margin-top:12px}
+.site-pricing .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;margin:0 auto 18px}
 .site-pricing .price-grid-one{grid-template-columns:minmax(280px,420px);justify-content:center}
 .site-pricing .spot{border-radius:20px}
 .site-pricing .price-card-inner{height:100%;border-radius:19px;padding:28px 24px;display:flex;flex-direction:column;background:#fff !important;border:1px solid var(--line);box-shadow:var(--shadow);color:var(--ink)}
@@ -238,7 +239,7 @@ body.site-app{
 .site-pricing .square-table{width:100%;border-collapse:collapse;font-size:12.5px}
 .site-pricing .square-table th,.site-pricing .square-table td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
 .site-pricing .pkg-cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.site-pricing .pack-dock-page{display:flex;justify-content:center;margin:8px 0 28px}
+.site-pricing .square-fee-note{white-space:pre-line;max-width:720px;text-align:center}
 .site-pricing .cta-pill{display:inline-flex;align-items:center;padding:13px 18px;border-radius:9px;font-weight:750}
 .site-pricing .terms-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}
 @media(max-width:860px){
