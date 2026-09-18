@@ -300,31 +300,31 @@ export function FaqSection() {
   const { t } = useTranslation()
   const items = [
     {
-      q: { th: 'มีล็อกสัญญา 12 เดือนไหม?', en: 'Is there a 12-month lock-in?' },
+      q: { th: 'Chapter99 ทำอะไรให้ร้าน?', en: 'What does Chapter99 do for a shop?' },
       a: {
-        th: 'แพ็กเกจเว็บรายเดือนยกเลิกได้ทุกเดือน ไม่มีล็อก 12 เดือน',
-        en: 'Monthly web packages can be cancelled any month. No 12-month lock-in.',
+        th: 'พาร์ตเนอร์ภาพถ่าย เว็บ การค้นพบ การจอง การชำระเงิน และงานประจำวันให้ธุรกิจไทยในออสเตรเลีย ตามขอบเขตที่ตกลง',
+        en: 'A photography, website, discovery, booking, payment and daily-work partner for Thai businesses in Australia, within the agreed scope.',
       },
     },
     {
-      q: { th: 'รับ HICAPS ไหม?', en: 'Do you support HICAPS shops?' },
+      q: { th: 'คิดราคายังไง?', en: 'How is pricing set?' },
       a: {
-        th: 'ระบบอ้างอิงร้านนวดรองรับการบันทึกยอด Cash/Card/HICAPS ตามที่ร้านใช้งาน',
-        en: 'The massage reference system can record Cash/Card/HICAPS as the shop uses them.',
+        th: 'ดู START / GROW / SCALE และแค็ตตาล็อกที่หน้าแพ็กเกจ ไม่มีราคาตายตัวในหน้าแรก ส่งอีเมล chapter99solutions@gmail.com หากต้องการขอบเขตร้านคุณ',
+        en: 'See START / GROW / SCALE and the catalog on the pricing page. This homepage has no fixed package price. Email chapter99solutions@gmail.com for shop-specific scope.',
       },
     },
     {
-      q: { th: 'โดเมนรวมไหม?', en: 'Is a domain included?' },
+      q: { th: 'บัญชีร้านอยู่กับใคร?', en: 'Who owns the shop accounts?' },
       a: {
-        th: 'Growth ขึ้นไปมีโดเมนปีแรกตามแพ็กเกจที่ตกลง',
-        en: 'Growth and above include the first-year domain as agreed in the package.',
+        th: 'เจ้าของร้าน Google, Square และโดเมนควรอยู่ในชื่อร้าน ไม่ใช่บัญชีของ Chapter99',
+        en: 'The shop owner. Google, Square and the domain should stay in the shop’s name, not Chapter99’s.',
       },
     },
     {
       q: { th: 'เริ่มยังไง?', en: 'How do we start?' },
       a: {
-        th: 'ใช้ชุดเครื่องมือฟรี หรือจอง Business Audit — คุยขอบเขตก่อน ไม่ใช่สมัครสมาชิกอัตโนมัติ',
-        en: 'Use the free toolkit or book a Business Audit. Scope first — not an auto subscription.',
+        th: 'เปิดชุดเครื่องมือธุรกิจฟรีบนเครื่องคุณ หรือส่งอีเมล Business Audit ไปที่ chapter99solutions@gmail.com ไม่มีปฏิทินจองและไม่สมัครสมาชิกอัตโนมัติ',
+        en: 'Open the free toolkit on your device, or email a Business Audit to chapter99solutions@gmail.com. There is no booking calendar and no automatic subscription.',
       },
     },
   ]

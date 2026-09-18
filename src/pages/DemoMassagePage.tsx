@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom'
 import { MassageDemo } from '../components/MassageDemo'
+import { SiteLayout } from '../site/SiteLayout'
+import '../site/homepage-v2.css'
 
 export function DemoMassagePage() {
   return (
-    <>
-      <section className="pricing-head">
+    <SiteLayout>
+      <section className="legal-page">
         <p className="eyebrow">INTERACTIVE DEMO / SAMPLE SHOP</p>
         <h1>
           ลูกค้าจอง
@@ -17,6 +19,6 @@ export function DemoMassagePage() {
         </p>
       </section>
       <MassageDemo />
-    </>
+    </SiteLayout>
   )
 }
