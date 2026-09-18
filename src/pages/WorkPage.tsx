@@ -17,17 +17,19 @@ export function WorkPage() {
           <p>ภาพประกอบแนวคิด · เว็บไซต์และเมนู</p>
         </Link>
         <Link to="/massage">
-          <img src={siteMedia.massage} alt="ภาพแนวคิดร้านนวด / ไม่ใช่ภาพร้านจริง" />
+          <img src={siteMedia.massage} alt="ภาพแนวคิดร้านนวดไทย / ไม่ใช่ภาพร้านจริง" />
           <p className="eyebrow">CONCEPT DESIGN</p>
           <h3>บ้านละมุน Thai Massage ↗</h3>
           <p>ร้านสมมติ · ภาพประกอบแนวคิดและเดโมการจอง</p>
         </Link>
         <Link to="/beauty">
+          <img src={siteMedia.review} alt="ภาพแนวคิดสื่อรีวิวร้านบริการ / ไม่ใช่รีวิวจริง" />
           <p className="eyebrow">SERVICE PAGE</p>
           <h3>ความงาม ↗</h3>
           <p>หน้าสื่อสารบริการร้านความงาม</p>
         </Link>
         <Link to="/cleaning">
+          <img src={siteMedia.system} alt="ภาพแนวคิดงานประจำวันบนแท็บเล็ต / ไม่ใช่ทีมทำความสะอาดจริง" />
           <p className="eyebrow">SERVICE PAGE</p>
           <h3>ทำความสะอาด ↗</h3>
           <p>หน้าสื่อสารบริการทำความสะอาด</p>

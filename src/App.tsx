@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom'
-import { Layout } from './components/Layout'
 import { AboutPage } from './pages/AboutPage'
 import { ContactPage } from './pages/ContactPage'
 import { LegalDocPage } from './pages/LegalDocPage'
@@ -30,11 +29,9 @@ export default function App() {
       <Route path="/beauty" element={<BeautyPage />} />
       <Route path="/cleaning" element={<CleaningPage />} />
       <Route path="/work" element={<WorkPage />} />
-      <Route element={<Layout />}>
-        <Route path="/legal" element={<LegalHubPage />} />
-        <Route path="/legal/:slug" element={<LegalDocPage />} />
-        <Route path="/demo/massage" element={<DemoMassagePage />} />
-      </Route>
+      <Route path="/legal" element={<LegalHubPage />} />
+      <Route path="/legal/:slug" element={<LegalDocPage />} />
+      <Route path="/demo/massage" element={<DemoMassagePage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )

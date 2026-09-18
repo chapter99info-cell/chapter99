@@ -590,28 +590,37 @@ function HomeInner() {
         </div>
       </section>
 
-      <section className="v2-section" aria-labelledby="faq-title">
+      <section className="v2-section" id="faq" aria-labelledby="faq-title">
         <div className="v2-wrap v2-faq">
           <div>
-            <p className="v2-eyebrow">{t({ th: 'รู้ให้ชัดก่อนเริ่ม', en: 'A little more clarity' })}</p>
+            <p className="v2-eyebrow">{t({ th: 'รู้ให้ชัดก่อนเริ่ม', en: 'Know this before you start' })}</p>
             <h2 id="faq-title">{t({ th: 'คำถามที่พบบ่อย คำตอบที่ชัดเจน', en: 'Good questions. Straight answers.' })}</h2>
           </div>
           <div>
             <details>
-              <summary>{t({ th: 'ต้องเปลี่ยนระบบเดิมทั้งหมดไหม?', en: 'Do I need to replace everything I already use?' })}</summary>
+              <summary>{t({ th: 'Chapter99 ทำอะไรให้ร้าน?', en: 'What does Chapter99 actually do for a shop?' })}</summary>
               <p>
                 {t({
-                  th: 'ไม่จำเป็น เราเริ่มจากทำความเข้าใจระบบที่คุณใช้อยู่ ส่วนที่ทำงานได้ดีควรเก็บไว้',
-                  en: 'No. Useful, working infrastructure should be retained where it fits the agreed plan.',
+                  th: 'เราเป็นพาร์ตเนอร์วางรากฐานดิจิทัลให้ธุรกิจไทยในออสเตรเลีย — ภาพถ่าย เว็บไซต์ การค้นพบบน Google ขั้นตอนจอง การชำระเงิน และงานประจำวันที่ทีมร้านใช้ร่วมกัน ไม่ขายซอฟต์แวร์ให้ติดตั้งเอง และไม่ได้แทนเจ้าของในการบริการลูกค้า',
+                  en: 'We are a digital infrastructure partner for Thai businesses in Australia: photography, website, Google discovery, booking steps, payments and daily shop work. We do not sell a self-install product, and we do not replace the owner in serving customers.',
                 })}
               </p>
             </details>
             <details>
-              <summary>{t({ th: 'คิดราคาโครงการอย่างไร?', en: 'How is my project priced?' })}</summary>
+              <summary>{t({ th: 'ต้องเปลี่ยนระบบเดิมทั้งหมดไหม?', en: 'Do I need to replace everything I already use?' })}</summary>
               <p>
                 {t({
-                  th: 'START, GROW และ SCALE จัดทิศทางคุย ราคาอยู่ที่หน้าแพ็กเกจตามแค็ตตาล็อก ไม่มีราคาตายตัวในหน้าแรก',
-                  en: 'START, GROW and SCALE organise the conversation. Pricing stays on /pricing from the Product Catalog. This homepage does not set fixed package prices.',
+                  th: 'ไม่จำเป็น ถ้า Facebook, Square หรือวิธีจองที่ใช้วันนี้ยังทำงานได้ เราเก็บไว้แล้วต่อเฉพาะส่วนที่ตกลงใน START, GROW หรือ SCALE ไม่รื้อร้านทั้งระบบถ้ายังไม่ได้ขอบเขตนั้น',
+                  en: 'No. If Facebook, Square or your current booking method still works, we keep it and only add what is in the agreed START, GROW or SCALE scope. We do not rip out the whole shop unless that work is scoped.',
+                })}
+              </p>
+            </details>
+            <details>
+              <summary>{t({ th: 'คิดราคาโครงการอย่างไร?', en: 'How is a project priced?' })}</summary>
+              <p>
+                {t({
+                  th: 'ราคาและรายการส่งมอบอยู่ที่หน้าแพ็กเกจ ตามแค็ตตาล็อกสินค้า ไม่มีราคาตายตัวในหน้าแรก START, GROW และ SCALE บอกทิศทางงาน ค่า Square ค่าถ่ายภาพเพิ่ม และหลายสาขาคิดแยก หากต้องการตัวเลขที่ตรงร้าน ให้ส่งอีเมล chapter99solutions@gmail.com',
+                  en: 'Prices and inclusions live on the pricing page from the Product Catalog. This homepage does not set a fixed package price. START, GROW and SCALE describe the shape of the work. Square, extra photography and extra locations are itemised separately. For a number that matches your shop, email chapter99solutions@gmail.com.',
                 })}
               </p>
             </details>
@@ -619,17 +628,26 @@ function HomeInner() {
               <summary>{t({ th: 'ใครเป็นผู้ควบคุมบัญชีธุรกิจ?', en: 'Who controls the business accounts?' })}</summary>
               <p>
                 {t({
-                  th: 'ควรระบุเจ้าของบัญชี สิทธิ์เข้าถึง และการส่งมอบไว้ในขอบเขตงาน',
-                  en: 'Account ownership, access and handover should be documented in the scope.',
+                  th: 'เจ้าของร้าน บัญชี Google, Square, โดเมน และระบบจองควรอยู่ในชื่อร้าน Chapter99 ช่วยในขอบเขตที่ตกลง ไม่ถือบัญชีแทนถาวร สิทธิ์พนักงานและการส่งมอบต้องเขียนไว้ในงาน',
+                  en: 'The shop owner. Google, Square, domain and booking logins should stay in the shop’s name. Chapter99 helps inside the agreed scope and does not keep those accounts as the owner. Staff access and handover are written into the work.',
                 })}
               </p>
             </details>
             <details>
-              <summary>{t({ th: 'หลังเปิดใช้งานแล้วดูแลอย่างไร?', en: 'What happens after the launch?' })}</summary>
+              <summary>{t({ th: 'ชุดเครื่องมือธุรกิจฟรีส่งข้อมูลลูกค้าออกไปไหม?', en: 'Does the free toolkit send customer data away?' })}</summary>
               <p>
                 {t({
-                  th: 'การดูแลต่อเนื่องตกลงเป็นรายโครงการ',
-                  en: 'Ongoing support is agreed per project.',
+                  th: 'ไม่ ชุดเครื่องมือเป็นสมุดงานบนเครื่องคุณ ใช้จดคิว ข้อความ และแม่แบบเอกสาร ไม่ส่ง SMS อัตโนมัติ ไม่เก็บเบอร์ลูกค้าบนคลาวด์ และยังไม่ใช่ระบบจองออนไลน์ที่รับเงิน',
+                  en: 'No. The toolkit is a shop workbook on your device for queue notes, messages and templates. It does not send SMS for you, does not store customer numbers in the cloud, and is not a live booking or payment system.',
+                })}
+              </p>
+            </details>
+            <details>
+              <summary>{t({ th: 'หลังเปิดใช้งานแล้วดูแลอย่างไร?', en: 'What happens after launch?' })}</summary>
+              <p>
+                {t({
+                  th: 'การดูแลต่อเนื่องคิดเป็นรายโครงการ ไม่สัญญาซัพพอร์ตทุกชั่วโมงถ้ายังไม่ได้ซื้อ งานแก้หลังส่งมอบคุยขอบเขตใหม่ ช่องทางติดต่อที่ใช้ได้คืออีเมล chapter99solutions@gmail.com ไม่มีปฏิทินจองและไม่มีแชทสด',
+                  en: 'Ongoing care is agreed per project. There is no 24-hour support promise unless that is purchased. Work after handover is re-scoped. The working contact path is email to chapter99solutions@gmail.com — no booking calendar and no live chat.',
                 })}
               </p>
             </details>

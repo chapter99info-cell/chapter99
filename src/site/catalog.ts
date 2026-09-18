@@ -53,6 +53,6 @@ export const siteCatalog: SiteEntry[] = [
   {
     href: '/#faq',
     title: { th: 'คำถามที่พบบ่อย', en: 'FAQ' },
-    blurb: { th: 'สัญญา โดเมน HICAPS และการยกเลิก', en: 'Contracts, domain, HICAPS and cancelling' },
+    blurb: { th: 'ขอบเขตงาน ราคา บัญชีร้าน และชุดเครื่องมือฟรี', en: 'Scope, pricing, shop accounts and the free toolkit' },
   },
 ]

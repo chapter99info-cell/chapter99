@@ -3,9 +3,14 @@ import { siteContact, siteMedia } from '../site/media'
 
 const tiles = [
   {
-    src: siteMedia.restaurant,
-    alt: 'ภาพแนวคิดถ่ายอาหารไทย / ไม่ใช่ภาพร้านลูกค้า',
-    to: '/restaurants',
+    src: siteMedia.hero,
+    alt: 'ภาพแนวคิดร้านนวด / ไม่ใช่ภาพร้านลูกค้า',
+    to: '/massage',
+  },
+  {
+    src: siteMedia.photography,
+    alt: 'ภาพแนวคิดถ่ายอาหารแล้วใช้บนระบบร้าน / ไม่ใช่ผลงานลูกค้า',
+    to: '/photography',
   },
   {
     src: siteMedia.booking,
@@ -13,14 +18,9 @@ const tiles = [
     to: '/beauty',
   },
   {
-    src: siteMedia.massage,
-    alt: 'ภาพแนวคิดนวดไทย / ไม่ใช่ภาพร้านลูกค้า',
-    to: '/massage',
-  },
-  {
-    src: siteMedia.photography,
-    alt: 'ภาพแนวคิดถ่ายภาพแล้วไปใช้บนระบบร้าน / ไม่ใช่ผลงานลูกค้า',
-    to: '/photography',
+    src: siteMedia.demo,
+    alt: 'ภาพแนวคิดคอนเทนต์ร้านนวด / ไม่ใช่ภาพลูกค้าจริง',
+    to: '/business-toolkit',
   },
 ]
 
