@@ -46,9 +46,9 @@ export const siteCatalog: SiteEntry[] = [
     blurb: { th: 'เว็บร้านนวด จองคิว และร้านอาหาร', en: 'Massage, booking and restaurant screens' },
   },
   {
-    href: '/#audit',
+    href: 'mailto:chapter99solutions@gmail.com?subject=Chapter99%20Business%20Audit',
     title: { th: 'Business Audit', en: 'Business Audit' },
-    blurb: { th: 'นัดดูร้านและแนะนำสิ่งที่ควรเริ่มก่อน', en: 'A look at your shop and what to start first' },
+    blurb: { th: 'ส่งอีเมล chapter99solutions@gmail.com เพื่อคุยขอบเขตงาน', en: 'Email chapter99solutions@gmail.com to talk through scope' },
   },
   {
     href: '/#faq',

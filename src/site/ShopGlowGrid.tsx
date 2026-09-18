@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from '../cinematic/i18n/LanguageContext';
+import { siteMedia } from './media';
 
 const shops = [
   {
     to: '/massage',
     glow: 'orange',
+    photo: siteMedia.hero,
     title: { th: 'ร้านนวด', en: 'Massage' },
     body: {
       th: 'ภาพร้าน จองคิว ยืนยันนัด และงานประจำวันที่ทีมเห็นตรงกัน',
@@ -14,6 +16,7 @@ const shops = [
   {
     to: '/restaurants',
     glow: 'pink',
+    photo: siteMedia.restaurant,
     title: { th: 'ร้านอาหาร', en: 'Restaurants' },
     body: {
       th: 'เมนู ภาพอาหาร การค้นพบร้าน และขั้นตอนรับเงินตามขอบเขตที่ตกลง',
@@ -23,6 +26,7 @@ const shops = [
   {
     to: '/beauty',
     glow: 'cyan',
+    photo: siteMedia.booking,
     title: { th: 'ความงาม', en: 'Beauty' },
     body: {
       th: 'ผลงาน การจอง และข้อความก่อน/หลังบริการ โดยไม่กล่าวว่าระบบร้านพร้อมใช้แล้ว',
@@ -32,6 +36,7 @@ const shops = [
   {
     to: '/cleaning',
     glow: 'green',
+    photo: siteMedia.system,
     title: { th: 'ทำความสะอาด', en: 'Cleaning' },
     body: {
       th: 'สอบถามขอบเขต นัดหมาย และแม่แบบใบเสนอราคาใน Toolkit',
@@ -41,6 +46,7 @@ const shops = [
   {
     to: '/photography',
     glow: 'blue',
+    photo: siteMedia.photography,
     title: { th: 'ภาพถ่าย', en: 'Photography' },
     body: {
       th: 'งานภาพของ Chapter99 ไปใช้บนเว็บและเส้นทางลูกค้า ไม่ใช่แอปจ้างช่างภาพ',
@@ -56,6 +62,7 @@ export function ShopGlowGrid() {
       {shops.map((item) => (
         <Link key={item.to} className="glow-card" data-glow={item.glow} to={item.to}>
           <span className="glow-slab" aria-hidden="true" />
+          <img className="glow-thumb" src={item.photo} alt="" />
           <span className="glow-face">
             <strong>{t(item.title)}</strong>
             <p>{t(item.body)}</p>

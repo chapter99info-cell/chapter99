@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { LanguageProvider, useTranslation } from '../cinematic/i18n/LanguageContext';
 import type { Lang } from '../cinematic/i18n/types';
-import { siteContact, siteIcons, siteMedia } from './media';
+import { siteIcons, siteMedia } from './media';
 import { PricePackBar } from './PricePackBar';
 import { SearchButton, SiteUx } from './SiteUx';
 import './site.css';
@@ -13,7 +13,7 @@ const AUDIT_MAIL =
 
 const navLinks = [
   { href: '/business-toolkit', label: { th: 'ชุดเครื่องมือธุรกิจฟรี', en: 'Free Toolkit' } },
-  { href: '/#audit', label: { th: 'Business Audit', en: 'Business Audit' } },
+  { href: 'mailto:chapter99solutions@gmail.com?subject=Chapter99%20Business%20Audit', label: { th: 'Business Audit', en: 'Business Audit' } },
   { href: '/#how', label: { th: 'วิธีทำงาน', en: 'How It Works' } },
   { href: '/pricing', label: { th: 'แพ็กเกจและราคา', en: 'Packages' } },
   { href: '/work', label: { th: 'ผลงาน', en: 'Resources' } },
@@ -138,7 +138,7 @@ function SiteChrome({ children }: { children: ReactNode }) {
             </div>
             {navLinks.map((link) => {
               const active = linkActive(location.pathname, location.hash, link.href);
-              return link.href.startsWith('/#') ? (
+              return link.href.startsWith('/#') || link.href.startsWith('mailto:') ? (
                 <a
                   key={link.href}
                   className={`nav-link${active ? ' is-active' : ''}`}
@@ -164,7 +164,7 @@ function SiteChrome({ children }: { children: ReactNode }) {
             <Link className="navcta header-cta" to="/business-toolkit" onClick={() => setOpen(false)}>
               {t({ th: 'ชุดเครื่องมือธุรกิจฟรี', en: 'Free Business Toolkit' })}
             </Link>
-            <a className="navcta header-cta header-cta-ghost" href="/#audit">
+            <a className="navcta header-cta header-cta-ghost" href={AUDIT_MAIL}>
               {t({ th: 'Business Audit', en: 'Business Audit' })}
             </a>
             <span className="lang-toggle">
@@ -198,7 +198,7 @@ function SiteChrome({ children }: { children: ReactNode }) {
             </Link>
           ))}
           {navLinks.map((link) =>
-            link.href.startsWith('/#') ? (
+            link.href.startsWith('/#') || link.href.startsWith('mailto:') ? (
               <a key={`d-${link.href}`} href={link.href} onClick={() => setOpen(false)}>
                 {t(link.label)}
               </a>
@@ -211,8 +211,8 @@ function SiteChrome({ children }: { children: ReactNode }) {
           <Link className="navcta drawer-cta" to="/business-toolkit" onClick={() => setOpen(false)}>
             {t({ th: 'ชุดเครื่องมือธุรกิจฟรี', en: 'Free Business Toolkit' })}
           </Link>
-          <a className="navcta drawer-cta drawer-cta-ghost" href="/#audit" onClick={() => setOpen(false)}>
-            {t({ th: 'Business Audit', en: 'Business Audit' })}
+          <a className="navcta drawer-cta drawer-cta-ghost" href={AUDIT_MAIL} onClick={() => setOpen(false)}>
+              {t({ th: 'Business Audit', en: 'Business Audit' })}
           </a>
           <div className="drawer-tools">
             <SearchButton />
@@ -247,20 +247,10 @@ function SiteChrome({ children }: { children: ReactNode }) {
               <div className="footerCol">
                 <strong>{t({ th: 'บริษัท', en: 'COMPANY' })}</strong>
                 <Link to="/about">{t({ th: 'เกี่ยวกับเรา', en: 'About' })}</Link>
-                <Link to="/contact">{t({ th: 'ติดต่อ', en: 'Contact' })}</Link>
-                <a href={AUDIT_MAIL}>{t({ th: 'นัด Business Audit', en: 'Business Audit' })}</a>
+                <a href={AUDIT_MAIL}>{t({ th: 'ติดต่อทางอีเมล', en: 'Email us' })}</a>
+                <a href={AUDIT_MAIL}>{t({ th: 'ส่งอีเมล Business Audit', en: 'Email a Business Audit' })}</a>
                 <div className="footer-contact">
-                  <a href={AUDIT_MAIL}><img src={siteIcons.gmail} alt="Email" /></a>
-                  <a href={siteContact.whatsapp} target="_blank" rel="noreferrer">
-                    <img src={siteIcons.whatsapp} alt="WhatsApp" />
-                  </a>
-                  <a href={siteContact.facebook} target="_blank" rel="noreferrer">
-                    <img src={siteIcons.chat} alt="Facebook" />
-                  </a>
-                  <img src={siteIcons.instagram} alt="" />
-                  <img src={siteIcons.tiktok} alt="" />
-                  <img src={siteIcons.youtube} alt="" />
-                  <img src={siteIcons.location} alt="" />
+                  <a href={AUDIT_MAIL}><img src={siteIcons.gmail} alt="Email chapter99solutions@gmail.com" /></a>
                 </div>
               </div>
               <div className="footerCol">

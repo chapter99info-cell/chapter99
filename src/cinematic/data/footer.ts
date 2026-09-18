@@ -25,18 +25,8 @@ export const footerNavCompany: FooterLink[] = [
 
 export const footerNavSocial: FooterLink[] = [
   {
-    href: 'https://www.facebook.com/profile.php?id=61586534972406',
-    label: 'Facebook',
-    external: true,
-  },
-  {
-    href: 'https://m.me/61586534972406',
-    label: { th: 'ทัก Messenger', en: 'Message on Messenger' },
-    external: true,
-  },
-  {
-    href: 'https://wa.me/61452044382',
-    label: { th: 'ทัก WhatsApp', en: 'Message us on WhatsApp' },
+    href: 'mailto:chapter99solutions@gmail.com',
+    label: 'Email',
     external: true,
   },
 ];

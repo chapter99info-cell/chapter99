@@ -6,7 +6,7 @@ export function CleaningPage() {
     <IndustryPage
       content={{
         kind: 'cleaning',
-        photo: siteMedia.mix,
+        photo: siteMedia.system,
         photoAlt: { th: 'ภาพแนวคิดธุรกิจทำความสะอาด', en: 'Concept cleaning business photo' },
         photoNote: { th: 'ภาพแนวคิด ไม่ใช่หลักฐานทีมทำความสะอาดของ Chapter99', en: 'Concept photo — not a Chapter99 cleaning crew photo.' },
         eyebrow: { th: 'สำหรับธุรกิจทำความสะอาดในออสเตรเลีย', en: 'For Thai cleaning businesses in Australia' },

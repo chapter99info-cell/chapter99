@@ -1,17 +1,7 @@
 export const socialLinks = [
   {
-    id: 'facebook',
-    label: 'Facebook',
-    href: '/contact',
-  },
-  {
-    id: 'instagram',
-    label: 'Instagram',
-    href: '/contact',
-  },
-  {
-    id: 'youtube',
-    label: 'YouTube',
-    href: '/contact',
+    id: 'email',
+    label: 'Email',
+    href: 'mailto:chapter99solutions@gmail.com',
   },
 ] as const

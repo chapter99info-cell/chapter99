@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from '../cinematic/i18n/LanguageContext'
 import { ShopGlowGrid } from '../site/ShopGlowGrid'
 import { SiteLayout } from '../site/SiteLayout'
-import { siteMedia } from '../site/media'
+import { siteContact, siteMedia } from '../site/media'
 import '../site/homepage-v2.css'
 
 const workSteps = [
@@ -145,9 +145,9 @@ function AboutInner() {
               <Link className="v2-btn primary" to="/business-toolkit">
                 {t({ th: 'เปิดชุดเครื่องมือธุรกิจฟรี', en: 'Open the Free Business Toolkit' })}
               </Link>
-              <Link className="v2-btn secondary" to="/contact">
-                {t({ th: 'นัดคุย Business Audit', en: 'Talk through a Business Audit' })}
-              </Link>
+              <a className="v2-btn secondary" href={siteContact.mail}>
+                {t({ th: 'ส่งอีเมล Business Audit', en: 'Email a Business Audit' })}
+              </a>
             </div>
           </div>
           <figure className="v2-hero-photo">
@@ -301,9 +301,9 @@ function AboutInner() {
         <p className="v2-eyebrow">{t({ th: 'ก้าวต่อไป', en: 'Next step' })}</p>
         <h2>{t({ th: 'อยากเล่าเรื่องร้านไหม?', en: 'Want to tell us about the shop?' })}</h2>
         <div className="v2-actions">
-          <Link className="v2-btn light" to="/contact">
-            {t({ th: 'ไปหน้าติดต่อ', en: 'Go to contact' })}
-          </Link>
+          <a className="v2-btn light" href={siteContact.mail}>
+            {t({ th: 'ส่งอีเมล chapter99solutions@gmail.com', en: 'Email chapter99solutions@gmail.com' })}
+          </a>
           <Link className="v2-btn secondary" to="/business-toolkit">
             {t({ th: 'ทดลองเครื่องมือฟรี', en: 'Try the free toolkit' })}
           </Link>

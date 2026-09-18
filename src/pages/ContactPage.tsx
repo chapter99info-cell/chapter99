@@ -168,7 +168,7 @@ function ContactInner() {
           name="contact"
           type="text"
           required
-          placeholder={t({ th: 'อีเมล / โทรศัพท์ / WhatsApp ที่สะดวก', en: 'Email / phone / WhatsApp' })}
+          placeholder={t({ th: 'อีเมลที่สะดวกให้ตอบกลับ', en: 'Email we can reply to' })}
           autoComplete="email"
         />
         <label htmlFor="message">{t({ th: 'เล่ารายละเอียดเพิ่มเติม (ไม่บังคับ)', en: 'More detail (optional)' })}</label>

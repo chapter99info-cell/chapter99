@@ -1,4 +1,4 @@
-export const CONTACT_EMAIL = 'chapter99info@gmail.com'
+export const CONTACT_EMAIL = 'chapter99solutions@gmail.com'
 
 export const previewNotice =
   'เวอร์ชันพรีวิว · ราคาและความสามารถต้องยืนยันก่อนเปิดขาย'

@@ -1,27 +1,29 @@
-const PHOTO =
+const LEGACY_PHOTO =
   'https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/Photos';
 
-const ICON = '/icons';
+const RAW =
+  'https://ycwrieebokcbhqqetjak.supabase.co/storage/v1/object/public/Chapter99%20web%202026/Raw';
+const PHOTO = `${RAW}/Photos`;
+const ICON = `${RAW}/Icon`;
+
+const gemini = (n: number) => `${PHOTO}/Gemini_Generated_Image_%20(${n}).png`;
 
 export const siteMedia = {
-  logo: `${PHOTO}/Logo/Chapter99_st.png`,
-  mix: `${PHOTO}/Price%20package/chapter99_mix.jpg`,
-  massage:
-    `${PHOTO}/Price%20package/784734079_10243557062692323_4129553270065030035_n.jpg`,
-  restaurant:
-    `${PHOTO}/Price%20package/633795568_10240611778182051_3822552331228764108_n.jpg`,
-  booking:
-    `${PHOTO}/Price%20package/784432951_10243557063132334_5172406906984522494_n.jpg`,
-  photography:
-    `${PHOTO}/Price%20package/784717655_10243557061972305_1001377768889718974_n.jpg`,
-  hero: 'https://ycwrieebokcbhqqetjak.supabase.co/storage/v1/object/public/Chapter99%20web%202026/Raw/Photos/massa01.png',
-  shopVideo:
-    'https://ycwrieebokcbhqqetjak.supabase.co/storage/v1/object/public/Chapter99%20web%202026/Raw/VDO/hf_20260730_092659_2c5aedaf-77ae-4038-8978-440a30610ee9.mp4',
-  demo:
-    'https://ycwrieebokcbhqqetjak.supabase.co/storage/v1/object/public/Chapter99%20web%202026/Raw/Photos/Gemini_Generated_Image_%20(22).png',
+  logo: `${LEGACY_PHOTO}/Logo/Chapter99_st.png`,
+  hero: `${PHOTO}/massa01.png`,
+  massage: gemini(24),
+  restaurant: `${PHOTO}/food01.jpg`,
+  photography: gemini(8),
+  booking: gemini(21),
+  system: gemini(20),
+  demo: gemini(22),
+  review: gemini(19),
+  mix: `${PHOTO}/food01.jpg`,
+  shopVideo: `${RAW}/VDO/Mix01.mp4`,
+  shootVideo: `${RAW}/VDO/hf_20260730_092659_2c5aedaf-77ae-4038-8978-440a30610ee9.mp4`,
 } as const;
 
-/** Icons8 files from the Icon folder in Chapter99 web 2026. */
+/** Icons8 files from Raw/Icon in Chapter99 web 2026. */
 export const siteIcons = {
   address: `${ICON}/icons8-address-50.png`,
   call: `${ICON}/icons8-call-50.png`,
@@ -51,12 +53,11 @@ export const siteIcons = {
   youtube: `${ICON}/icons8-youtube-50.png`,
   vkey: `${ICON}/icons8-v-key-50.png`,
   x: `${ICON}/icons8-x-50.png`,
-  kid2: `${ICON}/icons8-kid-50 (1).png`,
-  family: `${ICON}/icons8-kid-50 (2).png`,
+  kid2: `${ICON}/icons8-kid-50%20(1).png`,
+  family: `${ICON}/icons8-kid-50%20(2).png`,
 } as const;
 
 export const siteContact = {
   mail: 'mailto:chapter99solutions@gmail.com?subject=Chapter99%20Business%20Audit',
-  whatsapp: 'https://wa.me/61452044382',
-  facebook: 'https://www.facebook.com/profile.php?id=61586534972406',
+  email: 'chapter99solutions@gmail.com',
 } as const;

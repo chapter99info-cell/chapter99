@@ -10,7 +10,7 @@ export function PhotographyPage() {
         kind: 'photo',
         photo: siteMedia.photography,
         photoAlt: { th: 'ผลงานภาพถ่ายธุรกิจ', en: 'Business photography work' },
-        photoNote: { th: 'ภาพจากคลังงานภาพถ่ายของ Chapter99', en: 'From Chapter99 photography assets.' },
+        photoNote: { th: 'ภาพแนวคิดจากคลัง Chapter99 web 2026 ไม่ใช่ผลงานร้านลูกค้า', en: 'Concept photo from Chapter99 web 2026 storage — not a client case.' },
         eyebrow: { th: 'ภาพถ่ายโดย Chapter99', en: 'Photography by Chapter99' },
         title: { th: 'ให้ภาพเล่าเสน่ห์ที่คุณตั้งใจใส่ไว้ในร้าน', en: 'Let photos carry the care in your shop.' },
         lead: {

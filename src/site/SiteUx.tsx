@@ -173,7 +173,7 @@ export function SiteUx() {
             <ul>
               {results.map((item) => (
                 <li key={item.href}>
-                  {item.href.startsWith('/#') ? (
+                  {item.href.startsWith('/#') || item.href.startsWith('mailto:') ? (
                     <a href={item.href} onClick={() => setSearchOpen(false)}>
                       <strong>{t(item.title)}</strong>
                       <small>{t(item.blurb)}</small>
@@ -195,8 +195,8 @@ export function SiteUx() {
         </div>
       ) : null}
 
-      <a className="fab-contact" href={withUtm(siteContact.whatsapp)} target="_blank" rel="noreferrer">
-        {t({ th: 'ทักร้าน', en: 'Message us' })}
+      <a className="fab-contact" href={siteContact.mail}>
+        {t({ th: 'ส่งอีเมล', en: 'Email us' })}
       </a>
       {showTop ? (
         <button type="button" className="back-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
