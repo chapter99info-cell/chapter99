@@ -336,7 +336,8 @@ body.site-app{
   .cookie-banner{
     left:12px;
     right:12px;
-    bottom:12px;
+    top:72px;
+    bottom: auto;
     width:auto;
     padding:12px;
   }

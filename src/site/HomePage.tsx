@@ -1,11 +1,9 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from '../cinematic/i18n/LanguageContext';
-import { PackAnimatedPricing } from '../cinematic/components/PackAnimatedPricing';
-import { siteMedia } from './media';
+import { siteContact, siteMedia } from './media';
 import { SiteLayout } from './SiteLayout';
 import { ShopGlowGrid } from './ShopGlowGrid';
-import { StageRing } from './StageRing';
 import { SystemPreview } from './SystemPreview';
 import './homepage-v2.css';
 
@@ -14,71 +12,70 @@ const AUDIT_MAIL =
 
 const stages = [
   {
-    n: '01',
-    pct: 0,
-    color: '#64748b',
-    kicker: { th: 'LOOK · ภาพลักษณ์', en: 'Look' },
-    title: { th: 'สะท้อนตัวตนของคุณ', en: 'Feel like you.' },
+    key: 'LOOK',
+    title: { th: 'LOOK · ภาพลักษณ์', en: 'LOOK' },
     body: {
-      th: 'ภาพถ่ายและภาพลักษณ์ที่ตั้งใจออกแบบ ให้ลูกค้าเห็นผู้คน ความใส่ใจ และเอกลักษณ์ของธุรกิจ',
-      en: 'Photography and a considered visual identity that show the people, care and character behind your business.',
+      th: 'ภาพและเนื้อหาที่สะท้อนร้านจริง',
+      en: 'Photos and copy that look like your real shop.',
     },
   },
   {
-    n: '02',
-    pct: 25,
-    color: '#22c55e',
-    kicker: { th: 'BE FOUND · ให้ลูกค้าค้นเจอ', en: 'Be found' },
-    title: { th: 'เป็นตัวเลือกที่เข้าใจง่าย', en: 'Be the clear choice.' },
+    key: 'FOUND',
+    title: { th: 'BE FOUND · ค้นเจอ', en: 'BE FOUND' },
     body: {
-      th: 'เว็บไซต์ที่เป็นมิตร พร้อมข้อมูลร้านที่ชัดเจน ช่วยให้ลูกค้าค้นเจอและเข้าใจว่าคุณให้บริการอะไร',
-      en: 'A welcoming website and clear local information, so customers can find you and understand what you offer.',
+      th: 'เว็บไซต์และข้อมูลร้านที่ลูกค้าหาเจอ',
+      en: 'A website and shop details people can find.',
     },
   },
   {
-    n: '03',
-    pct: 50,
-    color: '#14b8a6',
-    kicker: { th: 'GET BOOKED · รับการจอง', en: 'Get booked' },
-    title: { th: 'จองได้อย่างสบายใจ', en: 'Make the next step easy.' },
+    key: 'BOOKED',
+    title: { th: 'GET BOOKED · จอง', en: 'GET BOOKED' },
     body: {
-      th: 'เลือกบริการง่าย จองสะดวก และยืนยันนัดหมายชัดเจน ให้ลูกค้ารู้สึกว่าได้รับการดูแลตั้งแต่ต้น',
-      en: 'Simple service choices, appointment booking and clear confirmations that make customers feel looked after.',
+      th: 'เลือกบริการและช่องทางจองที่ตกลงในขอบเขต',
+      en: 'Choose a service and book through the agreed path.',
     },
   },
   {
-    n: '04',
-    pct: 75,
-    color: '#22c55e',
-    kicker: { th: 'GET PAID · รับชำระเงิน', en: 'Get paid' },
-    title: { th: 'ติดตามน้อยลง ชัดเจนขึ้น', en: 'Less chasing. More clarity.' },
+    key: 'PAID',
+    title: { th: 'GET PAID · ชำระเงิน', en: 'GET PAID' },
     body: {
-      th: 'ออกแบบขั้นตอนชำระเงิน รวมถึงมัดจำ ใบเสร็จ และการตรวจสอบยอด ให้เหมาะกับวิธีทำงานและขอบเขตที่ตกลงกัน',
-      en: 'A considered payment journey, with deposits, receipts and reconciliation scoped to how your business works.',
+      th: 'ขั้นตอนจ่ายเงินและใบเสร็จตามที่ร้านใช้',
+      en: 'Payment and receipt steps as the shop actually works.',
     },
   },
   {
-    n: '05',
-    pct: 80,
-    color: '#f59e0b',
-    kicker: { th: 'RUN · บริหารงาน', en: 'Run' },
-    title: { th: 'งานประจำวันเบาลง', en: 'A calmer working day.' },
+    key: 'RUN',
+    title: { th: 'RUN · งานร้าน', en: 'RUN' },
     body: {
-      th: 'มีขั้นตอนร่วมกัน หน้าที่ชัดเจน และเครื่องมือที่ใช้ได้จริง ให้ทีมเดินงานต่อได้โดยไม่ต้องรอคุณทุกเรื่อง',
-      en: 'Shared routines, clear responsibilities and useful tools that help the team work without everything going through you.',
+      th: 'คิว เอกสาร และงานที่ทีมทำต่อได้',
+      en: 'Queue, documents and work the team can continue.',
     },
   },
   {
-    n: '06',
-    pct: 100,
-    color: '#ef4444',
-    kicker: { th: 'GROW · เติบโต', en: 'Grow' },
-    title: { th: 'พร้อมสำหรับก้าวต่อไป', en: 'Ready for your next chapter.' },
+    key: 'GROW',
+    title: { th: 'GROW · เติบโต', en: 'GROW' },
     body: {
-      th: 'ต่อยอดสิ่งที่ได้ผล ด้วยกระบวนการที่ทำซ้ำได้ ระบบอัตโนมัติที่เหมาะสม และภาพที่ชัดขึ้นว่าควรพัฒนาจุดไหน',
-      en: 'Build on what works with repeatable processes, considered automation and a clearer view of what to improve.',
+      th: 'รีวิว เนื้อหา และการดูแลตามข้อตกลง',
+      en: 'Reviews, content and care inside the agreed plan.',
     },
   },
+] as const;
+
+const phonePath = [
+  { th: 'ค้นเจอร้าน', en: 'Find the shop' },
+  { th: 'ดูบริการ', en: 'View services' },
+  { th: 'เลือกช่องทางจอง', en: 'Choose how to book' },
+  { th: 'ชำระเงินตามขั้นตอน', en: 'Pay as set up' },
+  { th: 'รับการยืนยัน', en: 'Get confirmation' },
+] as const;
+
+const readinessTopics = [
+  { th: 'ข้อมูลร้านและ Google', en: 'Shop details and Google' },
+  { th: 'ภาพถ่ายและรายละเอียดบริการ', en: 'Photos and service details' },
+  { th: 'ช่องทางจอง', en: 'How customers book' },
+  { th: 'ขั้นตอนชำระเงิน', en: 'Payment steps' },
+  { th: 'เจ้าของบัญชีและสิทธิ์เข้าถึง', en: 'Account owners and access' },
+  { th: 'งานที่ยังต้องทำซ้ำทุกวัน', en: 'Work still repeated every day' },
 ] as const;
 
 function AuditDialog({
@@ -202,8 +199,8 @@ function HomeInner() {
 
   useEffect(() => {
     document.title = t({
-      th: 'Chapter99 — ก้าวต่อไปของธุรกิจ ที่เชื่อมกันอย่างตั้งใจ',
-      en: 'Chapter99 — Your next chapter, beautifully connected.',
+      th: 'Chapter99 — ธุรกิจดูดีออนไลน์ ทำงานง่ายขึ้น',
+      en: 'Chapter99 — Look professional online and work more easily',
     });
   }, [t]);
 
@@ -216,167 +213,247 @@ function HomeInner() {
     <main className="home-v2" id="top">
       <p className="v2-notice">
         {t({
-          th: 'เพื่อธุรกิจของคนไทยในออสเตรเลีย · อุ่นใจในทุกก้าวของธุรกิจ',
-          en: 'Made for Thai-owned businesses in Australia · Peace of mind at every step',
+          th: 'Digital Business Infrastructure Partner · ธุรกิจไทยในออสเตรเลีย',
+          en: 'Digital Business Infrastructure Partner · Thai businesses in Australia',
         })}
       </p>
 
       <section className="v2-hero">
         <div className="v2-wrap">
-          <div className="v2-hero-grid">
+          <div className="v2-hero-grid v2-hero-split">
             <div>
               <p className="v2-eyebrow">
                 {t({
-                  th: 'พาร์ตเนอร์วางรากฐานดิจิทัลให้ธุรกิจของคุณ',
-                  en: 'Your digital business infrastructure partner',
+                  th: 'ช่วยให้ธุรกิจดูดีออนไลน์ เชื่อมระบบที่จำเป็น และส่งต่อให้เจ้าของกับทีมควบคุมต่อได้',
+                  en: 'Look professional online, connect the systems you need, then hand control to the owner and team.',
                 })}
               </p>
               <h1>
                 {t({
-                  th: 'ทำให้ธุรกิจของคุณโดดเด่นออนไลน์',
-                  en: 'Bring Your Business',
+                  th: 'ธุรกิจดูดีออนไลน์',
+                  en: 'Look professional online.',
                 })}
                 <br />
-                <em>{t({ th: 'พร้อมระบบที่ช่วยให้ทำงานง่ายขึ้น', en: 'to Life Online.' })}</em>
+                {t({ th: 'ทำงานง่ายขึ้น', en: 'Work more easily.' })}
+                <br />
+                <em>{t({ th: 'เติบโตในแบบของคุณ', en: 'Grow in your own way.' })}</em>
               </h1>
               <p className="v2-intro">
                 {t({
-                  th: 'จากภาพลักษณ์ที่ลูกค้าเห็น ไปจนถึงงานที่ร้านทำทุกวัน — ภาพถ่าย เว็บไซต์ การค้นพบ การจอง การชำระเงิน และงานประจำวัน เชื่อมกันอย่างเข้าใจเจ้าของร้าน',
-                  en: 'From the way your business looks, to the way it works. Photography, website, discovery, bookings, payments and daily work — in language shop owners use.',
+                  th: 'Chapter99 ช่วยเชื่อมภาพถ่าย เว็บไซต์ การค้นเจอ การจอง และกระบวนการชำระเงิน พร้อมเครื่องมือและการส่งต่อให้คุณกับทีมดูแลต่อได้',
+                  en: 'Chapter99 helps connect photography, website, discovery, booking and payment steps — with tools and a handover so you and the team can keep running them.',
                 })}
               </p>
               <div className="v2-actions">
                 <Link className="v2-btn primary" to="/business-toolkit">
-                  {t({ th: 'ชุดเครื่องมือธุรกิจฟรี', en: 'Free Business Toolkit' })}
+                  {t({ th: 'เริ่มใช้เครื่องมือธุรกิจฟรี', en: 'Start the free business toolkit' })}
                 </Link>
                 <button type="button" className="v2-btn secondary" onClick={() => openAudit()}>
-                  {t({ th: 'ดูแนวทางประเมินธุรกิจ', en: 'Explore a Business Audit' })}
+                  {t({ th: 'คุยเรื่องประเมินธุรกิจ', en: 'Talk through a Business Audit' })}
                 </button>
               </div>
               <p className="v2-note">
                 {t({
-                  th: 'เริ่มจากความเข้าใจ ค่อย ๆ เติบโตในจังหวะของคุณ',
-                  en: 'Start with clarity. Build at your pace.',
+                  th: 'เริ่มจากเครื่องมือฟรี แล้วค่อยเลือกความช่วยเหลือที่เหมาะกับร้าน',
+                  en: 'Start with the free toolkit, then choose help that fits the shop.',
                 })}
               </p>
             </div>
-            <div className="v2-hero-visual">
+            <div className="v2-hero-visual v2-hero-people">
               <figure className="v2-hero-photo">
                 <img
                   src={siteMedia.hero}
                   alt={t({
-                    th: 'ภาพแนวคิดบรรยากาศร้านนวดอบอุ่น',
-                    en: 'Concept photo of a warm massage studio',
+                    th: 'ภาพแนวคิดบรรยากาศร้านและงานบริการ ไม่ใช่ภาพลูกค้าที่รับรองแล้ว',
+                    en: 'Concept photo of a service business — not a verified client case',
                   })}
                 />
                 <figcaption>
                   {t({
-                    th: 'ภาพแนวคิดเพื่อสื่อโทนร้าน ไม่ใช่หลักฐานลูกค้าจริง',
-                    en: 'Concept photography for tone — not a proven client case.',
+                    th: 'ภาพแนวคิดจากคลัง Chapter99 · ไม่ใช่หลักฐานลูกค้าจริง',
+                    en: 'Concept photo from the Chapter99 library — not a proven client case.',
                   })}
                 </figcaption>
               </figure>
-              <figure className="v2-hero-photo">
-                <video src={siteMedia.shopVideo} autoPlay muted loop playsInline preload="metadata" />
-                <figcaption>
-                  {t({
-                    th: 'คลิปแนวคิดจากคลัง Chapter99 web 2026 ไม่ใช่ผลงานร้านลูกค้า',
-                    en: 'Concept clip from Chapter99 web 2026 storage — not a client case.',
-                  })}
-                </figcaption>
-              </figure>
-              <SystemPreview kind="shop" />
+              <div className="v2-hero-phone">
+                <SystemPreview kind="shop" />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="v2-section v2-journey" id="journey">
+      <section className="v2-section" id="journey">
         <div className="v2-wrap">
           <div className="v2-head">
             <div>
-              <p className="v2-eyebrow">
-                {t({ th: '01 / จากความประทับใจแรก สู่งานประจำวัน', en: '01 / From first impression to everyday operation' })}
-              </p>
+              <p className="v2-eyebrow">{t({ th: 'เส้นทางลูกค้า', en: 'Customer path' })}</p>
               <h2>
                 {t({
-                  th: 'ทุกส่วนทำงานได้ดีขึ้น เมื่อเชื่อมถึงกัน',
-                  en: 'Every part works better when it works together.',
+                  th: 'ตั้งแต่ลูกค้าเห็นร้าน จนถึงวันที่กลับมาอีก',
+                  en: 'From the first look at the shop to the day they come back.',
                 })}
               </h2>
             </div>
             <p>
               {t({
-                th: 'ภาพถ่ายที่ดีช่วยให้ลูกค้าสนใจ เว็บไซต์ที่ชัดเจนสร้างความมั่นใจ และระบบที่เหมาะสมช่วยให้คุณรับช่วงต่อเป็นงานที่จัดการได้จริง',
-                en: 'A great photo starts a conversation. A clear website builds confidence. The right systems help turn that confidence into a business you can run.',
+                th: 'ให้ลูกค้าทำรายการบนมือถือได้สะดวก และเลือกติดต่อร้านเมื่อจำเป็น',
+                en: 'Let customers complete steps on their phone, and contact the shop when they need to.',
               })}
             </p>
           </div>
-          <div className="v2-stages">
+          <div className="v2-stages v2-stages-light">
             {stages.map((stage) => (
-              <article className="v2-stage" key={stage.n}>
-                <StageRing value={stage.pct} color={stage.color} />
-                <p className="stage-pct">{stage.pct}%</p>
-                <p className="v2-eyebrow">{t(stage.kicker)}</p>
+              <article className="v2-stage" key={stage.key}>
+                <p className="v2-eyebrow">{stage.key}</p>
                 <h3>{t(stage.title)}</h3>
                 <p>{t(stage.body)}</p>
               </article>
             ))}
           </div>
-          <div className="v2-foot">
-            <span>LOOK → BE FOUND → GET BOOKED → GET PAID → RUN → GROW</span>
-            <span>{t({ th: 'เส้นทางเดียวกัน แต่เริ่มให้เหมาะกับธุรกิจของคุณ', en: 'One journey. A practical starting point for every business.' })}</span>
-          </div>
+          <ol className="v2-phone-path">
+            {phonePath.map((step) => (
+              <li key={step.en}>{t(step)}</li>
+            ))}
+          </ol>
         </div>
       </section>
 
-      <section className="v2-section">
-        <div className="v2-wrap v2-story">
-          <div className="v2-photo">
-            <img
-              src={siteMedia.massage}
-              alt={t({
-                th: 'ภาพแนวคิดนวดไทยบนเสื่อ ไม่ใช่ภาพร้านลูกค้า',
-                en: 'Concept Thai massage photo — not a client shop.',
-              })}
-            />
-            <span className="v2-photo-label">
-              {t({ th: 'ภาพแนวคิดจากคลังงาน · ไม่ใช่ร้านลูกค้า', en: 'Concept from the Chapter99 library — not a client shop' })}
-            </span>
-            <div className="v2-photo-copy">
-              <strong>
-                {t({
-                  th: 'คุณใส่ใจอยู่แล้ว ให้ลูกค้าได้เห็นความตั้งใจนั้น',
-                  en: 'The care is already there. Let people see it.',
-                })}
-              </strong>
-            </div>
-          </div>
+      <section className="v2-section v2-toolkit" id="toolkit">
+        <div className="v2-wrap v2-toolkit-grid">
           <div>
-            <p className="v2-eyebrow">
-              {t({ th: 'อบอุ่นแบบไทย เป็นมืออาชีพในบริบทออสเตรเลีย', en: 'Thai warmth. Australian professionalism.' })}
-            </p>
+            <p className="v2-eyebrow">{t({ th: 'ใช้งานได้แล้ว', en: 'Available now' })}</p>
             <h2>
               {t({
-                th: 'ทุกธุรกิจมีเรื่องราว เราช่วยให้เรื่องราวของคุณชัดขึ้น',
-                en: 'Your business has a story. We help it show.',
+                th: 'เริ่มจากเครื่องมือที่ช่วยงานวันนี้',
+                en: 'Start with tools that help today’s work.',
               })}
             </h2>
             <p>
               {t({
-                th: 'คุณใส่ใจทั้งสถานที่ บริการ และลูกค้า ตัวตนบนโลกออนไลน์ก็ควรถ่ายทอดความรู้สึกเดียวกัน',
-                en: 'You have put care into your space, your service and your customers. Your online presence should carry that same feeling.',
+                th: 'ชุดเครื่องมือฟรีทำงานบนเครื่องคุณ ไม่ส่ง SMS แทนร้าน และยังไม่ใช่ระบบจองออนไลน์ที่รับเงิน',
+                en: 'The free toolkit runs on your device. It does not send SMS for the shop and is not a live booking or payment system.',
               })}
             </p>
+          </div>
+          <div className="v2-tool-card">
+            <h3>{t({ th: 'ตัวอย่างจากเครื่องมือที่มีอยู่', en: 'From the live toolkit' })}</h3>
+            <ul>
+              <li>{t({ th: 'จัดคิววันนี้', en: 'Today’s queue' })}</li>
+              <li>{t({ th: 'เตรียมข้อความถึงลูกค้า แล้วคัดลอกไปส่งเอง', en: 'Draft a customer message, then copy and send it yourself' })}</li>
+              <li>{t({ th: 'เอกสารและเทมเพลต', en: 'Documents and templates' })}</li>
+            </ul>
+            <Link className="v2-btn primary" to="/business-toolkit">
+              {t({ th: 'เปิดเครื่องมือฟรีทั้งหมด', en: 'Open the full free toolkit' })}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="v2-section v2-community" id="community">
+        <div className="v2-wrap v2-community-grid">
+          <div>
+            <p className="v2-eyebrow">{t({ th: 'ช่องทางเสริม · ไม่แทนเครื่องมือฟรี', en: 'Extra channel · not a replacement for the toolkit' })}</p>
+            <h2>
+              {t({
+                th: 'เชื่อมคนไทยกับธุรกิจและบริการใกล้ตัว',
+                en: 'Connect Thai people with nearby businesses and services.',
+              })}
+            </h2>
             <p>
               {t({
-                th: 'Chapter99 วางภาพถ่ายและระบบธุรกิจไว้ในแผนเดียวกัน เพื่อให้ความประทับใจแรกพาลูกค้าไปสู่ขั้นตอนถัดไปได้จริง',
-                en: 'Chapter99 brings photography and business systems into the same conversation — so a beautiful first impression leads somewhere useful.',
+                th: 'พื้นที่แลกเปลี่ยนประสบการณ์ แนะนำธุรกิจ และแบ่งปันเครื่องมือสำหรับคนไทยในซิดนีย์ ตามกติกาของกลุ่ม',
+                en: 'A place to share experience, recommend businesses and pass on useful tools for Thai people in Sydney — under the group’s own rules.',
               })}
             </p>
-            <a className="v2-btn secondary" href="#solutions">
-              {t({ th: 'ค้นหาจุดเริ่มต้นของคุณ', en: 'Find your starting point' })}
-            </a>
+            <p className="v2-note">
+              {t({
+                th: 'Chapter99 ร่วมดูแลพื้นที่ชุมชนนี้ และมีบริการช่วยจัดภาพลักษณ์ เว็บไซต์ และกระบวนการทำงานสำหรับเจ้าของธุรกิจ การเข้ากลุ่มไม่จำเป็นต้องซื้อบริการ คำว่า Verified เป็นชื่อกลุ่ม ไม่ใช่การรับรองสมาชิกหรือบริการทุกราย',
+                en: 'Chapter99 helps look after this community space, and also helps owners with look, website and working processes. Joining the group does not require buying a service. “Verified” is the group name — not a Chapter99 certification of every member or service.',
+              })}
+            </p>
+            <div className="v2-actions">
+              <a className="v2-btn primary" href={siteContact.communityHref} target="_blank" rel="noreferrer">
+                {t({ th: 'เยี่ยมชมกลุ่มบน Facebook', en: 'Visit the Facebook group' })}
+              </a>
+              <Link className="v2-btn secondary" to="/business-toolkit">
+                {t({ th: 'ใช้เครื่องมือธุรกิจฟรี', en: 'Use the free business toolkit' })}
+              </Link>
+            </div>
+          </div>
+          <article className="v2-community-card">
+            <p className="v2-eyebrow">Facebook group</p>
+            <h3>{t(siteContact.communityName)}</h3>
+            <p className="v2-note">
+              {t({
+                th: 'เข้ากลุ่มหรือใช้เครื่องมือฟรีได้โดยไม่ต้องซื้อบริการ',
+                en: 'Join the group or use the free toolkit without buying a service.',
+              })}
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="v2-section" id="why">
+        <div className="v2-wrap">
+          <p className="v2-eyebrow">{t({ th: 'ทำไมจึงเลือก Chapter99', en: 'Why Chapter99' })}</p>
+          <h2>
+            {t({
+              th: 'ช่วยลงมือจัดระบบ ไม่จบที่ให้เครื่องมือ',
+              en: 'We help set the system up — not only hand over a tool.',
+            })}
+          </h2>
+          <div className="v2-process">
+            <article>
+              <h3>{t({ th: 'ทำให้ตัวตนธุรกิจชัด', en: 'Make the shop identity clear' })}</h3>
+              <p>{t({ th: 'ด้วยภาพและเนื้อหาที่สะท้อนงานจริง', en: 'With photos and copy that match the real work.' })}</p>
+            </article>
+            <article>
+              <h3>{t({ th: 'เลือกและลงมือจัดระบบตามงานจริง', en: 'Choose and set up systems that match the work' })}</h3>
+              <p>{t({ th: 'เว็บไซต์ Google และขั้นตอนจอง/ชำระเงินตามขอบเขต', en: 'Website, Google and booking/payment steps inside the agreed scope.' })}</p>
+            </article>
+            <article>
+              <h3>{t({ th: 'ความเป็นเจ้าของบัญชีชัดเจน', en: 'Account ownership is written down' })}</h3>
+              <p>{t({ th: 'ระบุเจ้าของ สิทธิ์เข้าถึง และวิธีส่งต่อ', en: 'Owner, access and handover are named.' })}</p>
+            </article>
+            <article>
+              <h3>{t({ th: 'มีแนวทางดูแลเมื่อระบบบางส่วนมีปัญหา', en: 'A care path when something fails' })}</h3>
+              <p>{t({ th: 'คู่มือ การฝึกทีม และขอบเขต care ตามข้อตกลง ไม่รับประกัน uptime ทั้งวัน', en: 'Guides, team training and care inside the agreed plan — not a 24/7 uptime promise.' })}</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="v2-section" id="implement">
+        <div className="v2-wrap">
+          <div className="v2-head">
+            <div>
+              <p className="v2-eyebrow">{t({ th: 'ติดต่อเพื่อกำหนดขอบเขต', en: 'Contact to set scope' })}</p>
+              <h2>{t({ th: 'จากสิ่งที่ต้องทำ สู่สิ่งที่เริ่มใช้งานได้', en: 'From the work that is needed to something you can start using.' })}</h2>
+            </div>
+            <p>
+              {t({
+                th: 'การถ่ายภาพและทำเนื้อหาอาจดำเนินร่วมกับการสร้างเว็บไซต์ ไม่จำเป็นต้องรอให้ติดตั้งระบบเสร็จ',
+                en: 'Photography and content can run alongside the website work. They do not have to wait until every system is installed.',
+              })}
+            </p>
+          </div>
+          <div className="v2-process">
+            <article>
+              <span className="num">01</span>
+              <h3>{t({ th: 'วางและเชื่อมระบบ', en: 'Plan and connect systems' })}</h3>
+              <p>{t({ th: 'เว็บไซต์ Google และขั้นตอนจอง/ชำระเงินตามขอบเขต', en: 'Website, Google and booking/payment steps as scoped.' })}</p>
+            </article>
+            <article>
+              <span className="num">02</span>
+              <h3>{t({ th: 'ทำให้ธุรกิจมีตัวตน', en: 'Give the business a face' })}</h3>
+              <p>{t({ th: 'ภาพถ่าย เนื้อหา และรายละเอียดบริการ', en: 'Photography, copy and service details.' })}</p>
+            </article>
+            <article>
+              <span className="num">03</span>
+              <h3>{t({ th: 'ส่งต่อและดูแล', en: 'Hand over and care' })}</h3>
+              <p>{t({ th: 'บัญชี คู่มือ การฝึกทีม และ care ตามข้อตกลง', en: 'Accounts, a guide, team training and care as agreed.' })}</p>
+            </article>
           </div>
         </div>
       </section>
@@ -465,7 +542,26 @@ function HomeInner() {
               })}
             </p>
           </div>
-          <PackAnimatedPricing heading={t({ th: 'START · GROW · SCALE', en: 'START · GROW · SCALE' })} />
+          <div className="v2-plans">
+            <article className="v2-plan">
+              <p className="v2-eyebrow">START</p>
+              <h3>{t({ th: 'สร้างพื้นฐานออนไลน์', en: 'Build the online foundation' })}</h3>
+              <p>{t({ th: 'Presence — ให้ร้านดูเป็นมืออาชีพและติดต่อได้', en: 'Presence — look professional and stay contactable.' })}</p>
+            </article>
+            <article className="v2-plan featured">
+              <p className="v2-eyebrow">GROW</p>
+              <h3>{t({ th: 'เชื่อมกระบวนการและลดงานซ้ำ', en: 'Connect the work and cut repeat tasks' })}</h3>
+              <p>{t({ th: 'Operations — จอง จ่าย และงานร้านตามขอบเขต', en: 'Operations — booking, payment and shop work as scoped.' })}</p>
+            </article>
+            <article className="v2-plan">
+              <p className="v2-eyebrow">SCALE</p>
+              <h3>{t({ th: 'ทำงานให้เป็นมาตรฐานและส่งต่อได้', en: 'Make the work standard and hand it on' })}</h3>
+              <p>{t({ th: 'Infrastructure — ทีม สาขา และการดูแลตามข้อตกลง', en: 'Infrastructure — team, locations and care as agreed.' })}</p>
+            </article>
+          </div>
+          <Link className="v2-btn secondary" to="/pricing#packages">
+            {t({ th: 'ดูแพ็กเกจและขอบเขตบนหน้า Pricing', en: 'See packages and scope on Pricing' })}
+          </Link>
           <p className="v2-scope">
             {t({
               th: 'แนวทางเหล่านี้บอกจุดเน้นของงาน ไม่ใช่รายการรับประกัน ค่าเริ่มต้น ค่า Square และค่าดูแลต่อเนื่องแยกตามหน้าแพ็กเกจ',
@@ -483,63 +579,29 @@ function HomeInner() {
         </div>
       </section>
 
-      <section className="v2-section v2-toolkit" id="toolkit">
-        <div className="v2-wrap v2-toolkit-grid">
-          <div>
-            <p className="v2-eyebrow">
-              {t({ th: '04 / ก้าวแรกที่ใช้ได้จริง เริ่มได้ฟรี', en: '04 / A useful first step. Freely available.' })}
-            </p>
-            <h2>
-              {t({
-                th: 'ก่อนเพิ่มระบบใหม่ ลองทบทวนสิ่งที่คุณมีอยู่',
-                en: 'Before you build more, see what you already have.',
-              })}
-            </h2>
-            <p>
-              {t({
-                th: 'ชุดเครื่องมือธุรกิจฟรีที่มีอยู่แล้วในแอป คือเครื่องมือจริงสำหรับเจ้าของร้าน ไม่ใช่แบบเช็กตัวอย่างในม็อกอัป',
-                en: 'The live Free Business Toolkit is the existing shop tools in this app — not the prototype checklist from the mockup.',
-              })}
-            </p>
-          </div>
-          <div className="v2-tool-card">
-            <h3>{t({ th: 'เปิดเครื่องมือที่มีอยู่', en: 'Open the live toolkit' })}</h3>
-            <ul>
-              <li>{t({ th: 'ลิงก์และ QR รีวิว', en: 'Review link and QR' })}</li>
-              <li>{t({ th: 'คิด GST และราคาตามนาที', en: 'GST and duration pricing' })}</li>
-              <li>{t({ th: 'คิว ลูกค้า และแบบฟอร์ม', en: 'Queue, guests and forms' })}</li>
-            </ul>
-            <Link className="v2-btn primary" to="/business-toolkit">
-              {t({ th: 'ไป /business-toolkit', en: 'Go to /business-toolkit' })}
-            </Link>
-            <p className="v2-note">
-              {t({
-                th: 'ไม่มีการส่งข้อมูลจากหน้าแรกไปยังเครื่องมือนี้โดยอัตโนมัติ',
-                en: 'This homepage does not auto-submit readiness answers into the toolkit.',
-              })}
-            </p>
-          </div>
-        </div>
-      </section>
-
       <section className="v2-section" id="audit">
         <div className="v2-wrap">
-          <p className="v2-eyebrow">Business Audit</p>
+          <p className="v2-eyebrow">{t({ th: 'แนวคิดสำหรับคุย Audit · ยังไม่มีรายงานอัตโนมัติ', en: 'Topics for an Audit talk · no auto report' })}</p>
           <h2>
             {t({
-              th: 'คุยเพื่อประเมินขอบเขต ไม่ใช่จองนัดอัตโนมัติ',
-              en: 'A conversation to scope the work — not an automatic booking.',
+              th: 'ยังไม่แน่ใจว่าควรเริ่มตรงไหน?',
+              en: 'Not sure where to start?',
             })}
           </h2>
           <p>
             {t({
-              th: 'Audit ที่มีอยู่คือส่งอีเมลถึง chapter99solutions@gmail.com ไม่มีคะแนนอัตโนมัติ และยังไม่มีปฏิทินจอง',
-              en: 'The current Audit path is email to chapter99solutions@gmail.com. There is no auto score and no booking calendar.',
+              th: 'หัวข้อด้านล่างใช้ทบทวนก่อนคุย ไม่มีคะแนน และไม่จองนัดให้อัตโนมัติ ช่องทางที่มีคืออีเมล',
+              en: 'Use these topics before you talk. There is no score and no automatic booking. The working path is email.',
             })}
           </p>
+          <ul className="v2-ready-list">
+            {readinessTopics.map((item) => (
+              <li key={item.en}>{t(item)}</li>
+            ))}
+          </ul>
           <div className="v2-actions">
             <button type="button" className="v2-btn primary" onClick={() => openAudit()}>
-              {t({ th: 'ดูแนวทางประเมินธุรกิจ', en: 'Explore a Business Audit' })}
+              {t({ th: 'คุยเรื่องประเมินธุรกิจ', en: 'Talk through a Business Audit' })}
             </button>
             <Link className="v2-btn secondary" to="/pricing#audit">
               {t({ th: 'ดู Audit บนหน้าแพ็กเกจ', en: 'Audit on pricing' })}
@@ -559,23 +621,23 @@ function HomeInner() {
           <div className="v2-process">
             <article>
               <span className="num">01</span>
-              <h3>{t({ th: 'เริ่มได้ฟรี', en: 'Start free' })}</h3>
-              <p>{t({ th: 'ใช้ชุดเครื่องมือทบทวนจุดเริ่มต้น', en: 'Use the toolkit to see your starting point.' })}</p>
+              <h3>{t({ th: 'ชุมชนหรือเครื่องมือฟรี', en: 'Community or free toolkit' })}</h3>
+              <p>{t({ th: 'เข้ากลุ่มหรือใช้เครื่องมือได้โดยไม่ต้องซื้อ', en: 'Join the group or use the toolkit without buying.' })}</p>
             </article>
             <article>
               <span className="num">02</span>
-              <h3>{t({ th: 'ประเมินร่วมกัน', en: 'Look together' })}</h3>
-              <p>{t({ th: 'คุยขอบเขตผ่านอีเมล Audit หรือหน้าติดต่อ', en: 'Scope the work through the existing Audit email or contact page.' })}</p>
+              <h3>{t({ th: 'หัวข้อ Readiness + Audit', en: 'Readiness topics + Audit' })}</h3>
+              <p>{t({ th: 'ทบทวนหัวข้อแล้วคุยขอบเขตทางอีเมล', en: 'Review the topics, then email to set scope.' })}</p>
             </article>
             <article>
               <span className="num">03</span>
-              <h3>{t({ th: 'ลงมืออย่างมีทิศทาง', en: 'Build with purpose' })}</h3>
-              <p>{t({ th: 'ตกลงขอบเขตและรักษาระบบที่ทำงานได้ดี', en: 'Agree the scope and keep what already works.' })}</p>
+              <h3>{t({ th: 'Implementation + ภาพ/เนื้อหา', en: 'Implementation + photos/content' })}</h3>
+              <p>{t({ th: 'ลงมือตามขอบเขต ภาพทำคู่กับเว็บได้', en: 'Build to scope. Photos can run with the website.' })}</p>
             </article>
             <article>
               <span className="num">04</span>
-              <h3>{t({ th: 'ส่งมอบอย่างใส่ใจ', en: 'Hand over with care' })}</h3>
-              <p>{t({ th: 'บันทึกสิทธิ์ ขั้นตอน และแนวทางดูแลต่อ', en: 'Document access, routines and ongoing support.' })}</p>
+              <h3>{t({ th: 'Monthly Care', en: 'Monthly Care' })}</h3>
+              <p>{t({ th: 'ดูแลตามข้อตกลง ไม่สัญญาซัพพอร์ตไม่จำกัด', en: 'Care as agreed — not unlimited support.' })}</p>
             </article>
           </div>
           <div className="v2-scale">
@@ -656,15 +718,18 @@ function HomeInner() {
       </section>
 
       <section className="v2-close">
-        <p className="v2-eyebrow">{t({ th: 'ถ่ายทอดตัวตนธุรกิจของคุณสู่โลกออนไลน์', en: 'Bring your business to life online.' })}</p>
-        <h2>{t({ th: 'ก้าวต่อไปของธุรกิจ เริ่มจากภาพที่ชัดขึ้น', en: 'Your next chapter starts with a clearer picture.' })}</h2>
+        <p className="v2-eyebrow">{t({ th: 'เริ่มจากหนึ่งเรื่องที่ทำให้ธุรกิจง่ายขึ้น', en: 'Start with one thing that makes the shop easier.' })}</p>
+        <h2>{t({ th: 'เครื่องมือฟรีก่อน แล้วค่อยคุยขอบเขต', en: 'Free tools first. Scope the work when you are ready.' })}</h2>
         <div className="v2-actions">
           <Link className="v2-btn light" to="/business-toolkit">
-            {t({ th: 'เปิดชุดเครื่องมือธุรกิจฟรี', en: 'Open the Free Business Toolkit' })}
+            {t({ th: 'เริ่มใช้เครื่องมือธุรกิจฟรี', en: 'Start the free business toolkit' })}
           </Link>
           <button type="button" className="v2-btn secondary" onClick={() => openAudit()}>
-            {t({ th: 'ดูแนวทางประเมินธุรกิจ', en: 'Explore a Business Audit' })}
+            {t({ th: 'คุยเรื่องประเมินธุรกิจ', en: 'Talk through a Business Audit' })}
           </button>
+          <a className="v2-btn secondary" href={siteContact.communityHref} target="_blank" rel="noreferrer">
+            {t({ th: 'เยี่ยมชมกลุ่มบน Facebook', en: 'Visit the Facebook group' })}
+          </a>
         </div>
         <p className="v2-note">
           <a href={AUDIT_MAIL}>chapter99solutions@gmail.com</a>

@@ -47,10 +47,10 @@ function IndustryInner({ content }: { content: IndustryContent }) {
               <p className="v2-lead">{t(content.lead)}</p>
               <div className="v2-actions">
                 <Link className="v2-btn primary" to="/business-toolkit">
-                  {t({ th: 'เปิดชุดเครื่องมือธุรกิจฟรี', en: 'Open the Free Business Toolkit' })}
+                  {t({ th: 'เริ่มใช้เครื่องมือธุรกิจฟรี', en: 'Start the free business toolkit' })}
                 </Link>
                 <a className="v2-btn secondary" href={siteContact.mail}>
-                  {t({ th: 'ส่งอีเมล Business Audit', en: 'Email a Business Audit' })}
+                  {t({ th: 'คุยเรื่องธุรกิจของคุณ', en: 'Talk about your business' })}
                 </a>
               </div>
             </div>
