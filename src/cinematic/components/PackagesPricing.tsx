@@ -21,13 +21,63 @@ import {
   squareSetup,
 } from '../data/packages';
 import { useTranslation } from '../i18n/LanguageContext';
-import { siteIcons } from '../../site/media';
+import { CalendarClock, Globe, Layers, MapPin, Sparkles, type LucideIcon } from 'lucide-react';
+import { siteIcons, siteMedia } from '../../site/media';
 import { PackAnimatedPricing } from './PackAnimatedPricing';
-import { PricingCard } from './PricingCard';
-import { PricePackDock } from '../../site/PricePackBar';
+import { PricePackTabs } from '../../site/PricePackBar';
 
 const AUDIT_MAIL =
   'mailto:chapter99solutions@gmail.com?subject=Chapter99%20Business%20Audit';
+
+const stageVisuals: Record<
+  string,
+  {
+    pack: string;
+    photo: string;
+    links: { href: string; label: { th: string; en: string }; Icon: LucideIcon }[];
+  }
+> = {
+  STARTER: {
+    pack: 'START',
+    photo: siteMedia.hero,
+    links: [
+      { href: '/business-toolkit', label: { th: 'เครื่องมือฟรี', en: 'Free toolkit' }, Icon: Globe },
+      { href: '/pricing#packages', label: { th: 'START', en: 'START' }, Icon: Layers },
+    ],
+  },
+  GROWING: {
+    pack: 'GROW',
+    photo: siteMedia.booking,
+    links: [
+      { href: '/pricing#packages', label: { th: 'GROW', en: 'GROW' }, Icon: CalendarClock },
+      { href: '/pricing#square-setup', label: { th: 'Square', en: 'Square' }, Icon: Sparkles },
+    ],
+  },
+  ESTABLISHED: {
+    pack: 'SCALE',
+    photo: siteMedia.massage,
+    links: [
+      { href: '/pricing#packages', label: { th: 'SCALE', en: 'SCALE' }, Icon: Layers },
+      { href: '/contact', label: { th: 'คุยงาน', en: 'Talk' }, Icon: Sparkles },
+    ],
+  },
+  'MULTI-LOCATION': {
+    pack: 'SCALE',
+    photo: siteMedia.restaurant,
+    links: [
+      { href: '/restaurants', label: { th: 'ร้านอาหาร', en: 'Restaurants' }, Icon: MapPin },
+      { href: '/pricing#packages', label: { th: 'SCALE', en: 'SCALE' }, Icon: Layers },
+    ],
+  },
+  ADVANCED: {
+    pack: 'SCALE',
+    photo: siteMedia.photography,
+    links: [
+      { href: '/pricing#audit', label: { th: 'Audit', en: 'Audit' }, Icon: Sparkles },
+      { href: '/photography', label: { th: 'ภาพถ่าย', en: 'Photos' }, Icon: Globe },
+    ],
+  },
+};
 
 export function PackagesPricing() {
   const { t } = useTranslation();
@@ -115,11 +165,7 @@ export function PackagesPricing() {
             <h2>{t(packagesCopy.sectionTitle)}</h2>
             <p>{t(packagesCopy.sectionSub)}</p>
           </div>
-          <div className="price-grid">
-            {packageTiers.map((tier) => (
-              <PricingCard key={tier.id} tier={tier} showFeatures />
-            ))}
-          </div>
+          <PackAnimatedPricing />
           <p className="rate-note">{t(packagesCopy.priceNote)}</p>
         </section>
 
@@ -130,9 +176,7 @@ export function PackagesPricing() {
             <p>{t(squareSetup.subtitle)}</p>
           </div>
           <div className="price-grid price-grid-one">
-            {squarePack.tiers.map((tier) => (
-              <PricingCard key={tier.id} tier={tier} showFeatures />
-            ))}
+            <PackAnimatedPricing packId="square" tiers={squarePack.tiers} />
           </div>
           <p className="rate-note square-fee-note">{t(squareSetup.note)}</p>
           <SquareCosts />
@@ -145,7 +189,7 @@ export function PackagesPricing() {
             <p>{t(selected.sub)}</p>
           </div>
           <div className="pack-dock-page">
-            <PricePackDock />
+            <PricePackTabs lightId="page" />
           </div>
           <PackAnimatedPricing key={pack} packId={pack} tiers={selected.tiers} />
           <p className="rate-note">{t(selected.note)}</p>
@@ -169,13 +213,49 @@ export function PackagesPricing() {
               })}
             </p>
           </div>
-          <div className="journey-grid">
-            {businessStages.map((item) => (
-              <article key={item.stage} className="industry-card">
-                <div className="num">{item.stage}</div>
-                <p>{t(item.body)}</p>
-              </article>
-            ))}
+          <div className="stage-board">
+            {businessStages.map((item) => {
+              const visual = stageVisuals[item.stage];
+              return (
+                <article key={item.stage} className="stage-overlap">
+                  <figure>
+                    <img
+                      src={visual?.photo ?? siteMedia.hero}
+                      alt={t({
+                        th: 'ภาพแนวคิดประกอบขั้นธุรกิจ',
+                        en: 'Concept photo for this business stage',
+                      })}
+                    />
+                    <figcaption>
+                      {t({
+                        th: 'ภาพแนวคิด ไม่ใช่ภาพลูกค้าหรือทีมที่รับรองผล',
+                        en: 'Concept photo — not a client or staff endorsement.',
+                      })}
+                    </figcaption>
+                  </figure>
+                  <div className="stage-overlap-copy">
+                    <h3>{item.stage}</h3>
+                    <p className="stage-overlap-role">
+                      {visual?.pack ?? 'Chapter99'} ·{' '}
+                      {t({ th: 'ย้ายขั้นได้เมื่อร้านเปลี่ยน', en: 'Move stage as the shop changes' })}
+                    </p>
+                    <p>{t(item.body)}</p>
+                    <div className="stage-overlap-links">
+                      {(visual?.links ?? []).map((link) => (
+                        <Link
+                          key={link.href}
+                          to={link.href}
+                          className="stage-overlap-icon"
+                          aria-label={t(link.label)}
+                        >
+                          <link.Icon size={18} strokeWidth={1.8} />
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </section>
 

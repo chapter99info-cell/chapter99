@@ -12,17 +12,12 @@ export type PlayPlan = {
   yearlyPrice: number;
   buttonText: string;
   buttonHref: string;
+  buttonVariant?: 'outline' | 'default';
   popular?: boolean;
+  priceDisplay?: string;
+  periodLabel?: string;
   features: { text: string; icon: ReactNode }[];
   includes: string[];
-};
-
-type PricingSwitchProps = {
-  onSwitch: (value: string) => void;
-  leftLabel: string;
-  rightLabel: string;
-  saveLabel?: string;
-  layoutId: string;
 };
 
 function PricingSwitch({
@@ -31,7 +26,13 @@ function PricingSwitch({
   rightLabel,
   saveLabel,
   layoutId,
-}: PricingSwitchProps) {
+}: {
+  onSwitch: (value: string) => void;
+  leftLabel: string;
+  rightLabel: string;
+  saveLabel?: string;
+  layoutId: string;
+}) {
   const [selected, setSelected] = useState('0');
 
   const handleSwitch = (value: string) => {
@@ -41,7 +42,7 @@ function PricingSwitch({
 
   return (
     <div className="flex justify-center">
-      <div className="relative z-10 mx-auto flex w-fit rounded-full border border-gray-200 bg-neutral-50 p-1">
+      <div className="relative z-10 mx-auto flex w-fit rounded-full border border-[#d7e6dc] bg-[#f7fbf8] p-1">
         <button
           type="button"
           onClick={() => handleSwitch('0')}
@@ -49,13 +50,13 @@ function PricingSwitch({
             selected === '0' ? 'text-white' : 'text-gray-500 hover:text-black'
           }`}
         >
-          {selected === '0' && (
+          {selected === '0' ? (
             <motion.span
               layoutId={layoutId}
-              className="absolute left-0 top-0 h-10 w-full rounded-full border-4 border-blue-600 bg-gradient-to-t from-blue-500 via-blue-400 to-blue-600 shadow-sm shadow-blue-600 sm:h-12"
+              className="absolute left-0 top-0 h-10 w-full rounded-full border-4 border-[#086344] bg-gradient-to-t from-[#06462f] via-[#0b704c] to-[#086344] shadow-sm shadow-[#086344]/40 sm:h-12"
               transition={{ type: 'spring', stiffness: 500, damping: 30 }}
             />
-          )}
+          ) : null}
           <span className="relative">{leftLabel}</span>
         </button>
         <button
@@ -65,17 +66,17 @@ function PricingSwitch({
             selected === '1' ? 'text-white' : 'text-gray-500 hover:text-black'
           }`}
         >
-          {selected === '1' && (
+          {selected === '1' ? (
             <motion.span
               layoutId={layoutId}
-              className="absolute left-0 top-0 h-10 w-full rounded-full border-4 border-blue-600 bg-gradient-to-t from-blue-500 via-blue-400 to-blue-600 shadow-sm shadow-blue-600 sm:h-12"
+              className="absolute left-0 top-0 h-10 w-full rounded-full border-4 border-[#086344] bg-gradient-to-t from-[#06462f] via-[#0b704c] to-[#086344] shadow-sm shadow-[#086344]/40 sm:h-12"
               transition={{ type: 'spring', stiffness: 500, damping: 30 }}
             />
-          )}
+          ) : null}
           <span className="relative flex items-center gap-2">
             {rightLabel}
             {saveLabel ? (
-              <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-black">
+              <span className="rounded-full bg-[#edf5f0] px-2 py-0.5 text-xs font-medium text-[#102b23]">
                 {saveLabel}
               </span>
             ) : null}
@@ -91,16 +92,9 @@ const revealVariants = {
     y: 0,
     opacity: 1,
     filter: 'blur(0px)',
-    transition: {
-      delay: i * 0.12,
-      duration: 0.45,
-    },
+    transition: { delay: i * 0.12, duration: 0.45 },
   }),
-  hidden: {
-    filter: 'blur(10px)',
-    y: -20,
-    opacity: 0,
-  },
+  hidden: { filter: 'blur(10px)', y: -20, opacity: 0 },
 };
 
 type PricingSectionProps = {
@@ -133,17 +127,13 @@ export default function PricingSection({
   const [isYearly, setIsYearly] = useState(false);
   const pricingRef = useRef<HTMLDivElement>(null);
 
-  const togglePricingPeriod = (value: string) =>
-    setIsYearly(Number.parseInt(value, 10) === 1);
-
   return (
-    <div className="relative mx-auto pt-2" ref={pricingRef}>
+    <div className="relative mx-auto bg-transparent px-1 pt-2" ref={pricingRef}>
       <div
         className="pointer-events-none absolute left-[10%] right-[10%] top-0 z-0 h-full w-[80%]"
         style={{
-          backgroundImage: 'radial-gradient(circle at center, #206ce8 0%, transparent 70%)',
-          opacity: 0.18,
-          mixBlendMode: 'multiply',
+          backgroundImage: 'radial-gradient(circle at center, #086344 0%, transparent 70%)',
+          opacity: 0.12,
         }}
       />
 
@@ -154,7 +144,7 @@ export default function PricingSection({
             animationNum={0}
             timelineRef={pricingRef}
             customVariants={revealVariants}
-            className="mb-4 text-3xl font-medium text-gray-900 sm:text-4xl md:text-5xl"
+            className="mb-4 text-3xl font-medium text-[#102b23] sm:text-4xl md:text-5xl"
           >
             {heading}
           </TimelineContent>
@@ -164,7 +154,7 @@ export default function PricingSection({
               animationNum={1}
               timelineRef={pricingRef}
               customVariants={revealVariants}
-              className="mx-auto w-[90%] text-sm text-gray-600 sm:text-base"
+              className="mx-auto w-[90%] text-sm text-[#5d6864] sm:text-base"
             >
               {subheading}
             </TimelineContent>
@@ -180,7 +170,7 @@ export default function PricingSection({
           customVariants={revealVariants}
         >
           <PricingSwitch
-            onSwitch={togglePricingPeriod}
+            onSwitch={(value) => setIsYearly(Number.parseInt(value, 10) === 1)}
             leftLabel={leftLabel}
             rightLabel={rightLabel}
             saveLabel={saveLabel}
@@ -203,68 +193,69 @@ export default function PricingSection({
             customVariants={revealVariants}
           >
             <Card
-              className={`relative h-full border-neutral-200 ${
-                plan.popular ? 'bg-blue-50 ring-2 ring-blue-500' : 'bg-white'
+              className={`relative h-full rounded-2xl border-[#e5eae7] shadow-sm ${
+                plan.popular ? 'bg-[#edf5f0] ring-2 ring-[#086344]' : 'bg-white'
               }`}
             >
               <CardHeader className="text-left">
                 <div className="flex justify-between gap-3">
-                  <h3 className="mb-2 text-2xl font-semibold text-gray-900 sm:text-3xl">
+                  <h3 className="mb-2 text-2xl font-semibold text-[#102b23] sm:text-3xl">
                     {plan.name}
                   </h3>
-                  {plan.popular ? (
-                    <span className="h-fit rounded-full bg-blue-500 px-3 py-1 text-sm font-medium text-white">
-                      Popular
+                </div>
+                <p className="mb-4 text-sm text-[#5d6864]">{plan.description}</p>
+                <div className="flex items-baseline">
+                  {plan.priceDisplay ? (
+                    <span className="text-xl font-semibold leading-snug text-[#102b23] sm:text-2xl">
+                      {plan.priceDisplay}
+                    </span>
+                  ) : (
+                    <span className="text-4xl font-semibold text-[#102b23]">
+                      {prefix}
+                      <NumberFlow
+                        value={isYearly ? plan.yearlyPrice : plan.price}
+                        className="text-4xl font-semibold"
+                      />
+                    </span>
+                  )}
+                  {plan.periodLabel || !plan.priceDisplay ? (
+                    <span className="ml-1 text-[#5d6864]">
+                      {plan.periodLabel ?? `/${isYearly ? rightPeriod : leftPeriod}`}
                     </span>
                   ) : null}
-                </div>
-                <p className="mb-4 text-sm text-gray-600">{plan.description}</p>
-                <div className="flex items-baseline">
-                  <span className="text-4xl font-semibold text-gray-900">
-                    {prefix}
-                    <NumberFlow
-                      value={isYearly ? plan.yearlyPrice : plan.price}
-                      className="text-4xl font-semibold"
-                    />
-                  </span>
-                  <span className="ml-1 text-gray-600">
-                    /{isYearly ? rightPeriod : leftPeriod}
-                  </span>
                 </div>
               </CardHeader>
               <CardContent className="pt-0">
                 <a
                   href={plan.buttonHref}
-                  className={`mb-6 block w-full rounded-xl p-4 text-center text-lg ${
-                    plan.popular
-                      ? 'border border-blue-400 bg-gradient-to-t from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500'
-                      : 'border border-neutral-700 bg-gradient-to-t from-neutral-900 to-neutral-600 text-white shadow-lg shadow-neutral-900'
+                  className={`mb-6 block w-full rounded-xl p-4 text-center text-lg !text-white ${
+                    plan.popular || plan.buttonVariant === 'default'
+                      ? 'border border-[#0b704c] bg-gradient-to-t from-[#06462f] to-[#0b704c] shadow-lg shadow-[#086344]/30'
+                      : 'border border-[#1b3d32] bg-gradient-to-t from-[#102b23] to-[#1b3d32] shadow-lg shadow-[#102b23]/20'
                   }`}
                 >
                   {plan.buttonText}
                 </a>
                 <ul className="space-y-2 py-5 font-semibold">
                   {plan.features.map((feature) => (
-                    <li key={feature.text} className="flex items-center">
-                      <span className="mr-3 mt-0.5 grid place-content-center text-neutral-800">
+                    <li key={feature.text} className="flex items-start">
+                      <span className="mr-3 mt-0.5 grid place-content-center text-[#086344]">
                         {feature.icon}
                       </span>
-                      <span className="text-sm font-normal text-gray-600">{feature.text}</span>
+                      <span className="text-sm font-normal text-[#5d6864]">{feature.text}</span>
                     </li>
                   ))}
                 </ul>
                 {plan.includes.length > 1 ? (
-                  <div className="space-y-3 border-t border-neutral-200 pt-4">
-                    <h4 className="mb-3 text-base font-medium text-gray-900">
-                      {plan.includes[0]}
-                    </h4>
+                  <div className="space-y-3 border-t border-[#e5eae7] pt-4">
+                    <h4 className="mb-3 text-base font-medium text-[#102b23]">{plan.includes[0]}</h4>
                     <ul className="space-y-2 font-semibold">
                       {plan.includes.slice(1).map((feature) => (
-                        <li key={feature} className="flex items-center">
-                          <span className="mr-3 mt-0.5 grid h-6 w-6 place-content-center rounded-full border border-blue-500 bg-green-50">
-                            <CheckCheck className="h-4 w-4 text-blue-500" />
+                        <li key={feature} className="flex items-start">
+                          <span className="mr-3 mt-0.5 grid h-6 w-6 flex-shrink-0 place-content-center rounded-full border border-[#086344] bg-[#edf5f0]">
+                            <CheckCheck className="h-4 w-4 text-[#086344]" />
                           </span>
-                          <span className="text-sm font-normal text-gray-600">{feature}</span>
+                          <span className="text-sm font-normal text-[#5d6864]">{feature}</span>
                         </li>
                       ))}
                     </ul>

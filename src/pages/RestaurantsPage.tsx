@@ -1,60 +1,37 @@
-import { Link } from 'react-router-dom'
 import { RestaurantCast } from '../components/RestaurantCast'
-import { RestaurantPlans } from '../components/RestaurantPlans'
+import { IndustryPage } from '../site/IndustryPage'
+import { siteMedia } from '../site/media'
 
 export function RestaurantsPage() {
   return (
-    <>
-      <p className="eyebrow food-cast-kicker">CHAPTER99 FOR RESTAURANTS & CAFÉS</p>
-      <RestaurantCast />
-      <section className="portfolio" id="example">
-        <div className="section-title">
-          <div>
-            <p className="eyebrow">DESIGN REFERENCE</p>
-            <h2>
-              ภาพอาหารนำเรื่อง
-              <br />
-              <em>เมนูพร้อมให้เลือก</em>
-            </h2>
-          </div>
-          <p>
-            ภาพประกอบแนวคิดสำหรับหารืองานออกแบบ
-            <br />
-            ไม่ใช่หลักฐานระบบสดหรือร้านที่เปิดใช้แล้ว
-          </p>
-        </div>
-        <img src="/images/concept-restaurant.svg" alt="ภาพแนวคิดเว็บไซต์ร้านอาหารพร้อมเมนูบนมือถือ / ไม่ใช่ภาพร้านจริง" />
-        <span className="concept-caption">ภาพประกอบแนวคิด ไม่ใช่ภาพร้านหรือจานอาหารจริง</span>
-      </section>
-      <section>
-        <div className="three">
-          <article>
-            <b>01</b>
-            <h3>ให้เมนูดูน่าลอง</h3>
-            <p>จัดภาพอาหาร ชื่อเมนู และราคา ให้เลือกดูสะดวก</p>
-          </article>
-          <article>
-            <b>02</b>
-            <h3>เข้าถึงจากโต๊ะหรือที่บ้าน</h3>
-            <p>วางเมนู QR และเส้นทางสั่งอาหารตามรูปแบบที่ร้านต้องการ</p>
-          </article>
-          <article>
-            <b>03</b>
-            <h3>ตกลงงานหน้าร้านให้ชัด</h3>
-            <p>ประเมินระบบสั่งอาหาร เครื่องพิมพ์ และอุปกรณ์ก่อนกำหนดขอบเขต</p>
-          </article>
-        </div>
-      </section>
-      <section id="restaurant-plans" className="new-plans">
-        <RestaurantPlans heading />
-      </section>
-      <section className="cta">
-        <h2>ให้เว็บเข้ากับวิธีที่ร้านทำงาน</h2>
-        <p>ร้านอาหารแยกจากเดโมร้านนวด เพราะขั้นตอนหน้าร้านต่างกัน</p>
-        <Link className="btn" to="/pricing#pack-restaurant">
-          ดูแพ็กเกจร้านอาหาร ↗
-        </Link>
-      </section>
-    </>
+    <IndustryPage
+      content={{
+        kind: 'restaurant',
+        photo: siteMedia.restaurant,
+        photoAlt: { th: 'ภาพร้านอาหารแนวคิด', en: 'Concept restaurant photo' },
+        photoNote: { th: 'ภาพแนวคิด ไม่ใช่หลักฐานร้านที่เปิดใช้ระบบแล้ว', en: 'Concept photo — not a live restaurant case study.' },
+        eyebrow: { th: 'สำหรับร้านอาหารไทยในออสเตรเลีย', en: 'For Thai restaurants in Australia' },
+        title: { th: 'ให้เมนูถูกเห็น และงานร้านเดินชัดขึ้น', en: 'Run your restaurant. Grow your business.' },
+        lead: {
+          th: 'ช่วยเรื่องภาพอาหาร เมนู การค้นพบร้าน ช่องทางสั่งหรือจองตามขอบเขตที่ตกลง การรับเงิน และงานประจำวัน ไม่ใช่ระบบเดลิเวอรี่ใหม่ทั้งชุด',
+          en: 'We help with food photography, menus, discovery, ordering or booking within an agreed scope, payments, and daily operations. This is not a new delivery platform.',
+        },
+        steps: [
+          { title: { th: 'เมนูและภาพอาหาร', en: 'Menu and food photos' }, body: { th: 'จัดภาพ ชื่อ และราคาให้อ่านง่าย', en: 'Make dishes, names and prices easy to choose.' } },
+          { title: { th: 'ค้นพบร้าน', en: 'Be found' }, body: { th: 'เว็บและข้อมูลร้านที่ลูกค้าเข้าใจ', en: 'A website and listing details customers understand.' } },
+          { title: { th: 'สั่งอาหารหรือจองโต๊ะ', en: 'Orders or tables' }, body: { th: 'เชื่อมช่องทางที่มีอยู่หรือออกแบบตามขอบเขต ไม่สัญญาแอปสั่งอาหารครบชุดถ้ายังไม่ได้ทำ', en: 'Connect existing channels or design within scope. We do not claim a full ordering app unless it is built.' } },
+          { title: { th: 'รับเงิน', en: 'Get paid' }, body: { th: 'ใบเสร็จและขั้นตอนชำระเงินตามที่ตกลง', en: 'Receipts and payment steps as scoped.' } },
+          { title: { th: 'งานร้าน', en: 'Run the floor' }, body: { th: 'คิว ออเดอร์ และหน้าที่ทีมที่เขียนเป็นขั้นตอน', en: 'Queue, orders and team routines written as steps.' } },
+          { title: { th: 'รักษาลูกค้า', en: 'Keep guests' }, body: { th: 'ข้อความและโปรโมชันที่ร้านควบคุมเอง', en: 'Messages and offers the shop still owns.' } },
+        ],
+        extra: (
+          <section className="v2-section">
+            <div className="v2-wrap">
+              <RestaurantCast />
+            </div>
+          </section>
+        ),
+      }}
+    />
   )
 }
