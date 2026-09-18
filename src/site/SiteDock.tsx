@@ -50,8 +50,8 @@ export function SiteDock() {
       icon: <Wrench className={iconClass} strokeWidth={2.1} />,
     },
     {
-      title: t({ th: 'ทัก Facebook', en: 'Message on Facebook' }),
-      href: siteContact.facebook,
+      title: t({ th: 'ส่งอีเมล', en: 'Email us' }),
+      href: siteContact.mail,
       icon: <MessageCircle className={iconClass} strokeWidth={2.1} />,
     },
   ];

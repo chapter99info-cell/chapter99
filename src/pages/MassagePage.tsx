@@ -7,7 +7,7 @@ export function MassagePage() {
     <IndustryPage
       content={{
         kind: 'shop',
-        photo: siteMedia.hero,
+        photo: siteMedia.massage,
         photoAlt: { th: 'ภาพร้านนวดแนวคิด', en: 'Concept massage venue photo' },
         photoNote: { th: 'ภาพแนวคิด ไม่ใช่หลักฐานลูกค้าจริง', en: 'Concept photo — not a proven client case.' },
         eyebrow: { th: 'สำหรับร้านนวดในออสเตรเลีย', en: 'For Thai massage businesses in Australia' },

@@ -494,11 +494,11 @@ function ToolkitInner() {
           </article>
           <article className="rail-help">
             <p className="eyebrow">{t('ต้องการความช่วยเหลือ?', 'Need help?')}</p>
-            <Link className="btn small" to="/contact?need=toolkit">
-              {t('แชทกับเรา / นัดคุย', 'Talk with us')}
-            </Link>
+            <a className="btn small" href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Chapter99 toolkit')}`}>
+              {t('ส่งอีเมลหาทีม', 'Email the team')}
+            </a>
             <a href={`mailto:${CONTACT_EMAIL}`}>{t('ส่งอีเมล', 'Email us')}</a>
-            <Link to="/contact">{t('โทรหาเรา / ทิ้งเบอร์ร้าน', 'Leave your shop number')}</Link>
+            <a href={`mailto:${CONTACT_EMAIL}`}>{t('ส่งอีเมล', 'Email us')}</a>
           </article>
         </aside>
       </div>

@@ -64,10 +64,10 @@ export const packagesCopy = {
     en: 'Not sure whether START, GROW or SCALE fits the shop?',
   },
   auditBody: {
-    th: 'ก่อนสร้างอะไร เราดูว่าร้านทำงานอย่างไรวันนี้ ลูกค้าหา/จองยังไง อะไรเสียเวลา และอยากเริ่มจากจุดไหน',
-    en: 'Before we build anything, we look at how the shop runs today — how customers find and book, what takes time, and what should come first.',
+    th: 'ก่อนสร้างอะไร เราดูว่าร้านทำงานอย่างไรวันนี้ ลูกค้าหา/จองยังไง อะไรเสียเวลา และอยากเริ่มจากจุดไหน ส่งอีเมลมาที่ chapter99solutions@gmail.com — ยังไม่มีปฏิทินจองหรือแชทสด',
+    en: 'Before we build anything, we look at how the shop runs today — how customers find and book, what takes time, and what should come first. Email chapter99solutions@gmail.com. There is no booking calendar or live chat yet.',
   },
-  auditCta: { th: 'Book a Business Audit', en: 'Book a Business Audit' },
+  auditCta: { th: 'ส่งอีเมล Business Audit', en: 'Email a Business Audit' },
   homeCta: { th: 'กลับหน้าแรก', en: 'Back to home' },
 } as const;
 
@@ -115,8 +115,9 @@ export const packageTiers: PricingTier[] = [
       th: 'Get Found. Get Booked. Get Paid. — จากแค่มีเว็บ ไปสู่เส้นทางลูกค้าที่จอง จ่าย และดูแลได้',
       en: 'Get Found. Get Booked. Get Paid. — from being online to running more of the customer journey digitally.',
     },
-    cta: { th: 'Book a Business Audit', en: 'Book a Business Audit' },
-    ctaHref: '#audit',
+    cta: { th: 'ส่งอีเมล Business Audit', en: 'Email a Business Audit' },
+    ctaHref:
+      'mailto:chapter99solutions@gmail.com?subject=Chapter99%20GROW%20Business%20Audit',
     ctaVariant: 'primary',
     innerBg: '#07162c',
     features: [

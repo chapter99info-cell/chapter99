@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from '../cinematic/i18n/LanguageContext';
 import { PackAnimatedPricing } from '../cinematic/components/PackAnimatedPricing';
-import { siteContact, siteMedia } from './media';
+import { siteMedia } from './media';
 import { SiteLayout } from './SiteLayout';
 import { ShopGlowGrid } from './ShopGlowGrid';
 import { StageRing } from './StageRing';
@@ -165,12 +165,12 @@ function AuditDialog({
       <p>
         {plan
           ? t({
-              th: `สนใจ ${plan}? ขอบเขตจริงอยู่ที่แค็ตตาล็อกบนหน้าแพ็กเกจ การติดต่อ Audit ที่มีอยู่คืออีเมลและหน้าติดต่อ`,
-              en: `Interested in ${plan}? Scope lives on the pricing catalog. The current Audit path is email and the contact page.`,
+              th: `สนใจ ${plan}? ขอบเขตจริงอยู่ที่แค็ตตาล็อกบนหน้าแพ็กเกจ ช่องทางติดต่อที่ใช้ได้คืออีเมล chapter99solutions@gmail.com`,
+              en: `Interested in ${plan}? Scope lives on the pricing catalog. The working contact path is email to chapter99solutions@gmail.com.`,
             })
           : t({
-              th: 'แอปนี้ยังไม่มีปฏิทินจอง Audit การติดต่อที่ใช้งานอยู่คืออีเมล Business Audit และหน้า /contact',
-              en: 'This app has no live audit calendar. The working path is the Business Audit email and /contact.',
+              th: 'แอปนี้ยังไม่มีปฏิทินจอง และยังไม่มีแชทหรือ WhatsApp ที่รับงาน ช่องทางที่ใช้ได้คืออีเมล chapter99solutions@gmail.com',
+              en: 'This app has no booking calendar, live chat or WhatsApp inbox. The working path is email to chapter99solutions@gmail.com.',
             })}
       </p>
       <p className="v2-warn">
@@ -276,23 +276,17 @@ function HomeInner() {
                   })}
                 </figcaption>
               </figure>
+              <figure className="v2-hero-photo">
+                <video src={siteMedia.shopVideo} autoPlay muted loop playsInline preload="metadata" />
+                <figcaption>
+                  {t({
+                    th: 'คลิปแนวคิดจากคลัง Chapter99 web 2026 ไม่ใช่ผลงานร้านลูกค้า',
+                    en: 'Concept clip from Chapter99 web 2026 storage — not a client case.',
+                  })}
+                </figcaption>
+              </figure>
               <SystemPreview kind="shop" />
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="v2-section v2-path-section" id="path">
-        <div className="v2-wrap">
-          <h2>{t({ th: 'ทุกอย่างที่ธุรกิจต้องการ ในเส้นทางเดียว', en: 'Everything your business needs, in one connected system.' })}</h2>
-          <div className="v2-path">
-            {stages.map((stage) => (
-              <article key={stage.n}>
-                <span>{stage.n}</span>
-                <h3>{t(stage.kicker)}</h3>
-                <p>{t(stage.body)}</p>
-              </article>
-            ))}
           </div>
         </div>
       </section>
@@ -338,16 +332,16 @@ function HomeInner() {
 
       <section className="v2-section">
         <div className="v2-wrap v2-story">
-          <div
-            className="v2-photo"
-            role="img"
-            aria-label={t({
-              th: 'พื้นที่เตรียมภาพถ่าย: ภาพระยะใกล้ขณะผู้ให้บริการจัดเตรียมห้องทรีตเมนต์อย่างใส่ใจ',
-              en: 'Photography placeholder: a close-up of a practitioner preparing a treatment room with care',
-            })}
-          >
+          <div className="v2-photo">
+            <img
+              src={siteMedia.massage}
+              alt={t({
+                th: 'ภาพแนวคิดนวดไทยบนเสื่อ ไม่ใช่ภาพร้านลูกค้า',
+                en: 'Concept Thai massage photo — not a client shop.',
+              })}
+            />
             <span className="v2-photo-label">
-              {t({ th: 'เรื่องจริง รายละเอียดจริง · รอภาพถ่าย', en: 'REAL BUSINESS. REAL DETAILS. · PHOTO TO COME' })}
+              {t({ th: 'ภาพแนวคิดจากคลังงาน · ไม่ใช่ร้านลูกค้า', en: 'Concept from the Chapter99 library — not a client shop' })}
             </span>
             <div className="v2-photo-copy">
               <strong>
@@ -539,8 +533,8 @@ function HomeInner() {
           </h2>
           <p>
             {t({
-              th: 'Audit ที่มีอยู่คือส่งอีเมลหรือกรอกหน้าติดต่อ คุณจะได้คุยสิ่งที่ร้านต้องการ ไม่มีคะแนนอัตโนมัติ และยังไม่มีปฏิทินจอง',
-              en: 'The current Audit path is email or the contact page. You talk through what the shop needs. There is no auto score and no booking calendar.',
+              th: 'Audit ที่มีอยู่คือส่งอีเมลถึง chapter99solutions@gmail.com ไม่มีคะแนนอัตโนมัติ และยังไม่มีปฏิทินจอง',
+              en: 'The current Audit path is email to chapter99solutions@gmail.com. There is no auto score and no booking calendar.',
             })}
           </p>
           <div className="v2-actions">
@@ -655,9 +649,7 @@ function HomeInner() {
           </button>
         </div>
         <p className="v2-note">
-          <a href={siteContact.facebook} target="_blank" rel="noreferrer">
-            Facebook
-          </a>
+          <a href={AUDIT_MAIL}>chapter99solutions@gmail.com</a>
         </p>
       </section>
 

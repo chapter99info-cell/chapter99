@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import { useTranslation } from '../cinematic/i18n/LanguageContext';
 import { SiteLayout } from './SiteLayout';
+import { siteContact } from './media';
 import { RING_STEPS, StageRing } from './StageRing';
 import { SystemPreview, type PreviewKind } from './SystemPreview';
 import './homepage-v2.css';
@@ -48,9 +49,9 @@ function IndustryInner({ content }: { content: IndustryContent }) {
                 <Link className="v2-btn primary" to="/business-toolkit">
                   {t({ th: 'เปิดชุดเครื่องมือธุรกิจฟรี', en: 'Open the Free Business Toolkit' })}
                 </Link>
-                <Link className="v2-btn secondary" to="/pricing#audit">
-                  {t({ th: 'คุย Business Audit', en: 'Talk through a Business Audit' })}
-                </Link>
+                <a className="v2-btn secondary" href={siteContact.mail}>
+                  {t({ th: 'ส่งอีเมล Business Audit', en: 'Email a Business Audit' })}
+                </a>
               </div>
             </div>
             <div className="v2-hero-visual">
@@ -88,9 +89,9 @@ function IndustryInner({ content }: { content: IndustryContent }) {
             <Link className="v2-btn light" to="/business-toolkit">
               {t({ th: 'เปิดชุดเครื่องมือธุรกิจฟรี', en: 'Open the Free Business Toolkit' })}
             </Link>
-            <Link className="v2-btn secondary" to="/contact">
-              {t({ th: 'ไปหน้าติดต่อ', en: 'Go to contact' })}
-            </Link>
+            <a className="v2-btn secondary" href={siteContact.mail}>
+              {t({ th: 'ส่งอีเมล', en: 'Email us' })}
+            </a>
           </div>
         </section>
       </main>

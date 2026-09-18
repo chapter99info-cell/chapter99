@@ -1,24 +1,25 @@
 import { Link } from 'react-router-dom'
+import { siteContact, siteMedia } from '../site/media'
 
 const tiles = [
   {
-    src: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80',
-    alt: 'ภาพสต็อกอาหาร / ไม่ใช่ภาพร้านลูกค้า',
+    src: siteMedia.restaurant,
+    alt: 'ภาพแนวคิดถ่ายอาหารไทย / ไม่ใช่ภาพร้านลูกค้า',
     to: '/restaurants',
   },
   {
-    src: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=700&q=80',
-    alt: 'ภาพสต็อกร้านเสริมสวย / ไม่ใช่ภาพร้านลูกค้า',
-    to: '/photography',
+    src: siteMedia.booking,
+    alt: 'ภาพแนวคิดเคาน์เตอร์จองคิว / ไม่ใช่ภาพร้านลูกค้า',
+    to: '/beauty',
   },
   {
-    src: 'https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=900&q=80',
-    alt: 'ภาพสต็อกนวด / ไม่ใช่ภาพร้านลูกค้า',
+    src: siteMedia.massage,
+    alt: 'ภาพแนวคิดนวดไทย / ไม่ใช่ภาพร้านลูกค้า',
     to: '/massage',
   },
   {
-    src: 'https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=700&q=80',
-    alt: 'ภาพสต็อกภายในร้าน / ไม่ใช่ภาพร้านลูกค้า',
+    src: siteMedia.photography,
+    alt: 'ภาพแนวคิดถ่ายภาพแล้วไปใช้บนระบบร้าน / ไม่ใช่ผลงานลูกค้า',
     to: '/photography',
   },
 ]
@@ -36,9 +37,9 @@ export function WorkHero() {
         <p className="lead">
           รวมตัวอย่างเพื่อคุยทิศทางการออกแบบ ยังไม่ใช่การรับรองผลงานหรือผลลัพธ์จากร้านจริง
         </p>
-        <Link className="work-stage-cta" to="/contact">
-          นัดคุยเรื่องร้าน →
-        </Link>
+        <a className="work-stage-cta" href={siteContact.mail}>
+          ส่งอีเมลเรื่องร้าน →
+        </a>
       </div>
       <div className="work-mosaic">
         {tiles.map((tile) => (
