@@ -3,7 +3,11 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Dock } from '../components/ui/hero-dock'
 import { ToolkitDailyPanels } from '../components/ToolkitDailyPanels'
+import { useTranslation } from '../cinematic/i18n/LanguageContext'
 import { CONTACT_EMAIL } from '../data/pricing'
+import { siteContact } from '../site/media'
+import { SiteLayout } from '../site/SiteLayout'
+import '../site/toolkit-v2.css'
 import {
   documentTemplates,
   legalTemplateNote,
@@ -68,6 +72,15 @@ function StepWave({ th }: { th: boolean }) {
 }
 
 export function BusinessToolkitPage() {
+  return (
+    <SiteLayout>
+      <ToolkitInner />
+    </SiteLayout>
+  )
+}
+
+function ToolkitInner() {
+  const { lang } = useTranslation()
   const location = useLocation()
   const [state, setState] = useState<ToolkitState>(() => loadToolkit())
   const [panel, setPanel] = useState<Section>('home')
@@ -77,11 +90,15 @@ export function BusinessToolkitPage() {
   const [status, setStatus] = useState('')
   const [extra, setExtra] = useState('')
   const docPreviewRef = useRef<HTMLElement>(null)
-  const th = state.lang === 'th'
+  const th = lang === 'th'
 
   useEffect(() => {
-    saveToolkit(state)
-  }, [state])
+    saveToolkit({ ...state, lang })
+  }, [state, lang])
+
+  useEffect(() => {
+    setStatus('')
+  }, [lang])
 
   useEffect(() => {
     const hash = location.hash.replace('#', '') as Section
@@ -136,8 +153,17 @@ export function BusinessToolkitPage() {
   async function copyDraft() {
     const text = draft || generateDocument(docId, state.profile)
     if (!text) return
-    await copyText(text)
-    setStatus(t('คัดลอกแล้ว ส่งจากแอปของคุณเอง', 'Copied. Send it from your own app.'))
+    try {
+      await copyText(text)
+      setStatus(t('คัดลอกแล้ว ส่งจากแอปของคุณเอง', 'Copied. Send it from your own app.'))
+    } catch {
+      setStatus(
+        t(
+          'คัดลอกอัตโนมัติไม่ได้ในเบราว์เซอร์นี้ ให้เลือกข้อความในช่องแล้วคัดลอกเอง',
+          'Automatic copy is blocked in this browser. Select the text in the box and copy it yourself.',
+        ),
+      )
+    }
   }
 
   function smsHref() {
@@ -145,19 +171,11 @@ export function BusinessToolkitPage() {
   }
 
   return (
-    <div className="toolkit">
+    <div className="toolkit toolkit-v2">
       <div className="toolkit-toolbar">
         <div>
           <p className="eyebrow">FREE BUSINESS TOOLKIT</p>
           <strong>{t('เครื่องมือธุรกิจฟรี', 'Free business toolkit')}</strong>
-        </div>
-        <div className="lang-switch" role="group" aria-label="Language">
-          <button type="button" aria-pressed={th} onClick={() => setState((s) => ({ ...s, lang: 'th' }))}>
-            TH
-          </button>
-          <button type="button" aria-pressed={!th} onClick={() => setState((s) => ({ ...s, lang: 'en' }))}>
-            EN
-          </button>
         </div>
       </div>
 
@@ -180,22 +198,46 @@ export function BusinessToolkitPage() {
                     {t('เริ่มใช้งานฟรี', 'Start free')} ↗
                   </button>
                 </div>
-                <div className="toolkit-model-grid">
+                <div className="toolkit-catalog">
                   {[
-                    { id: 'queue' as Section, Icon: CalendarClock, th: 'คิววันนี้', en: "Today's queue", body: t('ดูคิววันนี้เรียงเวลา ไม่ต้องจดใส่กระดาษหรือจำเอง', 'See today in time order. No paper list to remember.') },
-                    { id: 'guests' as Section, Icon: Users, th: 'ลูกค้าของฉัน', en: 'My customers', body: t('จดจำลูกค้าประจำและสิ่งที่เขาชอบ ไม่ต้องจำเอง', 'Remember regulars and what they like.') },
-                    { id: 'reminders' as Section, Icon: Bell, th: 'ตัวช่วยแจ้งเตือน', en: 'Reminder helper', body: t('สร้างข้อความเตือนนัดล่วงหน้า คัดลอกไปส่งเองได้ทันที', 'Draft a reminder, then copy and send it yourself.') },
-                    { id: 'reviews' as Section, Icon: Star, th: 'ดูแลรีวิว', en: 'Review care', body: t('ร่างคำตอบรีวิวมืออาชีพ และวิธีชวนลูกค้าให้รีวิว', 'Draft a professional reply and a way to ask for reviews.') },
-                    { id: 'messages' as Section, Icon: MessageSquare, th: 'สร้างข้อความ', en: 'Write a message', body: t('แปลและร่างภาษาอังกฤษ แล้วคัดลอกไปส่งเอง', 'Draft English, then copy yourself.') },
-                    { id: 'docs' as Section, Icon: FileText, th: 'สร้างเอกสาร', en: 'Documents', body: t('แม่แบบนโยบายร้าน ไม่ใช่คำปรึกษากฎหมาย', 'Shop templates. Not legal advice.') },
-                  ].map((card) => (
-                    <button type="button" className="toolkit-model-card" key={card.id} onClick={() => go(card.id)}>
-                      <span className="toolkit-model-icon" aria-hidden="true">
-                        <card.Icon strokeWidth={1.8} />
-                      </span>
-                      <strong>{th ? card.th : card.en}</strong>
-                      <span>{card.body}</span>
-                    </button>
+                    {
+                      heading: t('วันนี้ที่ร้าน', 'Today in the shop'),
+                      cards: [
+                        { id: 'queue' as Section, Icon: CalendarClock, th: 'คิววันนี้', en: "Today's queue", body: t('ดูคิววันนี้เรียงเวลา ไม่ต้องจดใส่กระดาษหรือจำเอง', 'See today in time order. No paper list to remember.') },
+                        { id: 'guests' as Section, Icon: Users, th: 'ลูกค้าของฉัน', en: 'My customers', body: t('จดจำลูกค้าประจำและสิ่งที่เขาชอบ ไม่ต้องจำเอง', 'Remember regulars and what they like.') },
+                      ],
+                    },
+                    {
+                      heading: t('คุยกับลูกค้า', 'Talk with customers'),
+                      cards: [
+                        { id: 'reminders' as Section, Icon: Bell, th: 'ตัวช่วยแจ้งเตือน', en: 'Reminder helper', body: t('สร้างข้อความเตือนนัดล่วงหน้า คัดลอกไปส่งเองได้ทันที', 'Draft a reminder, then copy and send it yourself.') },
+                        { id: 'reviews' as Section, Icon: Star, th: 'ดูแลรีวิว', en: 'Review care', body: t('ร่างคำตอบรีวิวมืออาชีพ และวิธีชวนลูกค้าให้รีวิว', 'Draft a professional reply and a way to ask for reviews.') },
+                        { id: 'messages' as Section, Icon: MessageSquare, th: 'สร้างข้อความ', en: 'Write a message', body: t('แปลและร่างภาษาอังกฤษ แล้วคัดลอกไปส่งเอง', 'Draft English, then copy yourself.') },
+                      ],
+                    },
+                    {
+                      heading: t('เอกสารและการตั้งค่า', 'Documents and shop setup'),
+                      cards: [
+                        { id: 'docs' as Section, Icon: FileText, th: 'สร้างเอกสาร', en: 'Documents', body: t('แม่แบบนโยบายร้าน ไม่ใช่คำปรึกษากฎหมาย', 'Shop templates. Not legal advice.') },
+                        { id: 'settings' as Section, Icon: Settings, th: 'ข้อมูลร้าน', en: 'Shop details', body: t('กรอกชื่อร้าน เบอร์ร้าน และเวลาเปิด เก็บบนเครื่องนี้', 'Add shop name, phone and hours. Stored on this device.') },
+                      ],
+                    },
+                  ].map((group) => (
+                    <div className="toolkit-cat" key={group.heading}>
+                      <h2>{group.heading}</h2>
+                      <div className="toolkit-model-grid">
+                        {group.cards.map((card) => (
+                          <button type="button" className="toolkit-model-card" key={card.id} onClick={() => go(card.id)}>
+                            <span className="toolkit-model-icon" aria-hidden="true">
+                              <card.Icon strokeWidth={1.8} />
+                            </span>
+                            <strong>{th ? card.th : card.en}</strong>
+                            <span>{card.body}</span>
+                            <em>{t('เริ่มใช้งาน', 'Start')}</em>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   ))}
                 </div>
               </section>
@@ -222,6 +264,14 @@ export function BusinessToolkitPage() {
                 </ol>
               </section>
             </>
+          ) : null}
+
+          {panel !== 'home' && panel !== 'tools' ? (
+            <p className="toolkit-back">
+              <button type="button" className="btn small" onClick={() => go('tools')}>
+                {t('← รายการเครื่องมือ', '← All tools')}
+              </button>
+            </p>
           ) : null}
 
           {panel === 'queue' || panel === 'guests' || panel === 'reminders' || panel === 'reviews' ? (
@@ -411,17 +461,25 @@ export function BusinessToolkitPage() {
 
           {status ? <p className="form-status">{status}</p> : null}
 
-          <section className="toolkit-lead">
-            <h2>{t('ต้องการเว็บไซต์หรือระบบธุรกิจแบบมืออาชีพ?', 'Need a live website or full shop system?')}</h2>
+          <section className="toolkit-lead" id="audit-next">
+            <h2>{t('ใช้เครื่องมือฟรีได้เลย ขั้นถัดไปคือ Business Audit', 'Use the free tools now. A Business Audit is the optional next step.')}</h2>
             <p>
               {t(
-                'เราออกแบบเว็บไซต์และระบบธุรกิจให้เหมาะกับร้านคุณ ตั้งแต่เว็บไซต์ การจอง ใบเสร็จ และงานหน้าร้าน ระบบเต็มไม่ใช่หน้าเครื่องมือฟรีนี้',
-                'We can design a live site and shop system. Booking, receipts and front-desk tools sit in the paid product, not this free toolkit.',
+                'เครื่องมือด้านบนใช้ได้โดยไม่ต้องจอง Audit ไม่มีการส่งข้อมูลออกจากเครื่องนี้ หากอยากจัดขอบเขต START / GROW / SCALE ค่อยติดต่อผ่านอีเมลหรือหน้าติดต่อ',
+                'The tools above work without booking an audit, and nothing is sent off this device. When you want START / GROW / SCALE scoped, use the existing email or contact page.',
               )}
             </p>
-            <Link className="btn" to="/contact?need=shop">
-              {t('ให้เราช่วยสร้างให้', 'Ask us to build it')}
-            </Link>
+            <div className="actions">
+              <button className="btn" type="button" onClick={() => go('queue')}>
+                {t('จดคิววันนี้ต่อ', "Continue with today's queue")}
+              </button>
+              <a className="btn small" href={siteContact.mail}>
+                {t('ขั้นถัดไป · อีเมล Business Audit', 'Next · email a Business Audit')}
+              </a>
+              <Link className="btn small" to="/contact?need=toolkit">
+                {t('ไปหน้าติดต่อ', 'Go to contact')}
+              </Link>
+            </div>
           </section>
         </div>
 

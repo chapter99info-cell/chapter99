@@ -30,8 +30,17 @@ export function ToolkitDailyPanels({ panel, state, setState, t, setStatus, copyT
   const todaysQueue = state.queue.filter((row) => row.date === today).sort((a, b) => a.time.localeCompare(b.time))
 
   async function copy(text: string) {
-    await copyText(text)
-    setStatus(t('คัดลอกแล้ว ส่งจากแอปของคุณเอง', 'Copied. Send it from your own app.'))
+    try {
+      await copyText(text)
+      setStatus(t('คัดลอกแล้ว ส่งจากแอปของคุณเอง', 'Copied. Send it from your own app.'))
+    } catch {
+      setStatus(
+        t(
+          'คัดลอกอัตโนมัติไม่ได้ในเบราว์เซอร์นี้ ให้เลือกข้อความในช่องแล้วคัดลอกเอง',
+          'Automatic copy is blocked in this browser. Select the text in the box and copy it yourself.',
+        ),
+      )
+    }
   }
 
   function addQueue(e: FormEvent<HTMLFormElement>) {
@@ -44,7 +53,10 @@ export function ToolkitDailyPanels({ panel, state, setState, t, setStatus, copyT
       service: String(data.get('service') ?? '').trim(),
       firstName: String(data.get('firstName') ?? '').trim(),
     }
-    if (!item.time || !item.firstName) return
+    if (!item.time || !item.firstName) {
+      setStatus(t('ใส่เวลาและชื่อเล่นให้ครบก่อนเพิ่มคิว', 'Add a time and first name before saving the queue.'))
+      return
+    }
     setState((s) => ({ ...s, queue: [...s.queue, item].slice(-40) }))
     e.currentTarget.reset()
     setStatus(t('บันทึกคิววันนี้บนเครื่องนี้แล้ว ไม่ส่งไประบบจอง', 'Saved on this device. Not a live booking system.'))
@@ -223,7 +235,6 @@ export function ToolkitDailyPanels({ panel, state, setState, t, setStatus, copyT
             {t('สร้างข้อความเตือน', 'Generate reminder')}
           </button>
         </form>
-        <textarea readOnly rows={8} value={draft} aria-label={t('ข้อความเตือน', 'Reminder text')} />
         <div className="actions">
           <button className="btn" type="button" disabled={!draft} onClick={() => void copy(draft)}>
             {t('คัดลอก', 'Copy')}
@@ -234,6 +245,14 @@ export function ToolkitDailyPanels({ panel, state, setState, t, setStatus, copyT
             </a>
           ) : null}
         </div>
+        <textarea
+          readOnly
+          rows={8}
+          value={draft}
+          aria-label={t('ข้อความเตือน', 'Reminder text')}
+          onFocus={(e) => e.currentTarget.select()}
+          onClick={(e) => e.currentTarget.select()}
+        />
       </section>
     )
   }

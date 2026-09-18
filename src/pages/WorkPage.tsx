@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom'
 import { WorkHero } from '../components/WorkHero'
+import { SiteLayout } from '../site/SiteLayout'
+import '../site/homepage-v2.css'
 
 export function WorkPage() {
   return (
-    <>
+    <SiteLayout>
+    <main className="home-v2">
       <WorkHero />
       <section className="work-grid">
         <Link to="/restaurants">
@@ -18,7 +21,18 @@ export function WorkPage() {
           <h3>บ้านละมุน Thai Massage ↗</h3>
           <p>ร้านสมมติ · ภาพประกอบแนวคิดและเดโมการจอง</p>
         </Link>
+        <Link to="/beauty">
+          <p className="eyebrow">SERVICE PAGE</p>
+          <h3>ความงาม ↗</h3>
+          <p>หน้าสื่อสารบริการร้านความงาม</p>
+        </Link>
+        <Link to="/cleaning">
+          <p className="eyebrow">SERVICE PAGE</p>
+          <h3>ทำความสะอาด ↗</h3>
+          <p>หน้าสื่อสารบริการทำความสะอาด</p>
+        </Link>
       </section>
-    </>
+    </main>
+    </SiteLayout>
   )
 }

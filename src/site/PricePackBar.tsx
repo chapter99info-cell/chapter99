@@ -1,20 +1,14 @@
-import { Camera, HeartHandshake, UtensilsCrossed } from 'lucide-react';
-import { Dock, DockIcon, DockItem, DockLabel } from '@/components/ui/dock';
+import { motion } from 'motion/react';
 import { useLocation } from 'react-router-dom';
 import {
   businessPacks,
   hashToPack,
+  squarePack,
   type PricePackId,
 } from '../cinematic/data/industryPacks';
 import { useTranslation } from '../cinematic/i18n/LanguageContext';
 
-const ICONS: Record<Exclude<PricePackId, 'square'>, typeof HeartHandshake> = {
-  massage: HeartHandshake,
-  restaurant: UtensilsCrossed,
-  photo: Camera,
-};
-
-const iconClass = 'h-full w-full text-[#d7e1ef]';
+const allPacks = [...businessPacks, squarePack];
 
 function goToPack(pathname: string, hash: string) {
   const next = hash.startsWith('#') ? hash : `#${hash}`;
@@ -30,46 +24,52 @@ function goToPack(pathname: string, hash: string) {
   window.location.assign(`/pricing${next}`);
 }
 
-export function PricePackDock() {
+export function PricePackTabs({ className = '', lightId = 'pack' }: { className?: string; lightId?: string }) {
   const { t } = useTranslation();
   const location = useLocation();
   const active: PricePackId = hashToPack(location.hash) ?? 'massage';
 
   return (
-    <Dock className="items-end bg-[#07162c] pb-3" panelHeight={56} magnification={64}>
-      {businessPacks.map((pack) => {
-        const Icon = ICONS[pack.id as Exclude<PricePackId, 'square'>];
+    <div
+      className={`pack-tabs ${className}`.trim()}
+      role="tablist"
+      aria-label={t({ th: 'หมวดธุรกิจ', en: 'Business types' })}
+    >
+      {allPacks.map((pack) => {
         const selected = location.pathname === '/pricing' && active === pack.id;
         return (
           <button
             key={pack.id}
             type="button"
-            className="contents"
-            aria-label={t(pack.label)}
-            aria-pressed={selected}
+            role="tab"
+            aria-selected={selected}
+            className={`pack-chip${selected ? ' is-active' : ''}`}
             onClick={() => goToPack(location.pathname, pack.hash)}
           >
-            <DockItem
-              className={`aspect-square rounded-full ${selected ? 'bg-[#1769ff]' : 'bg-[#0d2344]'}`}
-              aria-label={t(pack.label)}
-            >
-              <DockLabel>{t(pack.label)}</DockLabel>
-              <DockIcon>
-                <Icon className={iconClass} strokeWidth={2.1} />
-              </DockIcon>
-            </DockItem>
+            {selected ? (
+              <motion.span
+                className="pack-chip-glow"
+                layoutId={`pack-tubelight-${lightId}`}
+                transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+              />
+            ) : null}
+            <span className="pack-chip-label">{t(pack.label)}</span>
           </button>
         );
       })}
-    </Dock>
+    </div>
   );
+}
+
+export function PricePackDock() {
+  return <PricePackTabs />;
 }
 
 export function PricePackBar() {
   return (
     <div className="pack-bar" role="navigation" aria-label="Business types">
       <div className="container pack-bar-inner">
-        <PricePackDock />
+        <PricePackTabs lightId="bar" />
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import './styles/site.css'
 import './styles/home-new.css'
 import './styles/app.css'
 import './styles/typography.css'
+import './styles/tailwind.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
