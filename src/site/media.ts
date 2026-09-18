@@ -60,4 +60,10 @@ export const siteIcons = {
 export const siteContact = {
   mail: 'mailto:chapter99solutions@gmail.com?subject=Chapter99%20Business%20Audit',
   email: 'chapter99solutions@gmail.com',
+  publicSite: 'https://www.chapter99info.com',
+  communityHref: 'https://www.facebook.com/groups/1631889741218502',
+  communityName: {
+    th: 'Thai-Aus Verified Community | ชุมชนบริการสีขาว คนไทยในซิดนีย์',
+    en: 'Thai-Aus Verified Community | White-service community for Thai people in Sydney',
+  },
 } as const;

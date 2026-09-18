@@ -51,6 +51,14 @@ export const siteCatalog: SiteEntry[] = [
     blurb: { th: 'ส่งอีเมล chapter99solutions@gmail.com เพื่อคุยขอบเขตงาน', en: 'Email chapter99solutions@gmail.com to talk through scope' },
   },
   {
+    href: '/#community',
+    title: { th: 'ชุมชน', en: 'Community' },
+    blurb: {
+      th: 'กลุ่ม Facebook คนไทยในซิดนีย์ แลกเปลี่ยนและแนะนำธุรกิจตามกติกาของกลุ่ม ไม่ใช่การรับรองจาก Chapter99',
+      en: 'Sydney Thai Facebook group to share and recommend under group rules — not a Chapter99 certification',
+    },
+  },
+  {
     href: '/#faq',
     title: { th: 'คำถามที่พบบ่อย', en: 'FAQ' },
     blurb: { th: 'ขอบเขตงาน ราคา บัญชีร้าน และชุดเครื่องมือฟรี', en: 'Scope, pricing, shop accounts and the free toolkit' },

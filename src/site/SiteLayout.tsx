@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { LanguageProvider, useTranslation } from '../cinematic/i18n/LanguageContext';
 import type { Lang } from '../cinematic/i18n/types';
-import { siteIcons, siteMedia } from './media';
+import { siteContact, siteIcons, siteMedia } from './media';
 import { PricePackBar } from './PricePackBar';
 import { SearchButton, SiteUx } from './SiteUx';
 import './site.css';
@@ -12,11 +12,10 @@ const AUDIT_MAIL =
   'mailto:chapter99solutions@gmail.com?subject=Chapter99%20Business%20Audit';
 
 const navLinks = [
-  { href: '/business-toolkit', label: { th: 'ชุดเครื่องมือธุรกิจฟรี', en: 'Free Toolkit' } },
-  { href: 'mailto:chapter99solutions@gmail.com?subject=Chapter99%20Business%20Audit', label: { th: 'Business Audit', en: 'Business Audit' } },
+  { href: '/business-toolkit', label: { th: 'เครื่องมือฟรี', en: 'Free Toolkit' } },
   { href: '/#how', label: { th: 'วิธีทำงาน', en: 'How It Works' } },
-  { href: '/pricing', label: { th: 'แพ็กเกจและราคา', en: 'Packages' } },
-  { href: '/work', label: { th: 'ผลงาน', en: 'Resources' } },
+  { href: '/pricing', label: { th: 'แพ็กเกจ', en: 'Packages' } },
+  { href: '/#community', label: { th: 'ชุมชน', en: 'Community' } },
   { href: '/about', label: { th: 'เกี่ยวกับเรา', en: 'About' } },
 ];
 
@@ -162,7 +161,7 @@ function SiteChrome({ children }: { children: ReactNode }) {
           <div className="nav-end">
             <SearchButton />
             <Link className="navcta header-cta" to="/business-toolkit" onClick={() => setOpen(false)}>
-              {t({ th: 'ชุดเครื่องมือธุรกิจฟรี', en: 'Free Business Toolkit' })}
+              {t({ th: 'เริ่มใช้เครื่องมือฟรี', en: 'Start the free toolkit' })}
             </Link>
             <a className="navcta header-cta header-cta-ghost" href={AUDIT_MAIL}>
               {t({ th: 'Business Audit', en: 'Business Audit' })}
@@ -209,7 +208,7 @@ function SiteChrome({ children }: { children: ReactNode }) {
             ),
           )}
           <Link className="navcta drawer-cta" to="/business-toolkit" onClick={() => setOpen(false)}>
-            {t({ th: 'ชุดเครื่องมือธุรกิจฟรี', en: 'Free Business Toolkit' })}
+            {t({ th: 'เริ่มใช้เครื่องมือฟรี', en: 'Start the free toolkit' })}
           </Link>
           <a className="navcta drawer-cta drawer-cta-ghost" href={AUDIT_MAIL} onClick={() => setOpen(false)}>
               {t({ th: 'Business Audit', en: 'Business Audit' })}
@@ -241,6 +240,9 @@ function SiteChrome({ children }: { children: ReactNode }) {
               <div className="footerCol">
                 <strong>{t({ th: 'ทรัพยากร', en: 'RESOURCES' })}</strong>
                 <Link to="/business-toolkit">{t({ th: 'เครื่องมือฟรี', en: 'Free Tools' })}</Link>
+                <a href={siteContact.communityHref} target="_blank" rel="noreferrer">
+                  {t({ th: 'ชุมชน Facebook', en: 'Facebook community' })}
+                </a>
                 <Link to="/work">{t({ th: 'ผลงาน', en: 'Work' })}</Link>
                 <Link to="/pricing">{t({ th: 'แพ็กเกจและราคา', en: 'Packages & Pricing' })}</Link>
               </div>
