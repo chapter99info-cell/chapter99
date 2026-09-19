@@ -1,0 +1,365 @@
+/* ==========================================================================
+   Chapter99 — Blue / White / Navy glass theme + modern motion
+   Save as: src/site/theme-blue.css
+   Import LAST in src/site/SiteLayout.tsx (after './homepage-approved.css'):
+       import './theme-blue.css'
+   Pure CSS override: no content, routes, i18n or logic changes.
+   Remove the import line to roll back to the previous look.
+   ========================================================================== */
+
+/* ---------- 1) Design tokens (override the old cream/forest/gold palette) ---------- */
+.site-v2.site-approved .home-approved,
+.site-v2.site-approved .tk-mvp {
+  --cream: #eaf6ff;      /* page bg: sky-50 */
+  --paper: #ffffff;      /* cards */
+  --beige: #d6eeff;      /* soft panels: sky-100 */
+  --line: #c5e0f5;
+  --forest: #071b33;     /* primary dark = navy-900 */
+  --forest2: #0b2a4a;    /* navy-800 */
+  --green: #1a6fbb;      /* links / accents on light (AA on white) */
+  --gold: #1a6fbb;       /* accent text on light */
+  --gold2: #7cc4f2;      /* accent on dark: sky-300 */
+  --ink: #0b2a4a;
+  --muted: #4f6f8f;
+  --sky-300: #7cc4f2;
+  --blue-500: #2f9be6;
+  --blue-600: #1f7fd0;
+  --grad-hero: linear-gradient(180deg, #5db7f0 0%, #2f9be6 45%, #1f6fb8 100%);
+  --glass-bg: rgba(255, 255, 255, 0.16);
+  --glass-border: rgba(255, 255, 255, 0.38);
+  --shadow-soft: 0 10px 30px rgba(31, 127, 208, 0.15);
+  --serif: Inter, system-ui, -apple-system, 'Segoe UI', 'Noto Sans Thai', sans-serif;
+  --sans: Inter, system-ui, -apple-system, 'Segoe UI', 'Noto Sans Thai', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+}
+.site-v2.site-approved { background: #fff; }
+.site-v2.site-approved .home-approved :focus-visible,
+.site-v2.site-approved .tk-mvp :focus-visible {
+  outline: 3px solid var(--blue-600);
+  outline-offset: 3px;
+}
+
+/* Headings: light, modern (Thai stays >= 500 for readability) */
+.site-v2.site-approved .home-approved h1,
+.site-v2.site-approved .home-approved h2,
+.site-v2.site-approved .home-approved h3,
+.site-v2.site-approved .tk-mvp h1,
+.site-v2.site-approved .tk-mvp h2,
+.site-v2.site-approved .tk-mvp h3 { font-weight: 300; letter-spacing: -0.02em; text-wrap: balance; }
+.site-v2.site-approved .home-approved h1 em,
+.site-v2.site-approved .home-approved h2 em { font-weight: 600; }
+html[lang='th'] .site-v2.site-approved .home-approved h1,
+html[lang='th'] .site-v2.site-approved .home-approved h2,
+html[lang='th'] .site-v2.site-approved .home-approved h3,
+html[lang='th'] .site-v2.site-approved .tk-mvp h1,
+html[lang='th'] .site-v2.site-approved .tk-mvp h2,
+html[lang='th'] .site-v2.site-approved .tk-mvp h3 { font-weight: 500; line-height: 1.3; }
+.site-v2.site-approved .home-approved h1 { font-size: clamp(36px, 5vw, 64px); text-transform: none; }
+
+/* ---------- 2) Buttons ---------- */
+.site-v2.site-approved .hp-btn,
+.site-v2.site-approved .tk-btn {
+  border-radius: 999px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.site-v2.site-approved .hp-btn:hover,
+.site-v2.site-approved .tk-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(7, 27, 51, 0.22); }
+.site-v2.site-approved .hp-btn-dark { background: #071b33; color: #fff; border-color: #071b33; }
+.site-v2.site-approved .hp-btn-dark::after { content: '→'; transition: transform 0.2s ease; }
+.site-v2.site-approved .hp-btn-dark:hover::after { transform: translateX(3px); }
+.site-v2.site-approved .hp-btn-line { background: #fff; color: #0b2a4a; border-color: #fff; }
+.site-v2.site-approved .hp-btn-light { background: #fff; color: #0b2a4a; border-color: #fff; }
+.site-v2.site-approved .hp-tag { background: #071b33; color: #fff; }
+
+/* ---------- 3) Header / announce / footer ---------- */
+.site-v2.site-approved .announce { background: #071b33; color: #d6eeff; }
+.site-v2.site-approved .announce-ticks li::before { color: #7cc4f2; }
+.site-v2.site-approved .topbar {
+  background: rgba(255, 255, 255, 0.86);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid #c5e0f5;
+  color: #0b2a4a;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.site-v2.site-approved .navcta.header-cta,
+.site-v2.site-approved .navcta.drawer-cta {
+  background: #071b33;
+  color: #fff;
+  border-radius: 999px;
+  transition: transform 0.2s ease;
+}
+.site-v2.site-approved .navcta.header-cta:hover { transform: translateY(-2px); }
+/* EN | TH switch as a pill */
+.site-v2.site-approved .lang-toggle {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  padding: 2px;
+}
+.site-v2.site-approved .lang-toggle .lang-btn {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  border-radius: 999px;
+  padding: 4px 12px;
+  min-height: 28px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.site-v2.site-approved .lang-toggle .lang-btn.active { background: #fff; color: #071b33; }
+.site-v2.site-approved footer { background: #071b33; color: #cfe6fa; }
+.site-approved-footer .sub-note,
+.site-approved-footer .fbottom { color: #9cc3e6; }
+.site-approved-footer h4 { color: #fff; }
+.site-approved-footer a:hover { color: #7cc4f2; }
+
+/* ---------- 4) Hero: sky gradient + glass + drifting light ---------- */
+.site-v2.site-approved .hp-hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #5db7f0 0%, #2f9bde 45%, #1f6fb8 100%);
+  background-size: 100% 140%;
+  animation: c99-sky 18s ease-in-out infinite alternate;
+  color: #fff;
+}
+.site-v2.site-approved .hp-hero::before,
+.site-v2.site-approved .hp-hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  opacity: 0.55;
+}
+.site-v2.site-approved .hp-hero::before {
+  width: 520px; height: 520px; right: -120px; top: -160px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.85), transparent 70%);
+  animation: c99-drift 16s ease-in-out infinite alternate;
+}
+.site-v2.site-approved .hp-hero::after {
+  width: 420px; height: 420px; left: -140px; bottom: -160px;
+  background: radial-gradient(circle, rgba(124, 196, 242, 0.9), transparent 70%);
+  animation: c99-drift 20s ease-in-out infinite alternate-reverse;
+}
+.site-v2.site-approved .hp-hero > * { position: relative; z-index: 1; }
+.site-v2.site-approved .hp-hero h1,
+.site-v2.site-approved .hp-hero .hp-sub,
+.site-v2.site-approved .hp-hero .hp-eyebrow { color: #fff; }
+.site-v2.site-approved .hp-hero h1 em { color: #fff; }
+.site-v2.site-approved .hp-hero .hp-lead { color: rgba(255, 255, 255, 0.94); }
+.site-v2.site-approved .hp-hero .hp-btn-dark { background: #071b33; }
+.site-v2.site-approved .hp-hero .hp-btn-line { background: rgba(255, 255, 255, 0.16); color: #fff; border-color: rgba(255, 255, 255, 0.55); }
+.site-v2.site-approved .hp-visual { background: transparent; overflow: visible; }
+.site-v2.site-approved .hp-phone {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 30px 60px rgba(7, 27, 51, 0.32);
+  animation: c99-float 6s ease-in-out infinite;
+}
+.site-v2.site-approved .hp-screen { background: linear-gradient(180deg, #fff, #d6eeff); }
+.site-v2.site-approved .hp-screen .hp-cover { background: linear-gradient(135deg, #7cc4f2, #2f9bde); color: #fff; }
+.site-v2.site-approved .hp-side span {
+  background: var(--glass-bg);
+  color: #fff;
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.site-v2.site-approved .hp-ph-note { background: rgba(255, 255, 255, 0.92); color: #0b2a4a; }
+
+/* ---------- 5) Sections & cards ---------- */
+.site-v2.site-approved .hp-sec { background: #fff; }
+.site-v2.site-approved .hp-how { background: #eaf6ff; border-color: #c5e0f5; }
+.site-v2.site-approved .hp-ind,
+.site-v2.site-approved .hp-pr,
+.site-v2.site-approved .hp-plan,
+.site-v2.site-approved .tk-card,
+.site-v2.site-approved .tk-panel {
+  background: #fff;
+  border: 1px solid #d3e9f8;
+  border-radius: 22px;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.site-v2.site-approved .hp-ind:hover,
+.site-v2.site-approved .hp-pr:hover,
+.site-v2.site-approved .hp-plan:hover,
+.site-v2.site-approved .tk-card:hover {
+  transform: translateY(-4px);
+  border-color: #7cc4f2;
+  box-shadow: 0 16px 38px rgba(31, 127, 208, 0.24);
+}
+.site-v2.site-approved .hp-ind.is-on { border-color: #1f7fd0; }
+.site-v2.site-approved .hp-ind .hp-img { background: linear-gradient(135deg, #d6eeff, #7cc4f2) !important; }
+.site-v2.site-approved .tk-card .ic { background: #d6eeff; }
+.site-v2.site-approved .hp-journey { background: #d6eeff; border-radius: 24px; }
+.site-v2.site-approved .hp-jsteps .st { background: #fff; border-color: #b9dcf3; }
+.site-v2.site-approved .hp-step .ic { background: #fff; border-color: #b9dcf3; }
+.site-v2.site-approved .hp-slot { border-color: #1a6fbb; background: #eaf6ff; }
+.site-v2.site-approved .hp-plan.soon { background: #eaf6ff; border-style: dashed; opacity: 0.85; }
+.site-v2.site-approved .hp-next { background: #eaf6ff; border-color: #c5e0f5; }
+.site-v2.site-approved .tk-chip[aria-pressed='true'],
+.site-v2.site-approved .tk-seg input:checked + span { background: #071b33; border-color: #071b33; color: #fff; }
+
+/* Featured pricing card: subtle animated gradient border */
+.site-v2.site-approved .hp-plan.feat {
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(120deg, #2f9bde, #7cc4f2, #1f6fb8, #2f9bde) border-box;
+  background-size: 100% 100%, 300% 100%;
+  animation: c99-shimmer 7s linear infinite;
+}
+
+/* Dark panels -> navy / glass */
+.site-v2.site-approved .hp-trust-dark {
+  background: linear-gradient(160deg, #0b2a4a, #071b33);
+  border-radius: 28px;
+  box-shadow: 0 24px 50px rgba(7, 27, 51, 0.28);
+}
+.site-v2.site-approved .hp-trust-dark p { color: #d6eeff; }
+.site-v2.site-approved .hp-trust-dark ul { color: #eaf6ff; }
+.site-v2.site-approved .hp-check {
+  background: linear-gradient(120deg, #071b33, #0b2a4a 45%, #1f6fb8);
+  border-radius: 28px;
+}
+.site-v2.site-approved .hp-check p { color: #d6eeff; }
+.site-v2.site-approved .hp-check small { color: #9cc3e6; }
+.site-v2.site-approved .hp-check-side {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+/* Toolkit result bridges */
+.site-v2.site-approved .tk-mvp { background: #eaf6ff; }
+
+/* ---------- 6) Scroll reveal (CSS-only progressive enhancement) ---------- */
+@supports (animation-timeline: view()) {
+  .site-v2.site-approved .hp-sec .hp-wrap > *,
+  .site-v2.site-approved .hp-ind,
+  .site-v2.site-approved .hp-pr,
+  .site-v2.site-approved .hp-plan,
+  .site-v2.site-approved .hp-step,
+  .site-v2.site-approved .tk-card {
+    animation: c99-rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 28%;
+  }
+}
+
+/* ---------- 7) Low-end fallback: no blur support -> solid tint ---------- */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-v2.site-approved .hp-phone,
+  .site-v2.site-approved .hp-side span,
+  .site-v2.site-approved .hp-check-side { background: rgba(31, 111, 184, 0.75); }
+  .site-v2.site-approved .topbar { background: #fff; }
+}
+
+/* ---------- 8) Keyframes (transform-only, cheap) ---------- */
+@keyframes c99-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+@keyframes c99-drift { from { transform: translate(0, 0); } to { transform: translate(40px, 30px); } }
+@keyframes c99-sky { from { background-position: 0 0; } to { background-position: 0 100%; } }
+@keyframes c99-shimmer { from { background-position: 0 0, 0% 50%; } to { background-position: 0 0, 300% 50%; } }
+@keyframes c99-rise { from { transform: translateY(14px); } to { transform: none; } }
+
+/* ---------- 9) Reduced motion: everything visible, nothing moves ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .site-v2.site-approved *,
+  .site-v2.site-approved *::before,
+  .site-v2.site-approved *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---------- 10) Small screens ---------- */
+@media (max-width: 640px) {
+  .site-v2.site-approved .home-approved h1 { font-size: clamp(32px, 9vw, 44px); }
+  .site-v2.site-approved .hp-hero::before,
+  .site-v2.site-approved .hp-hero::after { width: 300px; height: 300px; }
+}
+
+
+/* ==========================================================================
+   PART B — all other pages (/solutions/*, /about, /work, /contact, /legal, 404)
+   (colours in homepage-v2.css / site.css were remapped to blue at source; this
+   part adds the hero gradient, glass and finishing touches.)
+   ========================================================================== */
+.site-v2 { --v2-paper: #fff; --v2-ink: #0b2a4a; --v2-sage: #eaf6ff; --v2-green: #1a6fbb; --v2-deep: #071b33; --v2-muted: #4f6f8f; --v2-line: #c5e0f5; }
+.site-v2.site-approved footer .brand strong { color: #fff !important; }
+.site-v2.site-approved footer .brand small { color: #9cc3e6; }
+
+.home-v2 { background: #fff; }
+.home-v2 .v2-hero {
+  background: linear-gradient(180deg, #5db7f0 0%, #2f9bde 45%, #1f6fb8 100%);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.home-v2 .v2-hero::before {
+  content: '';
+  position: absolute; width: 480px; height: 480px; right: -120px; top: -160px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent 70%);
+  filter: blur(60px); opacity: 0.5; pointer-events: none;
+  animation: c99-drift 16s ease-in-out infinite alternate;
+}
+.home-v2 .v2-hero > * { position: relative; z-index: 1; }
+.home-v2 .v2-hero h1,
+.home-v2 .v2-hero .v2-kicker,
+.home-v2 .v2-hero .v2-eyebrow,
+.home-v2 .v2-hero .v2-lead,
+.home-v2 .v2-hero .v2-intro { color: #fff; }
+.home-v2 .v2-hero h1 { font-weight: 300; text-wrap: balance; }
+.home-v2 .v2-hero h1 em { color: #fff; font-weight: 600; }
+html[lang='th'] .home-v2 .v2-hero h1 { font-weight: 500; line-height: 1.3; }
+.home-v2 .v2-btn { border-radius: 999px; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.home-v2 .v2-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(7, 27, 51, 0.22); }
+.home-v2 .v2-hero .v2-btn.secondary { background: rgba(255, 255, 255, 0.16); color: #fff; border-color: rgba(255, 255, 255, 0.55); }
+.home-v2 .v2-notice { background: #eaf6ff; color: #0b2a4a; }
+
+/* dark bands -> navy */
+.home-v2 .v2-ring-band { background: linear-gradient(160deg, #0b2a4a, #071b33); }
+.home-v2 .v2-ring-band .stage-ring-track { stroke: rgba(255, 255, 255, 0.16) !important; }
+.home-v2 .v2-trust { background: linear-gradient(160deg, #0b2a4a, #071b33); }
+.home-v2 .v2-close { background: linear-gradient(180deg, #2f9bde, #1f6fb8); }
+
+/* cards */
+.home-v2 .v2-plan,
+.home-v2 .v2-tool-card,
+.home-v2 .v2-process article,
+.home-v2 .v2-community-card,
+.home-v2 details {
+  border-radius: 22px;
+  border-color: #d3e9f8;
+  box-shadow: 0 10px 30px rgba(31, 127, 208, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.home-v2 .v2-plan:hover,
+.home-v2 .v2-tool-card:hover,
+.home-v2 .v2-process article:hover { transform: translateY(-4px); box-shadow: 0 16px 38px rgba(31, 127, 208, 0.22); }
+.home-v2 .v2-plan.featured { background: #eaf6ff; border-color: #7cc4f2; }
+.home-v2 .v2-toolkit,
+.home-v2 .v2-community { background: #eaf6ff; }
+
+/* floating buttons */
+.site-v2 .fab-contact,
+.site-v2 .back-top { border-radius: 999px; }
+
+/* system preview card sits inside the gradient hero: keep its own dark text */
+.sys-card { color: #0b2a4a; }
+.home-v2 .v2-hero .sys-badge { color: #fff; }
+
+/* global .btn (legacy gold) + cookie banner buttons -> navy pill */
+.site-v2 .btn.primary,
+.site-v2 .cookie-banner .btn.primary,
+.site-v2 .confirm-card .btn.primary { background: #071b33; color: #fff; border-radius: 999px; }
+.site-v2 .btn.secondary,
+.site-v2 .cookie-banner .btn.secondary { background: #fff; color: #0b2a4a; border: 1px solid #c5e0f5; border-radius: 999px; }

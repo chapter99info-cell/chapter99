@@ -8,6 +8,7 @@ import { SiteUx } from './SiteUx'
 import './site.css'
 import './homepage-v2.css'
 import './homepage-approved.css'
+import './theme-blue.css'
 
 const navLinks = [
   { href: '/#solutions', label: { th: 'โซลูชัน', en: 'Solutions' } },
@@ -305,7 +306,7 @@ function SiteChrome({ children }: { children: ReactNode }) {
               </small>
             </div>
           </div>
-          <svg className="skyline" viewBox="0 0 800 46" preserveAspectRatio="none" fill="#cfe0d6" aria-hidden="true">
+          <svg className="skyline" viewBox="0 0 800 46" preserveAspectRatio="none" fill="#cfe6fa" aria-hidden="true">
             <path d="M0 46V34h40v-6h30v10h50V30h30V20h20v18h60V26h40v12h60V32c20-10 40-10 60 0v6h50V28h40v10h60V24h30v14h60V30h60v16z" />
           </svg>
           <div className="fbottom">

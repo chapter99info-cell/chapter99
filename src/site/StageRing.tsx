@@ -19,10 +19,10 @@ export function StageRing({ value, color }: { value: number; color: string }) {
 }
 
 export const RING_STEPS = [
-  { pct: 30, color: '#22c55e' },
-  { pct: 45, color: '#3b82f6' },
-  { pct: 60, color: '#a855f7' },
-  { pct: 95, color: '#ef4444' },
-  { pct: 75, color: '#22c55e' },
-  { pct: 100, color: '#ef4444' },
+  { pct: 30, color: '#7cc4f2' },
+  { pct: 45, color: '#5db7f0' },
+  { pct: 60, color: '#9fd0f0' },
+  { pct: 95, color: '#ffffff' },
+  { pct: 75, color: '#7cc4f2' },
+  { pct: 100, color: '#ffffff' },
 ] as const;
