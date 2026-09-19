@@ -12,6 +12,7 @@ import { RestaurantsPage } from './pages/RestaurantsPage'
 import { WorkPage } from './pages/WorkPage'
 import { BusinessToolkitPage } from './pages/BusinessToolkitPage'
 import SiteHomePage from './site/HomePage'
+import { SolutionPage } from './pages/SolutionPage'
 import { SitePricingPage } from './pages/SitePricingPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 
@@ -19,6 +20,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<SiteHomePage />} />
+      <Route path="/solutions/:slug" element={<SolutionPage />} />
       <Route path="/pricing" element={<SitePricingPage />} />
       <Route path="/business-toolkit" element={<BusinessToolkitPage />} />
       <Route path="/about" element={<AboutPage />} />
