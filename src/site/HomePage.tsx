@@ -92,7 +92,7 @@ function HomeInner() {
               en: 'Placeholder illustration of a wellness business page on a phone (sample data)',
             })}
           >
-            <span className="hp-tag hp-demo-flag">SAMPLE / DEMO</span>
+            <span className="hp-tag hp-demo-flag">Placeholder image</span>
             <div className="hp-side" aria-hidden="true">
               <span>{t({ th: 'จองง่ายขึ้น', en: 'Easier booking' })}</span>
               <span>{t({ th: 'ลูกค้าติดต่อสะดวก', en: 'Clear contact' })}</span>

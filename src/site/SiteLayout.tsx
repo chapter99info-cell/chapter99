@@ -106,6 +106,10 @@ function SiteChrome({ children }: { children: ReactNode }) {
       <div className="announce">
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center', minHeight: 38 }}>
           <span>{t({ th: 'สนับสนุนธุรกิจไทยขนาดเล็กในออสเตรเลีย', en: 'Proudly supporting Thai-owned small businesses in Australia' })}</span>
+          <ul className="announce-ticks">
+            <li>{t({ th: 'บริการภาษาไทย', en: 'Thai-friendly support' })}</li>
+            <li>{t({ th: 'เจ้าของเป็นเจ้าของบัญชีเอง', en: 'You own your accounts' })}</li>
+          </ul>
           <span className="lang-toggle">
             {(['en', 'th'] as Lang[]).map((code) => (
               <button
@@ -303,6 +307,9 @@ function SiteChrome({ children }: { children: ReactNode }) {
               </small>
             </div>
           </div>
+          <svg className="skyline" viewBox="0 0 800 46" preserveAspectRatio="none" fill="#cfe0d6" aria-hidden="true">
+            <path d="M0 46V34h40v-6h30v10h50V30h30V20h20v18h60V26h40v12h60V32c20-10 40-10 60 0v6h50V28h40v10h60V24h30v14h60V30h60v16z" />
+          </svg>
           <div className="fbottom">
             <span>© 2026 Chapter99. All rights reserved.</span>
             <span>Australia · chapter99solutions@gmail.com</span>

@@ -1,89 +1,33 @@
-# HANDOFF — Public homepage rebuild
+# HANDOFF — Homepage from approved prototype
 
-## 1. Audit findings
+Branch: `codex/homepage-v2`
 
-- App is Vite 8 + React 19 + React Router 7 (not Next.js).
-- Public chrome lives in `src/site/SiteLayout.tsx`; homepage is `src/site/HomePage.tsx`.
-- Approved mockup is now `docs/prototype/chapter99_homepage_mockup_v1.html` (36,740 bytes).
-- SOP v2 still names START / GROW / SCALE. This increment uses the **approved public prices** on the homepage only: Starter A$199 + A$19/mo, Professional A$499 + A$49/mo, Business Coming Soon (no price).
-- No `/chapter99/staff` in this repo. No schema/RLS/auth changes.
-- Existing automated tests: **none** in `package.json`.
+## What changed
 
-## 2. Exact files changed
+Public homepage rebuilt to match `docs/prototype/chapter99_homepage_mockup_v1.html` (identical to Downloads v1_3).
 
-- `.gitignore` — ignore `.vercel/` and `supabase/.temp/`
-- `tsconfig.app.json` — include `config/`
-- `config/pricing.ts` — canonical public package prices
-- `src/data/solutions.ts` — five industries + journeys + IndustryPage content
-- `src/pages/SolutionPage.tsx` — `/solutions/:slug`
-- `src/App.tsx` — new route
-- `src/site/HomePage.tsx` — approved section order
-- `src/site/SiteLayout.tsx` — nav, CTA, footer, newsletter stub
-- `src/site/homepage-approved.css` — mockup visual system
-- `HANDOFF-CURSOR-HOMEPAGE.md` — this file
+Section order: Header → Hero → Solutions (5 cards + journey) → **marked Free Toolkit slot (empty)** → How Chapter99 Works (6 steps) → Your Business Stays Yours → Pricing from `config/pricing.ts` → Business Check CTA (not connected) → Footer.
 
-Previous local commit (separate): `docs: add approved homepage mockup prototype`.
+Prices are not hard-coded in components.
 
-## 3. Routes added / changed
+## Files touched (this increment)
 
-| Route | Change |
+| File | Role |
 | --- | --- |
-| `/` | Rebuilt homepage |
-| `/solutions/:slug` | New (`massage`, `restaurant`, `cleaning`, `beauty`, `other`) |
-| `/massage`, `/restaurants`, `/beauty`, `/cleaning` | Unchanged existing pages |
-| `/pricing` | **Not rewritten** (still START/GROW/SCALE) |
-| `/business-toolkit` | Unchanged |
+| `docs/prototype/chapter99_homepage_mockup_v1.html` | Already committed earlier; unchanged |
+| `docs/prototype/chapter99_toolkit_mvp_v1.html` | Added in docs commit — **not implemented** |
+| `config/pricing.ts` | Canonical Starter / Professional / Business |
+| `src/data/solutions.ts` | Five industries + journeys |
+| `src/pages/SolutionPage.tsx` | `/solutions/:slug` |
+| `src/App.tsx` | Solution route |
+| `src/site/HomePage.tsx` | Homepage |
+| `src/site/SiteLayout.tsx` | Nav, EN/TH, footer, newsletter UI |
+| `src/site/homepage-approved.css` | Mockup tokens/layout |
+| `tsconfig.app.json` | Includes `config/` |
+| `.gitignore` | `.vercel/`, `supabase/.temp/` |
+| `HANDOFF-CURSOR-HOMEPAGE.md` | This file |
 
-## 4. Components reused
-
-- `SiteLayout` / `LanguageProvider` / `SiteUx` (cookie/search overlay)
-- `IndustryPage` for all `/solutions/*` pages
-- Existing `/contact` for Talk to Chapter99
-- `PricePackBar` still only on `/pricing`
-
-## 5. Components created
-
-- Homepage sections in `HomePage.tsx` (hero, solutions, toolkit slot, how, trust, pricing, check)
-- `SolutionPage`
-- `config/pricing.ts`, `src/data/solutions.ts`
-- `homepage-approved.css`
-
-## 6. Mocked / not connected
-
-- Business Check button: **disabled**, labelled not connected — no score, no fake result
-- Footer newsletter: **UI only**, no email stored
-- Hero phone: **SAMPLE / DEMO** placeholder, not a live shop
-- Industry card images: labelled gradients / placeholders, not real client photography
-- Free Toolkit teaser: **empty marked slot** (`#toolkit-slot`)
-
-## 7. Tests actually executed
-
-| Command | Result |
-| --- | --- |
-| `npm run lint` | Exit 0 (existing warnings in vendor/`specs` and older files) |
-| `npm run build` (`tsc -b` + vite) | Exit 0 |
-| Unit tests | None exist — not run |
-| Manual viewports 375 / 430 / 768 | `scrollWidth === clientWidth` (no overflow) |
-| 1024 / 1440 | No overflow (browser reported 2× CSS pixels; overflow still false) |
-| `/solutions/other` | Loads shared `IndustryPage` |
-
-Hero CTAs present at 375. Industry cards use horizontal snap under 1024px.
-
-## 8. Known issues
-
-- `/pricing` still shows START / GROW / SCALE. Homepage prices are isolated in `config/pricing.ts`.
-- Cookie/search overlay from `SiteUx` still appears on first visit.
-- Nav at ~1100px may wrap; burger kicks in at existing 1099px breakpoint.
-- Old industry URLs and `/solutions/*` are parallel, not redirects.
-
-## 9. Remaining work
-
-- Toolkit teaser in `#toolkit-slot` (separate task)
-- Align `/pricing` to the same `config/pricing.ts` when approved
-- Wire Business Check when that task ships
-- Swap placeholders for real, labelled photography
-
-## 10. Local run
+## How to run
 
 ```bash
 npm install
@@ -92,16 +36,38 @@ npm run dev
 
 Open http://localhost:5173/
 
-## 11. Explicit confirmations
+## Known gaps / deviations from the HTML mockup
 
-- Starter = A$199 setup + A$19/month
-- Professional = A$499 setup + A$49/month
-- Business has **no price** (Coming Soon / Talk to Us)
-- Homepage has **no START / GROW / SCALE**
-- No fake testimonials or results
-- Hardware is not resold (disclaimer on homepage)
-- No tax/legal advice marketing on homepage
-- No end-customer PII collection
-- `/chapter99/staff` untouched (not in repo)
-- No production DB changes
-- **No push, no deploy** in this increment
+- **Free Toolkit** is in the live nav (`/business-toolkit`) — written homepage brief / Phase 1 plan. The HTML mockup header omits it.
+- **`#toolkit-slot`** sits between Solutions and How It Works — written brief. HTML mockup has no toolkit teaser (separate task).
+- Solution cards **navigate** to `/solutions/<slug>` instead of only toggling the journey.
+- Hero default language follows the app (**TH** stored), not the mockup’s EN default.
+- Business Check control is **disabled** and labelled not connected (mockup link is a no-op).
+- `/pricing` page is **not** rewritten; it may still show START/GROW/SCALE. Homepage cards use `config/pricing.ts`.
+- Cookie/search overlay from existing `SiteUx` still appears.
+- No Toolkit product routes in this step.
+
+## Honest labels
+
+- Hero badge: `Placeholder image`
+- Phone rating: `SAMPLE`
+- Cover: `Photo placeholder`
+- Business Check: not connected, no results
+- Newsletter: UI only, no email stored
+
+## Checks run
+
+| Command | Result |
+| --- | --- |
+| `npm run lint` | Exit 0 (existing warnings outside this work) |
+| `npm run build` (`tsc -b` + vite) | Exit 0 |
+| Unit tests | None in repo |
+| Viewports | 375 / 768 / 1024 / 1440 — no horizontal overflow on prior pass |
+
+## Explicit confirmations
+
+- Starter A$199 + A$19/mo; Professional A$499 + A$49/mo; Business no price
+- Homepage has no START/GROW/SCALE
+- No staff/Back Office/auth/DB work
+- No Toolkit implementation
+- No push, no deploy
