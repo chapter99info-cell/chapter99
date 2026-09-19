@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chapter99 — Homepage Mockup v1</title>
+<meta name="description" content="Chapter99 — Digital Infrastructure for Thai Businesses in Australia. MOCKUP (placeholder imagery, sample data).">
+<style>
+:root{
+  --cream:#faf6ec; --paper:#fffdf8; --beige:#f1eadb; --line:#e3dac6;
+  --forest:#123b2f; --forest2:#0d2c23; --green:#2f6b4f; --gold:#a37a3c; --gold2:#c79f5c;
+  --ink:#1c2a24; --muted:#5f6b63;
+  --serif:Georgia,"Times New Roman","Noto Serif Thai",serif;
+  --sans:Inter,system-ui,-apple-system,"Segoe UI","Noto Sans Thai",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--gold2);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.02em;margin:0;line-height:1.08}
+h2{font-size:clamp(28px,4vw,40px)}
+.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 24px;border-radius:999px;font-weight:600;font-size:15px;border:1.5px solid var(--forest);cursor:pointer;transition:transform .15s,background .15s;font-family:inherit}
+.btn:hover{transform:translateY(-1px)}
+.btn-dark{background:var(--forest);color:#fff}
+.btn-dark:hover{background:var(--forest2)}
+.btn-line{background:transparent;color:var(--forest)}
+.btn-light{background:#fff;color:var(--forest);border-color:#fff}
+.mock-tag{display:inline-block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;background:var(--gold);color:#fff;padding:3px 8px;border-radius:99px;font-weight:700}
+
+/* top bar */
+.topbar{background:var(--forest);color:#d9e6df;font-size:12.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:38px;flex-wrap:wrap}
+.topbar ul{display:flex;gap:22px;list-style:none;margin:0;padding:0}
+.topbar .tick::before{content:"✓ ";color:var(--gold2)}
+.lang{display:flex;gap:8px;align-items:center}
+.lang button{background:none;border:0;color:#d9e6df;font:inherit;cursor:pointer;padding:6px 4px;min-height:32px}
+.lang button[aria-pressed=true]{color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+
+/* header */
+header.site{position:sticky;top:0;z-index:50;background:rgba(250,246,236,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;min-height:72px;gap:20px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo svg{width:40px;height:40px;flex:none}
+.logo b{display:block;font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:.06em;line-height:1}
+.logo small{display:block;font-size:10.5px;color:var(--muted);margin-top:3px}
+.links{display:flex;gap:26px;font-size:14.5px;font-weight:500}
+.links a{padding:8px 0;border-bottom:2px solid transparent}
+.links a:hover{border-color:var(--gold2)}
+.menu-btn{display:none;background:none;border:1.5px solid var(--forest);border-radius:12px;width:48px;height:48px;cursor:pointer;color:var(--forest)}
+.mobile-menu{display:none;border-top:1px solid var(--line);background:var(--cream)}
+.mobile-menu.open{display:block}
+.mobile-menu a{display:block;padding:16px 24px;border-bottom:1px solid var(--line);font-weight:500}
+.nav-cta{display:inline-flex}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:linear-gradient(100deg,var(--cream) 0%,var(--cream) 42%,#e6dcc4 100%)}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;padding-top:56px;padding-bottom:64px}
+.hero h1{font-size:clamp(46px,7vw,84px);margin:18px 0 22px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero .sub{font-family:var(--serif);font-size:clamp(20px,2.4vw,26px);line-height:1.3;margin:0 0 14px;max-width:460px}
+.hero p.lead{color:var(--muted);max-width:480px;margin:0 0 28px}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap}
+.hero-visual{position:relative;min-height:520px;border-radius:32px;overflow:hidden;background:
+  radial-gradient(circle at 25% 30%,#f3d9a8 0,transparent 45%),
+  radial-gradient(circle at 80% 80%,#7fa58c 0,transparent 50%),
+  linear-gradient(135deg,#b9c9b5,#8fae98 45%,#5f8a72)}
+.ph-note{position:absolute;left:16px;bottom:14px;font-size:11px;background:rgba(255,255,255,.88);color:var(--ink);padding:5px 10px;border-radius:99px;max-width:70%}
+.phone{position:absolute;right:8%;top:50%;transform:translateY(-50%) rotate(2deg);width:250px;background:#1a1a1a;border-radius:38px;padding:9px;box-shadow:0 30px 60px rgba(0,0,0,.28)}
+.screen{background:var(--paper);border-radius:30px;padding:16px 14px 14px;font-size:12px}
+.screen .status{display:flex;justify-content:space-between;font-size:10px;font-weight:600;margin-bottom:10px}
+.screen h3{font-family:var(--serif);font-size:19px;line-height:1.1}
+.screen .rate{font-size:11px;color:var(--muted);margin:3px 0 8px}
+.screen .cover{height:96px;border-radius:12px;background:linear-gradient(135deg,#d8c7a0,#a9bfa6);display:grid;place-items:center;font-size:10px;color:#4b5a50}
+.screen .acts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}
+.screen .acts span{border:1px solid var(--line);border-radius:10px;padding:7px 2px;text-align:center;font-size:10px}
+.screen .acts span:first-child{background:var(--forest);color:#fff;border-color:var(--forest)}
+.screen .svc{display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid var(--line);font-size:11px}
+.screen .book{margin-top:10px;background:var(--forest);color:#fff;text-align:center;border-radius:10px;padding:11px;font-weight:600}
+.demo-flag{position:absolute;top:14px;left:14px}
+.float{position:absolute;left:6%;top:12%;background:rgba(255,253,248,.92);border-radius:16px;padding:12px 16px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.12);display:none}
+.side-notes{position:absolute;right:16px;top:20%;display:flex;flex-direction:column;gap:14px}
+.side-notes span{background:rgba(255,253,248,.92);border-radius:99px;padding:8px 14px;font-family:var(--serif);font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.1)}
+
+/* sections */
+section{padding:72px 0}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:32px}
+.sec-head p{margin:8px 0 0;color:var(--muted)}
+.link-arrow{font-weight:600;color:var(--forest);padding:10px 0}
+
+/* industries */
+.ind-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.ind{background:var(--paper);border:1.5px solid var(--line);border-radius:18px;overflow:hidden;text-align:left;cursor:pointer;font:inherit;color:inherit;padding:0;transition:border-color .15s,box-shadow .15s}
+.ind:hover{box-shadow:0 10px 26px rgba(18,59,47,.1)}
+.ind[aria-pressed=true]{border-color:var(--forest);box-shadow:0 10px 26px rgba(18,59,47,.14)}
+.ind .img{height:120px;display:grid;place-items:center;font-size:34px}
+.ind .txt{padding:14px 16px 16px}
+.ind h3{font-size:19px;margin-bottom:6px}
+.ind p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.45}
+.ind .go{display:inline-block;margin-top:8px;font-size:12px;color:var(--gold);font-weight:700}
+.journey{margin-top:28px;background:var(--beige);border-radius:22px;padding:26px 28px}
+.journey .eyebrow{margin-bottom:14px}
+.jsteps{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:var(--serif);font-size:clamp(18px,2.4vw,24px)}
+.jsteps .st{background:var(--paper);border:1px solid var(--line);padding:8px 18px;border-radius:99px}
+.jsteps .ar{color:var(--gold)}
+
+/* how */
+.how{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;counter-reset:s;margin-top:36px;position:relative}
+.step{text-align:center;padding:0 6px}
+.step .ic{width:72px;height:72px;margin:0 auto 14px;border-radius:50%;border:1.5px solid var(--line);background:var(--cream);display:grid;place-items:center;font-size:26px;position:relative}
+.step h3{font-family:var(--sans);font-weight:700;font-size:15px;letter-spacing:0;margin-bottom:4px}
+.step h3 span{color:var(--gold);margin-right:6px}
+.step p{margin:0;font-size:13px;color:var(--muted);line-height:1.45}
+
+/* trust */
+.trust{padding:0}
+.trust .grid{display:grid;grid-template-columns:1fr 1.5fr;gap:0}
+.trust .dark{background:var(--forest);color:#fff;padding:64px 48px;border-radius:0 28px 28px 0;margin-left:calc((100vw - min(1200px,100vw))/-2)}
+.trust .dark{margin-left:0;border-radius:28px}
+.trust h2{font-size:clamp(34px,4.6vw,52px);margin-bottom:18px}
+.trust h2 em{font-style:normal;color:var(--gold2)}
+.trust .dark p{color:#cfe0d6;margin:0 0 14px}
+.trust .dark ul{margin:0 0 22px;padding:0;list-style:none;color:#e8f1ec;font-size:14.5px}
+.trust .dark li::before{content:"✓ ";color:var(--gold2)}
+.princ{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;padding-left:28px;align-content:center}
+.pr{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px}
+.pr .i{font-size:26px;margin-bottom:8px}
+.pr h3{font-size:19px;margin-bottom:6px}
+.pr p{margin:0;font-size:13.5px;color:var(--muted)}
+.trust-wrap{padding:72px 0}
+
+/* pricing */
+.price-grid{display:grid;grid-template-columns:1fr 1fr .8fr;gap:18px;margin-top:32px;align-items:stretch}
+.plan{background:var(--paper);border:1.5px solid var(--line);border-radius:22px;padding:28px;display:flex;flex-direction:column;gap:14px}
+.plan.feat{border-color:var(--forest);box-shadow:0 14px 34px rgba(18,59,47,.12)}
+.plan h3{font-size:26px}
+.price{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;font-family:var(--serif)}
+.price b{font-size:38px;font-weight:400}
+.price span{font-family:var(--sans);font-size:13.5px;color:var(--muted)}
+.price i{font-style:normal;color:var(--gold);font-family:var(--sans)}
+.plan p{margin:0;color:var(--muted);font-size:14.5px;flex:1}
+.plan.soon{background:var(--beige);border-style:dashed}
+.note{font-size:12.5px;color:var(--muted);margin-top:18px}
+
+/* check */
+.check-sec{padding:0 0 72px}
+.check{border-radius:28px;background:linear-gradient(120deg,var(--forest2),var(--forest) 55%,#2c5a45);color:#fff;padding:56px;display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
+.check h2{font-size:clamp(30px,4vw,44px);margin-bottom:14px}
+.check p{color:#cfe0d6;margin:0 0 22px;max-width:460px}
+.ticks{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;list-style:none;margin:0;padding:0;font-size:15px}
+.ticks li::before{content:"✓ ";color:var(--gold2);font-weight:700}
+.check .side{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:26px}
+.check .side .btn{width:100%;margin-top:18px}
+.check small{display:block;margin-top:12px;color:#a9c3b5;font-size:12px}
+
+/* footer */
+footer{background:var(--forest2);color:#cfe0d6;padding:56px 0 24px}
+.fgrid{display:grid;grid-template-columns:1.4fr repeat(3,1fr) 1.4fr;gap:32px}
+footer h4{color:#fff;font-size:14px;margin:0 0 12px}
+footer ul{list-style:none;margin:0;padding:0;font-size:14px;display:grid;gap:8px}
+footer a:hover{color:#fff}
+footer .logo b{color:#fff}
+footer .logo small{color:#9db8aa}
+.sub-form{display:flex;gap:8px;margin-top:10px}
+.sub-form input{flex:1;min-width:0;height:46px;border-radius:99px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;padding:0 16px;font:inherit}
+.sub-form input::placeholder{color:#9db8aa}
+.sub-form .btn{min-height:46px;padding:0 18px;font-size:14px}
+.skyline{margin-top:36px;height:46px;opacity:.5}
+.fbottom{margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);font-size:12.5px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#9db8aa}
+
+/* responsive */
+@media(max-width:1024px){
+  .links{display:none}.menu-btn{display:grid;place-items:center}.nav-cta{display:none}
+  .hero .wrap{grid-template-columns:1fr}
+  .hero-visual{min-height:460px}
+  .ind-grid{grid-template-columns:repeat(5,minmax(200px,1fr));overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;margin:0 -24px;padding-left:24px;padding-right:24px}
+  .ind{scroll-snap-align:start}
+  .steps{grid-template-columns:repeat(3,1fr);gap:28px 18px}
+  .trust .grid{grid-template-columns:1fr}
+  .princ{padding:20px 0 0}
+  .price-grid{grid-template-columns:1fr 1fr}
+  .plan.soon{grid-column:1/-1}
+  .check{grid-template-columns:1fr;padding:40px 28px}
+  .fgrid{grid-template-columns:1fr 1fr 1fr}
+  .fgrid>:first-child,.fgrid>:last-child{grid-column:1/-1}
+}
+@media(max-width:640px){
+  .wrap{padding:0 16px}
+  .topbar ul{display:none}
+  .topbar .wrap{justify-content:space-between}
+  section{padding:52px 0}
+  .hero .wrap{padding-top:36px;padding-bottom:40px}
+  .cta-row .btn{flex:1 1 100%}
+  .hero-visual{min-height:440px}
+  .phone{right:50%;transform:translate(50%,-50%) rotate(0);width:230px}
+  .side-notes{display:none}
+  .ind-grid{margin:0 -16px;padding-left:16px;padding-right:16px;grid-template-columns:repeat(5,72%)}
+  .steps{grid-template-columns:1fr;gap:0}
+  .step{display:grid;grid-template-columns:64px 1fr;gap:0 14px;text-align:left;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+  .step .ic{grid-row:span 2;margin:0;width:56px;height:56px;font-size:22px}
+  .trust .dark{padding:40px 26px}
+  .princ{grid-template-columns:1fr}
+  .price-grid{grid-template-columns:1fr}
+  .check{padding:32px 22px}
+  .ticks{grid-template-columns:1fr}
+  .fgrid{grid-template-columns:1fr 1fr}
+  .jsteps .st{padding:6px 12px;font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar">
+  <div class="wrap">
+    <span data-th="สนับสนุนธุรกิจไทยขนาดเล็กในออสเตรเลีย">Proudly supporting Thai-owned small businesses in Australia</span>
+    <ul>
+      <li class="tick" data-th="บริการภาษาไทย">Thai-friendly support</li>
+      <li class="tick" data-th="เจ้าของเป็นเจ้าของบัญชีเอง">You own your accounts</li>
+    </ul>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button><span aria-hidden="true">|</span><button type="button" data-lang="th" aria-pressed="false">TH</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="site">
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="Chapter99 home">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#a37a3c" stroke-width="1.5" aria-hidden="true"><path d="M24 40c-8-4-13-10-13-18 6 0 10 3 13 8 3-5 7-8 13-8 0 8-5 14-13 18z"/><path d="M24 30c-3-5-3-11 0-18 3 7 3 13 0 18z"/><path d="M24 40V30"/></svg>
+      <span><b>CHAPTER99</b><small data-th="โครงสร้างดิจิทัลสำหรับธุรกิจไทย">Digital Infrastructure for Thai Businesses</small></span>
+    </a>
+    <nav class="links" aria-label="Primary">
+      <a href="#solutions" data-th="โซลูชัน">Solutions</a>
+      <a href="#how" data-th="ขั้นตอนการทำงาน">How It Works</a>
+      <a href="#pricing" data-th="ราคา">Pricing</a>
+      <a href="#check" data-th="ตรวจธุรกิจ">Business Check</a>
+      <a href="#resources" data-th="แหล่งความรู้">Resources</a>
+      <a href="#about" data-th="เกี่ยวกับเรา">About</a>
+    </nav>
+    <a class="btn btn-dark nav-cta" href="#contact"><span data-th="คุยกับ Chapter99">Talk to Chapter99</span> →</a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#solutions" data-th="โซลูชัน">Solutions</a>
+    <a href="#how" data-th="ขั้นตอนการทำงาน">How It Works</a>
+    <a href="#pricing" data-th="ราคา">Pricing</a>
+    <a href="#check" data-th="ตรวจธุรกิจ">Business Check</a>
+    <a href="#resources" data-th="แหล่งความรู้">Resources</a>
+    <a href="#about" data-th="เกี่ยวกับเรา">About</a>
+    <div style="padding:16px 24px"><a class="btn btn-dark" style="width:100%" href="#contact" data-th="คุยกับ Chapter99">Talk to Chapter99</a></div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero" style="padding:0">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow" data-th="ธุรกิจไทยในออสเตรเลีย">Thai businesses in Australia</div>
+      <h1><span data-th="พาธุรกิจของคุณ">Bring Your Business to</span> <em data-th="ขึ้นออนไลน์อย่างมีชีวิตชีวา">Life Online.</em></h1>
+      <p class="sub" data-th="ตั้งแต่ภาพลักษณ์ของธุรกิจ ไปจนถึงวิธีที่ธุรกิจทำงาน">From the way your business looks, to the way it works.</p>
+      <p class="lead" data-th="Chapter99 ช่วยเจ้าของธุรกิจไทยในออสเตรเลียให้ดูมืออาชีพ ถูกค้นเจอ รับจองหรือรับออเดอร์ รับชำระเงิน และดำเนินงานต่อเนื่อง ด้วยเครื่องมือที่ใช้ง่ายและทีมที่พร้อมช่วย">Chapter99 helps Thai business owners in Australia look professional, get found, get booked or ordered, get paid and keep running — with simple tools and friendly support.</p>
+      <div class="cta-row">
+        <a class="btn btn-dark" href="#check"><span data-th="ตรวจธุรกิจของฉัน">Check My Business</span> ✓</a>
+        <a class="btn btn-line" href="#how"><span data-th="ดูวิธีการทำงาน">See How It Works</span> ▷</a>
+      </div>
+    </div>
+
+    <div class="hero-visual" role="img" aria-label="Placeholder illustration of a wellness business page on a phone (sample data)">
+      <span class="mock-tag demo-flag">Placeholder image</span>
+      <div class="side-notes" aria-hidden="true">
+        <span data-th="จองง่ายขึ้น">Easier booking</span>
+        <span data-th="ลูกค้าติดต่อสะดวก">Clear contact</span>
+        <span data-th="ธุรกิจดูน่าเชื่อถือ">A stronger look</span>
+      </div>
+      <div class="phone" aria-hidden="true">
+        <div class="screen">
+          <div class="status"><span>9:41</span><span>●●●</span></div>
+          <h3>Sample Thai Massage</h3>
+          <div class="rate">★ Rating shown here is SAMPLE · Sydney</div>
+          <div class="cover">Photo placeholder</div>
+          <div class="acts"><span>Book Now</span><span>Services</span><span>Contact</span></div>
+          <div class="svc"><span>Thai Massage</span><span>60 min</span></div>
+          <div class="svc"><span>Aromatherapy</span><span>60 min</span></div>
+          <div class="svc"><span>Foot Massage</span><span>45 min</span></div>
+          <div class="book">Book Now</div>
+        </div>
+      </div>
+      <span class="ph-note">Demo data only — production will use real client photography.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOLUTIONS ============ -->
+<section id="solutions">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2 data-th="โซลูชันสำหรับธุรกิจของคุณ">Solutions for Your Business</h2>
+        <p data-th="ธุรกิจต่างกัน แต่ใช้ระบบที่ทรงพลังเดียวกัน">Different businesses. Same powerful system.</p>
+      </div>
+      <a class="link-arrow" href="#solutions" data-th="เลือกประเภทธุรกิจ →">Choose your industry →</a>
+    </div>
+    <div class="ind-grid" id="indGrid" role="group" aria-label="Business types"></div>
+    <div class="journey" aria-live="polite">
+      <div class="eyebrow" id="jLabel">Massage journey</div>
+      <div class="jsteps" id="jSteps"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="how" id="how">
+  <div class="wrap">
+    <h2 data-th="Chapter99 ทำงานอย่างไร">How Chapter99 Works</h2>
+    <p style="color:var(--muted);margin:8px 0 0" data-th="ขั้นตอนง่าย ๆ ตั้งแต่เริ่มจนพร้อมใช้งาน">A simple process from start to success.</p>
+    <ol class="steps" style="list-style:none;padding:0">
+      <li class="step"><div class="ic" aria-hidden="true">🔍</div><h3><span>01</span><i style="font-style:normal" data-th="ตรวจธุรกิจ">Business Check</i></h3><p data-th="ดูว่าตอนนี้อยู่ตรงไหน และอะไรควรปรับ">See where you are and what may need attention.</p></li>
+      <li class="step"><div class="ic" aria-hidden="true">📄</div><h3><span>02</span><i style="font-style:normal" data-th="เลือกแพ็กเกจ">Choose Your Setup</i></h3><p data-th="เลือกแพ็กเกจที่เหมาะกับธุรกิจ">Choose the appropriate package.</p></li>
+      <li class="step"><div class="ic" aria-hidden="true">🖼️</div><h3><span>03</span><i style="font-style:normal" data-th="ส่งข้อมูล">Provide Information</i></h3><p data-th="ส่งข้อมูล เนื้อหา และรูปภาพที่อนุมัติแล้ว">Share approved content, details and photos.</p></li>
+      <li class="step"><div class="ic" aria-hidden="true">⚙️</div><h3><span>04</span><i style="font-style:normal" data-th="เราสร้างและตั้งค่า">We Build &amp; Configure</i></h3><p data-th="Chapter99 สร้างและเชื่อมระบบดิจิทัลให้">Chapter99 builds and connects your system.</p></li>
+      <li class="step"><div class="ic" aria-hidden="true">🚀</div><h3><span>05</span><i style="font-style:normal" data-th="ตรวจและเปิดใช้งาน">Review &amp; Launch</i></h3><p data-th="เจ้าของตรวจสอบก่อนเปิดจริง">You review before going live.</p></li>
+      <li class="step"><div class="ic" aria-hidden="true">📊</div><h3><span>06</span><i style="font-style:normal" data-th="ดูแลต่อเนื่อง">Ongoing Care</i></h3><p data-th="ดูแลระบบตามที่ตกลงกัน">We maintain the agreed infrastructure.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ TRUST ============ -->
+<section class="trust" id="about">
+  <div class="wrap trust-wrap">
+    <div class="grid">
+      <div class="dark">
+        <h2><span data-th="ธุรกิจของคุณ">Your Business</span><br><em data-th="ยังเป็นของคุณ">Stays Yours.</em></h2>
+        <p data-th="เจ้าของธุรกิจยังคงควบคุมสิ่งสำคัญเหล่านี้:">You keep control of your:</p>
+        <ul>
+          <li data-th="โดเมน">Domain</li>
+          <li data-th="Google Business Profile">Google Business Profile</li>
+          <li data-th="บัญชีผู้ให้บริการรับชำระเงิน">Payment-provider accounts</li>
+          <li data-th="บัญชีโซเชียล">Social accounts</li>
+          <li data-th="เนื้อหาธุรกิจ">Business content</li>
+        </ul>
+        <a class="btn btn-light" href="#about"><span data-th="เรียนรู้เพิ่มเติม">Learn More</span> →</a>
+      </div>
+      <div class="princ">
+        <div class="pr"><div class="i" aria-hidden="true">🛡️</div><h3 data-th="คุณเป็นเจ้าของ">You Own It</h3><p data-th="บัญชีของคุณ ข้อมูลของคุณ ธุรกิจของคุณ">Your accounts, your data, your business.</p></div>
+        <div class="pr"><div class="i" aria-hidden="true">🤝</div><h3 data-th="เราช่วยดูแลการใช้งาน">We Help Operate It</h3><p data-th="ตั้งค่า เชื่อมระบบ อัปเดต และซัพพอร์ตตามที่ตกลง">Setup, integrations, updates and agreed support.</p></div>
+        <div class="pr"><div class="i" aria-hidden="true">🌿</div><h3 data-th="สร้างเพื่อความต่อเนื่อง">Built for Continuity</h3><p data-th="กระบวนการที่เชื่อถือได้ สำรองข้อมูล และตรวจสอบเท่าที่เกี่ยวข้อง">Reliable processes, backups and monitoring where applicable.</p></div>
+        <div class="pr"><div class="i" aria-hidden="true">👥</div><h3 data-th="AI ช่วย คนตรวจ">AI-Assisted. Human-Reviewed.</h3><p data-th="ระบบอัตโนมัติช่วยลดงานซ้ำ ส่วนเรื่องสำคัญยังมีคนดูแล">Automation reduces repetitive work while important actions keep human oversight.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing" style="padding-top:0">
+  <div class="wrap">
+    <h2 data-th="แพ็กเกจเรียบง่าย ผลลัพธ์ชัดเจน">Simple Packages. Big Impact.</h2>
+    <p style="color:var(--muted);margin:8px 0 0" data-th="เลือกแพ็กเกจที่เหมาะกับระยะของธุรกิจ">Choose the package that fits your business stage.</p>
+    <div class="price-grid">
+      <article class="plan">
+        <h3>Starter</h3>
+        <div class="price"><b>A$199</b><span data-th="ค่าติดตั้ง">setup</span><i>+</i><b>A$19</b><span data-th="/ เดือน">/ month</span></div>
+        <p data-th="เริ่มต้นนำธุรกิจขึ้นออนไลน์ด้วยพื้นฐานที่จำเป็น">Get your business online with the essential foundation.</p>
+        <a class="btn btn-dark" href="#contact"><span data-th="เริ่มเลย">Get Started</span> →</a>
+      </article>
+      <article class="plan feat">
+        <h3>Professional</h3>
+        <div class="price"><b>A$499</b><span data-th="ค่าติดตั้ง">setup</span><i>+</i><b>A$49</b><span data-th="/ เดือน">/ month</span></div>
+        <p data-th="ชุดที่ครบขึ้น สำหรับธุรกิจที่ต้องการความสามารถมากขึ้นและการดูแลต่อเนื่อง">A more complete setup for businesses needing greater capability and ongoing operation.</p>
+        <a class="btn btn-dark" href="#contact"><span data-th="คุยกับ Chapter99">Talk to Chapter99</span> →</a>
+      </article>
+      <article class="plan soon">
+        <h3>Business</h3>
+        <p><span class="mock-tag" style="background:var(--green)" data-th="เร็ว ๆ นี้">Coming Soon</span></p>
+        <p data-th="สำหรับธุรกิจขนาดใหญ่หรือซับซ้อนกว่า — คุยกับเรา">For larger or more complex businesses — talk to us.</p>
+        <a class="btn btn-line" href="#contact" data-th="คุยกับเรา">Talk to Us</a>
+      </article>
+    </div>
+    <p class="note" data-th="ฮาร์ดแวร์ (เช่น อุปกรณ์รับชำระเงิน) ธุรกิจซื้อตรงจากผู้ให้บริการที่เกี่ยวข้อง Chapter99 ไม่ได้จำหน่ายฮาร์ดแวร์">Any hardware (e.g. payment devices) is purchased directly by the business from the relevant provider. Chapter99 does not resell hardware.</p>
+  </div>
+</section>
+
+<!-- ============ BUSINESS CHECK ============ -->
+<section class="check-sec" id="check">
+  <div class="wrap">
+    <div class="check">
+      <div>
+        <h2 data-th="ประตูหน้าดิจิทัลของคุณพร้อมแค่ไหน?">How ready is your digital front door?</h2>
+        <p data-th="ดูอย่างรวดเร็วว่าลูกค้าค้นเจอ เข้าใจ และดำเนินการกับธุรกิจของคุณได้ง่ายเพียงใด">Get a quick look at how easy it is for customers to find, understand and take action with your business.</p>
+        <ul class="ticks">
+          <li data-th="Google">Google presence</li>
+          <li data-th="เว็บไซต์บนมือถือ">Mobile website</li>
+          <li data-th="บริการ / เมนูชัดเจน">Clear services / menu</li>
+          <li data-th="ช่องทางจอง / สั่ง">Booking / order path</li>
+          <li data-th="ช่องทางชำระเงิน">Payment path</li>
+          <li data-th="รูปถ่ายจริง">Real photography</li>
+          <li data-th="ช่องทางติดต่อ">Customer contact</li>
+          <li data-th="รีวิว">Reviews</li>
+        </ul>
+      </div>
+      <div class="side">
+        <div class="eyebrow" style="color:#a9c3b5" data-th="ใช้เวลาไม่กี่นาที">Takes only a few minutes</div>
+        <a class="btn btn-light" href="#check" id="checkBtn"><span data-th="ตรวจธุรกิจของฉัน">Check My Business</span> →</a>
+        <small>Mockup: assessment is not connected yet — no results are generated.</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <div class="logo"><svg viewBox="0 0 48 48" fill="none" stroke="#c79f5c" stroke-width="1.5" aria-hidden="true"><path d="M24 40c-8-4-13-10-13-18 6 0 10 3 13 8 3-5 7-8 13-8 0 8-5 14-13 18z"/><path d="M24 30c-3-5-3-11 0-18 3 7 3 13 0 18z"/></svg><span><b>CHAPTER99</b><small>Digital Infrastructure for Thai Businesses in Australia</small></span></div>
+        <p style="font-size:14px;margin-top:14px" data-th="คนไทย ธุรกิจท้องถิ่น อนาคตที่สดใสกว่า">Thai people. Local businesses. Brighter tomorrow.</p>
+      </div>
+      <div><h4 data-th="โซลูชัน">Solutions</h4><ul><li><a href="#solutions">Massage / Wellness</a></li><li><a href="#solutions">Restaurant / Cafe</a></li><li><a href="#solutions">Cleaning</a></li><li><a href="#solutions">Beauty &amp; Salon</a></li><li><a href="#solutions">Other</a></li></ul></div>
+      <div><h4 data-th="บริษัท">Company</h4><ul><li><a href="#about">About Us</a></li><li><a href="#how">Our Approach</a></li><li><a href="#contact">Contact Us</a></li></ul></div>
+      <div id="resources"><h4 data-th="แหล่งความรู้">Resources</h4><ul><li><a href="#check">Business Check</a></li><li><a href="#pricing">Pricing</a></li></ul></div>
+      <div><h4 data-th="รับข่าวสารและเคล็ดลับ">Get tips and updates</h4>
+        <form class="sub-form" onsubmit="return false" aria-label="Newsletter (not connected in mockup)">
+          <input type="email" placeholder="Your email address" aria-label="Email address">
+          <button class="btn btn-dark" style="background:var(--green);border-color:var(--green)" type="button">Subscribe</button>
+        </form>
+        <small style="color:#9db8aa;font-size:11.5px;display:block;margin-top:8px">UI only — not connected yet.</small>
+      </div>
+    </div>
+    <svg class="skyline" viewBox="0 0 800 46" preserveAspectRatio="none" fill="#cfe0d6" aria-hidden="true"><path d="M0 46V34h40v-6h30v10h50V30h30V20h20v18h60V26h40v12h60V32c20-10 40-10 60 0v6h50V28h40v10h60V24h30v14h60V30h60v16z"/></svg>
+    <div class="fbottom"><span>© 2026 Chapter99. All rights reserved.</span><span>Mockup v1 · placeholder imagery · sample data · legal pages to be linked once published</span></div>
+  </div>
+</footer>
+
+<script>
+/* ---- Industry data (data-driven; future routes /solutions/<slug>) ---- */
+const INDUSTRIES=[
+ {slug:'massage',   icon:'🕯️', bg:'linear-gradient(135deg,#e9dcc0,#b9c9b5)', name:'Massage / Wellness', th:'นวด / เวลเนส', desc:'Get more bookings and manage your schedule.', journey:['Find','Services','Book','Pay','Rebook']},
+ {slug:'restaurant',icon:'🍜', bg:'linear-gradient(135deg,#f0d9b0,#d9a86a)', name:'Restaurant / Cafe', th:'ร้านอาหาร / คาเฟ่', desc:'Show your menu, accept orders or bookings.', journey:['Find','Menu','Order / Book','Pay','Return']},
+ {slug:'cleaning',  icon:'🧼', bg:'linear-gradient(135deg,#d6e6ea,#9fc3cc)', name:'Cleaning Business', th:'ธุรกิจทำความสะอาด', desc:'Get quotes, manage jobs, look professional.', journey:['Find','Quote','Book Job','Run Job','Invoice / Pay']},
+ {slug:'beauty',    icon:'💄', bg:'linear-gradient(135deg,#eadbe6,#cfb2c6)', name:'Beauty & Salon', th:'ความงาม / ซาลอน', desc:'Attract clients, make booking easy.', journey:['Find','Treatments','Book','Pay','Rebook']},
+ {slug:'other',     icon:'🏪', bg:'linear-gradient(135deg,#e3dac6,#c7b98f)', name:'Other Businesses', th:'ธุรกิจอื่น ๆ', desc:'Flexible solutions for your unique needs.', journey:['Find','Understand','Enquire','Follow Up']}
+];
+const grid=document.getElementById('indGrid'), jSteps=document.getElementById('jSteps'), jLabel=document.getElementById('jLabel');
+function showJourney(i){
+  const d=INDUSTRIES[i];
+  jLabel.textContent=d.name+' — customer journey (sample)';
+  jSteps.innerHTML=d.journey.map((s,k)=>(k?'<span class="ar" aria-hidden="true">→</span>':'')+'<span class="st">'+s+'</span>').join('');
+  [...grid.children].forEach((b,k)=>b.setAttribute('aria-pressed',k===i));
+}
+INDUSTRIES.forEach((d,i)=>{
+  const b=document.createElement('button');
+  b.type='button'; b.className='ind'; b.setAttribute('aria-pressed','false');
+  b.innerHTML='<div class="img" style="background:'+d.bg+'" aria-hidden="true">'+d.icon+'</div><div class="txt"><h3>'+d.name+'</h3><p>'+d.desc+'</p><span class="go">/solutions/'+d.slug+' →</span></div>';
+  b.addEventListener('click',()=>showJourney(i));
+  grid.appendChild(b);
+});
+showJourney(0);
+
+/* ---- Mobile menu ---- */
+const mb=document.getElementById('menuBtn'), mm=document.getElementById('mobileMenu');
+mb.addEventListener('click',()=>{const o=mm.classList.toggle('open');mb.setAttribute('aria-expanded',o)});
+mm.addEventListener('click',e=>{if(e.target.tagName==='A'){mm.classList.remove('open');mb.setAttribute('aria-expanded',false)}});
+
+/* ---- EN | TH toggle (elements with data-th) ---- */
+document.querySelectorAll('[data-th]').forEach(el=>{el.dataset.en=el.innerHTML});
+document.querySelectorAll('[data-lang]').forEach(btn=>btn.addEventListener('click',()=>{
+  const th=btn.dataset.lang==='th';
+  document.documentElement.lang=th?'th':'en';
+  document.querySelectorAll('[data-th]').forEach(el=>{el.innerHTML=th?el.dataset.th:el.dataset.en});
+  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b===btn));
+}));
+
+/* ---- Business Check: honest mock ---- */
+document.getElementById('checkBtn').addEventListener('click',e=>{e.preventDefault()});
+</script>
+</body>
+</html>
