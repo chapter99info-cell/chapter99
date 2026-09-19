@@ -188,10 +188,19 @@ function HomeInner() {
       </section>
 
       <aside className="hp-slot" id="toolkit-slot">
-        {t({
-          th: 'ช่อง Free Toolkit (งานแยก) — ยังไม่สร้างในรอบนี้',
-          en: 'Free Toolkit teaser slot — built in a separate task. Do not implement here.',
-        })}
+        <p className="hp-eyebrow">{t({ th: 'เครื่องมือฟรี', en: 'Free Toolkit' })}</p>
+        <h2 style={{ fontSize: 'clamp(26px, 3.4vw, 36px)', margin: '8px 0 10px' }}>
+          {t({ th: 'เครื่องมือง่าย ๆ ช่วยให้บริหารธุรกิจดีขึ้น', en: 'Simple tools to help run your business better.' })}
+        </h2>
+        <p style={{ margin: '0 0 16px' }}>
+          {t({
+            th: 'เขียนข้อความอังกฤษ จัดรายการราคา ตอบรีวิว และทำโปสเตอร์ QR — ไม่ต้องสมัครสมาชิก',
+            en: 'Draft English messages, price lists, review replies and QR posters. No account needed.',
+          })}
+        </p>
+        <Link className="hp-btn hp-btn-dark" to="/toolkit">
+          {t({ th: 'เปิดเครื่องมือฟรี', en: 'Open Free Toolkit' })}
+        </Link>
       </aside>
 
       <section className="hp-sec hp-how" id="how" aria-labelledby="hp-how-title">
@@ -309,13 +318,13 @@ function HomeInner() {
               <div className="hp-eyebrow" style={{ color: '#a9c3b5' }}>
                 {t({ th: 'ใช้เวลาไม่กี่นาที', en: 'Takes only a few minutes' })}
               </div>
-              <button className="hp-btn hp-btn-light" type="button" disabled>
+              <Link className="hp-btn hp-btn-light" to="/business-check">
                 {t({ th: 'ตรวจธุรกิจของฉัน', en: 'Check My Business' })}
-              </button>
+              </Link>
               <small>
                 {t({
-                  th: 'ยังไม่เชื่อมต่อ — ยังไม่มีผลประเมินอัตโนมัติ',
-                  en: 'Not connected yet — no assessment results are generated.',
+                  th: '8 คำถามสั้น ๆ ผลอยู่บนเครื่องคุณเท่านั้น ไม่เก็บคำตอบ',
+                  en: 'Eight quick questions. Results stay on your device — answers are not stored.',
                 })}
               </small>
             </div>

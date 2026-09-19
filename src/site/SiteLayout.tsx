@@ -4,7 +4,6 @@ import { LanguageProvider, useTranslation } from '../cinematic/i18n/LanguageCont
 import type { Lang } from '../cinematic/i18n/types'
 import { solutions } from '../data/solutions'
 import { siteContact, siteIcons, siteMedia } from './media'
-import { PricePackBar } from './PricePackBar'
 import { SiteUx } from './SiteUx'
 import './site.css'
 import './homepage-v2.css'
@@ -12,10 +11,10 @@ import './homepage-approved.css'
 
 const navLinks = [
   { href: '/#solutions', label: { th: 'โซลูชัน', en: 'Solutions' } },
-  { href: '/business-toolkit', label: { th: 'เครื่องมือฟรี', en: 'Free Toolkit' } },
+  { href: '/toolkit', label: { th: 'เครื่องมือฟรี', en: 'Free Toolkit' } },
   { href: '/#how', label: { th: 'ขั้นตอนการทำงาน', en: 'How It Works' } },
   { href: '/pricing', label: { th: 'ราคา', en: 'Pricing' } },
-  { href: '/#check', label: { th: 'ตรวจธุรกิจ', en: 'Business Check' } },
+  { href: '/business-check', label: { th: 'ตรวจธุรกิจ', en: 'Business Check' } },
   { href: '/#resources', label: { th: 'แหล่งความรู้', en: 'Resources' } },
   { href: '/about', label: { th: 'เกี่ยวกับเรา', en: 'About' } },
 ]
@@ -45,7 +44,7 @@ function SiteChrome({ children }: { children: ReactNode }) {
   const [solOpen, setSolOpen] = useState(false)
   const [newsNote, setNewsNote] = useState('')
   const solRef = useRef<HTMLDivElement>(null)
-  const isToolkit = location.pathname === '/business-toolkit'
+  const isToolkit = location.pathname.startsWith('/toolkit') || location.pathname === '/business-check'
   const isPricing = location.pathname === '/pricing'
   const solActive = location.pathname.startsWith('/solutions') || solutions.some((item) => location.pathname === item.href)
 
@@ -227,7 +226,6 @@ function SiteChrome({ children }: { children: ReactNode }) {
         </div>
       </header>
       <SiteUx />
-      {isPricing ? <PricePackBar /> : null}
       <div id="main">{children}</div>
       <footer className="site-approved-footer" id="contact">
         <div className="container">
@@ -269,13 +267,13 @@ function SiteChrome({ children }: { children: ReactNode }) {
               <h4>{t({ th: 'แหล่งความรู้', en: 'Resources' })}</h4>
               <ul>
                 <li>
-                  <a href="/#check">{t({ th: 'ตรวจธุรกิจ', en: 'Business Check' })}</a>
+                  <Link to="/business-check">{t({ th: 'ตรวจธุรกิจ', en: 'Business Check' })}</Link>
                 </li>
                 <li>
                   <Link to="/pricing">{t({ th: 'ราคา', en: 'Pricing' })}</Link>
                 </li>
                 <li>
-                  <Link to="/business-toolkit">{t({ th: 'เครื่องมือฟรี', en: 'Free Toolkit' })}</Link>
+                  <Link to="/toolkit">{t({ th: 'เครื่องมือฟรี', en: 'Free Toolkit' })}</Link>
                 </li>
                 <li>
                   <a href={siteContact.communityHref} target="_blank" rel="noreferrer">
