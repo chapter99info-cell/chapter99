@@ -1,0 +1,3098 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123b2f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Chapter99 Toolkit">
+<title>Chapter99 — Free Business Toolkit (MVP prototype)</title>
+<style>
+:root{--cream:#faf6ec;--paper:#fffdf8;--beige:#f1eadb;--line:#e3dac6;--forest:#123b2f;--forest2:#0d2c23;--green:#2f6b4f;--gold:#a37a3c;--gold2:#c79f5c;--ink:#1c2a24;--muted:#5f6b63;--warn:#8a4b12;--warnbg:#fbeedb;
+--serif:Georgia,"Times New Roman","Noto Serif Thai",serif;--sans:Inter,system-ui,-apple-system,"Segoe UI","Noto Sans Thai",sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button,a,label{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+footer{padding-bottom:calc(22px + env(safe-area-inset-bottom))}
+@media(pointer:coarse){.btn-sm{min-height:46px}.quick button{min-height:44px}.seg span{min-height:48px}}
+:focus-visible{outline:3px solid var(--gold2);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.02em;margin:0;line-height:1.1}
+h1{font-size:clamp(34px,5vw,56px)}h2{font-size:clamp(26px,3.6vw,38px)}
+.eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.muted{color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border-radius:999px;font:600 15px var(--sans);border:1.5px solid var(--forest);cursor:pointer;transition:transform .15s,background .15s;background:transparent;color:var(--forest)}
+.btn:hover{transform:translateY(-1px)}
+.btn-dark{background:var(--forest);color:#fff}.btn-dark:hover{background:var(--forest2)}
+.btn-light{background:#fff;color:var(--forest);border-color:#fff}
+.btn-sm{min-height:40px;padding:0 16px;font-size:14px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.tag{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:99px;font-weight:700;background:var(--gold);color:#fff}
+.tag.green{background:var(--green)}
+/* top + header */
+.topbar{background:var(--forest);color:#d9e6df;font-size:12.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;min-height:38px;gap:12px}
+.lang{display:flex;gap:8px;align-items:center}
+.lang button{background:none;border:0;color:#d9e6df;font:inherit;cursor:pointer;padding:6px 4px;min-height:32px}
+.lang button[aria-pressed=true]{color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+header.site{position:sticky;top:0;z-index:50;background:rgba(250,246,236,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;min-height:72px;gap:18px}
+.logo{display:flex;align-items:center;gap:12px}.logo svg{width:38px;height:38px;flex:none}
+.logo b{display:block;font-family:var(--serif);font-weight:400;font-size:23px;letter-spacing:.06em;line-height:1}
+.logo small{display:block;font-size:10.5px;color:var(--muted);margin-top:3px}
+.links{display:flex;gap:22px;font-size:14.5px;font-weight:500}
+.links a{padding:8px 0;border-bottom:2px solid transparent}.links a:hover,.links a.on{border-color:var(--gold2)}
+.menu-btn{display:none;background:none;border:1.5px solid var(--forest);border-radius:12px;width:48px;height:48px;cursor:pointer;color:var(--forest)}
+.mobile-menu{display:none;border-top:1px solid var(--line);background:var(--cream)}.mobile-menu.open{display:block}
+.mobile-menu a{display:block;padding:15px 24px;border-bottom:1px solid var(--line);font-weight:500}
+/* views */
+.view{display:none}.view.on{display:block}
+section.blk{padding:56px 0}
+.proto-note{border:1.5px dashed var(--gold);border-radius:14px;padding:18px;text-align:center;color:var(--muted);font-size:14px;margin:8px 0}
+/* toolkit cards */
+.tk-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:26px}
+.tk-head p{margin:8px 0 0;color:var(--muted);max-width:560px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.tcard{background:var(--paper);border:1.5px solid var(--line);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:8px;transition:box-shadow .15s,border-color .15s}
+.tcard:hover{box-shadow:0 12px 28px rgba(18,59,47,.1);border-color:var(--forest)}
+.tcard .ic{width:48px;height:48px;border-radius:14px;background:var(--beige);display:grid;place-items:center;font-size:22px}
+.tcard h3{font-size:20px}.tcard p{margin:0;font-size:14px;color:var(--muted);flex:1}
+.tcard .go{font-weight:600;color:var(--forest);font-size:14px}
+.tcard .cat{font-size:11px;color:var(--gold);font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px}
+.chip{border:1.5px solid var(--line);background:var(--paper);border-radius:99px;min-height:40px;padding:0 16px;font:500 14px var(--sans);cursor:pointer;color:var(--ink)}
+.chip[aria-pressed=true]{background:var(--forest);color:#fff;border-color:var(--forest)}
+.home-tk{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.home-tk .cards{margin-top:22px}
+/* tool layout */
+.crumb{font-size:13px;color:var(--muted);margin-bottom:14px}.crumb a{color:var(--green);font-weight:600}
+.tool{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:26px;align-items:start}
+.panel{background:var(--paper);border:1.5px solid var(--line);border-radius:22px;padding:26px}
+.panel h3{font-size:20px;margin-bottom:16px}
+.field{margin-bottom:16px}
+label,.lbl{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+label small{font-weight:400;color:var(--muted)}
+input[type=text],input[type=number],select,textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;background:#fff;font:16px var(--sans);padding:12px 14px;color:var(--ink);min-height:48px}
+textarea{min-height:110px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--forest);outline:none;box-shadow:0 0 0 3px rgba(199,159,92,.35)}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg label{margin:0;font-weight:500}
+.seg input{position:absolute;opacity:0}
+.seg span{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1.5px solid var(--line);border-radius:99px;cursor:pointer;background:#fff;font-size:14.5px}
+.seg input:checked+span{background:var(--forest);color:#fff;border-color:var(--forest)}
+.seg input:focus-visible+span{outline:3px solid var(--gold2);outline-offset:2px}
+.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.quick button{border:1px dashed var(--gold);background:transparent;border-radius:99px;min-height:36px;padding:0 12px;font:13px var(--sans);cursor:pointer;color:var(--ink)}
+.quick button:hover{background:var(--beige)}
+.warn{background:var(--warnbg);color:var(--warn);border-radius:12px;padding:12px 14px;font-size:13.5px;margin-bottom:16px}
+.info{background:var(--beige);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--muted);margin-top:12px}
+.stop{background:#fdecea;color:#8a1f1f;border-radius:12px;padding:14px;font-size:14.5px}
+.out{border:1.5px solid var(--line);border-radius:14px;background:#fff;padding:16px;white-space:pre-wrap;font-size:15.5px;min-height:70px}
+.out+.out{margin-top:10px}
+.out-lbl{display:flex;justify-content:space-between;align-items:center;margin:14px 0 6px;font-size:13px;font-weight:700;color:var(--green);letter-spacing:.06em;text-transform:uppercase}
+.empty{color:var(--muted);text-align:center;padding:30px 10px;font-size:14.5px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.next{margin-top:18px;border:1px solid var(--line);background:var(--beige);border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:14.5px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--forest);color:#fff;padding:10px 18px;border-radius:99px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:99}
+.toast.on{opacity:1}
+/* price rows */
+.prow{border:1.5px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;background:#fff}
+.prow .g{display:grid;grid-template-columns:1.6fr .8fr .8fr;gap:10px}
+.prow .g2{margin-top:10px}
+.prow .rt{display:flex;gap:6px;justify-content:flex-end;margin-top:10px}
+.ib{min-width:44px;min-height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--paper);cursor:pointer;font-size:16px}
+.ib:hover{border-color:var(--forest)}
+.pl{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:28px}
+.pl h4{font:400 28px var(--serif);margin:0}.pl .sub{color:var(--gold);font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin:4px 0 18px}
+.pl .it{display:flex;gap:12px;align-items:baseline;padding:10px 0;border-top:1px solid var(--line)}
+.pl .it .n{flex:1}.pl .it .n b{font-weight:600}.pl .it .n span{display:block;color:var(--muted);font-size:13px}
+.pl .it .p{font-family:var(--serif);font-size:19px;white-space:nowrap}
+.pl .foot{margin-top:14px;font-size:11.5px;color:var(--muted)}
+/* check */
+.q{border:1.5px solid var(--line);border-radius:16px;background:#fff;padding:18px;margin-bottom:12px}
+.q .qt{font-weight:600;margin-bottom:2px}.q .qh{font-size:13px;color:var(--muted);margin-bottom:10px}
+.res-top{border-radius:18px;padding:22px;color:#fff;margin-bottom:16px}
+.res-top.s{background:linear-gradient(120deg,var(--forest2),var(--green))}
+.res-top.o{background:linear-gradient(120deg,#7a5a24,var(--gold))}
+.res-top.n{background:linear-gradient(120deg,#6b3a17,#a3592a)}
+.res-top h3{font-size:28px}.res-top p{margin:6px 0 0;opacity:.9;font-size:14px}
+.step{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.step .no{width:34px;height:34px;border-radius:50%;background:var(--forest);color:#fff;display:grid;place-items:center;font-weight:700;flex:none}
+.step b{display:block}.step span{color:var(--muted);font-size:14px}
+.areas{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0;font-size:13.5px}
+.areas div{display:flex;justify-content:space-between;border:1px solid var(--line);border-radius:10px;padding:7px 12px;background:#fff}
+.dot{font-weight:700}.dot.a{color:var(--green)}.dot.b{color:var(--gold)}.dot.c{color:#a3592a}
+
+/* score visuals */
+.rg-wrap{position:relative;display:grid;place-items:center}
+.rg-bg{fill:none;stroke:var(--line)}
+.rg{fill:none;stroke-linecap:round;transition:stroke-dashoffset 1.1s cubic-bezier(.2,.8,.2,1);transform:rotate(-90deg);transform-origin:50% 50%}
+.rg.g{stroke:var(--green)}.rg.o{stroke:var(--gold2)}.rg.n{stroke:#c0673a}
+.rg-txt{position:absolute;inset:0;display:grid;place-items:center;text-align:center;line-height:1}
+.rg-txt b{font:400 44px var(--serif)}.rg-txt small{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+.scorecard{display:flex;gap:22px;align-items:center;border-radius:20px;padding:22px;margin-bottom:16px;color:#fff}
+.scorecard.s{background:linear-gradient(120deg,var(--forest2),var(--green))}.scorecard.o{background:linear-gradient(120deg,#6f5220,var(--gold))}.scorecard.n{background:linear-gradient(120deg,#6b3a17,#a3592a)}
+.scorecard .rg-bg{stroke:rgba(255,255,255,.22)}.scorecard .rg{stroke:#fff}
+.scorecard .rg-txt small{color:rgba(255,255,255,.8)}
+.scorecard h3{font-size:28px}.scorecard p{margin:6px 0 0;font-size:14px;opacity:.92}
+.minis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.mini{border:1.5px solid var(--line);border-radius:16px;background:#fff;padding:14px 8px;text-align:center}
+.mini .rg-txt b{font-size:19px}.mini span.t{display:block;font-size:12.5px;font-weight:600;margin-top:6px;line-height:1.25}
+.bars{display:grid;gap:10px;margin:6px 0 4px}
+.bar{display:grid;grid-template-columns:minmax(120px,1.1fr) 2fr 70px;gap:10px;align-items:center;font-size:13.5px}
+.bar .tr{height:10px;border-radius:99px;background:var(--beige);overflow:hidden}
+.bar .fl{height:100%;width:0;border-radius:99px;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.bar .fl.g{background:var(--green)}.bar .fl.o{background:var(--gold2)}.bar .fl.n{background:#c0673a}
+.bar em{font-style:normal;text-align:right;font-weight:600;font-size:12.5px}
+.upsell{margin-top:20px;border-radius:20px;padding:24px;color:#fff;background:linear-gradient(120deg,var(--forest2),var(--forest) 60%,#2c5a45)}
+.upsell h3{font-size:24px;margin-bottom:8px}.upsell p{margin:0 0 14px;color:#cfe0d6;font-size:14.5px}
+.upsell ul{list-style:none;margin:0 0 16px;padding:0;display:grid;gap:6px;font-size:14.5px}.upsell li::before{content:"→ ";color:var(--gold2)}
+.upsell .sm{display:block;margin-top:12px;font-size:12.5px;color:#a9c3b5}
+@media(max-width:640px){.scorecard{flex-direction:column;text-align:center}.bar{grid-template-columns:1fr 64px;row-gap:4px}.bar .tr{grid-column:1/-1;order:3}.minis{gap:6px}.mini{padding:12px 4px}}
+@media(prefers-reduced-motion:reduce){.rg,.bar .fl{transition:none!important}}
+
+/* poster studio */
+.cards{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.poster-stage{background:var(--beige);border-radius:16px;padding:16px;display:grid;place-items:center;overflow:hidden}
+.poster{--p1:#123b2f;--p2:#f6efdc;--pa:#c79f5c;--pt:#fff;position:relative;background:var(--p2);color:var(--p1);font-family:var(--serif);box-shadow:0 12px 30px rgba(0,0,0,.14);overflow:hidden;width:100%}
+.poster.th-navy{--p1:#12326b;--p2:#f4f1e8;--pa:#d7a933}
+.poster.th-gold{--p1:#5a4413;--p2:#fbf3dc;--pa:#b98a2b}
+.poster.card{aspect-ratio:1.62/1;max-width:560px}
+.poster.review{aspect-ratio:1/1.414;max-width:420px}
+.poster .band{background:var(--p1);color:var(--pt)}
+.poster .biz{font:400 clamp(20px,4.6vw,34px)/1.05 var(--serif);letter-spacing:.02em}
+.poster .sans{font-family:var(--sans)}
+.poster .photo{background:linear-gradient(135deg,rgba(0,0,0,.07),rgba(0,0,0,.02)),repeating-linear-gradient(45deg,transparent 0 10px,rgba(0,0,0,.04) 10px 20px);display:grid;place-items:center;color:var(--p1);font:600 11px var(--sans);text-align:center;background-size:cover;background-position:center}
+.poster .qrbox{background:#fff;border-radius:12px;padding:8px;display:grid;place-items:center}
+.poster .qrbox svg{display:block;width:100%;height:auto}
+.poster .pill{display:inline-block;background:var(--pa);color:#fff;border-radius:99px;padding:.35em 1em;font:700 .95em var(--sans);letter-spacing:.04em}
+.p-card{display:grid;grid-template-columns:1.1fr .9fr;grid-template-rows:1fr auto;height:100%}
+.p-card .l{padding:5% 5% 2%;display:flex;flex-direction:column;gap:6px;justify-content:center}
+.p-card .r{padding:5% 5% 2% 0;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;text-align:center}
+.p-card .photo{width:100%;flex:1;border-radius:14px;min-height:0}
+.p-card .ct{font:500 clamp(10px,2.2vw,14px)/1.5 var(--sans)}
+.p-card .foot{grid-column:1/-1;display:flex;justify-content:space-around;padding:2% 3%;font:600 clamp(9px,1.8vw,12px) var(--sans)}
+.badges{display:flex;gap:6px;flex-wrap:wrap}
+.badges span{border:1px solid var(--pa);border-radius:99px;padding:2px 10px;font:600 clamp(9px,1.8vw,11px) var(--sans)}
+.p-rev{display:flex;flex-direction:column;height:100%}
+.p-rev .top{padding:8% 8% 5%;text-align:center}
+.p-rev .top h4{font:400 clamp(30px,8vw,46px)/1 var(--serif);margin:0}
+.p-rev .top h4 em{font-style:italic;color:var(--pa)}
+.p-rev .mid{flex:1;display:grid;place-items:center;padding:0 12%}
+.p-rev .qrbox{width:100%;max-width:230px;box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.p-rev .msg{text-align:center;padding:4% 10%;font:500 clamp(13px,3.4vw,17px)/1.4 var(--sans)}
+.p-rev .foot{padding:4% 6%;text-align:center;font:500 clamp(10px,2.4vw,13px)/1.5 var(--sans)}
+.file-btn{display:inline-flex}
+/* footer */
+footer{background:var(--forest2);color:#cfe0d6;padding:44px 0 22px;margin-top:20px}
+.fg{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer .logo b{color:#fff}footer .logo small{color:#9db8aa}
+footer .cta{max-width:380px;font-size:14.5px}
+.fb{margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);font-size:12.5px;color:#9db8aa}
+@media(max-width:1024px){.links,.nav .btn-dark{display:none}.menu-btn{display:grid;place-items:center}.cards{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.tool{grid-template-columns:1fr}.panel{scroll-margin-top:84px}}
+@media(max-width:640px){.wrap{padding:0 16px}.cards{grid-template-columns:1fr}.panel{padding:20px}.prow .g{grid-template-columns:1fr 1fr}.prow .g>:first-child{grid-column:1/-1}.areas{grid-template-columns:1fr}.actions .btn{flex:1 1 100%}.topbar .hide-s{display:none}}
+@page{margin:8mm}@media print{body *{visibility:hidden}#plPrint,#plPrint *,#posterPrint,#posterPrint *{visibility:visible}#plPrint,#posterPrint{position:absolute;left:0;top:0;width:100%;border:0;box-shadow:none}#posterPrint{max-width:none!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <span class="hide-s" data-th="สนับสนุนธุรกิจไทยขนาดเล็กในออสเตรเลีย">Proudly supporting Thai-owned small businesses in Australia</span>
+  <span class="tag">Prototype · MVP</span>
+  <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><span aria-hidden="true">|</span><button type="button" data-lang="th" aria-pressed="false">TH</button></div>
+</div></div>
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="logo" href="#/" aria-label="Chapter99 home">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#a37a3c" stroke-width="1.5" aria-hidden="true"><path d="M24 40c-8-4-13-10-13-18 6 0 10 3 13 8 3-5 7-8 13-8 0 8-5 14-13 18z"/><path d="M24 30c-3-5-3-11 0-18 3 7 3 13 0 18z"/><path d="M24 40V30"/></svg>
+      <span><b>CHAPTER99</b><small data-th="โครงสร้างดิจิทัลสำหรับธุรกิจไทย">Digital Infrastructure for Thai Businesses</small></span>
+    </a>
+    <nav class="links" aria-label="Primary">
+      <a href="#/" data-th="โซลูชัน">Solutions</a>
+      <a href="#/toolkit" data-nav="toolkit" data-th="เครื่องมือฟรี">Free Toolkit</a>
+      <a href="#/" data-th="ขั้นตอนการทำงาน">How It Works</a>
+      <a href="#/packages" data-nav="packages" data-th="ราคา">Pricing</a>
+      <a href="#/business-check" data-nav="business-check" data-th="ตรวจธุรกิจ">Business Check</a>
+      <a href="#/" data-th="แหล่งความรู้">Resources</a>
+      <a href="#/" data-th="เกี่ยวกับเรา">About</a>
+    </nav>
+    <button class="btn btn-dark" data-contact><span data-th="คุยกับ Chapter99">Talk to Chapter99</span> →</button>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mm" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+  <div class="mobile-menu" id="mm">
+    <a href="#/" data-th="โซลูชัน">Solutions</a><a href="#/toolkit" data-th="เครื่องมือฟรี">Free Toolkit</a><a href="#/" data-th="ขั้นตอนการทำงาน">How It Works</a><a href="#/packages" data-nav="packages" data-th="ราคา">Pricing</a><a href="#/business-check" data-th="ตรวจธุรกิจ">Business Check</a><a href="#/" data-th="แหล่งความรู้">Resources</a><a href="#/" data-th="เกี่ยวกับเรา">About</a>
+    <div style="padding:16px 24px"><button class="btn btn-dark" style="width:100%" data-contact data-th="คุยกับ Chapter99">Talk to Chapter99</button></div>
+  </div>
+</header>
+
+<main>
+<!-- ================= HOME (only the new section is shown) ================= -->
+<div class="view" id="v-home">
+  <div class="wrap"><div class="proto-note" style="margin-top:28px">Homepage hero + “Solutions for Your Business” — unchanged (see approved homepage mockup)</div></div>
+  <section class="blk home-tk"><div class="wrap">
+    <div class="tk-head">
+      <div><div class="eyebrow" data-th="เครื่องมือฟรี">Free Business Toolkit</div>
+        <h2 style="margin-top:8px" data-th="เครื่องมือที่ใช้ได้ทันที ไม่ต้องตั้งค่ายุ่งยาก">Useful tools. No complicated setup.</h2>
+        <p data-th="เริ่มจากงานเล็ก ๆ วันนี้ — เขียนข้อความถึงลูกค้าให้ชัดขึ้น จัดรายการราคา ตอบรีวิว หรือตรวจความพร้อมทางดิจิทัลของธุรกิจ">Start with a small task today — write a clearer customer message, organise your price list, reply to a review or check your digital presence.</p></div>
+      <a class="btn btn-dark" href="#/toolkit"><span data-th="ดูเครื่องมือฟรีทั้งหมด">Explore Free Toolkit</span> →</a>
+    </div>
+    <div class="cards" data-cards="home"></div>
+  </div></section>
+  <div class="wrap"><div class="proto-note">“How Chapter99 Works”, Trust, Pricing, Business Check — unchanged</div></div>
+</div>
+
+<!-- ================= TOOLKIT HUB ================= -->
+<div class="view" id="v-toolkit"><section class="blk"><div class="wrap">
+  <div class="eyebrow">Chapter99</div>
+  <h1 style="margin:10px 0" data-th="เครื่องมือธุรกิจฟรี">Free Business Toolkit</h1>
+  <p style="font-family:var(--serif);font-size:22px;margin:0 0 6px" data-th="เครื่องมือง่าย ๆ ช่วยให้บริหารธุรกิจดีขึ้น">Simple tools to help run your business better.</p>
+  <p class="muted" style="margin:0 0 28px" data-th="เครื่องมือใช้งานจริง สร้างมาสำหรับเจ้าของธุรกิจไทยในออสเตรเลีย — ไม่ต้องสมัครสมาชิก">Practical tools built for Thai business owners in Australia. No account needed.</p>
+  <div class="filters" id="filters" role="group" aria-label="Filter tools"></div>
+  <div class="cards" data-cards="hub"></div>
+</div></section></div>
+
+<!-- ================= TOOL 1: ENGLISH MESSAGE ================= -->
+<div class="view" id="v-english-message"><section class="blk"><div class="wrap">
+  <div class="crumb"><a href="#/toolkit" data-th="← เครื่องมือฟรี">← Free Toolkit</a></div>
+  <h1 data-th="ตัวช่วยเขียนข้อความภาษาอังกฤษ">English Message Builder</h1>
+  <p class="muted" data-th="บอกสิ่งที่อยากสื่อ แล้วรับข้อความอังกฤษพร้อมคำอธิบายภาษาไทย — ระบบไม่ส่งข้อความให้อัตโนมัติ">Say what you want to tell a customer and get a ready-to-send English message with a Thai explanation. Nothing is sent automatically.</p>
+  <div class="tool">
+    <form class="panel" id="msgForm" novalidate>
+      <div class="warn" data-th="โปรดอย่าใส่ข้อมูลส่วนตัวที่ละเอียดอ่อน เช่น ข้อมูลสุขภาพ เลขบัญชี หรือเอกสารประจำตัว">Please don't paste sensitive personal information (health details, bank details, ID numbers).</div>
+      <div class="field"><label for="msgWhat"><span data-th="อยากบอกอะไร?">What do you want to say?</span></label>
+        <textarea id="msgWhat" data-th-ph="เช่น ยืนยันการจอง / ขอเลื่อนนัด / ร้านปิดวันหยุด" placeholder="e.g. Confirm a booking / Reschedule / Closed for the holiday"></textarea>
+        <div class="quick" id="msgQuick"></div></div>
+      <div class="field"><label for="msgBiz" data-th="ประเภทธุรกิจ">Business type</label>
+        <select id="msgBiz"><option value="massage">Massage / Wellness</option><option value="restaurant">Restaurant / Cafe</option><option value="cleaning">Cleaning</option><option value="beauty">Beauty & Salon</option><option value="other">Other</option></select></div>
+      <div class="field"><span class="lbl" data-th="น้ำเสียง">Tone</span>
+        <div class="seg" role="radiogroup"><label><input type="radio" name="msgTone" value="friendly" checked><span data-th="เป็นกันเอง">Friendly</span></label><label><input type="radio" name="msgTone" value="professional"><span data-th="เป็นทางการ">Professional</span></label><label><input type="radio" name="msgTone" value="short"><span data-th="สั้น กระชับ">Short & Simple</span></label></div></div>
+      <div class="field"><label for="msgName"><span data-th="ชื่อลูกค้า">Customer name</span> <small data-th="(ไม่บังคับ)">(optional)</small></label><input type="text" id="msgName" autocomplete="off"></div>
+      <div class="field"><label for="msgDet"><span data-th="รายละเอียด เช่น วัน/เวลา">Details, e.g. day / time</span> <small data-th="(ไม่บังคับ — พิมพ์เป็นอังกฤษ)">(optional — write in English)</small></label><input type="text" id="msgDet" placeholder="Friday 3:00 pm"></div>
+      <button class="btn btn-dark" type="submit" style="width:100%"><span data-th="สร้างข้อความ">Create message</span> →</button>
+    </form>
+    <div class="panel" aria-live="polite"><h3 data-th="ผลลัพธ์">Result</h3><div id="msgOut"><div class="empty" data-th="ข้อความจะแสดงที่นี่">Your message will appear here.</div></div></div>
+  </div>
+</div></section></div>
+
+<!-- ================= TOOL 2: PRICE LIST ================= -->
+<div class="view" id="v-price-list"><section class="blk"><div class="wrap">
+  <div class="crumb"><a href="#/toolkit" data-th="← เครื่องมือฟรี">← Free Toolkit</a></div>
+  <h1 data-th="ตัวช่วยจัดรายการราคา">Price List Builder</h1>
+  <p class="muted" data-th="ใส่รายการและราคาของคุณ แล้วได้รายการราคาที่จัดรูปแบบสวยงาม — เครื่องมือนี้จัดรูปแบบเท่านั้น ไม่แนะนำว่าควรตั้งราคาเท่าไร">Enter your items and prices and get a clean, formatted price list. This tool only formats — it never suggests what to charge.</p>
+  <div class="tool">
+    <div class="panel">
+      <div class="field"><label for="plBiz" data-th="ชื่อธุรกิจ">Business name</label><input type="text" id="plBiz" autocomplete="off"></div>
+      <div class="field"><label for="plType" data-th="ประเภทธุรกิจ">Business type</label><input type="text" id="plType" placeholder="e.g. Thai Massage" data-th-ph="เช่น นวดไทย"></div>
+      <div id="plRows"></div>
+      <button class="btn btn-line" type="button" id="plAdd">+ <span data-th="เพิ่มรายการ">Add Item</span></button>
+    </div>
+    <div class="panel"><h3 data-th="ตัวอย่างรายการราคา">Preview</h3>
+      <div id="plPrint" class="pl"><div class="empty" data-th="เพิ่มรายการเพื่อดูตัวอย่าง">Add an item to see your price list.</div></div>
+      <div class="actions"><button class="btn btn-dark btn-sm" type="button" id="plCopy" data-th="คัดลอก">Copy</button><button class="btn btn-sm" type="button" id="plPrintBtn" data-th="พิมพ์">Print</button><button class="btn btn-sm" type="button" disabled title="Later phase"><span data-th="ส่งออก PDF">PDF export</span> · soon</button></div>
+      <div id="plNext"></div>
+    </div>
+  </div>
+</div></section></div>
+
+<!-- ================= TOOL 3: REVIEW REPLY ================= -->
+<div class="view" id="v-review-reply"><section class="blk"><div class="wrap">
+  <div class="crumb"><a href="#/toolkit" data-th="← เครื่องมือฟรี">← Free Toolkit</a></div>
+  <h1 data-th="ตัวช่วยตอบรีวิว Google">Google Review Reply Helper</h1>
+  <p class="muted" data-th="วางรีวิวของลูกค้า แล้วรับร่างคำตอบ — ระบบไม่โพสต์ไปที่ Google ให้ คุณตรวจและโพสต์เอง">Paste a customer review and get a draft reply. Nothing is published to Google — you review and post it yourself.</p>
+  <div class="tool">
+    <form class="panel" id="rvForm" novalidate>
+      <div class="warn" data-th="โปรดอย่าวางข้อมูลส่วนตัวที่ละเอียดอ่อนของลูกค้า (เช่น ข้อมูลสุขภาพ) และอย่าเปิดเผยรายละเอียดลูกค้าในคำตอบสาธารณะ">Don't paste sensitive customer information (e.g. health details), and never share customer details in a public reply.</div>
+      <div class="field"><label for="rvText" data-th="รีวิวของลูกค้า">Customer review</label><textarea id="rvText"></textarea></div>
+      <div class="field"><span class="lbl" data-th="คะแนน">Rating</span>
+        <div class="seg" role="radiogroup"><label><input type="radio" name="rvRate" value="5" checked><span>5 ★</span></label><label><input type="radio" name="rvRate" value="4"><span>4 ★</span></label><label><input type="radio" name="rvRate" value="3"><span>3 ★</span></label><label><input type="radio" name="rvRate" value="2"><span>2 ★</span></label><label><input type="radio" name="rvRate" value="1"><span>1 ★</span></label></div></div>
+      <div class="field"><span class="lbl" data-th="น้ำเสียง">Tone</span>
+        <div class="seg" role="radiogroup"><label><input type="radio" name="rvTone" value="friendly" checked><span data-th="เป็นกันเอง">Friendly</span></label><label><input type="radio" name="rvTone" value="professional"><span data-th="เป็นทางการ">Professional</span></label><label><input type="radio" name="rvTone" value="warm"><span data-th="อบอุ่น">Warm</span></label></div></div>
+      <div class="field"><span class="lbl" data-th="ภาษา">Language</span>
+        <div class="seg" role="radiogroup"><label><input type="radio" name="rvLang" value="en" checked><span>English</span></label><label><input type="radio" name="rvLang" value="th"><span>ไทย</span></label><label><input type="radio" name="rvLang" value="both"><span data-th="ทั้งสอง">Both</span></label></div></div>
+      <div class="field"><label for="rvBiz"><span data-th="ชื่อธุรกิจ (ใช้ลงท้าย)">Business name (for sign-off)</span> <small data-th="(ไม่บังคับ)">(optional)</small></label><input type="text" id="rvBiz" autocomplete="off"></div>
+      <button class="btn btn-dark" type="submit" style="width:100%"><span data-th="สร้างคำตอบ">Create reply</span> →</button>
+    </form>
+    <div class="panel" aria-live="polite"><h3 data-th="ร่างคำตอบ">Suggested reply</h3><div id="rvOut"><div class="empty" data-th="ร่างคำตอบจะแสดงที่นี่">Your draft reply will appear here.</div></div></div>
+  </div>
+</div></section></div>
+
+<!-- ================= TOOL 4: BUSINESS CHECK ================= -->
+<div class="view" id="v-business-check"><section class="blk"><div class="wrap">
+  <div class="crumb"><a href="#/toolkit" data-th="← เครื่องมือฟรี">← Free Toolkit</a></div>
+  <h1 data-th="ตรวจความพร้อมทางดิจิทัลของธุรกิจ">Business Digital Check</h1>
+  <p class="muted" data-th="ตอบ 8 ข้อสั้น ๆ เพื่อดูว่าลูกค้าค้นเจอและติดต่อธุรกิจคุณได้ง่ายแค่ไหน — ไม่ใช่การตรวจด้านกฎหมายหรือกฎระเบียบ และไม่มีการเก็บคำตอบของคุณ">Answer 8 quick questions to see how easy it is for customers to find and act on your business. This is not a legal or compliance audit, and your answers are not stored.</p>
+  <div class="tool">
+    <form class="panel" id="bcForm" novalidate><div id="bcQs"></div><button class="btn btn-dark" type="submit" style="width:100%"><span data-th="ดูผลลัพธ์">See my result</span> →</button></form>
+    <div class="panel" aria-live="polite"><h3 data-th="ผลลัพธ์">Your result</h3><div id="bcOut"><div class="empty" data-th="ตอบคำถามแล้วกด “ดูผลลัพธ์”">Answer the questions, then press “See my result”.</div></div></div>
+  </div>
+</div></section></div>
+
+<!-- ================= TOOL 5: POSTER STUDIO ================= -->
+<div class="view" id="v-poster-studio"><section class="blk"><div class="wrap">
+  <div class="crumb"><a href="#/toolkit" data-th="← เครื่องมือฟรี">← Free Toolkit</a></div>
+  <h1 data-th="ตัวช่วยทำการ์ดจอง & โปสเตอร์ QR รีวิว">Poster Studio</h1>
+  <p class="muted" data-th="ใส่ข้อมูลร้านของคุณ แล้วได้การ์ดจองออนไลน์หรือโปสเตอร์ QR รีวิว Google พร้อมพิมพ์ — ข้อมูลและรูปอยู่ในเครื่องคุณเท่านั้น">Add your shop details and get a print-ready “Book online” card or Google review QR poster. Your details and photos stay on your device.</p>
+  <div class="tool">
+    <form class="panel" id="psForm" novalidate>
+      <div class="field"><span class="lbl" data-th="แบบที่ต้องการ">What do you want to make?</span>
+        <div class="seg" role="radiogroup"><label><input type="radio" name="psType" value="card" checked><span data-th="การ์ดจองออนไลน์">Book-online card</span></label><label><input type="radio" name="psType" value="review"><span data-th="โปสเตอร์ QR รีวิว Google">Google review poster</span></label></div></div>
+      <div class="field"><label for="psBiz" data-th="ชื่อร้าน">Business name</label><input type="text" id="psBiz" autocomplete="off"></div>
+      <div class="field"><label for="psUrl"><span id="psUrlLbl" data-th="ลิงก์จองออนไลน์ของคุณ">Your booking link</span> <small data-th="(สำหรับ QR)">(for the QR code)</small></label><input type="text" id="psUrl" inputmode="url" placeholder="https://" autocomplete="off"><div style="font-size:13px;margin-top:6px"><a href="#/packages" data-bridge-link="poster-studio" style="color:var(--green);font-weight:600;text-decoration:underline" data-th="ยังไม่มีลิงก์จอง? ดูว่า Chapter99 ตั้งให้ได้อย่างไร">No booking link yet? See how Chapter99 can set it up</a></div></div>
+      <div class="field"><label for="psPhone" data-th="เบอร์โทร">Phone</label><input type="text" id="psPhone" inputmode="tel" autocomplete="off"></div>
+      <div class="field"><label for="psAddr" data-th="ที่อยู่">Address</label><input type="text" id="psAddr" autocomplete="off"></div>
+      <div class="field"><label for="psWeb" data-th="เว็บไซต์">Website</label><input type="text" id="psWeb" autocomplete="off"></div>
+      <div class="field"><label for="psMsg"><span data-th="ข้อความหลัก">Headline message</span> <small data-th="(ไม่บังคับ)">(optional)</small></label><input type="text" id="psMsg" placeholder="Please book online" data-th-ph="เช่น กรุณาจองออนไลน์"></div>
+      <div class="field"><span class="lbl" data-th="สีธีม">Colour theme</span>
+        <div class="seg" role="radiogroup"><label><input type="radio" name="psTheme" value="th-forest" checked><span data-th="เขียวป่า">Forest</span></label><label><input type="radio" name="psTheme" value="th-navy"><span data-th="น้ำเงิน">Navy</span></label><label><input type="radio" name="psTheme" value="th-gold"><span data-th="ทอง">Gold</span></label></div></div>
+      <div class="field" id="psBadgeF"><span class="lbl" data-th="ป้ายเสริม (ติ๊กเฉพาะที่เป็นจริง)">Extra badges (tick only what is true for your shop)</span>
+        <div class="seg"><label><input type="checkbox" id="psB1"><span data-th="มีบัตรของขวัญ">Gift vouchers available</span></label><label><input type="checkbox" id="psB2"><span data-th="รับ HICAPS">HICAPS accepted</span></label></div></div>
+      <div class="field"><span class="lbl" data-th="โลโก้ / รูปจริงของร้าน (ไม่บังคับ)">Your logo / real photo (optional)</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><label class="btn btn-sm file-btn" style="margin:0;font-weight:600"><span data-th="เลือกรูปร้าน">Choose photo</span><input type="file" id="psPhoto" accept="image/*" hidden></label><button class="btn btn-sm" type="button" id="psPhotoClear" data-th="ลบรูป">Remove</button></div>
+        <div class="info" data-th="ใช้ภาพถ่ายจริงของร้านคุณ ไม่ควรใช้ภาพที่สร้างด้วย AI เป็นภาพพนักงานหรือลูกค้าจริง — รูปไม่ถูกอัปโหลดไปที่ไหน">Use real photos of your own shop — please don’t present AI-generated images as real staff or customers. Photos are not uploaded anywhere.</div></div>
+      <div id="psErr"></div>
+    </form>
+    <div class="panel" aria-live="polite"><h3 data-th="ตัวอย่าง">Preview</h3>
+      <div class="poster-stage"><div id="posterPrint" class="poster card th-forest"></div></div>
+      <div class="actions"><button class="btn btn-dark btn-sm" type="button" id="psShare" data-th="ส่งรูป (Messenger / LINE / อีเมล)">Send image (Messenger / LINE / email)</button><button class="btn btn-sm" type="button" id="psImg" data-th="ดาวน์โหลดรูป (PNG)">Download image (PNG)</button><button class="btn btn-sm" type="button" id="psPrint" data-th="พิมพ์ / บันทึกเป็น PDF">Print / Save as PDF</button><button class="btn btn-sm" type="button" id="psQr" data-th="ดาวน์โหลด QR อย่างเดียว">QR only (PNG)</button></div>
+      <div class="info" data-th="บนมือถือ/ไอแพด ปุ่ม “ส่งรูป” เปิดเมนูแชร์ให้เลือก Messenger, LINE, WhatsApp หรืออีเมลได้เลย บนคอมพิวเตอร์ให้ดาวน์โหลดรูปแล้วแนบเอง">On phone/iPad, “Send image” opens your share menu (Messenger, LINE, WhatsApp, email). On a computer, download the image and attach it yourself.</div>
+      <div class="info" data-th="ก่อนพิมพ์: สแกน QR ด้วยมือถือเพื่อเช็กว่าไปหน้าที่ถูกต้อง">Before printing: scan the QR with your phone to check it opens the right page.</div>
+      <div id="psNext"></div>
+    </div>
+  </div>
+</div></section></div>
+
+<!-- ================= PACKAGES (destination of the funnel; SOP v2 prices only) ================= -->
+<div class="view" id="v-packages"><section class="blk"><div class="wrap">
+  <div class="crumb"><a href="#/toolkit" data-th="← เครื่องมือฟรี">← Free Toolkit</a></div>
+  <h1 data-th="แพ็กเกจเรียบง่าย ผลลัพธ์ชัดเจน">Simple Packages. Big Impact.</h1>
+  <p class="muted" data-th="เลือกแพ็กเกจที่เหมาะกับระยะของธุรกิจ — เราตั้งค่าให้ คุณยังเป็นเจ้าของบัญชีและข้อมูลทั้งหมด">Choose the package that fits your business stage. We set things up — you keep ownership of your accounts and data.</p>
+  <div class="cards" style="margin-top:26px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+    <article class="tcard"><h3>Starter</h3><div style="font:400 34px var(--serif)">A$199 <span style="font:14px var(--sans);color:var(--muted)" data-th="ค่าติดตั้ง">setup</span></div><div style="font:400 22px var(--serif);color:var(--gold)">+ A$19 <span style="font:14px var(--sans);color:var(--muted)" data-th="/ เดือน">/ month</span></div><p data-th="เริ่มต้นนำธุรกิจขึ้นออนไลน์ด้วยพื้นฐานที่จำเป็น">Get your business online with the essential foundation.</p><button class="btn btn-dark" type="button" data-contact><span data-th="เริ่มเลย">Get Started</span> →</button></article>
+    <article class="tcard" style="border-color:var(--forest)"><h3>Professional</h3><div style="font:400 34px var(--serif)">A$499 <span style="font:14px var(--sans);color:var(--muted)" data-th="ค่าติดตั้ง">setup</span></div><div style="font:400 22px var(--serif);color:var(--gold)">+ A$49 <span style="font:14px var(--sans);color:var(--muted)" data-th="/ เดือน">/ month</span></div><p data-th="ชุดที่ครบขึ้น สำหรับธุรกิจที่ต้องการความสามารถมากขึ้นและการดูแลต่อเนื่อง">A more complete setup for businesses needing greater capability and ongoing operation.</p><button class="btn btn-dark" type="button" data-contact><span data-th="คุยกับ Chapter99">Talk to Chapter99</span> →</button></article>
+    <article class="tcard" style="background:var(--beige);border-style:dashed"><h3>Business</h3><p><span class="tag green" data-th="เร็ว ๆ นี้">Coming Soon</span></p><p data-th="สำหรับธุรกิจขนาดใหญ่หรือซับซ้อนกว่า — คุยกับเรา">For larger or more complex businesses — talk to us.</p><button class="btn" type="button" data-contact data-th="คุยกับเรา">Talk to Us</button></article>
+  </div>
+  <p class="muted" style="font-size:13px;margin-top:18px" data-th="ฮาร์ดแวร์ (เช่น อุปกรณ์รับชำระเงิน) ธุรกิจซื้อตรงจากผู้ให้บริการ Chapter99 ไม่ได้จำหน่ายฮาร์ดแวร์">Any hardware (e.g. payment devices) is purchased directly by the business from the relevant provider. Chapter99 does not resell hardware.</p>
+  <div class="next" style="margin-top:22px"><span data-th="ไม่แน่ใจว่าเริ่มตรงไหน? ตรวจความพร้อมของธุรกิจก่อนได้ฟรี">Not sure where to start? Check your digital readiness first — it’s free.</span><a class="btn btn-sm btn-dark" href="#/business-check" data-th="ตรวจธุรกิจของฉัน">Check My Business</a></div>
+</div></section></div>
+</main>
+
+<footer id="contact"><div class="wrap">
+  <div class="fg">
+    <div><div class="logo"><svg viewBox="0 0 48 48" fill="none" stroke="#c79f5c" stroke-width="1.5" aria-hidden="true"><path d="M24 40c-8-4-13-10-13-18 6 0 10 3 13 8 3-5 7-8 13-8 0 8-5 14-13 18z"/><path d="M24 30c-3-5-3-11 0-18 3 7 3 13 0 18z"/></svg><span><b>CHAPTER99</b><small>Digital Infrastructure for Thai Businesses in Australia</small></span></div></div>
+    <div class="cta"><b style="color:#fff" data-th="คุยกับ Chapter99">Talk to Chapter99</b><br><span data-th="ปลายทางของปุ่มนี้ยังเป็นตัวอย่าง — เชื่อมกับแบบฟอร์ม/ช่องทางติดต่อจริงตอน production">Prototype: this CTA will connect to the real contact form / channel in production.</span></div>
+  </div>
+  <div class="fb">© 2026 Chapter99 · Toolkit MVP prototype · Templates only — AI generation is <b>not connected</b> · No tool inputs are stored or sent anywhere.</div>
+</div></footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>/* qrcode-generator (MIT, Kazuhiko Arase) — inlined so nothing is loaded from the network */
+//---------------------------------------------------------------------
+//
+// QR Code Generator for JavaScript
+//
+// Copyright (c) 2009 Kazuhiko Arase
+//
+// URL: http://www.d-project.com/
+//
+// Licensed under the MIT license:
+//  http://www.opensource.org/licenses/mit-license.php
+//
+// The word 'QR Code' is registered trademark of
+// DENSO WAVE INCORPORATED
+//  http://www.denso-wave.com/qrcode/faqpatent-e.html
+//
+//---------------------------------------------------------------------
+
+var qrcode = function() {
+
+  //---------------------------------------------------------------------
+  // qrcode
+  //---------------------------------------------------------------------
+
+  /**
+   * qrcode
+   * @param typeNumber 1 to 40
+   * @param errorCorrectionLevel 'L','M','Q','H'
+   */
+  var qrcode = function(typeNumber, errorCorrectionLevel) {
+
+    var PAD0 = 0xEC;
+    var PAD1 = 0x11;
+
+    var _typeNumber = typeNumber;
+    var _errorCorrectionLevel = QRErrorCorrectionLevel[errorCorrectionLevel];
+    var _modules = null;
+    var _moduleCount = 0;
+    var _dataCache = null;
+    var _dataList = [];
+
+    var _this = {};
+
+    var makeImpl = function(test, maskPattern) {
+
+      _moduleCount = _typeNumber * 4 + 17;
+      _modules = function(moduleCount) {
+        var modules = new Array(moduleCount);
+        for (var row = 0; row < moduleCount; row += 1) {
+          modules[row] = new Array(moduleCount);
+          for (var col = 0; col < moduleCount; col += 1) {
+            modules[row][col] = null;
+          }
+        }
+        return modules;
+      }(_moduleCount);
+
+      setupPositionProbePattern(0, 0);
+      setupPositionProbePattern(_moduleCount - 7, 0);
+      setupPositionProbePattern(0, _moduleCount - 7);
+      setupPositionAdjustPattern();
+      setupTimingPattern();
+      setupTypeInfo(test, maskPattern);
+
+      if (_typeNumber >= 7) {
+        setupTypeNumber(test);
+      }
+
+      if (_dataCache == null) {
+        _dataCache = createData(_typeNumber, _errorCorrectionLevel, _dataList);
+      }
+
+      mapData(_dataCache, maskPattern);
+    };
+
+    var setupPositionProbePattern = function(row, col) {
+
+      for (var r = -1; r <= 7; r += 1) {
+
+        if (row + r <= -1 || _moduleCount <= row + r) continue;
+
+        for (var c = -1; c <= 7; c += 1) {
+
+          if (col + c <= -1 || _moduleCount <= col + c) continue;
+
+          if ( (0 <= r && r <= 6 && (c == 0 || c == 6) )
+              || (0 <= c && c <= 6 && (r == 0 || r == 6) )
+              || (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
+            _modules[row + r][col + c] = true;
+          } else {
+            _modules[row + r][col + c] = false;
+          }
+        }
+      }
+    };
+
+    var getBestMaskPattern = function() {
+
+      var minLostPoint = 0;
+      var pattern = 0;
+
+      for (var i = 0; i < 8; i += 1) {
+
+        makeImpl(true, i);
+
+        var lostPoint = QRUtil.getLostPoint(_this);
+
+        if (i == 0 || minLostPoint > lostPoint) {
+          minLostPoint = lostPoint;
+          pattern = i;
+        }
+      }
+
+      return pattern;
+    };
+
+    var setupTimingPattern = function() {
+
+      for (var r = 8; r < _moduleCount - 8; r += 1) {
+        if (_modules[r][6] != null) {
+          continue;
+        }
+        _modules[r][6] = (r % 2 == 0);
+      }
+
+      for (var c = 8; c < _moduleCount - 8; c += 1) {
+        if (_modules[6][c] != null) {
+          continue;
+        }
+        _modules[6][c] = (c % 2 == 0);
+      }
+    };
+
+    var setupPositionAdjustPattern = function() {
+
+      var pos = QRUtil.getPatternPosition(_typeNumber);
+
+      for (var i = 0; i < pos.length; i += 1) {
+
+        for (var j = 0; j < pos.length; j += 1) {
+
+          var row = pos[i];
+          var col = pos[j];
+
+          if (_modules[row][col] != null) {
+            continue;
+          }
+
+          for (var r = -2; r <= 2; r += 1) {
+
+            for (var c = -2; c <= 2; c += 1) {
+
+              if (r == -2 || r == 2 || c == -2 || c == 2
+                  || (r == 0 && c == 0) ) {
+                _modules[row + r][col + c] = true;
+              } else {
+                _modules[row + r][col + c] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+
+    var setupTypeNumber = function(test) {
+
+      var bits = QRUtil.getBCHTypeNumber(_typeNumber);
+
+      for (var i = 0; i < 18; i += 1) {
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+        _modules[Math.floor(i / 3)][i % 3 + _moduleCount - 8 - 3] = mod;
+      }
+
+      for (var i = 0; i < 18; i += 1) {
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+        _modules[i % 3 + _moduleCount - 8 - 3][Math.floor(i / 3)] = mod;
+      }
+    };
+
+    var setupTypeInfo = function(test, maskPattern) {
+
+      var data = (_errorCorrectionLevel << 3) | maskPattern;
+      var bits = QRUtil.getBCHTypeInfo(data);
+
+      // vertical
+      for (var i = 0; i < 15; i += 1) {
+
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+
+        if (i < 6) {
+          _modules[i][8] = mod;
+        } else if (i < 8) {
+          _modules[i + 1][8] = mod;
+        } else {
+          _modules[_moduleCount - 15 + i][8] = mod;
+        }
+      }
+
+      // horizontal
+      for (var i = 0; i < 15; i += 1) {
+
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+
+        if (i < 8) {
+          _modules[8][_moduleCount - i - 1] = mod;
+        } else if (i < 9) {
+          _modules[8][15 - i - 1 + 1] = mod;
+        } else {
+          _modules[8][15 - i - 1] = mod;
+        }
+      }
+
+      // fixed module
+      _modules[_moduleCount - 8][8] = (!test);
+    };
+
+    var mapData = function(data, maskPattern) {
+
+      var inc = -1;
+      var row = _moduleCount - 1;
+      var bitIndex = 7;
+      var byteIndex = 0;
+      var maskFunc = QRUtil.getMaskFunction(maskPattern);
+
+      for (var col = _moduleCount - 1; col > 0; col -= 2) {
+
+        if (col == 6) col -= 1;
+
+        while (true) {
+
+          for (var c = 0; c < 2; c += 1) {
+
+            if (_modules[row][col - c] == null) {
+
+              var dark = false;
+
+              if (byteIndex < data.length) {
+                dark = ( ( (data[byteIndex] >>> bitIndex) & 1) == 1);
+              }
+
+              var mask = maskFunc(row, col - c);
+
+              if (mask) {
+                dark = !dark;
+              }
+
+              _modules[row][col - c] = dark;
+              bitIndex -= 1;
+
+              if (bitIndex == -1) {
+                byteIndex += 1;
+                bitIndex = 7;
+              }
+            }
+          }
+
+          row += inc;
+
+          if (row < 0 || _moduleCount <= row) {
+            row -= inc;
+            inc = -inc;
+            break;
+          }
+        }
+      }
+    };
+
+    var createBytes = function(buffer, rsBlocks) {
+
+      var offset = 0;
+
+      var maxDcCount = 0;
+      var maxEcCount = 0;
+
+      var dcdata = new Array(rsBlocks.length);
+      var ecdata = new Array(rsBlocks.length);
+
+      for (var r = 0; r < rsBlocks.length; r += 1) {
+
+        var dcCount = rsBlocks[r].dataCount;
+        var ecCount = rsBlocks[r].totalCount - dcCount;
+
+        maxDcCount = Math.max(maxDcCount, dcCount);
+        maxEcCount = Math.max(maxEcCount, ecCount);
+
+        dcdata[r] = new Array(dcCount);
+
+        for (var i = 0; i < dcdata[r].length; i += 1) {
+          dcdata[r][i] = 0xff & buffer.getBuffer()[i + offset];
+        }
+        offset += dcCount;
+
+        var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+        var rawPoly = qrPolynomial(dcdata[r], rsPoly.getLength() - 1);
+
+        var modPoly = rawPoly.mod(rsPoly);
+        ecdata[r] = new Array(rsPoly.getLength() - 1);
+        for (var i = 0; i < ecdata[r].length; i += 1) {
+          var modIndex = i + modPoly.getLength() - ecdata[r].length;
+          ecdata[r][i] = (modIndex >= 0)? modPoly.getAt(modIndex) : 0;
+        }
+      }
+
+      var totalCodeCount = 0;
+      for (var i = 0; i < rsBlocks.length; i += 1) {
+        totalCodeCount += rsBlocks[i].totalCount;
+      }
+
+      var data = new Array(totalCodeCount);
+      var index = 0;
+
+      for (var i = 0; i < maxDcCount; i += 1) {
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+          if (i < dcdata[r].length) {
+            data[index] = dcdata[r][i];
+            index += 1;
+          }
+        }
+      }
+
+      for (var i = 0; i < maxEcCount; i += 1) {
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+          if (i < ecdata[r].length) {
+            data[index] = ecdata[r][i];
+            index += 1;
+          }
+        }
+      }
+
+      return data;
+    };
+
+    var createData = function(typeNumber, errorCorrectionLevel, dataList) {
+
+      var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectionLevel);
+
+      var buffer = qrBitBuffer();
+
+      for (var i = 0; i < dataList.length; i += 1) {
+        var data = dataList[i];
+        buffer.put(data.getMode(), 4);
+        buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+        data.write(buffer);
+      }
+
+      // calc num max data.
+      var totalDataCount = 0;
+      for (var i = 0; i < rsBlocks.length; i += 1) {
+        totalDataCount += rsBlocks[i].dataCount;
+      }
+
+      if (buffer.getLengthInBits() > totalDataCount * 8) {
+        throw 'code length overflow. ('
+          + buffer.getLengthInBits()
+          + '>'
+          + totalDataCount * 8
+          + ')';
+      }
+
+      // end code
+      if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
+        buffer.put(0, 4);
+      }
+
+      // padding
+      while (buffer.getLengthInBits() % 8 != 0) {
+        buffer.putBit(false);
+      }
+
+      // padding
+      while (true) {
+
+        if (buffer.getLengthInBits() >= totalDataCount * 8) {
+          break;
+        }
+        buffer.put(PAD0, 8);
+
+        if (buffer.getLengthInBits() >= totalDataCount * 8) {
+          break;
+        }
+        buffer.put(PAD1, 8);
+      }
+
+      return createBytes(buffer, rsBlocks);
+    };
+
+    _this.addData = function(data, mode) {
+
+      mode = mode || 'Byte';
+
+      var newData = null;
+
+      switch(mode) {
+      case 'Numeric' :
+        newData = qrNumber(data);
+        break;
+      case 'Alphanumeric' :
+        newData = qrAlphaNum(data);
+        break;
+      case 'Byte' :
+        newData = qr8BitByte(data);
+        break;
+      case 'Kanji' :
+        newData = qrKanji(data);
+        break;
+      default :
+        throw 'mode:' + mode;
+      }
+
+      _dataList.push(newData);
+      _dataCache = null;
+    };
+
+    _this.isDark = function(row, col) {
+      if (row < 0 || _moduleCount <= row || col < 0 || _moduleCount <= col) {
+        throw row + ',' + col;
+      }
+      return _modules[row][col];
+    };
+
+    _this.getModuleCount = function() {
+      return _moduleCount;
+    };
+
+    _this.make = function() {
+      if (_typeNumber < 1) {
+        var typeNumber = 1;
+
+        for (; typeNumber < 40; typeNumber++) {
+          var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, _errorCorrectionLevel);
+          var buffer = qrBitBuffer();
+
+          for (var i = 0; i < _dataList.length; i++) {
+            var data = _dataList[i];
+            buffer.put(data.getMode(), 4);
+            buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+            data.write(buffer);
+          }
+
+          var totalDataCount = 0;
+          for (var i = 0; i < rsBlocks.length; i++) {
+            totalDataCount += rsBlocks[i].dataCount;
+          }
+
+          if (buffer.getLengthInBits() <= totalDataCount * 8) {
+            break;
+          }
+        }
+
+        _typeNumber = typeNumber;
+      }
+
+      makeImpl(false, getBestMaskPattern() );
+    };
+
+    _this.createTableTag = function(cellSize, margin) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var qrHtml = '';
+
+      qrHtml += '<table style="';
+      qrHtml += ' border-width: 0px; border-style: none;';
+      qrHtml += ' border-collapse: collapse;';
+      qrHtml += ' padding: 0px; margin: ' + margin + 'px;';
+      qrHtml += '">';
+      qrHtml += '<tbody>';
+
+      for (var r = 0; r < _this.getModuleCount(); r += 1) {
+
+        qrHtml += '<tr>';
+
+        for (var c = 0; c < _this.getModuleCount(); c += 1) {
+          qrHtml += '<td style="';
+          qrHtml += ' border-width: 0px; border-style: none;';
+          qrHtml += ' border-collapse: collapse;';
+          qrHtml += ' padding: 0px; margin: 0px;';
+          qrHtml += ' width: ' + cellSize + 'px;';
+          qrHtml += ' height: ' + cellSize + 'px;';
+          qrHtml += ' background-color: ';
+          qrHtml += _this.isDark(r, c)? '#000000' : '#ffffff';
+          qrHtml += ';';
+          qrHtml += '"/>';
+        }
+
+        qrHtml += '</tr>';
+      }
+
+      qrHtml += '</tbody>';
+      qrHtml += '</table>';
+
+      return qrHtml;
+    };
+
+    _this.createSvgTag = function(cellSize, margin, alt, title) {
+
+      var opts = {};
+      if (typeof arguments[0] == 'object') {
+        // Called by options.
+        opts = arguments[0];
+        // overwrite cellSize and margin.
+        cellSize = opts.cellSize;
+        margin = opts.margin;
+        alt = opts.alt;
+        title = opts.title;
+      }
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      // Compose alt property surrogate
+      alt = (typeof alt === 'string') ? {text: alt} : alt || {};
+      alt.text = alt.text || null;
+      alt.id = (alt.text) ? alt.id || 'qrcode-description' : null;
+
+      // Compose title property surrogate
+      title = (typeof title === 'string') ? {text: title} : title || {};
+      title.text = title.text || null;
+      title.id = (title.text) ? title.id || 'qrcode-title' : null;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var c, mc, r, mr, qrSvg='', rect;
+
+      rect = 'l' + cellSize + ',0 0,' + cellSize +
+        ' -' + cellSize + ',0 0,-' + cellSize + 'z ';
+
+      qrSvg += '<svg version="1.1" xmlns="http://www.w3.org/2000/svg"';
+      qrSvg += !opts.scalable ? ' width="' + size + 'px" height="' + size + 'px"' : '';
+      qrSvg += ' viewBox="0 0 ' + size + ' ' + size + '" ';
+      qrSvg += ' preserveAspectRatio="xMinYMin meet"';
+      qrSvg += (title.text || alt.text) ? ' role="img" aria-labelledby="' +
+          escapeXml([title.id, alt.id].join(' ').trim() ) + '"' : '';
+      qrSvg += '>';
+      qrSvg += (title.text) ? '<title id="' + escapeXml(title.id) + '">' +
+          escapeXml(title.text) + '</title>' : '';
+      qrSvg += (alt.text) ? '<description id="' + escapeXml(alt.id) + '">' +
+          escapeXml(alt.text) + '</description>' : '';
+      qrSvg += '<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>';
+      qrSvg += '<path d="';
+
+      for (r = 0; r < _this.getModuleCount(); r += 1) {
+        mr = r * cellSize + margin;
+        for (c = 0; c < _this.getModuleCount(); c += 1) {
+          if (_this.isDark(r, c) ) {
+            mc = c*cellSize+margin;
+            qrSvg += 'M' + mc + ',' + mr + rect;
+          }
+        }
+      }
+
+      qrSvg += '" stroke="transparent" fill="black"/>';
+      qrSvg += '</svg>';
+
+      return qrSvg;
+    };
+
+    _this.createDataURL = function(cellSize, margin) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      return createDataURL(size, size, function(x, y) {
+        if (min <= x && x < max && min <= y && y < max) {
+          var c = Math.floor( (x - min) / cellSize);
+          var r = Math.floor( (y - min) / cellSize);
+          return _this.isDark(r, c)? 0 : 1;
+        } else {
+          return 1;
+        }
+      } );
+    };
+
+    _this.createImgTag = function(cellSize, margin, alt) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+
+      var img = '';
+      img += '<img';
+      img += '\u0020src="';
+      img += _this.createDataURL(cellSize, margin);
+      img += '"';
+      img += '\u0020width="';
+      img += size;
+      img += '"';
+      img += '\u0020height="';
+      img += size;
+      img += '"';
+      if (alt) {
+        img += '\u0020alt="';
+        img += escapeXml(alt);
+        img += '"';
+      }
+      img += '/>';
+
+      return img;
+    };
+
+    var escapeXml = function(s) {
+      var escaped = '';
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charAt(i);
+        switch(c) {
+        case '<': escaped += '&lt;'; break;
+        case '>': escaped += '&gt;'; break;
+        case '&': escaped += '&amp;'; break;
+        case '"': escaped += '&quot;'; break;
+        default : escaped += c; break;
+        }
+      }
+      return escaped;
+    };
+
+    var _createHalfASCII = function(margin) {
+      var cellSize = 1;
+      margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      var y, x, r1, r2, p;
+
+      var blocks = {
+        '██': '█',
+        '█ ': '▀',
+        ' █': '▄',
+        '  ': ' '
+      };
+
+      var blocksLastLineNoMargin = {
+        '██': '▀',
+        '█ ': '▀',
+        ' █': ' ',
+        '  ': ' '
+      };
+
+      var ascii = '';
+      for (y = 0; y < size; y += 2) {
+        r1 = Math.floor((y - min) / cellSize);
+        r2 = Math.floor((y + 1 - min) / cellSize);
+        for (x = 0; x < size; x += 1) {
+          p = '█';
+
+          if (min <= x && x < max && min <= y && y < max && _this.isDark(r1, Math.floor((x - min) / cellSize))) {
+            p = ' ';
+          }
+
+          if (min <= x && x < max && min <= y+1 && y+1 < max && _this.isDark(r2, Math.floor((x - min) / cellSize))) {
+            p += ' ';
+          }
+          else {
+            p += '█';
+          }
+
+          // Output 2 characters per pixel, to create full square. 1 character per pixels gives only half width of square.
+          ascii += (margin < 1 && y+1 >= max) ? blocksLastLineNoMargin[p] : blocks[p];
+        }
+
+        ascii += '\n';
+      }
+
+      if (size % 2 && margin > 0) {
+        return ascii.substring(0, ascii.length - size - 1) + Array(size+1).join('▀');
+      }
+
+      return ascii.substring(0, ascii.length-1);
+    };
+
+    _this.createASCII = function(cellSize, margin) {
+      cellSize = cellSize || 1;
+
+      if (cellSize < 2) {
+        return _createHalfASCII(margin);
+      }
+
+      cellSize -= 1;
+      margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      var y, x, r, p;
+
+      var white = Array(cellSize+1).join('██');
+      var black = Array(cellSize+1).join('  ');
+
+      var ascii = '';
+      var line = '';
+      for (y = 0; y < size; y += 1) {
+        r = Math.floor( (y - min) / cellSize);
+        line = '';
+        for (x = 0; x < size; x += 1) {
+          p = 1;
+
+          if (min <= x && x < max && min <= y && y < max && _this.isDark(r, Math.floor((x - min) / cellSize))) {
+            p = 0;
+          }
+
+          // Output 2 characters per pixel, to create full square. 1 character per pixels gives only half width of square.
+          line += p ? white : black;
+        }
+
+        for (r = 0; r < cellSize; r += 1) {
+          ascii += line + '\n';
+        }
+      }
+
+      return ascii.substring(0, ascii.length-1);
+    };
+
+    _this.renderTo2dContext = function(context, cellSize) {
+      cellSize = cellSize || 2;
+      var length = _this.getModuleCount();
+      for (var row = 0; row < length; row++) {
+        for (var col = 0; col < length; col++) {
+          context.fillStyle = _this.isDark(row, col) ? 'black' : 'white';
+          context.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+        }
+      }
+    }
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrcode.stringToBytes
+  //---------------------------------------------------------------------
+
+  qrcode.stringToBytesFuncs = {
+    'default' : function(s) {
+      var bytes = [];
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charCodeAt(i);
+        bytes.push(c & 0xff);
+      }
+      return bytes;
+    }
+  };
+
+  qrcode.stringToBytes = qrcode.stringToBytesFuncs['default'];
+
+  //---------------------------------------------------------------------
+  // qrcode.createStringToBytes
+  //---------------------------------------------------------------------
+
+  /**
+   * @param unicodeData base64 string of byte array.
+   * [16bit Unicode],[16bit Bytes], ...
+   * @param numChars
+   */
+  qrcode.createStringToBytes = function(unicodeData, numChars) {
+
+    // create conversion map.
+
+    var unicodeMap = function() {
+
+      var bin = base64DecodeInputStream(unicodeData);
+      var read = function() {
+        var b = bin.read();
+        if (b == -1) throw 'eof';
+        return b;
+      };
+
+      var count = 0;
+      var unicodeMap = {};
+      while (true) {
+        var b0 = bin.read();
+        if (b0 == -1) break;
+        var b1 = read();
+        var b2 = read();
+        var b3 = read();
+        var k = String.fromCharCode( (b0 << 8) | b1);
+        var v = (b2 << 8) | b3;
+        unicodeMap[k] = v;
+        count += 1;
+      }
+      if (count != numChars) {
+        throw count + ' != ' + numChars;
+      }
+
+      return unicodeMap;
+    }();
+
+    var unknownChar = '?'.charCodeAt(0);
+
+    return function(s) {
+      var bytes = [];
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charCodeAt(i);
+        if (c < 128) {
+          bytes.push(c);
+        } else {
+          var b = unicodeMap[s.charAt(i)];
+          if (typeof b == 'number') {
+            if ( (b & 0xff) == b) {
+              // 1byte
+              bytes.push(b);
+            } else {
+              // 2bytes
+              bytes.push(b >>> 8);
+              bytes.push(b & 0xff);
+            }
+          } else {
+            bytes.push(unknownChar);
+          }
+        }
+      }
+      return bytes;
+    };
+  };
+
+  //---------------------------------------------------------------------
+  // QRMode
+  //---------------------------------------------------------------------
+
+  var QRMode = {
+    MODE_NUMBER :    1 << 0,
+    MODE_ALPHA_NUM : 1 << 1,
+    MODE_8BIT_BYTE : 1 << 2,
+    MODE_KANJI :     1 << 3
+  };
+
+  //---------------------------------------------------------------------
+  // QRErrorCorrectionLevel
+  //---------------------------------------------------------------------
+
+  var QRErrorCorrectionLevel = {
+    L : 1,
+    M : 0,
+    Q : 3,
+    H : 2
+  };
+
+  //---------------------------------------------------------------------
+  // QRMaskPattern
+  //---------------------------------------------------------------------
+
+  var QRMaskPattern = {
+    PATTERN000 : 0,
+    PATTERN001 : 1,
+    PATTERN010 : 2,
+    PATTERN011 : 3,
+    PATTERN100 : 4,
+    PATTERN101 : 5,
+    PATTERN110 : 6,
+    PATTERN111 : 7
+  };
+
+  //---------------------------------------------------------------------
+  // QRUtil
+  //---------------------------------------------------------------------
+
+  var QRUtil = function() {
+
+    var PATTERN_POSITION_TABLE = [
+      [],
+      [6, 18],
+      [6, 22],
+      [6, 26],
+      [6, 30],
+      [6, 34],
+      [6, 22, 38],
+      [6, 24, 42],
+      [6, 26, 46],
+      [6, 28, 50],
+      [6, 30, 54],
+      [6, 32, 58],
+      [6, 34, 62],
+      [6, 26, 46, 66],
+      [6, 26, 48, 70],
+      [6, 26, 50, 74],
+      [6, 30, 54, 78],
+      [6, 30, 56, 82],
+      [6, 30, 58, 86],
+      [6, 34, 62, 90],
+      [6, 28, 50, 72, 94],
+      [6, 26, 50, 74, 98],
+      [6, 30, 54, 78, 102],
+      [6, 28, 54, 80, 106],
+      [6, 32, 58, 84, 110],
+      [6, 30, 58, 86, 114],
+      [6, 34, 62, 90, 118],
+      [6, 26, 50, 74, 98, 122],
+      [6, 30, 54, 78, 102, 126],
+      [6, 26, 52, 78, 104, 130],
+      [6, 30, 56, 82, 108, 134],
+      [6, 34, 60, 86, 112, 138],
+      [6, 30, 58, 86, 114, 142],
+      [6, 34, 62, 90, 118, 146],
+      [6, 30, 54, 78, 102, 126, 150],
+      [6, 24, 50, 76, 102, 128, 154],
+      [6, 28, 54, 80, 106, 132, 158],
+      [6, 32, 58, 84, 110, 136, 162],
+      [6, 26, 54, 82, 110, 138, 166],
+      [6, 30, 58, 86, 114, 142, 170]
+    ];
+    var G15 = (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0);
+    var G18 = (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0);
+    var G15_MASK = (1 << 14) | (1 << 12) | (1 << 10) | (1 << 4) | (1 << 1);
+
+    var _this = {};
+
+    var getBCHDigit = function(data) {
+      var digit = 0;
+      while (data != 0) {
+        digit += 1;
+        data >>>= 1;
+      }
+      return digit;
+    };
+
+    _this.getBCHTypeInfo = function(data) {
+      var d = data << 10;
+      while (getBCHDigit(d) - getBCHDigit(G15) >= 0) {
+        d ^= (G15 << (getBCHDigit(d) - getBCHDigit(G15) ) );
+      }
+      return ( (data << 10) | d) ^ G15_MASK;
+    };
+
+    _this.getBCHTypeNumber = function(data) {
+      var d = data << 12;
+      while (getBCHDigit(d) - getBCHDigit(G18) >= 0) {
+        d ^= (G18 << (getBCHDigit(d) - getBCHDigit(G18) ) );
+      }
+      return (data << 12) | d;
+    };
+
+    _this.getPatternPosition = function(typeNumber) {
+      return PATTERN_POSITION_TABLE[typeNumber - 1];
+    };
+
+    _this.getMaskFunction = function(maskPattern) {
+
+      switch (maskPattern) {
+
+      case QRMaskPattern.PATTERN000 :
+        return function(i, j) { return (i + j) % 2 == 0; };
+      case QRMaskPattern.PATTERN001 :
+        return function(i, j) { return i % 2 == 0; };
+      case QRMaskPattern.PATTERN010 :
+        return function(i, j) { return j % 3 == 0; };
+      case QRMaskPattern.PATTERN011 :
+        return function(i, j) { return (i + j) % 3 == 0; };
+      case QRMaskPattern.PATTERN100 :
+        return function(i, j) { return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 == 0; };
+      case QRMaskPattern.PATTERN101 :
+        return function(i, j) { return (i * j) % 2 + (i * j) % 3 == 0; };
+      case QRMaskPattern.PATTERN110 :
+        return function(i, j) { return ( (i * j) % 2 + (i * j) % 3) % 2 == 0; };
+      case QRMaskPattern.PATTERN111 :
+        return function(i, j) { return ( (i * j) % 3 + (i + j) % 2) % 2 == 0; };
+
+      default :
+        throw 'bad maskPattern:' + maskPattern;
+      }
+    };
+
+    _this.getErrorCorrectPolynomial = function(errorCorrectLength) {
+      var a = qrPolynomial([1], 0);
+      for (var i = 0; i < errorCorrectLength; i += 1) {
+        a = a.multiply(qrPolynomial([1, QRMath.gexp(i)], 0) );
+      }
+      return a;
+    };
+
+    _this.getLengthInBits = function(mode, type) {
+
+      if (1 <= type && type < 10) {
+
+        // 1 - 9
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 10;
+        case QRMode.MODE_ALPHA_NUM : return 9;
+        case QRMode.MODE_8BIT_BYTE : return 8;
+        case QRMode.MODE_KANJI     : return 8;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else if (type < 27) {
+
+        // 10 - 26
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 12;
+        case QRMode.MODE_ALPHA_NUM : return 11;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI     : return 10;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else if (type < 41) {
+
+        // 27 - 40
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 14;
+        case QRMode.MODE_ALPHA_NUM : return 13;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI     : return 12;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else {
+        throw 'type:' + type;
+      }
+    };
+
+    _this.getLostPoint = function(qrcode) {
+
+      var moduleCount = qrcode.getModuleCount();
+
+      var lostPoint = 0;
+
+      // LEVEL1
+
+      for (var row = 0; row < moduleCount; row += 1) {
+        for (var col = 0; col < moduleCount; col += 1) {
+
+          var sameCount = 0;
+          var dark = qrcode.isDark(row, col);
+
+          for (var r = -1; r <= 1; r += 1) {
+
+            if (row + r < 0 || moduleCount <= row + r) {
+              continue;
+            }
+
+            for (var c = -1; c <= 1; c += 1) {
+
+              if (col + c < 0 || moduleCount <= col + c) {
+                continue;
+              }
+
+              if (r == 0 && c == 0) {
+                continue;
+              }
+
+              if (dark == qrcode.isDark(row + r, col + c) ) {
+                sameCount += 1;
+              }
+            }
+          }
+
+          if (sameCount > 5) {
+            lostPoint += (3 + sameCount - 5);
+          }
+        }
+      };
+
+      // LEVEL2
+
+      for (var row = 0; row < moduleCount - 1; row += 1) {
+        for (var col = 0; col < moduleCount - 1; col += 1) {
+          var count = 0;
+          if (qrcode.isDark(row, col) ) count += 1;
+          if (qrcode.isDark(row + 1, col) ) count += 1;
+          if (qrcode.isDark(row, col + 1) ) count += 1;
+          if (qrcode.isDark(row + 1, col + 1) ) count += 1;
+          if (count == 0 || count == 4) {
+            lostPoint += 3;
+          }
+        }
+      }
+
+      // LEVEL3
+
+      for (var row = 0; row < moduleCount; row += 1) {
+        for (var col = 0; col < moduleCount - 6; col += 1) {
+          if (qrcode.isDark(row, col)
+              && !qrcode.isDark(row, col + 1)
+              &&  qrcode.isDark(row, col + 2)
+              &&  qrcode.isDark(row, col + 3)
+              &&  qrcode.isDark(row, col + 4)
+              && !qrcode.isDark(row, col + 5)
+              &&  qrcode.isDark(row, col + 6) ) {
+            lostPoint += 40;
+          }
+        }
+      }
+
+      for (var col = 0; col < moduleCount; col += 1) {
+        for (var row = 0; row < moduleCount - 6; row += 1) {
+          if (qrcode.isDark(row, col)
+              && !qrcode.isDark(row + 1, col)
+              &&  qrcode.isDark(row + 2, col)
+              &&  qrcode.isDark(row + 3, col)
+              &&  qrcode.isDark(row + 4, col)
+              && !qrcode.isDark(row + 5, col)
+              &&  qrcode.isDark(row + 6, col) ) {
+            lostPoint += 40;
+          }
+        }
+      }
+
+      // LEVEL4
+
+      var darkCount = 0;
+
+      for (var col = 0; col < moduleCount; col += 1) {
+        for (var row = 0; row < moduleCount; row += 1) {
+          if (qrcode.isDark(row, col) ) {
+            darkCount += 1;
+          }
+        }
+      }
+
+      var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+      lostPoint += ratio * 10;
+
+      return lostPoint;
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // QRMath
+  //---------------------------------------------------------------------
+
+  var QRMath = function() {
+
+    var EXP_TABLE = new Array(256);
+    var LOG_TABLE = new Array(256);
+
+    // initialize tables
+    for (var i = 0; i < 8; i += 1) {
+      EXP_TABLE[i] = 1 << i;
+    }
+    for (var i = 8; i < 256; i += 1) {
+      EXP_TABLE[i] = EXP_TABLE[i - 4]
+        ^ EXP_TABLE[i - 5]
+        ^ EXP_TABLE[i - 6]
+        ^ EXP_TABLE[i - 8];
+    }
+    for (var i = 0; i < 255; i += 1) {
+      LOG_TABLE[EXP_TABLE[i] ] = i;
+    }
+
+    var _this = {};
+
+    _this.glog = function(n) {
+
+      if (n < 1) {
+        throw 'glog(' + n + ')';
+      }
+
+      return LOG_TABLE[n];
+    };
+
+    _this.gexp = function(n) {
+
+      while (n < 0) {
+        n += 255;
+      }
+
+      while (n >= 256) {
+        n -= 255;
+      }
+
+      return EXP_TABLE[n];
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // qrPolynomial
+  //---------------------------------------------------------------------
+
+  function qrPolynomial(num, shift) {
+
+    if (typeof num.length == 'undefined') {
+      throw num.length + '/' + shift;
+    }
+
+    var _num = function() {
+      var offset = 0;
+      while (offset < num.length && num[offset] == 0) {
+        offset += 1;
+      }
+      var _num = new Array(num.length - offset + shift);
+      for (var i = 0; i < num.length - offset; i += 1) {
+        _num[i] = num[i + offset];
+      }
+      return _num;
+    }();
+
+    var _this = {};
+
+    _this.getAt = function(index) {
+      return _num[index];
+    };
+
+    _this.getLength = function() {
+      return _num.length;
+    };
+
+    _this.multiply = function(e) {
+
+      var num = new Array(_this.getLength() + e.getLength() - 1);
+
+      for (var i = 0; i < _this.getLength(); i += 1) {
+        for (var j = 0; j < e.getLength(); j += 1) {
+          num[i + j] ^= QRMath.gexp(QRMath.glog(_this.getAt(i) ) + QRMath.glog(e.getAt(j) ) );
+        }
+      }
+
+      return qrPolynomial(num, 0);
+    };
+
+    _this.mod = function(e) {
+
+      if (_this.getLength() - e.getLength() < 0) {
+        return _this;
+      }
+
+      var ratio = QRMath.glog(_this.getAt(0) ) - QRMath.glog(e.getAt(0) );
+
+      var num = new Array(_this.getLength() );
+      for (var i = 0; i < _this.getLength(); i += 1) {
+        num[i] = _this.getAt(i);
+      }
+
+      for (var i = 0; i < e.getLength(); i += 1) {
+        num[i] ^= QRMath.gexp(QRMath.glog(e.getAt(i) ) + ratio);
+      }
+
+      // recursive call
+      return qrPolynomial(num, 0).mod(e);
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // QRRSBlock
+  //---------------------------------------------------------------------
+
+  var QRRSBlock = function() {
+
+    var RS_BLOCK_TABLE = [
+
+      // L
+      // M
+      // Q
+      // H
+
+      // 1
+      [1, 26, 19],
+      [1, 26, 16],
+      [1, 26, 13],
+      [1, 26, 9],
+
+      // 2
+      [1, 44, 34],
+      [1, 44, 28],
+      [1, 44, 22],
+      [1, 44, 16],
+
+      // 3
+      [1, 70, 55],
+      [1, 70, 44],
+      [2, 35, 17],
+      [2, 35, 13],
+
+      // 4
+      [1, 100, 80],
+      [2, 50, 32],
+      [2, 50, 24],
+      [4, 25, 9],
+
+      // 5
+      [1, 134, 108],
+      [2, 67, 43],
+      [2, 33, 15, 2, 34, 16],
+      [2, 33, 11, 2, 34, 12],
+
+      // 6
+      [2, 86, 68],
+      [4, 43, 27],
+      [4, 43, 19],
+      [4, 43, 15],
+
+      // 7
+      [2, 98, 78],
+      [4, 49, 31],
+      [2, 32, 14, 4, 33, 15],
+      [4, 39, 13, 1, 40, 14],
+
+      // 8
+      [2, 121, 97],
+      [2, 60, 38, 2, 61, 39],
+      [4, 40, 18, 2, 41, 19],
+      [4, 40, 14, 2, 41, 15],
+
+      // 9
+      [2, 146, 116],
+      [3, 58, 36, 2, 59, 37],
+      [4, 36, 16, 4, 37, 17],
+      [4, 36, 12, 4, 37, 13],
+
+      // 10
+      [2, 86, 68, 2, 87, 69],
+      [4, 69, 43, 1, 70, 44],
+      [6, 43, 19, 2, 44, 20],
+      [6, 43, 15, 2, 44, 16],
+
+      // 11
+      [4, 101, 81],
+      [1, 80, 50, 4, 81, 51],
+      [4, 50, 22, 4, 51, 23],
+      [3, 36, 12, 8, 37, 13],
+
+      // 12
+      [2, 116, 92, 2, 117, 93],
+      [6, 58, 36, 2, 59, 37],
+      [4, 46, 20, 6, 47, 21],
+      [7, 42, 14, 4, 43, 15],
+
+      // 13
+      [4, 133, 107],
+      [8, 59, 37, 1, 60, 38],
+      [8, 44, 20, 4, 45, 21],
+      [12, 33, 11, 4, 34, 12],
+
+      // 14
+      [3, 145, 115, 1, 146, 116],
+      [4, 64, 40, 5, 65, 41],
+      [11, 36, 16, 5, 37, 17],
+      [11, 36, 12, 5, 37, 13],
+
+      // 15
+      [5, 109, 87, 1, 110, 88],
+      [5, 65, 41, 5, 66, 42],
+      [5, 54, 24, 7, 55, 25],
+      [11, 36, 12, 7, 37, 13],
+
+      // 16
+      [5, 122, 98, 1, 123, 99],
+      [7, 73, 45, 3, 74, 46],
+      [15, 43, 19, 2, 44, 20],
+      [3, 45, 15, 13, 46, 16],
+
+      // 17
+      [1, 135, 107, 5, 136, 108],
+      [10, 74, 46, 1, 75, 47],
+      [1, 50, 22, 15, 51, 23],
+      [2, 42, 14, 17, 43, 15],
+
+      // 18
+      [5, 150, 120, 1, 151, 121],
+      [9, 69, 43, 4, 70, 44],
+      [17, 50, 22, 1, 51, 23],
+      [2, 42, 14, 19, 43, 15],
+
+      // 19
+      [3, 141, 113, 4, 142, 114],
+      [3, 70, 44, 11, 71, 45],
+      [17, 47, 21, 4, 48, 22],
+      [9, 39, 13, 16, 40, 14],
+
+      // 20
+      [3, 135, 107, 5, 136, 108],
+      [3, 67, 41, 13, 68, 42],
+      [15, 54, 24, 5, 55, 25],
+      [15, 43, 15, 10, 44, 16],
+
+      // 21
+      [4, 144, 116, 4, 145, 117],
+      [17, 68, 42],
+      [17, 50, 22, 6, 51, 23],
+      [19, 46, 16, 6, 47, 17],
+
+      // 22
+      [2, 139, 111, 7, 140, 112],
+      [17, 74, 46],
+      [7, 54, 24, 16, 55, 25],
+      [34, 37, 13],
+
+      // 23
+      [4, 151, 121, 5, 152, 122],
+      [4, 75, 47, 14, 76, 48],
+      [11, 54, 24, 14, 55, 25],
+      [16, 45, 15, 14, 46, 16],
+
+      // 24
+      [6, 147, 117, 4, 148, 118],
+      [6, 73, 45, 14, 74, 46],
+      [11, 54, 24, 16, 55, 25],
+      [30, 46, 16, 2, 47, 17],
+
+      // 25
+      [8, 132, 106, 4, 133, 107],
+      [8, 75, 47, 13, 76, 48],
+      [7, 54, 24, 22, 55, 25],
+      [22, 45, 15, 13, 46, 16],
+
+      // 26
+      [10, 142, 114, 2, 143, 115],
+      [19, 74, 46, 4, 75, 47],
+      [28, 50, 22, 6, 51, 23],
+      [33, 46, 16, 4, 47, 17],
+
+      // 27
+      [8, 152, 122, 4, 153, 123],
+      [22, 73, 45, 3, 74, 46],
+      [8, 53, 23, 26, 54, 24],
+      [12, 45, 15, 28, 46, 16],
+
+      // 28
+      [3, 147, 117, 10, 148, 118],
+      [3, 73, 45, 23, 74, 46],
+      [4, 54, 24, 31, 55, 25],
+      [11, 45, 15, 31, 46, 16],
+
+      // 29
+      [7, 146, 116, 7, 147, 117],
+      [21, 73, 45, 7, 74, 46],
+      [1, 53, 23, 37, 54, 24],
+      [19, 45, 15, 26, 46, 16],
+
+      // 30
+      [5, 145, 115, 10, 146, 116],
+      [19, 75, 47, 10, 76, 48],
+      [15, 54, 24, 25, 55, 25],
+      [23, 45, 15, 25, 46, 16],
+
+      // 31
+      [13, 145, 115, 3, 146, 116],
+      [2, 74, 46, 29, 75, 47],
+      [42, 54, 24, 1, 55, 25],
+      [23, 45, 15, 28, 46, 16],
+
+      // 32
+      [17, 145, 115],
+      [10, 74, 46, 23, 75, 47],
+      [10, 54, 24, 35, 55, 25],
+      [19, 45, 15, 35, 46, 16],
+
+      // 33
+      [17, 145, 115, 1, 146, 116],
+      [14, 74, 46, 21, 75, 47],
+      [29, 54, 24, 19, 55, 25],
+      [11, 45, 15, 46, 46, 16],
+
+      // 34
+      [13, 145, 115, 6, 146, 116],
+      [14, 74, 46, 23, 75, 47],
+      [44, 54, 24, 7, 55, 25],
+      [59, 46, 16, 1, 47, 17],
+
+      // 35
+      [12, 151, 121, 7, 152, 122],
+      [12, 75, 47, 26, 76, 48],
+      [39, 54, 24, 14, 55, 25],
+      [22, 45, 15, 41, 46, 16],
+
+      // 36
+      [6, 151, 121, 14, 152, 122],
+      [6, 75, 47, 34, 76, 48],
+      [46, 54, 24, 10, 55, 25],
+      [2, 45, 15, 64, 46, 16],
+
+      // 37
+      [17, 152, 122, 4, 153, 123],
+      [29, 74, 46, 14, 75, 47],
+      [49, 54, 24, 10, 55, 25],
+      [24, 45, 15, 46, 46, 16],
+
+      // 38
+      [4, 152, 122, 18, 153, 123],
+      [13, 74, 46, 32, 75, 47],
+      [48, 54, 24, 14, 55, 25],
+      [42, 45, 15, 32, 46, 16],
+
+      // 39
+      [20, 147, 117, 4, 148, 118],
+      [40, 75, 47, 7, 76, 48],
+      [43, 54, 24, 22, 55, 25],
+      [10, 45, 15, 67, 46, 16],
+
+      // 40
+      [19, 148, 118, 6, 149, 119],
+      [18, 75, 47, 31, 76, 48],
+      [34, 54, 24, 34, 55, 25],
+      [20, 45, 15, 61, 46, 16]
+    ];
+
+    var qrRSBlock = function(totalCount, dataCount) {
+      var _this = {};
+      _this.totalCount = totalCount;
+      _this.dataCount = dataCount;
+      return _this;
+    };
+
+    var _this = {};
+
+    var getRsBlockTable = function(typeNumber, errorCorrectionLevel) {
+
+      switch(errorCorrectionLevel) {
+      case QRErrorCorrectionLevel.L :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+      case QRErrorCorrectionLevel.M :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+      case QRErrorCorrectionLevel.Q :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+      case QRErrorCorrectionLevel.H :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+      default :
+        return undefined;
+      }
+    };
+
+    _this.getRSBlocks = function(typeNumber, errorCorrectionLevel) {
+
+      var rsBlock = getRsBlockTable(typeNumber, errorCorrectionLevel);
+
+      if (typeof rsBlock == 'undefined') {
+        throw 'bad rs block @ typeNumber:' + typeNumber +
+            '/errorCorrectionLevel:' + errorCorrectionLevel;
+      }
+
+      var length = rsBlock.length / 3;
+
+      var list = [];
+
+      for (var i = 0; i < length; i += 1) {
+
+        var count = rsBlock[i * 3 + 0];
+        var totalCount = rsBlock[i * 3 + 1];
+        var dataCount = rsBlock[i * 3 + 2];
+
+        for (var j = 0; j < count; j += 1) {
+          list.push(qrRSBlock(totalCount, dataCount) );
+        }
+      }
+
+      return list;
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // qrBitBuffer
+  //---------------------------------------------------------------------
+
+  var qrBitBuffer = function() {
+
+    var _buffer = [];
+    var _length = 0;
+
+    var _this = {};
+
+    _this.getBuffer = function() {
+      return _buffer;
+    };
+
+    _this.getAt = function(index) {
+      var bufIndex = Math.floor(index / 8);
+      return ( (_buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
+    };
+
+    _this.put = function(num, length) {
+      for (var i = 0; i < length; i += 1) {
+        _this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
+      }
+    };
+
+    _this.getLengthInBits = function() {
+      return _length;
+    };
+
+    _this.putBit = function(bit) {
+
+      var bufIndex = Math.floor(_length / 8);
+      if (_buffer.length <= bufIndex) {
+        _buffer.push(0);
+      }
+
+      if (bit) {
+        _buffer[bufIndex] |= (0x80 >>> (_length % 8) );
+      }
+
+      _length += 1;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrNumber
+  //---------------------------------------------------------------------
+
+  var qrNumber = function(data) {
+
+    var _mode = QRMode.MODE_NUMBER;
+    var _data = data;
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _data.length;
+    };
+
+    _this.write = function(buffer) {
+
+      var data = _data;
+
+      var i = 0;
+
+      while (i + 2 < data.length) {
+        buffer.put(strToNum(data.substring(i, i + 3) ), 10);
+        i += 3;
+      }
+
+      if (i < data.length) {
+        if (data.length - i == 1) {
+          buffer.put(strToNum(data.substring(i, i + 1) ), 4);
+        } else if (data.length - i == 2) {
+          buffer.put(strToNum(data.substring(i, i + 2) ), 7);
+        }
+      }
+    };
+
+    var strToNum = function(s) {
+      var num = 0;
+      for (var i = 0; i < s.length; i += 1) {
+        num = num * 10 + chatToNum(s.charAt(i) );
+      }
+      return num;
+    };
+
+    var chatToNum = function(c) {
+      if ('0' <= c && c <= '9') {
+        return c.charCodeAt(0) - '0'.charCodeAt(0);
+      }
+      throw 'illegal char :' + c;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrAlphaNum
+  //---------------------------------------------------------------------
+
+  var qrAlphaNum = function(data) {
+
+    var _mode = QRMode.MODE_ALPHA_NUM;
+    var _data = data;
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _data.length;
+    };
+
+    _this.write = function(buffer) {
+
+      var s = _data;
+
+      var i = 0;
+
+      while (i + 1 < s.length) {
+        buffer.put(
+          getCode(s.charAt(i) ) * 45 +
+          getCode(s.charAt(i + 1) ), 11);
+        i += 2;
+      }
+
+      if (i < s.length) {
+        buffer.put(getCode(s.charAt(i) ), 6);
+      }
+    };
+
+    var getCode = function(c) {
+
+      if ('0' <= c && c <= '9') {
+        return c.charCodeAt(0) - '0'.charCodeAt(0);
+      } else if ('A' <= c && c <= 'Z') {
+        return c.charCodeAt(0) - 'A'.charCodeAt(0) + 10;
+      } else {
+        switch (c) {
+        case ' ' : return 36;
+        case '$' : return 37;
+        case '%' : return 38;
+        case '*' : return 39;
+        case '+' : return 40;
+        case '-' : return 41;
+        case '.' : return 42;
+        case '/' : return 43;
+        case ':' : return 44;
+        default :
+          throw 'illegal char :' + c;
+        }
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qr8BitByte
+  //---------------------------------------------------------------------
+
+  var qr8BitByte = function(data) {
+
+    var _mode = QRMode.MODE_8BIT_BYTE;
+    var _data = data;
+    var _bytes = qrcode.stringToBytes(data);
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _bytes.length;
+    };
+
+    _this.write = function(buffer) {
+      for (var i = 0; i < _bytes.length; i += 1) {
+        buffer.put(_bytes[i], 8);
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrKanji
+  //---------------------------------------------------------------------
+
+  var qrKanji = function(data) {
+
+    var _mode = QRMode.MODE_KANJI;
+    var _data = data;
+
+    var stringToBytes = qrcode.stringToBytesFuncs['SJIS'];
+    if (!stringToBytes) {
+      throw 'sjis not supported.';
+    }
+    !function(c, code) {
+      // self test for sjis support.
+      var test = stringToBytes(c);
+      if (test.length != 2 || ( (test[0] << 8) | test[1]) != code) {
+        throw 'sjis not supported.';
+      }
+    }('\u53cb', 0x9746);
+
+    var _bytes = stringToBytes(data);
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return ~~(_bytes.length / 2);
+    };
+
+    _this.write = function(buffer) {
+
+      var data = _bytes;
+
+      var i = 0;
+
+      while (i + 1 < data.length) {
+
+        var c = ( (0xff & data[i]) << 8) | (0xff & data[i + 1]);
+
+        if (0x8140 <= c && c <= 0x9FFC) {
+          c -= 0x8140;
+        } else if (0xE040 <= c && c <= 0xEBBF) {
+          c -= 0xC140;
+        } else {
+          throw 'illegal char at ' + (i + 1) + '/' + c;
+        }
+
+        c = ( (c >>> 8) & 0xff) * 0xC0 + (c & 0xff);
+
+        buffer.put(c, 13);
+
+        i += 2;
+      }
+
+      if (i < data.length) {
+        throw 'illegal char at ' + (i + 1);
+      }
+    };
+
+    return _this;
+  };
+
+  //=====================================================================
+  // GIF Support etc.
+  //
+
+  //---------------------------------------------------------------------
+  // byteArrayOutputStream
+  //---------------------------------------------------------------------
+
+  var byteArrayOutputStream = function() {
+
+    var _bytes = [];
+
+    var _this = {};
+
+    _this.writeByte = function(b) {
+      _bytes.push(b & 0xff);
+    };
+
+    _this.writeShort = function(i) {
+      _this.writeByte(i);
+      _this.writeByte(i >>> 8);
+    };
+
+    _this.writeBytes = function(b, off, len) {
+      off = off || 0;
+      len = len || b.length;
+      for (var i = 0; i < len; i += 1) {
+        _this.writeByte(b[i + off]);
+      }
+    };
+
+    _this.writeString = function(s) {
+      for (var i = 0; i < s.length; i += 1) {
+        _this.writeByte(s.charCodeAt(i) );
+      }
+    };
+
+    _this.toByteArray = function() {
+      return _bytes;
+    };
+
+    _this.toString = function() {
+      var s = '';
+      s += '[';
+      for (var i = 0; i < _bytes.length; i += 1) {
+        if (i > 0) {
+          s += ',';
+        }
+        s += _bytes[i];
+      }
+      s += ']';
+      return s;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // base64EncodeOutputStream
+  //---------------------------------------------------------------------
+
+  var base64EncodeOutputStream = function() {
+
+    var _buffer = 0;
+    var _buflen = 0;
+    var _length = 0;
+    var _base64 = '';
+
+    var _this = {};
+
+    var writeEncoded = function(b) {
+      _base64 += String.fromCharCode(encode(b & 0x3f) );
+    };
+
+    var encode = function(n) {
+      if (n < 0) {
+        // error.
+      } else if (n < 26) {
+        return 0x41 + n;
+      } else if (n < 52) {
+        return 0x61 + (n - 26);
+      } else if (n < 62) {
+        return 0x30 + (n - 52);
+      } else if (n == 62) {
+        return 0x2b;
+      } else if (n == 63) {
+        return 0x2f;
+      }
+      throw 'n:' + n;
+    };
+
+    _this.writeByte = function(n) {
+
+      _buffer = (_buffer << 8) | (n & 0xff);
+      _buflen += 8;
+      _length += 1;
+
+      while (_buflen >= 6) {
+        writeEncoded(_buffer >>> (_buflen - 6) );
+        _buflen -= 6;
+      }
+    };
+
+    _this.flush = function() {
+
+      if (_buflen > 0) {
+        writeEncoded(_buffer << (6 - _buflen) );
+        _buffer = 0;
+        _buflen = 0;
+      }
+
+      if (_length % 3 != 0) {
+        // padding
+        var padlen = 3 - _length % 3;
+        for (var i = 0; i < padlen; i += 1) {
+          _base64 += '=';
+        }
+      }
+    };
+
+    _this.toString = function() {
+      return _base64;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // base64DecodeInputStream
+  //---------------------------------------------------------------------
+
+  var base64DecodeInputStream = function(str) {
+
+    var _str = str;
+    var _pos = 0;
+    var _buffer = 0;
+    var _buflen = 0;
+
+    var _this = {};
+
+    _this.read = function() {
+
+      while (_buflen < 8) {
+
+        if (_pos >= _str.length) {
+          if (_buflen == 0) {
+            return -1;
+          }
+          throw 'unexpected end of file./' + _buflen;
+        }
+
+        var c = _str.charAt(_pos);
+        _pos += 1;
+
+        if (c == '=') {
+          _buflen = 0;
+          return -1;
+        } else if (c.match(/^\s$/) ) {
+          // ignore if whitespace.
+          continue;
+        }
+
+        _buffer = (_buffer << 6) | decode(c.charCodeAt(0) );
+        _buflen += 6;
+      }
+
+      var n = (_buffer >>> (_buflen - 8) ) & 0xff;
+      _buflen -= 8;
+      return n;
+    };
+
+    var decode = function(c) {
+      if (0x41 <= c && c <= 0x5a) {
+        return c - 0x41;
+      } else if (0x61 <= c && c <= 0x7a) {
+        return c - 0x61 + 26;
+      } else if (0x30 <= c && c <= 0x39) {
+        return c - 0x30 + 52;
+      } else if (c == 0x2b) {
+        return 62;
+      } else if (c == 0x2f) {
+        return 63;
+      } else {
+        throw 'c:' + c;
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // gifImage (B/W)
+  //---------------------------------------------------------------------
+
+  var gifImage = function(width, height) {
+
+    var _width = width;
+    var _height = height;
+    var _data = new Array(width * height);
+
+    var _this = {};
+
+    _this.setPixel = function(x, y, pixel) {
+      _data[y * _width + x] = pixel;
+    };
+
+    _this.write = function(out) {
+
+      //---------------------------------
+      // GIF Signature
+
+      out.writeString('GIF87a');
+
+      //---------------------------------
+      // Screen Descriptor
+
+      out.writeShort(_width);
+      out.writeShort(_height);
+
+      out.writeByte(0x80); // 2bit
+      out.writeByte(0);
+      out.writeByte(0);
+
+      //---------------------------------
+      // Global Color Map
+
+      // black
+      out.writeByte(0x00);
+      out.writeByte(0x00);
+      out.writeByte(0x00);
+
+      // white
+      out.writeByte(0xff);
+      out.writeByte(0xff);
+      out.writeByte(0xff);
+
+      //---------------------------------
+      // Image Descriptor
+
+      out.writeString(',');
+      out.writeShort(0);
+      out.writeShort(0);
+      out.writeShort(_width);
+      out.writeShort(_height);
+      out.writeByte(0);
+
+      //---------------------------------
+      // Local Color Map
+
+      //---------------------------------
+      // Raster Data
+
+      var lzwMinCodeSize = 2;
+      var raster = getLZWRaster(lzwMinCodeSize);
+
+      out.writeByte(lzwMinCodeSize);
+
+      var offset = 0;
+
+      while (raster.length - offset > 255) {
+        out.writeByte(255);
+        out.writeBytes(raster, offset, 255);
+        offset += 255;
+      }
+
+      out.writeByte(raster.length - offset);
+      out.writeBytes(raster, offset, raster.length - offset);
+      out.writeByte(0x00);
+
+      //---------------------------------
+      // GIF Terminator
+      out.writeString(';');
+    };
+
+    var bitOutputStream = function(out) {
+
+      var _out = out;
+      var _bitLength = 0;
+      var _bitBuffer = 0;
+
+      var _this = {};
+
+      _this.write = function(data, length) {
+
+        if ( (data >>> length) != 0) {
+          throw 'length over';
+        }
+
+        while (_bitLength + length >= 8) {
+          _out.writeByte(0xff & ( (data << _bitLength) | _bitBuffer) );
+          length -= (8 - _bitLength);
+          data >>>= (8 - _bitLength);
+          _bitBuffer = 0;
+          _bitLength = 0;
+        }
+
+        _bitBuffer = (data << _bitLength) | _bitBuffer;
+        _bitLength = _bitLength + length;
+      };
+
+      _this.flush = function() {
+        if (_bitLength > 0) {
+          _out.writeByte(_bitBuffer);
+        }
+      };
+
+      return _this;
+    };
+
+    var getLZWRaster = function(lzwMinCodeSize) {
+
+      var clearCode = 1 << lzwMinCodeSize;
+      var endCode = (1 << lzwMinCodeSize) + 1;
+      var bitLength = lzwMinCodeSize + 1;
+
+      // Setup LZWTable
+      var table = lzwTable();
+
+      for (var i = 0; i < clearCode; i += 1) {
+        table.add(String.fromCharCode(i) );
+      }
+      table.add(String.fromCharCode(clearCode) );
+      table.add(String.fromCharCode(endCode) );
+
+      var byteOut = byteArrayOutputStream();
+      var bitOut = bitOutputStream(byteOut);
+
+      // clear code
+      bitOut.write(clearCode, bitLength);
+
+      var dataIndex = 0;
+
+      var s = String.fromCharCode(_data[dataIndex]);
+      dataIndex += 1;
+
+      while (dataIndex < _data.length) {
+
+        var c = String.fromCharCode(_data[dataIndex]);
+        dataIndex += 1;
+
+        if (table.contains(s + c) ) {
+
+          s = s + c;
+
+        } else {
+
+          bitOut.write(table.indexOf(s), bitLength);
+
+          if (table.size() < 0xfff) {
+
+            if (table.size() == (1 << bitLength) ) {
+              bitLength += 1;
+            }
+
+            table.add(s + c);
+          }
+
+          s = c;
+        }
+      }
+
+      bitOut.write(table.indexOf(s), bitLength);
+
+      // end code
+      bitOut.write(endCode, bitLength);
+
+      bitOut.flush();
+
+      return byteOut.toByteArray();
+    };
+
+    var lzwTable = function() {
+
+      var _map = {};
+      var _size = 0;
+
+      var _this = {};
+
+      _this.add = function(key) {
+        if (_this.contains(key) ) {
+          throw 'dup key:' + key;
+        }
+        _map[key] = _size;
+        _size += 1;
+      };
+
+      _this.size = function() {
+        return _size;
+      };
+
+      _this.indexOf = function(key) {
+        return _map[key];
+      };
+
+      _this.contains = function(key) {
+        return typeof _map[key] != 'undefined';
+      };
+
+      return _this;
+    };
+
+    return _this;
+  };
+
+  var createDataURL = function(width, height, getPixel) {
+    var gif = gifImage(width, height);
+    for (var y = 0; y < height; y += 1) {
+      for (var x = 0; x < width; x += 1) {
+        gif.setPixel(x, y, getPixel(x, y) );
+      }
+    }
+
+    var b = byteArrayOutputStream();
+    gif.write(b);
+
+    var base64 = base64EncodeOutputStream();
+    var bytes = b.toByteArray();
+    for (var i = 0; i < bytes.length; i += 1) {
+      base64.writeByte(bytes[i]);
+    }
+    base64.flush();
+
+    return 'data:image/gif;base64,' + base64;
+  };
+
+  //---------------------------------------------------------------------
+  // returns qrcode function.
+
+  return qrcode;
+}();
+
+// multibyte support
+!function() {
+
+  qrcode.stringToBytesFuncs['UTF-8'] = function(s) {
+    // http://stackoverflow.com/questions/18729405/how-to-convert-utf8-string-to-byte-array
+    function toUTF8Array(str) {
+      var utf8 = [];
+      for (var i=0; i < str.length; i++) {
+        var charcode = str.charCodeAt(i);
+        if (charcode < 0x80) utf8.push(charcode);
+        else if (charcode < 0x800) {
+          utf8.push(0xc0 | (charcode >> 6),
+              0x80 | (charcode & 0x3f));
+        }
+        else if (charcode < 0xd800 || charcode >= 0xe000) {
+          utf8.push(0xe0 | (charcode >> 12),
+              0x80 | ((charcode>>6) & 0x3f),
+              0x80 | (charcode & 0x3f));
+        }
+        // surrogate pair
+        else {
+          i++;
+          // UTF-16 encodes 0x10000-0x10FFFF by
+          // subtracting 0x10000 and splitting the
+          // 20 bits of 0x0-0xFFFFF into two halves
+          charcode = 0x10000 + (((charcode & 0x3ff)<<10)
+            | (str.charCodeAt(i) & 0x3ff));
+          utf8.push(0xf0 | (charcode >>18),
+              0x80 | ((charcode>>12) & 0x3f),
+              0x80 | ((charcode>>6) & 0x3f),
+              0x80 | (charcode & 0x3f));
+        }
+      }
+      return utf8;
+    }
+    return toUTF8Array(s);
+  };
+
+}();
+
+(function (factory) {
+  if (typeof define === 'function' && define.amd) {
+      define([], factory);
+  } else if (typeof exports === 'object') {
+      module.exports = factory();
+  }
+}(function () {
+    return qrcode;
+}));
+
+</script>
+<script>
+/* =====================================================================
+   Chapter99 Toolkit MVP — client-side prototype
+   - No network calls. No storage. Tool inputs never leave the page.
+   - "AI" = server-side abstraction stub (see aiGenerate) → NOT CONNECTED.
+   - Text generation here is deterministic templating (labelled as such).
+   ===================================================================== */
+
+/* ---------- Analytics stub: metadata only, never content ---------- */
+function track(event, meta){ /* replace with real analytics; NEVER pass user text */ if(window.__C99_DEBUG) console.log('[event]',event,meta||{}); (window.__events=window.__events||[]).push({event,meta:meta||{}}); }
+
+/* ---------- AI abstraction (server-side in production) ----------
+   Production: POST /api/toolkit/generate {tool, params} → server holds the API key.
+   Never call an AI provider from the browser. Currently NOT CONNECTED → templates used. */
+const AI = { connected:false };
+function aiGenerate(){ return Promise.resolve(null); }
+
+/* ---------- Tool registry ---------- */
+const TOOLS=[
+ {id:'english-message',route:'#/english-message',cat:'Communication',icon:'💬',name:'English Message Builder',th:'ตัวช่วยเขียนข้อความอังกฤษ',desc:'Turn what you want to say into a clear English message, with a Thai explanation.',descTh:'เปลี่ยนสิ่งที่อยากบอกเป็นข้อความอังกฤษที่ชัดเจน พร้อมคำอธิบายภาษาไทย'},
+ {id:'price-list',route:'#/price-list',cat:'Pricing',icon:'🏷️',name:'Price List Builder',th:'ตัวช่วยจัดรายการราคา',desc:'Turn your services and prices into a clean list you can copy or print.',descTh:'จัดบริการและราคาเป็นรายการสวยงาม คัดลอกหรือพิมพ์ได้'},
+ {id:'review-reply',route:'#/review-reply',cat:'Marketing',icon:'⭐',name:'Review Reply Helper',th:'ตัวช่วยตอบรีวิว',desc:'Draft a polite reply to a Google review in English, Thai or both.',descTh:'ร่างคำตอบรีวิว Google อย่างสุภาพ เป็นอังกฤษ ไทย หรือทั้งสอง'},
+ {id:'poster-studio',route:'#/poster-studio',cat:'Marketing',icon:'🖨️',name:'Poster Studio',th:'ตัวช่วยทำการ์ด & โปสเตอร์ QR',desc:'Make a book-online card or Google review QR poster with your own details.',descTh:'ทำการ์ดจองออนไลน์หรือโปสเตอร์ QR รีวิว Google ด้วยข้อมูลร้านของคุณ'},
+ {id:'business-check',route:'#/business-check',cat:'Business Setup',icon:'🔍',name:'Business Check',th:'ตรวจธุรกิจ',desc:'See how ready your digital front door is, with 3 practical next steps.',descTh:'ดูความพร้อมของประตูหน้าดิจิทัล พร้อม 3 ขั้นตอนถัดไปที่ทำได้จริง'}
+];
+const CATS=[['All','ทั้งหมด'],['Communication','สื่อสาร'],['Pricing','ราคา'],['Marketing','การตลาด'],['Business Setup','ตั้งค่าธุรกิจ']];
+const CAT_TH={Communication:'สื่อสาร',Pricing:'ราคา',Marketing:'การตลาด','Business Setup':'ตั้งค่าธุรกิจ'};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+let LANG='en';
+function t(en,th){return LANG==='th'&&th?th:en}
+
+function cardHTML(x){return '<a class="tcard" href="'+x.route+'" data-tool="'+x.id+'"><div class="ic" aria-hidden="true">'+x.icon+'</div><span class="cat" data-th="'+CAT_TH[x.cat]+'">'+x.cat+'</span><h3 data-th="'+x.th+'">'+x.name+'</h3><p data-th="'+x.descTh+'">'+x.desc+'</p><span class="go"><span data-th="เปิดเครื่องมือ">Open tool</span> →</span></a>'}
+let FILTER='All';
+function renderCards(){
+  $('[data-cards=home]').innerHTML=TOOLS.map(cardHTML).join('');
+  $('[data-cards=hub]').innerHTML=TOOLS.filter(x=>FILTER==='All'||x.cat===FILTER).map(cardHTML).join('');
+  $('#filters').innerHTML=CATS.map(c=>'<button type="button" class="chip" data-f="'+c[0]+'" aria-pressed="'+(FILTER===c[0])+'" data-th="'+c[1]+'">'+c[0]+'</button>').join('');
+  $$('#filters .chip').forEach(b=>b.onclick=()=>{FILTER=b.dataset.f;renderCards();applyLang()});
+}
+
+/* ---------- Guardrails (SOP v2 G1/G2/G6) ---------- */
+const PRO_ADVICE=/(privacy policy|collection notice|breach (response )?plan|employment contract|employment policy|tax (advice|return|report|deduction)|\btax\b|\bgst\b|\bato\b|legal advice|\bcontract\b|terms and conditions|refund policy|\bcompliance\b|นโยบายความเป็นส่วนตัว|นโยบาย|สัญญาจ้าง|สัญญา|ภาษี|กฎหมาย|ทนาย|ข้อกำหนด)/i;
+const SENSITIVE=/(\btfn\b|tax file|passport|\bvisa\b|\bbsb\b|bank account|card number|credit card|เลขบัญชี|พาสปอร์ต|วีซ่า|\b\d{9,}\b|\b\d{4}[ -]\d{4}[ -]\d{4}[ -]\d{4}\b|diagnos|medical|medication|pregnan|injur|allerg|rash|surgery|สุขภาพ|โรค|กินยา|ทานยา|ยารักษา|ยาประจำ|ผ่าตัด|แพ้|ตั้งครรภ์|บาดเจ็บ)/i;
+const LEGALISH=/(sue|lawyer|solicitor|legal action|court|police|ทนาย|ฟ้อง|ตำรวจ)/i;
+function guard(text,{review=false}={}){
+  if(PRO_ADVICE.test(text)&&!review) return {type:'pro',msg:t('This toolkit can’t write or advise on tax, legal, contracts, privacy policies or employment matters. Please speak to a qualified professional, or see official sources such as ato.gov.au, oaic.gov.au or fairwork.gov.au.','เครื่องมือนี้ไม่สามารถเขียนหรือให้คำแนะนำด้านภาษี กฎหมาย สัญญา นโยบายความเป็นส่วนตัว หรือการจ้างงานได้ กรุณาปรึกษาผู้เชี่ยวชาญ หรือดูแหล่งข้อมูลทางการ เช่น ato.gov.au, oaic.gov.au หรือ fairwork.gov.au')};
+  if(SENSITIVE.test(text)) return {type:'sens',msg:t('This looks like it may contain sensitive personal information (health, ID, or bank details). Please remove it and try again — for your customers’ privacy this toolkit doesn’t process that kind of information.','ข้อความนี้อาจมีข้อมูลส่วนตัวที่ละเอียดอ่อน (สุขภาพ เอกสารประจำตัว หรือข้อมูลบัญชี) กรุณาลบออกแล้วลองใหม่ เพื่อความเป็นส่วนตัวของลูกค้า เครื่องมือนี้จึงไม่ประมวลผลข้อมูลลักษณะนี้')};
+  if(review&&LEGALISH.test(text)) return {type:'legal',msg:t('This review mentions a legal or serious matter. We don’t draft a public reply for this. Consider responding privately and getting professional advice first.','รีวิวนี้เกี่ยวข้องกับเรื่องทางกฎหมายหรือเรื่องร้ายแรง เราจึงไม่ร่างคำตอบสาธารณะให้ ควรติดต่อลูกค้าเป็นการส่วนตัวและปรึกษาผู้เชี่ยวชาญก่อน')};
+  return null;
+}
+const stopBox=g=>'<div class="stop" role="alert">'+esc(g.msg)+'</div>';
+
+/* ---------- Shared helpers ---------- */
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>e.classList.remove('on'),1600)}
+function copy(text,tool){navigator.clipboard&&navigator.clipboard.writeText(text).then(()=>toast(t('Copied','คัดลอกแล้ว')),()=>toast(t('Copy failed — select the text manually','คัดลอกไม่สำเร็จ ลองเลือกข้อความเอง')));if(!navigator.clipboard)toast(t('Copy not supported here','เบราว์เซอร์นี้ไม่รองรับการคัดลอก'));track('tool_result_copied',{tool})}
+const nextBox=(txt,thTxt,btnEn,btnTh,href)=>'<div class="next"><span data-th="'+thTxt+'">'+txt+'</span><a class="btn btn-sm btn-dark" href="'+href+'" data-th="'+btnTh+'">'+btnEn+'</a></div>';
+/* Contextual, soft next step per tool (no popups). Destinations: Business Check / Packages. */
+const BRIDGE={
+ 'english-message':['Need a simpler way to manage customer messages?','อยากให้การจัดการข้อความลูกค้าง่ายขึ้นไหม?','See Professional','ดูแพ็กเกจ Professional','#/packages'],
+ 'price-list':['Want this price list on your website?','อยากให้รายการราคานี้อยู่บนเว็บไซต์ของคุณไหม?','See Starter','ดูแพ็กเกจ Starter','#/packages'],
+ 'review-reply':['Want customers to find and review you more easily?','อยากให้ลูกค้าค้นเจอและรีวิวคุณได้ง่ายขึ้นไหม?','Check My Business','ตรวจธุรกิจของฉัน','#/business-check'],
+ 'poster-studio':['Don’t have an online booking link yet?','ยังไม่มีลิงก์จองออนไลน์ใช่ไหม?','See how Chapter99 can set it up','ดูว่า Chapter99 ตั้งให้ได้อย่างไร','#/packages']
+};
+function bridge(tool){const b=BRIDGE[tool];return '<div class="next" data-bridge="'+tool+'"><span data-th="'+b[1]+'">'+b[0]+'</span><a class="btn btn-sm btn-dark" href="'+b[4]+'" data-th="'+b[3]+'">'+b[2]+'</a></div>'}
+function outBlock(label,thLabel,text,id){return '<div class="out-lbl"><span data-th="'+thLabel+'">'+label+'</span><span style="display:flex;gap:8px"><button class="btn btn-sm" type="button" data-share="'+id+'" data-th="แชร์">Share</button><button class="btn btn-sm btn-dark" type="button" data-copy="'+id+'" data-th="คัดลอก">Copy</button></span></div><div class="out" id="'+id+'">'+esc(text)+'</div>'}
+function wireCopy(root,tool){
+  root.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>copy(document.getElementById(b.dataset.copy).textContent,tool));
+  /* Share sheet (LINE / WhatsApp / Messages / Facebook) on phones & iPad; falls back to copy. Nothing is sent by us. */
+  root.querySelectorAll('[data-share]').forEach(b=>b.onclick=()=>{const txt=document.getElementById(b.dataset.share).textContent;track('tool_result_shared',{tool});
+    if(navigator.share){navigator.share({text:txt}).catch(()=>{})}else copy(txt,tool)});
+}
+/* On phones/iPad portrait the result sits below the form — bring it into view after Generate */
+function revealResult(el){if(window.innerWidth<=900){setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),60)}}
+
+/* =====================================================================
+   TOOL 1 — English Message Builder (template-based; AI not connected)
+   ===================================================================== */
+const SCEN={
+ confirm:{kw:/confirm|booking|book |จอง|ยืนยัน/i,chip:['Confirm a booking','ยืนยันการจอง'],
+  en:{friendly:'{hi} Just confirming your {item}{d}. We’re looking forward to seeing you!',professional:'{hi} This message confirms your {item}{d}. Please let us know if you need to make any changes. Kind regards,',short:'{hi} Your {item} is confirmed{d}. See you soon!'},
+  th:'ยืนยันการจอง/นัดหมายของลูกค้า และแจ้งว่าสามารถแจ้งเปลี่ยนแปลงได้'},
+ late:{kw:/late|delay|behind|สาย|ช้า|รอ/i,chip:['Running late','ขออภัยที่ล่าช้า'],
+  en:{friendly:'{hi} Sorry — we’re running a little behind{d}. Thank you so much for your patience, we’ll be with you very soon!',professional:'{hi} We apologise for a short delay{d}. Thank you for your patience and understanding. Kind regards,',short:'{hi} Sorry, we’re running a bit late{d}. Thanks for waiting!'},
+  th:'ขออภัยลูกค้าที่บริการล่าช้า และขอบคุณที่รอ'},
+ reschedule:{kw:/reschedul|move|change|another time|เลื่อน|เปลี่ยนเวลา|เปลี่ยนนัด/i,chip:['Reschedule','เลื่อนนัด'],
+  en:{friendly:'{hi} Would it be okay to move your {item}{d}? Please let us know what time suits you and we’ll sort it out. Thank you!',professional:'{hi} We would like to ask whether we could reschedule your {item}{d}. Please advise a time that suits you. Kind regards,',short:'{hi} Can we move your {item}{d}? Let us know a time that suits you. Thanks!'},
+  th:'ขอเลื่อนนัดและให้ลูกค้าแจ้งเวลาที่สะดวก'},
+ closed:{kw:/closed|holiday|not open|ปิด|วันหยุด|หยุด/i,chip:['Closed for a holiday','ร้านปิดวันหยุด'],
+  en:{friendly:'{hi} Just a quick note — we’ll be closed{d}. We’ll be back soon and can’t wait to see you again!',professional:'{hi} Please note that we will be closed{d}. We apologise for any inconvenience and look forward to welcoming you again. Kind regards,',short:'{hi} We’ll be closed{d}. Back soon!'},
+  th:'แจ้งลูกค้าว่าร้านปิดในช่วงที่ระบุ'},
+ thanks:{kw:/thank|ขอบคุณ/i,chip:['Thank a customer','ขอบคุณลูกค้า'],
+  en:{friendly:'{hi} Thank you so much for visiting us{d}! It was lovely to see you, and we hope to see you again soon.',professional:'{hi} Thank you for choosing us{d}. We appreciate your support and look forward to serving you again. Kind regards,',short:'{hi} Thanks for coming in{d}! See you again soon.'},
+  th:'ขอบคุณลูกค้าที่ใช้บริการ'},
+ price:{kw:/price|cost|how much|ราคา|เท่าไร|กี่บาท|กี่ดอลลาร์/i,chip:['Answer a price question','ตอบเรื่องราคา'],
+  en:{friendly:'{hi} Thanks for asking! Our prices are shown in our price list{d}. Let us know if you’d like help choosing.',professional:'{hi} Thank you for your enquiry. Our current prices are listed in our price list{d}. Please contact us if you would like further information. Kind regards,',short:'{hi} Our prices are in our price list{d}. Happy to help!'},
+  th:'ตอบคำถามเรื่องราคา โดยชี้ไปที่รายการราคาของร้าน'},
+ payment:{kw:/pay|invoice|deposit|จ่าย|ชำระ|มัดจำ|ใบแจ้งหนี้/i,chip:['Payment reminder','เตือนการชำระเงิน'],
+  en:{friendly:'{hi} Just a friendly reminder about your payment{d}. Let us know if you have any questions — thank you!',professional:'{hi} This is a courteous reminder regarding your payment{d}. Please contact us if you have any questions. Kind regards,',short:'{hi} Friendly reminder about your payment{d}. Thanks!'},
+  th:'เตือนเรื่องการชำระเงินอย่างสุภาพ'}
+};
+const ITEM={massage:'appointment',restaurant:'booking',cleaning:'cleaning job',beauty:'appointment',other:'booking'};
+const TH_TONE={friendly:'น้ำเสียงเป็นกันเอง',professional:'น้ำเสียงเป็นทางการ',short:'สั้นและกระชับ'};
+function buildMessage(){
+  const what=$('#msgWhat').value.trim(), det=$('#msgDet').value.trim(), name=$('#msgName').value.trim();
+  const biz=$('#msgBiz').value, tone=document.querySelector('[name=msgTone]:checked').value;
+  const out=$('#msgOut');
+  if(!what){out.innerHTML='<div class="stop" role="alert">'+t('Please tell us what you want to say — or tap one of the quick options.','กรุณาบอกสิ่งที่อยากสื่อ หรือกดตัวเลือกด่วนด้านล่างช่องพิมพ์')+'</div>';return}
+  const g=guard(what+' '+det+' '+name); if(g){out.innerHTML=stopBox(g);return}
+  const key=Object.keys(SCEN).find(k=>SCEN[k].kw.test(what));
+  const hi=name?(tone==='professional'?'Dear '+name+',':'Hi '+name+'!'):(tone==='professional'?'Hello,':'Hi there!');
+  const d=det?' ('+det+')':'';
+  let en,th,note='';
+  if(key){
+    const s=SCEN[key];
+    en=s.en[tone].replace('{hi}',hi).replace('{item}',ITEM[biz]).replace('{d}',d).replace(/\s+\./g,'.');
+    if(tone==='professional')en+='\n[Your business name]';
+    th='ความหมาย: '+s.th+(det?' (รายละเอียด: '+det+')':'')+' — '+TH_TONE[tone];
+    if(/[฀-๿]/.test(det))note=t('Details contain Thai — they were inserted as written. Please translate them to English before sending.','รายละเอียดมีภาษาไทย ระบบใส่ตามที่พิมพ์ กรุณาแปลเป็นอังกฤษก่อนส่ง');
+  }else{
+    en=hi+' '+what+(det?' '+det:'');
+    th='ระบบยังไม่เชื่อมต่อ AI จึงยังแปลข้อความอิสระไม่ได้ — ข้อความของคุณถูกใส่ตามที่พิมพ์';
+    note=t('AI is not connected yet, so free-text translation is unavailable. Try a quick option (booking, late, reschedule, closed, thanks, price, payment).','ยังไม่ได้เชื่อมต่อ AI จึงแปลข้อความอิสระไม่ได้ ลองใช้ตัวเลือกด่วน (จอง สาย เลื่อนนัด ปิดร้าน ขอบคุณ ราคา ชำระเงิน)');
+  }
+  out.innerHTML=(note?'<div class="warn">'+esc(note)+'</div>':'')+outBlock('English message','ข้อความภาษาอังกฤษ',en,'msgEn')+outBlock('Thai explanation','คำอธิบายภาษาไทย',th,'msgTh')
+   +'<div class="actions"><button class="btn btn-sm" type="button" id="msgReset" data-th="เริ่มใหม่">Start Again</button></div>'
+   +bridge('english-message');
+  wireCopy(out,'english-message'); $('#msgReset').onclick=()=>{$('#msgForm').reset();out.innerHTML='<div class="empty" data-th="ข้อความจะแสดงที่นี่">Your message will appear here.</div>';applyLang()};
+  track('tool_completed',{tool:'english-message',scenario:key||'free_text',tone,biz}); applyLang(); revealResult(out);
+}
+$('#msgQuick').innerHTML=Object.values(SCEN).map(s=>'<button type="button" data-th="'+s.chip[1]+'">'+s.chip[0]+'</button>').join('');
+$$('#msgQuick button').forEach((b,i)=>b.onclick=()=>{$('#msgWhat').value=LANG==='th'?Object.values(SCEN)[i].chip[1]:Object.values(SCEN)[i].chip[0]; $('#msgWhat').focus()});
+$('#msgForm').addEventListener('submit',e=>{e.preventDefault();buildMessage()});
+
+/* =====================================================================
+   TOOL 2 — Price List Builder (pure formatting)
+   ===================================================================== */
+let ITEMS=[{name:'',price:'',dur:'',desc:''}];
+function fmtPrice(p){p=String(p).trim();if(!p)return'';if(/^\d+(\.\d{1,2})?$/.test(p))return'$'+(p.indexOf('.')>-1?Number(p).toFixed(2):p);return p}
+function renderRows(){
+  $('#plRows').innerHTML=ITEMS.map((it,i)=>
+   '<div class="prow" data-i="'+i+'"><div class="g"><div><label for="pn'+i+'" data-th="ชื่อบริการ / สินค้า">Service / Product name</label><input type="text" id="pn'+i+'" data-k="name" value="'+esc(it.name)+'"></div>'
+   +'<div><label for="pp'+i+'" data-th="ราคา">Price</label><input type="text" inputmode="decimal" id="pp'+i+'" data-k="price" value="'+esc(it.price)+'" placeholder="0.00"></div>'
+   +'<div><label for="pd'+i+'"><span data-th="ระยะเวลา">Duration</span> <small data-th="(ไม่บังคับ)">(optional)</small></label><input type="text" id="pd'+i+'" data-k="dur" value="'+esc(it.dur)+'" placeholder="60 min"></div></div>'
+   +'<div class="g2"><label for="pe'+i+'"><span data-th="รายละเอียด">Description</span> <small data-th="(ไม่บังคับ)">(optional)</small></label><input type="text" id="pe'+i+'" data-k="desc" value="'+esc(it.desc)+'"></div>'
+   +'<div class="rt"><button type="button" class="ib" data-a="up" aria-label="Move up"'+(i===0?' disabled':'')+'>↑</button><button type="button" class="ib" data-a="down" aria-label="Move down"'+(i===ITEMS.length-1?' disabled':'')+'>↓</button><button type="button" class="ib" data-a="del" aria-label="Remove item"'+(ITEMS.length===1?' disabled':'')+'>✕</button></div></div>').join('');
+  $$('#plRows .prow').forEach(row=>{const i=+row.dataset.i;
+    row.querySelectorAll('input').forEach(inp=>inp.oninput=()=>{ITEMS[i][inp.dataset.k]=inp.value;renderPreview()});
+    row.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{const a=b.dataset.a;
+      if(a==='del')ITEMS.splice(i,1);
+      if(a==='up'&&i>0)[ITEMS[i-1],ITEMS[i]]=[ITEMS[i],ITEMS[i-1]];
+      if(a==='down'&&i<ITEMS.length-1)[ITEMS[i+1],ITEMS[i]]=[ITEMS[i],ITEMS[i+1]];
+      renderRows();renderPreview();applyLang()})});
+}
+function plText(){
+  const biz=$('#plBiz').value.trim(),ty=$('#plType').value.trim();
+  const rows=ITEMS.filter(x=>x.name.trim());
+  let s=(biz||'Price List')+(ty?'\n'+ty:'')+'\n'+'—'.repeat(20)+'\n';
+  rows.forEach(x=>{s+=x.name.trim()+(x.dur.trim()?' ('+x.dur.trim()+')':'')+(fmtPrice(x.price)?' — '+fmtPrice(x.price):'')+(x.desc.trim()?'\n  '+x.desc.trim():'')+'\n'});
+  return s.trim();
+}
+function renderPreview(){
+  const rows=ITEMS.filter(x=>x.name.trim()),biz=$('#plBiz').value.trim(),ty=$('#plType').value.trim(),box=$('#plPrint');
+  if(!rows.length){box.innerHTML='<div class="empty" data-th="เพิ่มรายการเพื่อดูตัวอย่าง">Add an item to see your price list.</div>';applyLang();return}
+  box.innerHTML='<h4>'+esc(biz||'Price List')+'</h4><div class="sub">'+esc(ty||'Services & Prices')+'</div>'
+   +rows.map(x=>'<div class="it"><div class="n"><b>'+esc(x.name)+'</b>'+(x.dur.trim()?' <span style="display:inline">· '+esc(x.dur)+'</span>':'')+(x.desc.trim()?'<span>'+esc(x.desc)+'</span>':'')+'</div><div class="p">'+esc(fmtPrice(x.price))+'</div></div>').join('')
+   +'<div class="foot">Prices in AUD unless stated.</div>';
+}
+$('#plAdd').onclick=()=>{ITEMS.push({name:'',price:'',dur:'',desc:''});renderRows();applyLang();const l=$$('#plRows .prow');l[l.length-1].querySelector('input').focus();track('tool_opened',{tool:'price-list',action:'add_item'})};
+$('#plBiz').oninput=$('#plType').oninput=renderPreview;
+$('#plCopy').onclick=()=>{if(!ITEMS.some(x=>x.name.trim())){toast(t('Add an item first','เพิ่มรายการก่อน'));return}copy(plText(),'price-list');track('tool_completed',{tool:'price-list',items:ITEMS.length});$('#plNext').innerHTML=bridge('price-list');applyLang()};
+$('#plPrintBtn').onclick=()=>{if(!ITEMS.some(x=>x.name.trim())){toast(t('Add an item first','เพิ่มรายการก่อน'));return}track('tool_completed',{tool:'price-list',action:'print'});window.print()};
+
+/* =====================================================================
+   TOOL 3 — Review Reply Helper (template-based; AI not connected)
+   ===================================================================== */
+const RV={
+ pos:{
+  en:{friendly:['Thank you so much for your kind words! We’re so happy you enjoyed your visit and we’d love to welcome you back soon.','What a lovely review — thank you! It means a lot to our team, and we hope to see you again soon.'],
+      professional:['Thank you for taking the time to share your feedback. We are pleased that you had a positive experience and look forward to welcoming you again.','We sincerely appreciate your review and are delighted to hear you were satisfied with our service.'],
+      warm:['Your review made our day — thank you from all of us! It was a joy to look after you, and you’re always welcome back.','Thank you from the bottom of our hearts for such kind words. We can’t wait to see you again!']},
+  th:{friendly:['ขอบคุณมากสำหรับคำชมค่ะ/ครับ ดีใจมากที่ประทับใจ หวังว่าจะได้ต้อนรับอีกเร็ว ๆ นี้','ขอบคุณสำหรับรีวิวดี ๆ ทีมงานดีใจมาก แล้วพบกันใหม่นะครับ/คะ'],
+      professional:['ขอบคุณที่สละเวลาแบ่งปันความคิดเห็น เรายินดีที่คุณได้รับประสบการณ์ที่ดี และหวังว่าจะได้ให้บริการอีกครั้ง','ขอบคุณสำหรับรีวิว เรายินดีที่คุณพึงพอใจกับบริการของเรา'],
+      warm:['รีวิวของคุณทำให้เรายิ้มทั้งวัน ขอบคุณจากใจทุกคนในทีม ยินดีต้อนรับเสมอ','ขอบคุณจากใจสำหรับคำพูดดี ๆ รอต้อนรับอีกครั้งนะครับ/คะ']}},
+ mid:{
+  en:{friendly:['Thank you for your feedback — we’re glad you visited and appreciate you telling us where we can do better. We’d love another chance to impress you!','Thanks for sharing your honest thoughts. We’re always improving, and we hope to see you again.'],
+      professional:['Thank you for your feedback. We value your comments and will use them to improve our service. We hope to welcome you again.','We appreciate you taking the time to review us. Your comments have been noted and we look forward to serving you better.'],
+      warm:['Thank you for such honest feedback — it really helps us grow. We’d be so happy to welcome you back and make the next visit even better.','We appreciate you sharing your experience. Thank you, and we hope to see you again soon.']},
+  th:{friendly:['ขอบคุณสำหรับความคิดเห็นค่ะ/ครับ ดีใจที่มาใช้บริการ และขอบคุณที่บอกว่าเราปรับปรุงตรงไหนได้ หวังว่าจะได้โอกาสอีกครั้ง','ขอบคุณที่แบ่งปันความเห็นตรง ๆ เราพัฒนาอยู่เสมอ และหวังว่าจะได้พบกันอีก'],
+      professional:['ขอบคุณสำหรับความคิดเห็น เราให้ความสำคัญและจะนำไปปรับปรุงบริการ หวังว่าจะได้ต้อนรับอีกครั้ง','ขอบคุณที่สละเวลารีวิว เราบันทึกความเห็นของคุณแล้ว และจะพัฒนาให้ดียิ่งขึ้น'],
+      warm:['ขอบคุณสำหรับความเห็นตรง ๆ ช่วยให้เราเติบโต ยินดีต้อนรับกลับมา และจะทำให้ดีกว่าเดิม','ขอบคุณที่เล่าประสบการณ์ให้ฟัง หวังว่าจะได้พบกันอีก']}},
+ neg:{
+  en:{friendly:['We’re really sorry your visit didn’t meet expectations. We’d like to hear more and put things right — please contact us at [your contact details].','Thank you for letting us know, and we’re sorry we let you down. Please reach out at [your contact details] so we can look into it.'],
+      professional:['We apologise that your experience did not meet your expectations. We take feedback seriously — please contact us at [your contact details] so we can look into this.','Thank you for your feedback. We regret that we fell short, and would welcome the chance to discuss this further at [your contact details].'],
+      warm:['We’re truly sorry to read this — it isn’t the experience we want for anyone. Please get in touch at [your contact details]; we’d really like to make it right.','Thank you for telling us, and we’re sorry. Your feedback matters to us — please contact us at [your contact details] so we can talk it through.']},
+  th:{friendly:['ต้องขออภัยที่ประสบการณ์ไม่เป็นไปตามที่คาดหวัง อยากรับฟังเพิ่มเติมและแก้ไขให้ กรุณาติดต่อเราที่ [ช่องทางติดต่อของคุณ]','ขอบคุณที่แจ้งให้ทราบและขออภัยที่ทำให้ผิดหวัง กรุณาติดต่อที่ [ช่องทางติดต่อของคุณ] เพื่อให้เราตรวจสอบ'],
+      professional:['เราขออภัยที่ประสบการณ์ไม่เป็นไปตามความคาดหวัง เราให้ความสำคัญกับคำติชม กรุณาติดต่อ [ช่องทางติดต่อของคุณ] เพื่อให้เราตรวจสอบ','ขอบคุณสำหรับความคิดเห็น เราเสียใจที่ยังทำได้ไม่ดีพอ และยินดีพูดคุยเพิ่มเติมที่ [ช่องทางติดต่อของคุณ]'],
+      warm:['เสียใจจริง ๆ ที่ได้อ่านเช่นนี้ ไม่ใช่ประสบการณ์ที่เราต้องการมอบให้ใคร กรุณาติดต่อ [ช่องทางติดต่อของคุณ] เราอยากแก้ไขให้ดีขึ้น','ขอบคุณที่บอกเรา และขออภัย ความเห็นของคุณสำคัญ กรุณาติดต่อ [ช่องทางติดต่อของคุณ] เพื่อพูดคุยกัน']}}
+};
+const SHORT={pos:{en:'Thank you so much for your review — we hope to see you again soon!',th:'ขอบคุณมากสำหรับรีวิว หวังว่าจะได้พบกันอีก'},mid:{en:'Thank you for your feedback — we’ll keep improving.',th:'ขอบคุณสำหรับความเห็น เราจะพัฒนาต่อไป'},neg:{en:'We’re sorry — please contact us at [your contact details] so we can help.',th:'ขออภัยด้วย กรุณาติดต่อ [ช่องทางติดต่อของคุณ] เพื่อให้เราช่วยแก้ไข'}};
+let RVS={variant:0,short:false};
+function buildReview(reset){
+  if(reset){RVS={variant:0,short:false}}
+  const text=$('#rvText').value.trim(),out=$('#rvOut');
+  if(!text){out.innerHTML='<div class="stop" role="alert">'+t('Please paste the customer review first.','กรุณาวางรีวิวของลูกค้าก่อน')+'</div>';return}
+  const g=guard(text,{review:true}); if(g){out.innerHTML=stopBox(g);return}
+  const rate=+document.querySelector('[name=rvRate]:checked').value,tone=document.querySelector('[name=rvTone]:checked').value,lang=document.querySelector('[name=rvLang]:checked').value;
+  const bucket=rate>=4?'pos':rate===3?'mid':'neg',biz=$('#rvBiz').value.trim();
+  const pick=l=>RVS.short?SHORT[bucket][l]:RV[bucket][l][tone][RVS.variant%2];
+  const sign=l=>biz?(l==='en'?'\n— '+biz:'\n— '+biz):'';
+  let html='';
+  if(lang!=='th')html+=outBlock('English reply','คำตอบภาษาอังกฤษ',pick('en')+sign('en'),'rvEn');
+  if(lang!=='en')html+=outBlock('Thai reply','คำตอบภาษาไทย',pick('th')+sign('th'),'rvTh');
+  out.innerHTML='<div class="info" style="margin:0 0 6px">'+t('Template draft (AI not connected). Edit before posting — this is not published anywhere.','ร่างจากเทมเพลต (ยังไม่เชื่อมต่อ AI) โปรดแก้ไขก่อนโพสต์ — ไม่มีการเผยแพร่อัตโนมัติ')+'</div>'+html
+   +'<div class="actions"><button class="btn btn-sm" type="button" id="rvRegen" data-th="สร้างใหม่">Regenerate</button><button class="btn btn-sm" type="button" id="rvShort" data-th="ให้สั้นลง">Shorter</button></div>'
+   +(bucket==='neg'?'<div class="info" data-th="เคล็ดลับ: อย่าเปิดเผยรายละเอียดของลูกค้าในคำตอบสาธารณะ ควรย้ายการคุยไปช่องทางส่วนตัว">Tip: don’t share customer details in a public reply — move the conversation to a private channel.</div>':'')
+   +bridge('review-reply');
+  wireCopy(out,'review-reply');
+  $('#rvRegen').onclick=()=>{RVS.variant++;RVS.short=false;buildReview(false)};
+  $('#rvShort').onclick=()=>{RVS.short=true;buildReview(false)};
+  track('tool_completed',{tool:'review-reply',rating:rate,tone,lang}); applyLang(); if(reset)revealResult(out);
+}
+$('#rvForm').addEventListener('submit',e=>{e.preventDefault();buildReview(true)});
+
+/* =====================================================================
+   TOOL 4 — Business Digital Check (rules-based, no stored data)
+   ===================================================================== */
+const QS=[
+ {k:'gbp',q:'Google Business Profile',th:'โปรไฟล์ธุรกิจบน Google',h:'Do you have a claimed, up-to-date Google Business Profile?',hth:'มีโปรไฟล์ Google ที่ยืนยันแล้วและข้อมูลล่าสุดหรือไม่?',
+  step:['Claim or update your Google Business Profile: name, address, hours, phone and category.','ยืนยันหรืออัปเดตโปรไฟล์ธุรกิจบน Google: ชื่อ ที่อยู่ เวลาเปิด-ปิด เบอร์โทร และหมวดหมู่']},
+ {k:'web',q:'Mobile-friendly website',th:'เว็บไซต์ที่ใช้ง่ายบนมือถือ',h:'Does your website load and read well on a phone?',hth:'เว็บไซต์เปิดและอ่านง่ายบนมือถือหรือไม่?',
+  step:['Open your website on a phone and fix anything hard to read or tap — most customers will see it there first.','เปิดเว็บไซต์บนมือถือและแก้จุดที่อ่านหรือกดยาก — ลูกค้าส่วนใหญ่เห็นบนมือถือก่อน']},
+ {k:'svc',q:'Clear services / menu',th:'บริการ / เมนูชัดเจน',h:'Can a new customer quickly see what you offer?',hth:'ลูกค้าใหม่เห็นสิ่งที่คุณมีให้ได้เร็วหรือไม่?',
+  step:['Put your services or menu in one simple, easy-to-find place (try the Price List Builder).','รวมบริการหรือเมนูไว้ที่เดียวให้หาง่าย (ลองใช้ตัวช่วยจัดรายการราคา)']},
+ {k:'act',q:'Booking / order / enquiry path',th:'ช่องทางจอง / สั่ง / สอบถาม',h:'Is there an obvious way to book, order or enquire?',hth:'มีวิธีจอง สั่ง หรือสอบถามที่เห็นชัดเจนหรือไม่?',
+  step:['Add one clear button — Book, Order or Enquire — near the top of your page and profile.','เพิ่มปุ่มที่ชัดเจนหนึ่งปุ่ม เช่น จอง สั่ง หรือสอบถาม ไว้ด้านบนของหน้าและโปรไฟล์']},
+ {k:'pay',q:'Payment path',th:'ช่องทางชำระเงิน',h:'Can customers pay in a simple, familiar way?',hth:'ลูกค้าชำระเงินได้ง่ายและคุ้นเคยหรือไม่?',
+  step:['Check that paying is simple and clear for customers, whether in person or online.','ตรวจว่าการชำระเงินง่ายและชัดเจนสำหรับลูกค้า ทั้งหน้าร้านและออนไลน์']},
+ {k:'pho',q:'Real business photography',th:'รูปถ่ายจริงของธุรกิจ',h:'Do you show real, current photos of your business?',hth:'มีรูปถ่ายจริงและเป็นปัจจุบันของธุรกิจหรือไม่?',
+  step:['Replace generic or old images with real, current photos of your place, team and work.','เปลี่ยนรูปทั่วไปหรือรูปเก่าเป็นรูปจริงล่าสุดของร้าน ทีม และงานของคุณ']},
+ {k:'con',q:'Customer contact information',th:'ข้อมูลติดต่อลูกค้า',h:'Are phone, address and opening hours easy to find?',hth:'เบอร์โทร ที่อยู่ และเวลาเปิด-ปิด หาง่ายหรือไม่?',
+  step:['Make your phone, address and opening hours visible on every place customers find you.','แสดงเบอร์โทร ที่อยู่ และเวลาเปิด-ปิด ในทุกที่ที่ลูกค้าจะเจอคุณ']},
+ {k:'rev',q:'Reviews',th:'รีวิว',h:'Do you have recent reviews, and do you reply to them?',hth:'มีรีวิวล่าสุดและตอบรีวิวหรือไม่?',
+  step:['Invite happy customers to leave a review and reply to the ones you get (try the Review Reply Helper or the Poster Studio QR poster).','ชวนลูกค้าที่พอใจให้รีวิว และตอบรีวิวที่ได้รับ (ลองใช้ตัวช่วยตอบรีวิว)']}
+];
+$('#bcQs').innerHTML=QS.map((x,i)=>'<fieldset class="q" style="min-width:0;margin-inline:0"><legend class="qt" style="padding:0"><span data-th="'+x.th+'">'+x.q+'</span></legend><div class="qh" data-th="'+x.hth+'">'+x.h+'</div><div class="seg">'
+ +[['2','Yes','ใช่'],['1','Partly','บางส่วน'],['0','Not yet','ยังไม่มี']].map(o=>'<label><input type="radio" name="q'+i+'" value="'+o[0]+'"><span data-th="'+o[2]+'">'+o[1]+'</span></label>').join('')+'</div></fieldset>').join('');
+$('#bcForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const out=$('#bcOut'),ans=QS.map((x,i)=>{const c=document.querySelector('[name=q'+i+']:checked');return c?+c.value:null});
+  if(ans.includes(null)){out.innerHTML='<div class="stop" role="alert">'+t('Please answer all 8 questions.','กรุณาตอบให้ครบ 8 ข้อ')+'</div>';return}
+  const score=ans.reduce((a,b)=>a+b,0);
+  const cat=score>=13?['s','Strong foundation','พื้นฐานแข็งแรง','Your basics look solid. A few small touches can keep customers moving smoothly from finding you to choosing you.','พื้นฐานของคุณดีอยู่แล้ว การปรับเล็กน้อยช่วยให้ลูกค้าจากการค้นเจอไปสู่การเลือกคุณได้ลื่นขึ้น']:
+             score>=8?['o','Some opportunities','มีโอกาสปรับปรุง','You have a good start, with a few gaps that could make it easier for customers to choose you.','คุณเริ่มต้นได้ดี และยังมีช่องว่างบางจุดที่ช่วยให้ลูกค้าเลือกคุณได้ง่ายขึ้น']:
+             ['n','Needs attention','ควรให้ความสำคัญ','Several basics are missing right now. The steps below are a practical place to start.','ตอนนี้ยังขาดพื้นฐานหลายอย่าง ขั้นตอนด้านล่างคือจุดเริ่มต้นที่ทำได้จริง'];
+  const order=QS.map((x,i)=>({i,s:ans[i]})).filter(o=>o.s<2).sort((a,b)=>a.s-b.s||a.i-b.i).slice(0,3);
+  const steps=order.length?order.map(o=>QS[o.i].step):[['Keep your Google profile, photos and reviews fresh — small regular updates matter.','อัปเดตโปรไฟล์ Google รูปภาพ และรีวิวสม่ำเสมอ การปรับเล็ก ๆ อย่างต่อเนื่องสำคัญ']];
+  const pct=Math.round(score/16*100), col=x=>x>=75?'g':x>=45?'o':'n';
+  const ring=(v,size,st,label,big)=>{const r=(size-st)/2,C=2*Math.PI*r;return '<div class="rg-wrap" style="width:'+size+'px;height:'+size+'px"><svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" aria-hidden="true"><circle class="rg-bg" cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" stroke-width="'+st+'"/><circle class="rg '+col(v)+'" cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" stroke-width="'+st+'" stroke-dasharray="'+C+'" stroke-dashoffset="'+C+'" data-off="'+C*(1-v/100)+'"/></svg><div class="rg-txt"><div>'+label+'</div></div></div>'};
+  const GRP=[['Get found','ถูกค้นเจอ',['gbp','rev']],['Get understood','ลูกค้าเข้าใจ',['web','svc','pho']],['Get booked & paid','ถูกจองและรับเงิน',['act','pay','con']]];
+  const gp=g=>{const ix=g[2].map(k=>QS.findIndex(q=>q.k===k));return Math.round(ix.reduce((a,i)=>a+ans[i],0)/(ix.length*2)*100)};
+  const st=v=>v===2?['Strong','แข็งแรง']:v===1?['Partly','บางส่วน']:['Missing','ยังไม่มี'];
+  const gaps=QS.filter((x,i)=>ans[i]<2);
+  out.innerHTML='<div class="scorecard '+cat[0]+'" role="group" aria-label="Score">'+ring(pct,150,13,'<b>'+score+'</b><small>/ 16 · '+pct+'%</small>')+'<div><h3 data-th="'+cat[2]+'">'+cat[1]+'</h3><p data-th="'+cat[4]+'">'+cat[3]+'</p></div></div>'
+   +'<div class="lbl" data-th="เส้นทางของลูกค้า">Your customer journey</div>'
+   +'<div class="minis">'+GRP.map(g=>{const v=gp(g);return '<div class="mini">'+ring(v,84,8,'<b>'+v+'%</b>')+'<span class="t" data-th="'+g[1]+'">'+g[0]+'</span></div>'}).join('')+'</div>'
+   +'<div class="lbl" data-th="คะแนนแต่ละด้าน">Score by area</div>'
+   +'<div class="bars">'+QS.map((x,i)=>{const v=ans[i]*50,s2=st(ans[i]);return '<div class="bar"><span data-th="'+x.th+'">'+x.q+'</span><div class="tr"><div class="fl '+col(v||10)+'" data-w="'+Math.max(v,6)+'"></div></div><em data-th="'+s2[1]+'">'+s2[0]+'</em></div>'}).join('')+'</div>'
+   +'<div class="lbl" style="margin-top:20px" data-th="3 ขั้นตอนถัดไปที่ทำได้จริง">Top 3 practical next steps</div>'
+   +steps.map((s3,i)=>'<div class="step"><div class="no">'+(i+1)+'</div><div><span data-th="'+s3[1]+'">'+s3[0]+'</span></div></div>').join('')
+   +(gaps.length?'<div class="upsell"><h3 data-th="ให้ Chapter99 จัดการแทนคุณ">Want Chapter99 to set this up for you?</h3><p data-th="คุณมี '+gaps.length+' ด้านที่ปรับปรุงได้ เราช่วยตั้งค่าและเชื่อมให้ เจ้าของธุรกิจได้โฟกัสกับลูกค้า">You have '+gaps.length+' area'+(gaps.length>1?'s':'')+' that can be improved. We can help set them up and connect them, so you can focus on your customers.</p><ul>'+gaps.slice(0,4).map(x=>'<li data-th="'+x.th+'">'+x.q+'</li>').join('')+'</ul><button class="btn btn-light" type="button" data-contact><span data-th="คุยกับ Chapter99">Talk to Chapter99</span> →</button> <a class="btn btn-sm" style="border-color:#fff;color:#fff;margin-left:6px" href="#/packages" data-bridge-link="business-check" data-th="ดูแพ็กเกจ">See packages</a><span class="sm" data-th="แพ็กเกจเริ่มต้น A$199 ค่าติดตั้ง + A$19 ต่อเดือน">Packages start from A$199 setup + A$19 / month.</span></div>':
+     '<div class="upsell"><h3 data-th="รักษาความแข็งแรงไว้">Keep your foundation strong</h3><p data-th="ธุรกิจของคุณดูดีอยู่แล้ว หากอยากให้เราช่วยดูแลต่อเนื่อง คุยกับเราได้">Your basics look good. If you’d like help keeping things running smoothly, talk to us.</p><button class="btn btn-light" type="button" data-contact><span data-th="คุยกับ Chapter99">Talk to Chapter99</span> →</button></div>')
+   +'<div class="info" data-th="ผลนี้มาจากคำตอบของคุณเท่านั้น ไม่ใช่การวัดผลจริงของธุรกิจ และไม่ใช่การตรวจด้านกฎหมายหรือกฎระเบียบ">This result is based only on your answers. It isn’t a measurement of real business performance, or a legal/compliance audit.</div>'
+   +'<div class="actions"><button class="btn btn-sm" type="button" id="bcAgain" data-th="ทำใหม่">Start again</button></div>';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{out.querySelectorAll('.rg').forEach(c=>c.style.strokeDashoffset=c.dataset.off);out.querySelectorAll('.fl').forEach(f=>f.style.width=f.dataset.w+'%')}));
+  $('#bcAgain').onclick=()=>{$('#bcForm').reset();out.innerHTML='<div class="empty" data-th="ตอบคำถามแล้วกด “ดูผลลัพธ์”">Answer the questions, then press “See my result”.</div>';applyLang();window.scrollTo({top:0,behavior:'smooth'})};
+  wireContact(out); track('business_check_completed',{result:cat[0],score}); applyLang(); revealResult(out);
+});
+
+
+/* =====================================================================
+   TOOL 5 — Poster Studio (layout only; QR generated locally, MIT lib inlined)
+   Google policy: no incentives for reviews → text guard below.
+   ===================================================================== */
+let PS_PHOTO=null;
+const INCENTIVE=/(cash ?back|\$\s?\d|discount|% ?off|free |reward|prize|win |gift for review|ส่วนลด|แจก|ฟรี|รางวัล|คืนเงิน|แลก)/i;
+function qrSvg(url,px){
+  const q=qrcode(0,'M');q.addData(url);q.make();const n=q.getModuleCount();let d='';
+  for(let r=0;r<n;r++){let c=0;while(c<n){if(q.isDark(r,c)){let e=c;while(e<n&&q.isDark(r,e))e++;d+='M'+c+' '+r+'h'+(e-c)+'v1h-'+(e-c)+'z';c=e}else c++}}
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 '+(n+4)+' '+(n+4)+'" shape-rendering="crispEdges"><rect x="-2" y="-2" width="'+(n+4)+'" height="'+(n+4)+'" fill="#fff"/><path d="'+d+'" fill="#000"/></svg>';
+}
+function validUrl(u){try{const x=new URL(u);return x.protocol==='https:'||x.protocol==='http:'}catch(e){return false}}
+function renderPoster(){
+  const type=document.querySelector('[name=psType]:checked').value,theme=document.querySelector('[name=psTheme]:checked').value;
+  const biz=$('#psBiz').value.trim()||'Your Business Name',ph=$('#psPhone').value.trim(),ad=$('#psAddr').value.trim(),web=$('#psWeb').value.trim(),msg=$('#psMsg').value.trim();
+  const url=$('#psUrl').value.trim(),err=$('#psErr'),box=$('#posterPrint');
+  $('#psUrlLbl').textContent=type==='review'?t('Your Google review link','ลิงก์รีวิว Google ของคุณ'):t('Your booking link','ลิงก์จองออนไลน์ของคุณ');
+  $('#psBadgeF').style.display=type==='card'?'':'none';
+  box.className='poster '+type+' '+theme;
+  err.innerHTML='';
+  let qr='';
+  if(url){ if(validUrl(url)) qr=qrSvg(url); else err.innerHTML='<div class="stop" role="alert">'+t('Please enter a full link starting with https://','กรุณาใส่ลิงก์เต็มที่ขึ้นต้นด้วย https://')+'</div>'}
+  if(msg&&INCENTIVE.test(msg)&&type==='review'){err.innerHTML='<div class="stop" role="alert">'+t('Google doesn’t allow offering rewards, discounts or cash back in exchange for reviews, so this poster can’t include that wording. Please remove it.','Google ไม่อนุญาตให้เสนอของรางวัล ส่วนลด หรือเงินคืนเพื่อแลกกับรีวิว จึงไม่สามารถใส่ข้อความแบบนี้ในโปสเตอร์ได้ กรุณาลบออก')+'</div>';box.innerHTML='';return}
+  const qrBox=qr?'<div class="qrbox">'+qr+'</div>':'<div class="qrbox" style="aspect-ratio:1;color:#888;font:12px var(--sans);text-align:center">'+t('QR appears here','QR จะแสดงตรงนี้')+'</div>';
+  const photoStyle=PS_PHOTO?' style="background-image:url('+PS_PHOTO+')"':'';
+  if(type==='card'){
+    const b=[];if($('#psB1').checked)b.push(t('Gift vouchers available','มีบัตรของขวัญ'));if($('#psB2').checked)b.push('HICAPS');
+    box.innerHTML='<div class="p-card"><div class="l"><div class="biz">'+esc(biz)+'</div><div class="ct">'+(ph?'☎ '+esc(ph)+'<br>':'')+(ad?'⌖ '+esc(ad)+'<br>':'')+(web?'◎ '+esc(web):'')+'</div>'+(b.length?'<div class="badges">'+b.map(x=>'<span>'+esc(x)+'</span>').join('')+'</div>':'')+'</div>'
+     +'<div class="r"><div class="photo"'+photoStyle+'>'+(PS_PHOTO?'':'Your real photo here')+'</div><span class="pill">'+esc(msg||'PLEASE BOOK ONLINE')+'</span><div style="width:34%;min-width:70px">'+qrBox+'</div></div>'
+     +'<div class="foot band"><span>✓ '+t('Easy booking','จองง่าย')+'</span><span>▦ '+t('See availability','ดูเวลาว่าง')+'</span><span>◷ '+t('Save time','ประหยัดเวลา')+'</span></div></div>';
+  }else{
+    box.innerHTML='<div class="p-rev"><div class="top"><h4><em>'+t('Review us','รีวิวเรา')+'</em><br>'+t('on Google','บน Google')+'</h4><div class="biz" style="font-size:clamp(14px,3.6vw,20px);margin-top:8px">'+esc(biz)+'</div></div>'
+     +'<div class="mid">'+qrBox+'</div><div class="msg">'+esc(msg||t('Your feedback helps us grow and serve you better!','ความคิดเห็นของคุณช่วยให้เราพัฒนาและบริการคุณได้ดีขึ้น'))+'</div>'
+     +'<div class="foot band">'+(ad?esc(ad)+'<br>':'')+(ph?esc(ph)+' · ':'')+esc(web)+'</div></div>';
+  }
+}
+['psBiz','psUrl','psPhone','psAddr','psWeb','psMsg','psB1','psB2'].forEach(id=>$('#'+id).addEventListener('input',renderPoster));
+$$('[name=psType],[name=psTheme]').forEach(r=>r.addEventListener('change',renderPoster));
+$('#psPhoto').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{PS_PHOTO=r.result;renderPoster()};r.readAsDataURL(f)});
+$('#psPhotoClear').onclick=()=>{PS_PHOTO=null;$('#psPhoto').value='';renderPoster()};
+$('#psForm').addEventListener('submit',e=>e.preventDefault());
+function psReady(){const u=$('#psUrl').value.trim();if(!u||!validUrl(u)){toast(t('Add a valid link first','ใส่ลิงก์ที่ถูกต้องก่อน'));return false}if($('#psErr').textContent.trim()){return false}return true}
+$('#psPrint').onclick=()=>{if(!psReady())return;track('tool_completed',{tool:'poster-studio',action:'print',type:document.querySelector('[name=psType]:checked').value});
+  $('#psNext').innerHTML=bridge('poster-studio');applyLang();window.print()};
+$('#psQr').onclick=()=>{if(!psReady())return;const svg=qrSvg($('#psUrl').value.trim()),img=new Image(),c=document.createElement('canvas');c.width=c.height=1024;
+  img.onload=()=>{const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,1024,1024);x.drawImage(img,0,0,1024,1024);c.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='qr-code.png';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);track('tool_completed',{tool:'poster-studio',action:'qr_png'})})};
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg)};
+
+
+/* ---- Render poster to an image (canvas) so it can be sent by inbox/email ---- */
+const PS_THEMES={'th-forest':{p1:'#123b2f',p2:'#f6efdc',pa:'#c79f5c'},'th-navy':{p1:'#12326b',p2:'#f4f1e8',pa:'#d7a933'},'th-gold':{p1:'#5a4413',p2:'#fbf3dc',pa:'#b98a2b'}};
+const F_SERIF='Georgia,"Noto Serif Thai","Times New Roman",serif',F_SANS='Inter,system-ui,"Noto Sans Thai","Segoe UI",sans-serif';
+function rr(x,X,y,Y,w,h,r){X.beginPath();X.moveTo(x+r,y);X.arcTo(x+w,y,x+w,y+h,r);X.arcTo(x+w,y+h,x,y+h,r);X.arcTo(x,y+h,x,y,r);X.arcTo(x,y,x+w,y,r);X.closePath()}
+function wrapText(X,text,x,y,maxW,lh,align){X.textAlign=align||'left';const words=String(text).split(/\s+/);let line='',yy=y;for(const w of words){const test=line?line+' '+w:w;if(X.measureText(test).width>maxW&&line){X.fillText(line,x,yy);line=w;yy+=lh}else line=test}X.fillText(line,x,yy);return yy+lh}
+function drawQr(X,url,x,y,size,pad,shadow){const q=qrcode(0,'M');q.addData(url);q.make();const n=q.getModuleCount();X.save();if(shadow){X.shadowColor='rgba(0,0,0,.2)';X.shadowBlur=40;X.shadowOffsetY=12}X.fillStyle='#fff';rr(x,X,y,X,size,size,size*.06);X.fill();X.restore();const cell=(size-pad*2)/n;X.fillStyle='#000';for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(q.isDark(r,c))X.fillRect(Math.floor(x+pad+c*cell),Math.floor(y+pad+r*cell),Math.ceil(cell),Math.ceil(cell))}
+function loadImg(src){return new Promise(res=>{if(!src)return res(null);const i=new Image();i.onload=()=>res(i);i.onerror=()=>res(null);i.src=src})}
+async function drawPoster(cv){
+  const type=document.querySelector('[name=psType]:checked').value,C=PS_THEMES[document.querySelector('[name=psTheme]:checked').value];
+  const biz=$('#psBiz').value.trim()||'Your Business Name',ph=$('#psPhone').value.trim(),ad=$('#psAddr').value.trim(),web=$('#psWeb').value.trim(),msg=$('#psMsg').value.trim(),url=$('#psUrl').value.trim();
+  const img=await loadImg(PS_PHOTO);
+  if(type==='card'){
+    const W=1620,H=1000;cv.width=W;cv.height=H;const X=cv.getContext('2d');
+    X.fillStyle=C.p2;X.fillRect(0,0,W,H);
+    X.fillStyle=C.p1;X.textBaseline='alphabetic';X.font='400 92px '+F_SERIF;let y=wrapText(X,biz,80,250,720,100,'left');
+    X.font='500 36px '+F_SANS;y+=10;[ph,ad,web].filter(Boolean).forEach(l=>{y=wrapText(X,l,80,y,740,50,'left')});
+    const bs=[];if($('#psB1').checked)bs.push(t('Gift vouchers available','มีบัตรของขวัญ'));if($('#psB2').checked)bs.push('HICAPS');
+    let bx=80;y+=14;X.font='600 28px '+F_SANS;bs.forEach(b=>{const w=X.measureText(b).width+44;X.strokeStyle=C.pa;X.lineWidth=3;rr(bx,X,y,X,w,52,26);X.stroke();X.fillStyle=C.p1;X.textAlign='left';X.fillText(b,bx+22,y+36);bx+=w+14});
+    const rx=880,rw=660;X.save();rr(rx,X,60,X,rw,380,30);X.clip();
+    if(img){const s=Math.max(rw/img.width,380/img.height),w=img.width*s,h=img.height*s;X.drawImage(img,rx+(rw-w)/2,60+(380-h)/2,w,h)}else{X.fillStyle='rgba(0,0,0,.06)';X.fillRect(rx,60,rw,380);X.fillStyle=C.p1;X.font='600 30px '+F_SANS;X.textAlign='center';X.fillText('Your real photo here',rx+rw/2,260)}X.restore();
+    X.fillStyle=C.pa;rr(rx,X,470,X,rw,100,50);X.fill();X.fillStyle='#fff';X.font='700 44px '+F_SANS;X.textAlign='center';X.fillText((msg||'PLEASE BOOK ONLINE').toUpperCase(),rx+rw/2,538);
+    if(url)drawQr(X,url,rx+rw/2-125,600,250,14);
+    X.fillStyle=C.p1;X.fillRect(0,880,W,120);X.fillStyle='#fff';X.font='600 34px '+F_SANS;X.textAlign='center';
+    [t('Easy booking','จองง่าย'),t('See availability','ดูเวลาว่าง'),t('Save time','ประหยัดเวลา')].forEach((l,i)=>X.fillText('✓ '+l,W*(i*2+1)/6,952));
+  }else{
+    const W=1240,H=1754;cv.width=W;cv.height=H;const X=cv.getContext('2d');
+    X.fillStyle=C.p2;X.fillRect(0,0,W,H);X.textAlign='center';
+    X.fillStyle=C.pa;X.font='italic 400 150px '+F_SERIF;X.fillText(t('Review us','รีวิวเรา'),W/2,230);
+    X.fillStyle=C.p1;X.font='400 150px '+F_SERIF;X.fillText(t('on Google','บน Google'),W/2,400);
+    X.font='400 56px '+F_SERIF;wrapText(X,biz,W/2,500,1000,64,'center');
+    if(url)drawQr(X,url,W/2-300,600,600,34,true);
+    X.fillStyle=C.p1;X.font='500 52px '+F_SANS;wrapText(X,msg||t('Your feedback helps us grow and serve you better!','ความคิดเห็นของคุณช่วยให้เราพัฒนาและบริการคุณได้ดีขึ้น'),W/2,1350,900,68,'center');
+    X.fillRect(0,1530,W,224);X.fillStyle='#fff';X.font='500 38px '+F_SANS;X.textAlign='center';
+    let yy=1610;if(ad){X.fillText(ad,W/2,yy);yy+=54}X.fillText([ph,web].filter(Boolean).join('  ·  '),W/2,yy);
+  }
+}
+async function psBlob(){const cv=document.createElement('canvas');await drawPoster(cv);return new Promise(r=>cv.toBlob(r,'image/png'))}
+function psFileName(){return(($('#psBiz').value.trim()||'poster').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'poster')+'-'+document.querySelector('[name=psType]:checked').value+'.png'}
+function saveBlob(b,name){const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+$('#psImg').onclick=async()=>{if(!psReady())return;saveBlob(await psBlob(),psFileName());toast(t('Image saved','บันทึกรูปแล้ว'));track('tool_completed',{tool:'poster-studio',action:'image_download'})};
+$('#psShare').onclick=async()=>{if(!psReady())return;const b=await psBlob(),f=new File([b],psFileName(),{type:'image/png'});
+  track('tool_result_shared',{tool:'poster-studio'});
+  if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:$('#psBiz').value.trim()||'Poster'})}catch(e){}}
+  else{saveBlob(b,psFileName());toast(t('Image saved — attach it to your message','บันทึกรูปแล้ว — แนบในข้อความได้เลย'))}
+  $('#psNext').innerHTML=bridge('poster-studio');applyLang()};
+
+
+document.addEventListener('click',e=>{const a=e.target.closest('[data-bridge] a,[data-bridge-link]');if(a){const src=(a.closest('[data-bridge]')||a).dataset.bridge||a.dataset.bridgeLink;track('tool_to_packages_clicked',{from_tool:src,to:a.getAttribute('href')})}});
+/* ---------- Contact CTA ---------- */
+function wireContact(root){(root||document).querySelectorAll('[data-contact]').forEach(b=>{if(b._w)return;b._w=1;b.addEventListener('click',()=>{track('tool_to_contact_clicked',{from:location.hash||'#/'});$('#mm').classList.remove('open');$('#contact').scrollIntoView({behavior:'smooth'})})})}
+
+/* ---------- i18n (static data-th swap) ---------- */
+function applyLang(){
+  document.documentElement.lang=LANG;
+  $$('[data-th]').forEach(el=>{if(el.dataset.en===undefined)el.dataset.en=el.innerHTML;el.innerHTML=LANG==='th'?el.dataset.th:el.dataset.en});
+  $$('[data-th-ph]').forEach(el=>{if(el.dataset.enPh===undefined)el.dataset.enPh=el.placeholder;el.placeholder=LANG==='th'?el.dataset.thPh:el.dataset.enPh});
+  $$('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===LANG));
+  wireContact();
+}
+$$('[data-lang]').forEach(b=>b.addEventListener('click',()=>{LANG=b.dataset.lang;applyLang()}));
+
+/* ---------- Router ---------- */
+const VIEWS={'':'home','/':'home','/toolkit':'toolkit','/english-message':'english-message','/price-list':'price-list','/review-reply':'review-reply','/business-check':'business-check','/poster-studio':'poster-studio','/packages':'packages'};
+function route(){
+  const h=(location.hash||'#/').slice(1),v=VIEWS[h]||'home';
+  $$('.view').forEach(x=>x.classList.toggle('on',x.id==='v-'+v));
+  $$('.links a').forEach(a=>a.classList.toggle('on',a.dataset.nav===v));
+  $('#mm').classList.remove('open');$('#menuBtn').setAttribute('aria-expanded',false);
+  window.scrollTo(0,0);
+  document.title=(v==='home'?'':(TOOLS.find(x=>x.id===v)||{name:'Free Business Toolkit'}).name+' — ')+'Chapter99 Free Toolkit (prototype)';
+  if(v!=='home'&&v!=='toolkit')track('tool_opened',{tool:v});
+}
+$('#menuBtn').onclick=()=>{const o=$('#mm').classList.toggle('open');$('#menuBtn').setAttribute('aria-expanded',o)};
+window.addEventListener('hashchange',route);
+renderCards();renderRows();renderPreview();renderPoster();applyLang();route();
+</script>
+</body>
+</html>
