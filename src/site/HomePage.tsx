@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { formatAud, hardwareNote, publicPackages } from '../../config/pricing'
 import { solutions } from '../data/solutions'
 import { useTranslation } from '../cinematic/i18n/LanguageContext'
 import { SiteLayout } from './SiteLayout'
+import { useScrollReveal } from './useSiteMotion'
 import './homepage-approved.css'
 
 const howSteps = [
@@ -41,10 +42,19 @@ const checkAreas = [
   { th: 'รีวิว', en: 'Reviews' },
 ] as const
 
+const industries = [
+  { th: 'นวด', en: 'Massage' },
+  { th: 'ร้านอาหารไทย', en: 'Thai Restaurant' },
+  { th: 'ความงาม', en: 'Beauty' },
+  { th: 'เล็บ', en: 'Nails' },
+] as const
+
 function HomeInner() {
   const { t } = useTranslation()
   const [active, setActive] = useState(0)
   const current = solutions[active]
+  const revealRoot = useRef<HTMLElement>(null)
+  useScrollReveal(revealRoot)
 
   useEffect(() => {
     document.title = t({
@@ -54,8 +64,9 @@ function HomeInner() {
   }, [t])
 
   return (
-    <main className="home-approved" id="top">
+    <main className="home-approved" id="top" ref={revealRoot}>
       <section className="hp-hero" aria-labelledby="hp-hero-title">
+        <span className="hp-orb" aria-hidden="true" />
         <div className="hp-wrap hp-hero-grid">
           <div>
             <p className="hp-eyebrow">{t({ th: 'ธุรกิจไทยในออสเตรเลีย', en: 'Thai businesses in Australia' })}</p>
@@ -124,6 +135,10 @@ function HomeInner() {
                   <span>Foot Massage</span>
                   <span>45 min</span>
                 </div>
+                <div className="hp-svc">
+                  <span>Oil Massage</span>
+                  <span>30 min</span>
+                </div>
                 <div className="hp-book">Book Now</div>
               </div>
             </div>
@@ -135,9 +150,18 @@ function HomeInner() {
             </span>
           </div>
         </div>
+        <div className="hp-marquee" aria-hidden="true">
+          <div className="hp-marquee-track">
+            {[0, 1].flatMap((copy) =>
+              industries.map((item) => (
+                <span key={`${copy}-${item.en}`}>{t(item)}</span>
+              )),
+            )}
+          </div>
+        </div>
       </section>
 
-      <section className="hp-sec" id="solutions" aria-labelledby="hp-sol-title">
+      <section className="hp-sec" id="solutions" aria-labelledby="hp-sol-title" data-reveal>
         <div className="hp-wrap">
           <div className="hp-head">
             <div>
@@ -152,6 +176,7 @@ function HomeInner() {
                 key={item.slug}
                 role="listitem"
                 className={`hp-ind${index === active ? ' is-on' : ''}`}
+                data-reveal
                 to={item.href}
                 onFocus={() => setActive(index)}
                 onMouseEnter={() => setActive(index)}
@@ -187,7 +212,7 @@ function HomeInner() {
         </div>
       </section>
 
-      <aside className="hp-slot" id="toolkit-slot">
+      <aside className="hp-slot" id="toolkit-slot" data-reveal>
         <p className="hp-eyebrow">{t({ th: 'เครื่องมือฟรี', en: 'Free Toolkit' })}</p>
         <h2 style={{ fontSize: 'clamp(26px, 3.4vw, 36px)', margin: '8px 0 10px' }}>
           {t({ th: 'เครื่องมือง่าย ๆ ช่วยให้บริหารธุรกิจดีขึ้น', en: 'Simple tools to help run your business better.' })}
@@ -203,7 +228,7 @@ function HomeInner() {
         </Link>
       </aside>
 
-      <section className="hp-sec hp-how" id="how" aria-labelledby="hp-how-title">
+      <section className="hp-sec hp-how" id="how" aria-labelledby="hp-how-title" data-reveal>
         <div className="hp-wrap">
           <h2 id="hp-how-title">{t({ th: 'Chapter99 ทำงานอย่างไร', en: 'How Chapter99 Works' })}</h2>
           <p style={{ color: 'var(--muted)', margin: '8px 0 0' }}>
@@ -211,7 +236,7 @@ function HomeInner() {
           </p>
           <ol className="hp-steps">
             {howSteps.map((step) => (
-              <li className="hp-step" key={step.n}>
+              <li className="hp-step" key={step.n} data-reveal>
                 <div className="ic" aria-hidden="true">
                   {step.ic}
                 </div>
@@ -226,7 +251,7 @@ function HomeInner() {
         </div>
       </section>
 
-      <section className="hp-sec" id="about-trust" aria-labelledby="hp-trust-title">
+      <section className="hp-sec" id="about-trust" aria-labelledby="hp-trust-title" data-reveal>
         <div className="hp-wrap hp-trust-grid">
           <div className="hp-trust-dark">
             <h2 id="hp-trust-title">
@@ -246,7 +271,7 @@ function HomeInner() {
           </div>
           <div className="hp-princ">
             {principles.map((item) => (
-              <article className="hp-pr" key={item.title.en}>
+              <article className="hp-pr" key={item.title.en} data-reveal>
                 <h3>{t(item.title)}</h3>
                 <p>{t(item.body)}</p>
               </article>
@@ -267,6 +292,7 @@ function HomeInner() {
                 key={plan.id}
                 id={plan.id}
                 className={`hp-plan${plan.featured ? ' feat' : ''}${plan.comingSoon ? ' soon' : ''}`}
+                data-reveal
               >
                 <h3>{plan.name}</h3>
                 {plan.comingSoon || plan.setupAud == null || plan.monthlyAud == null ? (
@@ -315,7 +341,7 @@ function HomeInner() {
               </ul>
             </div>
             <div className="hp-check-side">
-              <div className="hp-eyebrow" style={{ color: '#a9c3b5' }}>
+              <div className="hp-eyebrow" style={{ color: '#d6eeff' }}>
                 {t({ th: 'ใช้เวลาไม่กี่นาที', en: 'Takes only a few minutes' })}
               </div>
               <Link className="hp-btn hp-btn-light" to="/business-check">

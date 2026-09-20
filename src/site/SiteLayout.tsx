@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
+import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { LanguageProvider, useTranslation } from '../cinematic/i18n/LanguageContext'
 import type { Lang } from '../cinematic/i18n/types'
 import { solutions } from '../data/solutions'
 import { siteContact, siteIcons, siteMedia } from './media'
 import { SiteUx } from './SiteUx'
+import { useHeaderScroll } from './useSiteMotion'
 import './site.css'
 import './homepage-v2.css'
 import './homepage-approved.css'
@@ -44,9 +45,23 @@ function SiteChrome({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false)
   const [solOpen, setSolOpen] = useState(false)
   const [newsNote, setNewsNote] = useState('')
+  const [scrolled, setScrolled] = useState(false)
+  const [langFade, setLangFade] = useState(false)
   const solRef = useRef<HTMLDivElement>(null)
+  const isHome = location.pathname === '/'
   const isToolkit = location.pathname.startsWith('/toolkit') || location.pathname === '/business-check'
   const isPricing = location.pathname === '/pricing'
+  const onScrolled = useCallback((value: boolean) => setScrolled(value), [])
+  useHeaderScroll(onScrolled)
+
+  function changeLang(code: Lang) {
+    setLang(code)
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    setLangFade(true)
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => setLangFade(false))
+    })
+  }
   const solActive = location.pathname.startsWith('/solutions') || solutions.some((item) => location.pathname === item.href)
 
   useEffect(() => {
@@ -102,7 +117,7 @@ function SiteChrome({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className={`site-root site-v2 site-approved${isToolkit ? ' is-toolkit' : ''}${isPricing ? ' is-pricing' : ''}`}>
+    <div className={`site-root site-v2 site-approved${isHome ? ' is-home' : ''}${scrolled ? ' is-scrolled' : ''}${langFade ? ' is-lang-fade' : ''}${isToolkit ? ' is-toolkit' : ''}${isPricing ? ' is-pricing' : ''}`}>
       <div className="announce">
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center', minHeight: 38 }}>
           <span>{t({ th: 'สนับสนุนธุรกิจไทยขนาดเล็กในออสเตรเลีย', en: 'Proudly supporting Thai-owned small businesses in Australia' })}</span>
@@ -111,13 +126,13 @@ function SiteChrome({ children }: { children: ReactNode }) {
             <li>{t({ th: 'เจ้าของเป็นเจ้าของบัญชีเอง', en: 'You own your accounts' })}</li>
           </ul>
           <span className="lang-toggle">
-            {(['en', 'th'] as Lang[]).map((code) => (
+            {(['th', 'en'] as Lang[]).map((code) => (
               <button
                 key={code}
                 type="button"
                 className={`lang-btn${lang === code ? ' active' : ''}`}
                 aria-pressed={lang === code}
-                onClick={() => setLang(code)}
+                onClick={() => changeLang(code)}
               >
                 {code.toUpperCase()}
               </button>

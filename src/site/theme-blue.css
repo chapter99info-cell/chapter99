@@ -46,7 +46,7 @@
 .site-v2.site-approved .home-approved h3,
 .site-v2.site-approved .tk-mvp h1,
 .site-v2.site-approved .tk-mvp h2,
-.site-v2.site-approved .tk-mvp h3 { font-weight: 300; letter-spacing: -0.02em; text-wrap: balance; }
+.site-v2.site-approved .tk-mvp h3 { font-weight: 500; letter-spacing: -0.02em; text-wrap: balance; }
 .site-v2.site-approved .home-approved h1 em,
 .site-v2.site-approved .home-approved h2 em { font-weight: 600; }
 html[lang='th'] .site-v2.site-approved .home-approved h1,
@@ -76,13 +76,30 @@ html[lang='th'] .site-v2.site-approved .tk-mvp h3 { font-weight: 500; line-heigh
 .site-v2.site-approved .announce { background: #071b33; color: #d6eeff; }
 .site-v2.site-approved .announce-ticks li::before { color: #7cc4f2; }
 .site-v2.site-approved .topbar {
-  background: rgba(255, 255, 255, 0.86);
+  background: rgba(255, 255, 255, 0.92);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid #c5e0f5;
   color: #0b2a4a;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
+.site-v2.site-approved.is-home:not(.is-scrolled) .topbar:not(.is-open) {
+  background: rgba(255, 255, 255, 0.16);
+  border-bottom-color: rgba(255, 255, 255, 0.38);
+  color: #fff;
+}
+.site-v2.site-approved.is-home:not(.is-scrolled) .topbar:not(.is-open) .brand,
+.site-v2.site-approved.is-home:not(.is-scrolled) .topbar:not(.is-open) .brand strong,
+.site-v2.site-approved.is-home:not(.is-scrolled) .topbar:not(.is-open) .brand small,
+.site-v2.site-approved.is-home:not(.is-scrolled) .topbar:not(.is-open) .navlinks a,
+.site-v2.site-approved.is-home:not(.is-scrolled) .topbar:not(.is-open) .nav-sol-btn {
+  color: #fff;
+}
+.site-v2.site-approved.is-home:not(.is-scrolled) .topbar:not(.is-open) .nav-burger {
+  border-color: rgba(255, 255, 255, 0.45);
+}
+.site-v2.site-approved.is-home .hp-hero { margin-top: -72px; }
+.site-v2.site-approved.is-home .hp-hero .hp-hero-grid { padding-top: 88px; }
 .site-v2.site-approved .navcta.header-cta,
 .site-v2.site-approved .navcta.drawer-cta {
   background: #071b33;
@@ -91,6 +108,11 @@ html[lang='th'] .site-v2.site-approved .tk-mvp h3 { font-weight: 500; line-heigh
   transition: transform 0.2s ease;
 }
 .site-v2.site-approved .navcta.header-cta:hover { transform: translateY(-2px); }
+.site-v2.site-approved .nav-burger,
+.site-v2.site-approved .navcta {
+  min-height: 44px;
+  min-width: 44px;
+}
 /* EN | TH switch as a pill */
 .site-v2.site-approved .lang-toggle {
   display: inline-flex;
@@ -104,8 +126,9 @@ html[lang='th'] .site-v2.site-approved .tk-mvp h3 { font-weight: 500; line-heigh
   background: transparent;
   color: inherit;
   border-radius: 999px;
-  padding: 4px 12px;
-  min-height: 28px;
+  padding: 0 14px;
+  min-height: 44px;
+  min-width: 44px;
   cursor: pointer;
   font-weight: 600;
   transition: background 0.25s ease, color 0.25s ease;
@@ -127,13 +150,23 @@ html[lang='th'] .site-v2.site-approved .tk-mvp h3 { font-weight: 500; line-heigh
   color: #fff;
 }
 .site-v2.site-approved .hp-hero::before,
-.site-v2.site-approved .hp-hero::after {
+.site-v2.site-approved .hp-hero::after,
+.site-v2.site-approved .hp-orb {
   content: '';
   position: absolute;
   border-radius: 50%;
   filter: blur(60px);
   pointer-events: none;
   opacity: 0.55;
+}
+.site-v2.site-approved .hp-orb {
+  width: 280px;
+  height: 280px;
+  left: 42%;
+  top: 18%;
+  z-index: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.55), transparent 70%);
+  animation: c99-drift 22s ease-in-out infinite;
 }
 .site-v2.site-approved .hp-hero::before {
   width: 520px; height: 520px; right: -120px; top: -160px;
@@ -175,7 +208,9 @@ html[lang='th'] .site-v2.site-approved .tk-mvp h3 { font-weight: 500; line-heigh
 
 /* ---------- 5) Sections & cards ---------- */
 .site-v2.site-approved .hp-sec { background: #fff; }
-.site-v2.site-approved .hp-how { background: #eaf6ff; border-color: #c5e0f5; }
+.site-v2.site-approved .hp-how,
+.site-v2.site-approved .hp-slot,
+.site-v2.site-approved #pricing { background: #eaf6ff; border-color: #c5e0f5; }
 .site-v2.site-approved .hp-ind,
 .site-v2.site-approved .hp-pr,
 .site-v2.site-approved .hp-plan,
@@ -241,26 +276,74 @@ html[lang='th'] .site-v2.site-approved .tk-mvp h3 { font-weight: 500; line-heigh
 /* Toolkit result bridges */
 .site-v2.site-approved .tk-mvp { background: #eaf6ff; }
 
-/* ---------- 6) Scroll reveal (CSS-only progressive enhancement) ---------- */
-@supports (animation-timeline: view()) {
-  .site-v2.site-approved .hp-sec .hp-wrap > *,
-  .site-v2.site-approved .hp-ind,
-  .site-v2.site-approved .hp-pr,
-  .site-v2.site-approved .hp-plan,
-  .site-v2.site-approved .hp-step,
-  .site-v2.site-approved .tk-card {
-    animation: c99-rise linear both;
-    animation-timeline: view();
-    animation-range: entry 0% cover 28%;
-  }
+/* ---------- 6) Scroll reveal (IntersectionObserver + .is-in) ---------- */
+.site-v2.site-approved [data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.site-v2.site-approved [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.4s ease var(--reveal-delay, 0ms), transform 0.4s ease var(--reveal-delay, 0ms);
+}
+.site-v2.site-approved.is-lang-fade h1,
+.site-v2.site-approved.is-lang-fade h2,
+.site-v2.site-approved.is-lang-fade h3 {
+  opacity: 0;
+}
+.site-v2.site-approved h1,
+.site-v2.site-approved h2,
+.site-v2.site-approved h3 {
+  transition: opacity 150ms ease;
+}
+.site-v2.site-approved .hp-marquee {
+  overflow: hidden;
+  background: rgba(7, 27, 51, 0.18);
+  color: #fff;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+}
+.site-v2.site-approved .hp-marquee-track {
+  display: flex;
+  gap: 40px;
+  width: max-content;
+  padding: 12px 0;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  animation: c99-marquee 28s linear infinite;
+}
+.site-v2.site-approved .hp-marquee:hover .hp-marquee-track { animation-play-state: paused; }
+.site-v2.site-approved .hp-hero :focus-visible,
+.site-v2.site-approved .hp-trust-dark :focus-visible,
+.site-v2.site-approved .hp-check :focus-visible,
+.site-v2.site-approved footer :focus-visible,
+.site-v2.site-approved .announce :focus-visible {
+  outline-color: #7cc4f2;
 }
 
 /* ---------- 7) Low-end fallback: no blur support -> solid tint ---------- */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .site-v2.site-approved .hp-phone,
   .site-v2.site-approved .hp-side span,
-  .site-v2.site-approved .hp-check-side { background: rgba(31, 111, 184, 0.75); }
-  .site-v2.site-approved .topbar { background: #fff; }
+  .site-v2.site-approved .hp-check-side { background: rgba(31, 111, 184, 0.88); }
+  .site-v2.site-approved .topbar,
+  .site-v2.site-approved.is-home:not(.is-scrolled) .topbar:not(.is-open) { background: rgba(7, 27, 51, 0.92); color: #fff; }
+}
+
+@media (max-width: 640px) {
+  .site-v2.site-approved .hp-orb,
+  .site-v2.site-approved .hp-hero::before,
+  .site-v2.site-approved .hp-hero::after {
+    filter: none;
+    opacity: 0.28;
+    animation: none;
+  }
+  .site-v2.site-approved .hp-phone,
+  .site-v2.site-approved .hp-side span,
+  .site-v2.site-approved .hp-check-side {
+    background: rgba(31, 111, 184, 0.88);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 
 /* ---------- 8) Keyframes (transform-only, cheap) ---------- */
@@ -268,7 +351,7 @@ html[lang='th'] .site-v2.site-approved .tk-mvp h3 { font-weight: 500; line-heigh
 @keyframes c99-drift { from { transform: translate(0, 0); } to { transform: translate(40px, 30px); } }
 @keyframes c99-sky { from { background-position: 0 0; } to { background-position: 0 100%; } }
 @keyframes c99-shimmer { from { background-position: 0 0, 0% 50%; } to { background-position: 0 0, 300% 50%; } }
-@keyframes c99-rise { from { transform: translateY(14px); } to { transform: none; } }
+@keyframes c99-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 /* ---------- 9) Reduced motion: everything visible, nothing moves ---------- */
 @media (prefers-reduced-motion: reduce) {
@@ -277,6 +360,10 @@ html[lang='th'] .site-v2.site-approved .tk-mvp h3 { font-weight: 500; line-heigh
   .site-v2.site-approved *::after {
     animation: none !important;
     transition: none !important;
+  }
+  .site-v2.site-approved [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
