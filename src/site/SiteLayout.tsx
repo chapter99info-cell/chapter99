@@ -48,7 +48,10 @@ function SiteChrome({ children }: { children: ReactNode }) {
   const [scrolled, setScrolled] = useState(false)
   const [langFade, setLangFade] = useState(false)
   const solRef = useRef<HTMLDivElement>(null)
-  const isHome = location.pathname === '/'
+  const isHome =
+    location.pathname === '/' ||
+    location.pathname.startsWith('/solutions') ||
+    ['/photography', '/massage', '/restaurants', '/beauty', '/cleaning'].includes(location.pathname)
   const isToolkit = location.pathname.startsWith('/toolkit') || location.pathname === '/business-check'
   const isPricing = location.pathname === '/pricing'
   const onScrolled = useCallback((value: boolean) => setScrolled(value), [])

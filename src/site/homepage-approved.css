@@ -246,6 +246,53 @@ html[lang='th'] .home-approved h3 { font-weight: 500; line-height: 1.5; }
 .hp-pr h3 { font-size: 19px; margin-bottom: 6px; }
 .hp-pr p { margin: 0; font-size: 13.5px; color: var(--muted); }
 
+.hp-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 22px 0 8px;
+}
+.hp-tab {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  font: 600 14px var(--sans);
+  cursor: pointer;
+}
+.hp-tab.is-on {
+  background: var(--forest);
+  border-color: var(--forest);
+  color: #fff;
+}
+.hp-line-title { font-size: clamp(22px, 3vw, 30px); margin: 18px 0 6px; }
+.hp-rate-list {
+  margin: 0 0 14px;
+  padding: 0 0 0 1.1em;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.hp-plan-wide { max-width: 720px; }
+.hp-ind-photo {
+  margin: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  box-shadow: 0 10px 30px rgba(31, 127, 208, 0.15);
+}
+.hp-ind-photo img { width: 100%; height: 100%; object-fit: cover; min-height: 280px; display: block; }
+.hp-ind-photo figcaption {
+  padding: 10px 14px 14px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.5;
+}
+
 .hp-price-grid { display: grid; grid-template-columns: 1fr 1fr 0.8fr; gap: 18px; margin-top: 32px; }
 .hp-plan {
   background: var(--paper);
