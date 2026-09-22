@@ -1,7 +1,38 @@
-import { CoverflowGallery, photoSlides } from '../components/CoverflowGallery'
-import { PhotoPackages } from '../components/PhotoPackages'
+import { Link } from 'react-router-dom'
+import { brandPackages, formatAud } from '../../config/pricing'
+import { useTranslation } from '../cinematic/i18n/LanguageContext'
 import { IndustryPage } from '../site/IndustryPage'
 import { siteMedia } from '../site/media'
+
+function PhotoRates() {
+  const { t } = useTranslation()
+  return (
+    <section className="hp-sec" id="photo-packages" aria-labelledby="photo-rate-title" style={{ paddingTop: 0 }}>
+      <div className="hp-wrap">
+        <p className="hp-eyebrow">Chapter99</p>
+        <h2 id="photo-rate-title">{t({ th: 'ภาพ + วิดีโอธุรกิจ', en: 'Brand photo + video' })}</h2>
+        <p className="hp-note" style={{ marginTop: 8 }}>
+          {t({ th: 'ดูแพ็กเกจแบบเต็มพร้อมสิ่งที่ได้รับในหน้าราคา', en: 'See the full packages and deliverables on the pricing page.' })}
+        </p>
+        <div className="hp-price-grid">
+          {brandPackages.map((plan) => (
+            <article key={plan.id} className={`hp-plan${plan.featured ? ' feat' : ''}`}>
+              <h3>{t(plan.name)}</h3>
+              <div className="hp-price">
+                <b>{formatAud(plan.amountAud)}</b>
+                <span>{t(plan.unit)}</span>
+              </div>
+              <p>{t(plan.recommendedFor)}</p>
+              <Link className={plan.featured ? 'hp-btn hp-btn-dark' : 'hp-btn hp-btn-line'} to="/pricing#brand">
+                {t({ th: 'ดูเรทเต็ม', en: 'See full rates' })}
+              </Link>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
 
 export function PhotographyPage() {
   return (
@@ -23,12 +54,7 @@ export function PhotographyPage() {
           { title: { th: 'เนื้อหาและการจอง', en: 'Content and booking' }, body: { th: 'ภาพช่วยให้ลูกค้าเข้าใจบริการก่อนกดจอง', en: 'Photos help customers understand the service before they book.' } },
           { title: { th: 'ไม่สร้างระบบช่างภาพใหม่', en: 'No new photo platform' }, body: { th: 'งานนี้คือถ่ายและนำไปใช้ ไม่ใช่แอปจัดการช่างภาพ', en: 'This work is photography and use — not a photographer ops app.' } },
         ],
-        extra: (
-          <>
-            <CoverflowGallery slides={photoSlides} initialActive={2} showCta={false} />
-            <PhotoPackages />
-          </>
-        ),
+        extra: <PhotoRates />,
       }}
     />
   )

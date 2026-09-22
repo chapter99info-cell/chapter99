@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import { AboutPage } from './pages/AboutPage'
 import { ContactPage } from './pages/ContactPage'
 import { LegalDocPage } from './pages/LegalDocPage'
@@ -10,17 +10,30 @@ import { MassagePage } from './pages/MassagePage'
 import { PhotographyPage } from './pages/PhotographyPage'
 import { RestaurantsPage } from './pages/RestaurantsPage'
 import { WorkPage } from './pages/WorkPage'
-import { BusinessToolkitPage } from './pages/BusinessToolkitPage'
 import SiteHomePage from './site/HomePage'
+import { SolutionPage } from './pages/SolutionPage'
 import { SitePricingPage } from './pages/SitePricingPage'
 import { NotFoundPage } from './pages/NotFoundPage'
+import { ToolkitHubPage } from './pages/toolkit/ToolkitHubPage'
+import { EnglishMessagePage } from './pages/toolkit/EnglishMessagePage'
+import { PriceListPage } from './pages/toolkit/PriceListPage'
+import { ReviewReplyPage } from './pages/toolkit/ReviewReplyPage'
+import { PosterStudioPage } from './pages/toolkit/PosterStudioPage'
+import { BusinessCheckPage } from './pages/toolkit/BusinessCheckPage'
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<SiteHomePage />} />
+      <Route path="/solutions/:slug" element={<SolutionPage />} />
       <Route path="/pricing" element={<SitePricingPage />} />
-      <Route path="/business-toolkit" element={<BusinessToolkitPage />} />
+      <Route path="/toolkit" element={<ToolkitHubPage />} />
+      <Route path="/toolkit/english-message" element={<EnglishMessagePage />} />
+      <Route path="/toolkit/price-list" element={<PriceListPage />} />
+      <Route path="/toolkit/review-reply" element={<ReviewReplyPage />} />
+      <Route path="/toolkit/poster-studio" element={<PosterStudioPage />} />
+      <Route path="/business-check" element={<BusinessCheckPage />} />
+      <Route path="/business-toolkit" element={<Navigate to="/toolkit" replace />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/massage" element={<MassagePage />} />

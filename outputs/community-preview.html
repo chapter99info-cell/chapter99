@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ตรวจดีไซน์ Community — Chapter99 (ไม่ใช่หน้า production)</title>
+  <style>
+    :root {
+      --bg: #FAFCFA;
+      --green: #126447;
+      --ink: #123D30;
+      --sage: #EDF5EF;
+      --line: #DFE8E1;
+      --muted: #59675F;
+      --white: #fff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Noto Sans Thai", "Sarabun", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 28px 20px 64px; }
+    .doc-note {
+      background: #fff8e6;
+      border: 1px solid #ead8a0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+    h1 { font-size: clamp(22px, 3vw, 32px); margin: 0 0 8px; }
+    h2 { font-size: 20px; margin: 36px 0 12px; }
+    .muted { color: var(--muted); font-size: 14px; }
+    .cover {
+      background: linear-gradient(135deg, #123D30 0%, #126447 58%, #EDF5EF 58%);
+      border-radius: 20px;
+      min-height: 280px;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 20px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    .cover .slot {
+      background: rgba(255,255,255,.12);
+      border: 1px dashed rgba(255,255,255,.45);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 16px;
+      color: var(--white);
+      font-size: 13px;
+    }
+    .cover img { height: 56px; background: var(--white); padding: 8px 10px; border-radius: 10px; }
+    .eyebrow { letter-spacing: .08em; text-transform: uppercase; font-size: 12px; opacity: .9; }
+    .cards { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .ph {
+      height: 120px;
+      background: var(--sage);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 12px;
+      font-size: 13px;
+      color: var(--green);
+      border-bottom: 1px solid var(--line);
+    }
+    .card body, .card .body { padding: 16px; }
+    .card h3 { margin: 0 0 8px; font-size: 16px; }
+    .card p { margin: 0; font-size: 14px; color: var(--muted); }
+    .cta { display: inline-block; margin-top: 12px; color: var(--green); font-weight: 700; font-size: 14px; }
+    .site {
+      background: var(--sage);
+      border-radius: 20px;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 24px;
+      align-items: center;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      margin-right: 8px;
+      margin-top: 10px;
+    }
+    .primary { background: var(--green); color: var(--white); }
+    .secondary { background: var(--white); color: var(--green); border: 1px solid var(--line); }
+    .site-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+    }
+    @media (max-width: 720px) {
+      .cover, .cards, .site { grid-template-columns: 1fr; }
+      .cover .slot { min-height: 100px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="doc-note">เอกสารตรวจดีไซน์เท่านั้น — ไม่ใช่เว็บไซต์ production อีกชุด และยังไม่เผยแพร่บน Facebook จนกว่าเจ้าของตรวจรับ</p>
+    <h1>ตัวอย่างภาพ Community</h1>
+    <p class="muted">Thai-Aus Verified Community | ชุมชนบริการสีขาว คนไทยในซิดนีย์ — คำว่า Verified เป็นชื่อกลุ่ม ไม่ใช่ตราตรวจรับจาก Chapter99</p>
+
+    <h2>1. แนวคิดภาพปกกลุ่ม</h2>
+    <p class="muted">ใช้แถบสีขาว–เขียว โลโก้ Chapter99 และหัวข้อกลุ่ม ไม่ใช้ภาพท่องเที่ยวเป็นเนื้อหาหลัก</p>
+    <div class="cover">
+      <div>
+        <img src="https://euiwkvozrhnbxttfuchh.supabase.co/storage/v1/object/public/Chapter%2099%20web/Photos/Logo/Chapter99_st.png" alt="โลโก้ Chapter99" onerror="this.style.display='none'" />
+        <p class="eyebrow">Facebook group cover concept</p>
+        <h2 style="margin:8px 0 6px;color:#fff;font-size:26px;">ชุมชนบริการสีขาว</h2>
+        <p style="margin:0;max-width:36ch;">เชื่อมคนไทยกับธุรกิจและบริการใกล้ตัวในซิดนีย์</p>
+      </div>
+      <div class="slot">พื้นที่ภาพปก<br />ใช้โลโก้/แถบสีของกลุ่ม<br />ยังไม่แทนด้วยภาพบุคคลหรือผลงานลูกค้า</div>
+    </div>
+
+    <h2>2. ตัวอย่างการ์ดโพสต์สามหมวด</h2>
+    <div class="cards">
+      <article class="card">
+        <div class="ph">พื้นที่ภาพ: แผนที่พื้นที่บริการ / ช่องว่างให้ร้านกรอก<br />ไม่ใส่รีวิวปลอม</div>
+        <div class="body">
+          <h3>แนะนำธุรกิจ</h3>
+          <p>ชื่อบริการ · พื้นที่ · รายละเอียด · ช่องทางติดต่อ — ให้เจ้าของกรอกเอง</p>
+          <span class="cta">ขั้นตอนถัดไป: ติดต่อตามช่องทางในโพสต์</span>
+        </div>
+      </article>
+      <article class="card">
+        <div class="ph">พื้นที่ภาพ: ไอคอนเครื่องมือบนพื้นเขียวอ่อน<br />ไม่ใช้ภาพท่องเที่ยว</div>
+        <div class="body">
+          <h3>เครื่องมือฟรี</h3>
+          <p>จัดคิว ข้อความถึงลูกค้า เอกสาร GST/QR รีวิว — ใช้บนเครื่องคุณ</p>
+          <span class="cta">ขั้นตอนถัดไป: เปิด /business-toolkit</span>
+        </div>
+      </article>
+      <article class="card">
+        <div class="ph">พื้นที่ภาพ: รายการเช็คข้อมูลร้าน<br />เวลาเปิด ที่อยู่ ช่องจอง เจ้าของบัญชี</div>
+        <div class="body">
+          <h3>ความรู้เจ้าของร้าน</h3>
+          <p>เช็คข้อมูลร้านออนไลน์ให้ตรงกับร้านจริง ก่อนหาลูกค้าเพิ่ม</p>
+          <span class="cta">ขั้นตอนถัดไป: จดจุดที่ยังไม่ตรงแล้วแก้ที่บัญชีร้าน</span>
+        </div>
+      </article>
+    </div>
+
+    <h2>3. ตัวอย่าง Community section บนเว็บไซต์</h2>
+    <section class="site">
+      <div>
+        <p class="eyebrow" style="color:var(--green);">ช่องทางเสริม · ไม่แทนเครื่องมือฟรี</p>
+        <h2 style="margin:6px 0 10px;">เชื่อมคนไทยกับธุรกิจและบริการใกล้ตัว</h2>
+        <p>พื้นที่แลกเปลี่ยนประสบการณ์ แนะนำธุรกิจ และแบ่งปันเครื่องมือสำหรับคนไทยในซิดนีย์ ตามกติกาของกลุ่ม</p>
+        <p class="muted">Chapter99 ร่วมดูแลพื้นที่ชุมชนนี้ และมีบริการช่วยจัดภาพลักษณ์ เว็บไซต์ และกระบวนการทำงานสำหรับเจ้าของธุรกิจ การเข้ากลุ่มไม่จำเป็นต้องซื้อบริการ</p>
+        <a class="btn primary" href="https://www.facebook.com/groups/1631889741218502">เยี่ยมชมกลุ่มบน Facebook</a>
+        <a class="btn secondary" href="https://www.chapter99info.com/business-toolkit">ใช้เครื่องมือธุรกิจฟรี</a>
+      </div>
+      <article class="site-card">
+        <p class="eyebrow" style="color:var(--green);">Facebook group</p>
+        <h3>Thai-Aus Verified Community | ชุมชนบริการสีขาว คนไทยในซิดนีย์</h3>
+        <p class="muted">เข้ากลุ่มหรือใช้เครื่องมือฟรีได้โดยไม่ต้องซื้อบริการ</p>
+      </article>
+    </section>
+  </div>
+</body>
+</html>
