@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { formatAud, photoNotes, photoPackages } from '../../config/pricing'
+import { brandPackages, formatAud } from '../../config/pricing'
 import { useTranslation } from '../cinematic/i18n/LanguageContext'
 import { IndustryPage } from '../site/IndustryPage'
 import { siteMedia } from '../site/media'
@@ -10,24 +10,25 @@ function PhotoRates() {
     <section className="hp-sec" id="photo-packages" aria-labelledby="photo-rate-title" style={{ paddingTop: 0 }}>
       <div className="hp-wrap">
         <p className="hp-eyebrow">Chapter99</p>
-        <h2 id="photo-rate-title">{t(photoNotes.heading)}</h2>
-        <p className="hp-note" style={{ marginTop: 8 }}>{t(photoNotes.sub)}</p>
+        <h2 id="photo-rate-title">{t({ th: 'ภาพ + วิดีโอธุรกิจ', en: 'Brand photo + video' })}</h2>
+        <p className="hp-note" style={{ marginTop: 8 }}>
+          {t({ th: 'ดูแพ็กเกจแบบเต็มพร้อมสิ่งที่ได้รับในหน้าราคา', en: 'See the full packages and deliverables on the pricing page.' })}
+        </p>
         <div className="hp-price-grid">
-          {photoPackages.map((plan) => (
+          {brandPackages.map((plan) => (
             <article key={plan.id} className={`hp-plan${plan.featured ? ' feat' : ''}`}>
               <h3>{t(plan.name)}</h3>
               <div className="hp-price">
                 <b>{formatAud(plan.amountAud)}</b>
                 <span>{t(plan.unit)}</span>
               </div>
-              <p>{t(plan.blurb)}</p>
-              <Link className={plan.featured ? 'hp-btn hp-btn-dark' : 'hp-btn hp-btn-line'} to="/pricing#photo">
+              <p>{t(plan.recommendedFor)}</p>
+              <Link className={plan.featured ? 'hp-btn hp-btn-dark' : 'hp-btn hp-btn-line'} to="/pricing#brand">
                 {t({ th: 'ดูเรทเต็ม', en: 'See full rates' })}
               </Link>
             </article>
           ))}
         </div>
-        <p className="hp-note">{t(photoNotes.ai)}</p>
       </div>
     </section>
   )
