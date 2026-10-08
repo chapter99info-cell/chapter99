@@ -33,5 +33,12 @@
       "source": "/((?!api/|admin/sw.js|admin/manifest.json|admin/icon-).*)",
       "destination": "/index.html"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/mockup/",
+      "permanent": false
+    }
   ]
 }
