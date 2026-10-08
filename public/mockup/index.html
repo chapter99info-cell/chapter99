@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CHAPTER99 — ให้ร้านไทยในออสฯ ดูดีและขายได้จริง</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Anton = หัวข้ออังกฤษตัวหนาแคบ, Kanit = หัวข้อไทยตัวหนา, Sora/JetBrains Mono/IBM Plex Sans Thai = ตัวเนื้อหา -->
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Kanit:wght@500;600;700&family=Sora:wght@200;300;400;600&family=JetBrains+Mono:wght@300;400;500;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===================== TOKENS: ขาว-ดำ-น้ำเงินกรมท่า ===================== */
+:root{
+  --navy:#0B1F3A;--navy-2:#13294B;--navy-3:#1D3A66;--ink:#0A0A0A;--paper:#FFFFFF;--mist:#F3F5F8;
+  --text:var(--ink);--text-dim:rgba(10,10,10,.62);--text-dimmer:rgba(10,10,10,.45);
+  --line:rgba(10,10,10,.12);--line-strong:rgba(10,10,10,.28);
+  --fill-ghost:rgba(11,31,58,.06);--ghost-hover:rgba(11,31,58,.12);
+  --solid-bg:var(--navy);--solid-fg:#fff;--solid-hover:var(--navy-2);--accent:var(--navy);
+  --gutter:clamp(20px,5vw,100px);--ease:cubic-bezier(.16,1,.3,1);
+  --f-big:"Anton","Kanit",Impact,sans-serif;
+  --f-th:"Kanit","IBM Plex Sans Thai",sans-serif;
+  --f-body:"Sora","IBM Plex Sans Thai","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"JetBrains Mono","IBM Plex Sans Thai",ui-monospace,Menlo,monospace;
+}
+/* บล็อกพื้นเข้มใช้ token ชุดนี้ */
+.dark{--text:#fff;--text-dim:rgba(255,255,255,.7);--text-dimmer:rgba(255,255,255,.5);
+  --line:rgba(255,255,255,.16);--line-strong:rgba(255,255,255,.32);
+  --fill-ghost:rgba(255,255,255,.07);--ghost-hover:rgba(255,255,255,.14);
+  --solid-bg:#fff;--solid-fg:var(--navy);--solid-hover:#E6EBF2;--accent:#fff;color:var(--text)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--text);font-family:var(--f-body);font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.menu-open{overflow:hidden}
+a{color:inherit}
+img{display:block;max-width:100%}
+:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
+.wrap{padding-left:var(--gutter);padding-right:var(--gutter)}
+.tag{font-family:var(--f-mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);display:inline-flex;align-items:center;gap:10px}
+.tag::before{content:"";width:6px;height:6px;background:currentColor}
+.big{font-family:var(--f-big);font-weight:400;text-transform:uppercase;line-height:.92;letter-spacing:.005em}
+.th-big{font-family:var(--f-th);font-weight:600;line-height:1.15}
+
+/* ===================== BUTTONS ===================== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:0;cursor:pointer;
+  padding:18px 28px;font-family:var(--f-mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;
+  transition:background .25s,color .25s}
+.btn--solid{background:var(--solid-bg);color:var(--solid-fg)}.btn--solid:hover{background:var(--solid-hover)}
+.btn--ghost{background:var(--fill-ghost);color:var(--text)}.btn--ghost:hover{background:var(--ghost-hover)}
+.btn--line{border:1px solid var(--line-strong);background:transparent;color:var(--text)}.btn--line:hover{border-color:var(--text)}
+
+/* ===================== NAV ===================== */
+.nav{position:relative;z-index:60;display:flex;justify-content:space-between;align-items:center;gap:32px;padding-top:28px;padding-bottom:28px}
+.logo{font-family:var(--f-body);font-weight:300;font-size:clamp(20px,1.6vw,26px);letter-spacing:.16em;text-decoration:none}
+.nav__right{display:flex;align-items:center;gap:clamp(24px,3vw,56px)}
+.nav__links{display:flex;gap:clamp(20px,2.6vw,48px)}
+/* ---- Nav hover: พื้นหลังกระจกจาง + เส้นใต้ไล่สีวิ่งจากซ้าย + ตัวอักษรเปลี่ยนเป็นฟ้าอ่อน + ลอยขึ้นนิด ---- */
+.nav__links{gap:clamp(6px,1vw,16px)}
+.nav__links a{position:relative;font-family:var(--f-mono);font-size:13px;letter-spacing:.14em;text-decoration:none;
+  padding:10px 14px;color:rgba(255,255,255,.85);
+  transition:color .35s var(--ease),background .35s var(--ease),transform .35s var(--ease)}
+.nav__links a::after{content:"";position:absolute;left:14px;right:14px;bottom:4px;height:2px;
+  background:linear-gradient(90deg,#7FB2FF,#fff);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+.nav__links a:hover{color:#9CC4FF;background:rgba(255,255,255,.07);transform:translateY(-2px)}
+.nav__links a:hover::after{transform:scaleX(1)}
+/* ---- ปุ่ม "คุยกับเรา": พื้นขาวกวาดจากซ้าย → ตัวอักษรเปลี่ยนเป็นกรมท่า + ลูกศรเด้งขึ้นขวา + เงาเรืองฟ้า ---- */
+.nav__right>.btn--line{position:relative;overflow:hidden;isolation:isolate;
+  transition:color .4s var(--ease),border-color .4s,box-shadow .4s,transform .4s var(--ease)}
+.nav__right>.btn--line::before{content:"";position:absolute;inset:0;z-index:-1;background:#fff;
+  transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.nav__right>.btn--line .arr{display:inline-block;transition:transform .4s var(--ease)}
+.nav__right>.btn--line:hover{color:var(--navy);border-color:#fff;transform:translateY(-2px);
+  box-shadow:0 10px 30px -8px rgba(127,178,255,.55)}
+.nav__right>.btn--line:hover::before{transform:scaleX(1)}
+.nav__right>.btn--line:hover .arr{transform:translate(3px,-3px) scale(1.15)}
+.toggle{display:none;position:relative;width:44px;height:44px;background:none;border:0;cursor:pointer}
+.toggle span{position:absolute;left:50%;width:22px;height:1px;background:var(--text);transform:translateX(-50%);transition:transform .45s var(--ease),opacity .25s,top .45s var(--ease)}
+.toggle span:nth-child(1){top:16px}.toggle span:nth-child(2){top:22px}.toggle span:nth-child(3){top:28px}
+.toggle.is-active span:nth-child(1){top:22px;transform:translateX(-50%) rotate(45deg)}
+.toggle.is-active span:nth-child(2){opacity:0}
+.toggle.is-active span:nth-child(3){top:22px;transform:translateX(-50%) rotate(-45deg)}
+.mmenu{position:fixed;inset:0;z-index:50;background:rgba(11,31,58,.97);backdrop-filter:blur(24px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;
+  clip-path:circle(3% at calc(100% - 42px) 42px);opacity:0;pointer-events:none;transition:clip-path .7s var(--ease),opacity .45s}
+.mmenu.is-open{clip-path:circle(150% at calc(100% - 42px) 42px);opacity:1;pointer-events:auto}
+.mmenu a{font-family:var(--f-th);font-size:26px;text-decoration:none;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .5s var(--ease)}
+.mmenu.is-open a{opacity:1;transform:none;transition-delay:calc(180ms + var(--i)*70ms)}
+
+/* ===================== 1) HERO: หัวใหญ่ + แถบรูปผลงาน ===================== */
+.hero{background:var(--navy) radial-gradient(ellipse at 15% 30%,var(--navy-3) 0%,var(--navy) 55%,#050D1A 100%);overflow:hidden}
+.hero__top{display:grid;grid-template-columns:1.6fr 1fr;gap:clamp(24px,4vw,80px);align-items:end;padding-top:clamp(30px,5vw,80px);padding-bottom:clamp(40px,5vw,70px)}
+.hero h1{font-size:clamp(64px,10.5vw,190px)}
+.hero h1 em{font-style:normal;-webkit-text-stroke:1.5px #fff;color:transparent}
+.hero__side p{color:var(--text-dim);font-size:16px;line-height:1.7;margin:18px 0 26px;max-width:36ch}
+.hero__side .th-lead{font-family:var(--f-th);font-weight:500;font-size:clamp(20px,1.6vw,26px);color:#fff;line-height:1.35}
+.hero__cta{display:flex;gap:12px;flex-wrap:wrap}
+/* แถบรูปผลงาน: เลื่อนแนวนอน (scroll-snap) — กล่องรูปเป็น placeholder ให้ใส่รูปจริงจาก Supabase */
+.strip{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 var(--gutter) clamp(50px,6vw,90px);scrollbar-width:none}
+.strip::-webkit-scrollbar{display:none}
+.work{flex:0 0 clamp(240px,22vw,340px);scroll-snap-align:start;position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--navy-2)}
+.work .ph{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;color:rgba(255,255,255,.4);text-transform:uppercase;
+  background:linear-gradient(160deg,#2a4775 0%,#13294B 60%,#0B1F3A 100%);transition:transform .8s var(--ease)}
+.work:hover .ph{transform:scale(1.05)}
+.work .meta{position:absolute;left:0;right:0;bottom:0;padding:18px;background:linear-gradient(to top,rgba(5,13,26,.85),transparent)}
+.work .meta b{font-family:var(--f-th);font-weight:500;font-size:20px;display:block}
+.work .meta span{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;color:var(--text-dim);text-transform:uppercase}
+.work--you{background:#fff;color:var(--navy);display:flex;flex-direction:column;justify-content:space-between;padding:24px;text-decoration:none}
+.work--you .big{font-size:56px}
+.strip-ctrl{display:flex;gap:8px;justify-content:flex-end;padding:0 var(--gutter) 24px}
+.strip-ctrl button{width:44px;height:44px;border:1px solid var(--line-strong);background:none;color:#fff;cursor:pointer;font-size:16px}
+.strip-ctrl button:hover{background:var(--fill-ghost)}
+
+/* ===================== 2) โลโก้ลูกค้า + ตัวเลข ===================== */
+.logos{display:flex;align-items:center;gap:clamp(24px,4vw,64px);padding-top:34px;padding-bottom:34px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.logos .tag{flex:0 0 auto;color:var(--text-dimmer)}
+.logos span.l{flex:0 0 auto;font-family:var(--f-th);font-weight:600;font-size:clamp(16px,1.3vw,20px);color:var(--text-dimmer);letter-spacing:.02em;white-space:nowrap;transition:color .25s}
+.logos span.l:hover{color:var(--navy)}
+.stats{display:grid;grid-template-columns:1.2fr repeat(3,1fr);gap:clamp(16px,2vw,32px);padding-top:clamp(60px,7vw,110px);padding-bottom:clamp(60px,7vw,110px);align-items:end}
+.stats h2{font-size:clamp(28px,2.6vw,42px)}
+.stat{border-top:2px solid var(--navy);padding-top:18px}
+.stat .num{font-family:var(--f-big);font-size:clamp(56px,6vw,110px);line-height:.9;color:var(--navy)}
+.stat p{color:var(--text-dim);font-size:14px;margin-top:10px;line-height:1.6}
+
+/* ===================== ส่วนทั่วไป ===================== */
+.sec{padding-top:clamp(80px,9vw,150px);padding-bottom:clamp(80px,9vw,150px);border-top:1px solid var(--line)}
+.sec__head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(40px,5vw,72px)}
+.sec__head h2{font-size:clamp(40px,5.4vw,96px)}
+.sec__head p{color:var(--text-dim);max-width:40ch;line-height:1.7}
+.mist{background:var(--mist)}
+
+/* Solutions rows */
+.rows{list-style:none;border-top:1px solid var(--line)}
+.rows li{border-bottom:1px solid var(--line)}
+.rows a{display:grid;grid-template-columns:70px 1fr auto;align-items:center;gap:24px;padding:clamp(22px,2.2vw,34px) 0;text-decoration:none;transition:padding .45s var(--ease),color .25s}
+.rows a:hover{padding-left:16px;color:var(--navy)}
+.rows .n{font-family:var(--f-mono);font-size:12px;letter-spacing:.18em;color:var(--navy)}
+.rows .t{font-family:var(--f-th);font-weight:500;font-size:clamp(22px,2.2vw,36px)}
+.rows .d{font-size:14px;color:var(--text-dim);margin-top:4px}
+.rows .arr{font-family:var(--f-mono);color:var(--navy)}
+
+/* ===================== 3) กลุ่มลูกค้า: ธุรกิจต่างกัน ปัญหาเดียวกัน ===================== */
+.aud{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.aud__item{background:var(--paper);padding:clamp(26px,3vw,48px);display:flex;gap:20px;transition:background .3s}
+.aud__item:hover{background:var(--mist)}
+.aud__ico{flex:0 0 48px;height:48px;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:var(--f-mono);font-size:13px}
+.aud__item h3{font-family:var(--f-th);font-weight:500;font-size:22px;margin-bottom:8px}
+.aud__item p{color:var(--text-dim);font-size:15px;line-height:1.7}
+.aud__item .fix{display:block;margin-top:12px;font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;color:var(--navy)}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px)}
+.step{background:var(--paper);padding:clamp(26px,3vw,44px);border:1px solid var(--line)}
+.step .big{font-size:64px;color:var(--navy)}
+.step h3{font-family:var(--f-th);font-weight:500;font-size:24px;margin:16px 0 10px}
+.step p{color:var(--text-dim);line-height:1.7}
+
+/* ===================== รีวิว ===================== */
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px)}
+.rev{border:1px solid var(--line);padding:clamp(26px,3vw,40px);display:flex;flex-direction:column;gap:22px;background:var(--paper)}
+.rev--hi{background:var(--navy)}
+.rev q{font-family:var(--f-th);font-weight:500;font-size:clamp(18px,1.4vw,22px);line-height:1.5;quotes:"“" "”"}
+.rev .who{display:flex;align-items:center;gap:14px;margin-top:auto}
+.rev .av{width:48px;height:48px;background:var(--mist);display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;color:var(--navy)}
+.rev--hi .av{background:rgba(255,255,255,.12);color:#fff}
+.rev .who b{display:block;font-weight:400}
+.rev .who span{font-size:13px;color:var(--text-dim)}
+.note{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;color:#B42318;text-transform:uppercase;margin-top:18px}
+
+/* Pricing */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.plan{background:var(--paper);padding:clamp(28px,3vw,52px);display:flex;flex-direction:column;gap:14px}
+.plan--hi{background:var(--navy)}
+.plan .name{font-family:var(--f-mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-dim)}
+.plan .price{font-family:var(--f-big);font-size:clamp(56px,5vw,88px);line-height:1}
+.plan .sub{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;color:var(--text-dim)}
+.plan p{color:var(--text-dim);line-height:1.7;flex:1;margin:10px 0 18px}
+.plan .btn{width:100%}
+.fine{font-size:13px;color:var(--text-dimmer);margin-top:20px}
+
+/* ===================== 4) FAQ + CTA ใหญ่ ===================== */
+.faq{display:grid;grid-template-columns:1fr 1.4fr;gap:clamp(30px,5vw,90px)}
+.faq__intro h2{font-size:clamp(44px,5.4vw,96px)}
+.faq__intro p{color:var(--text-dim);margin:18px 0 26px;line-height:1.7}
+.qa{border-top:1px solid var(--line)}
+.qa details{border-bottom:1px solid var(--line)}
+.qa summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font-family:var(--f-th);font-weight:500;font-size:clamp(17px,1.3vw,21px)}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary i{flex:0 0 36px;height:36px;border:1px solid var(--line-strong);display:grid;place-items:center;font-style:normal;transition:transform .4s var(--ease),background .25s,color .25s}
+.qa details[open] summary i{transform:rotate(45deg);background:var(--navy);color:#fff;border-color:var(--navy)}
+.qa details[open] summary{color:var(--navy)}
+.qa .a{padding:0 56px 26px 0;color:var(--text-dim);line-height:1.8}
+.cta-big{margin:0 var(--gutter);background:var(--navy) radial-gradient(ellipse at 85% 20%,var(--navy-3),var(--navy) 60%);padding:clamp(40px,6vw,100px);display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:end;position:relative;overflow:hidden}
+.cta-big h2{font-size:clamp(52px,7.5vw,140px)}
+.cta-big .th{font-family:var(--f-th);font-weight:500;font-size:clamp(20px,1.6vw,26px);margin-bottom:12px}
+.cta-big p{color:var(--text-dim);line-height:1.7;margin-bottom:26px}
+
+/* Footer ใหญ่ */
+.foot{margin-top:clamp(70px,8vw,130px);background:var(--ink);padding-top:clamp(60px,7vw,110px)}
+.foot__big{font-size:clamp(44px,7vw,130px);max-width:14ch}
+.foot__cols{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:30px;padding-top:60px;padding-bottom:50px;border-bottom:1px solid var(--line)}
+.foot__cols h4{font-family:var(--f-mono);font-weight:400;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dimmer);margin-bottom:16px}
+.foot__cols a{display:block;text-decoration:none;color:var(--text-dim);margin-bottom:10px;font-size:15px}
+.foot__cols a:hover{color:#fff}
+.foot__bar{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:24px;padding-bottom:28px;font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-dimmer)}
+
+/* ===================== Scroll reveal (เบา ๆ) ===================== */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv.in{opacity:1;transform:none}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width:1000px){
+  .hero__top,.faq,.cta-big{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(3,1fr)}.stats h2{grid-column:1/-1}
+  .reviews,.steps,.plans{grid-template-columns:1fr}
+  .foot__cols{grid-template-columns:1fr 1fr}
+}
+@media (max-width:900px){.nav__links,.nav__right>.btn{display:none}.toggle{display:block}}
+@media (min-width:901px){.mmenu{display:none}}
+@media (max-width:640px){
+  .aud{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr}
+  .rows a{grid-template-columns:40px 1fr auto;gap:14px}
+  .qa .a{padding-right:0}
+  .cta-big{margin:0}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}.rv{opacity:1;transform:none}}
+
+/* ===================== อ่านง่ายสำหรับผู้ใหญ่ (override) =====================
+   - ปุ่มและเมนูใช้ฟอนต์ไทย Kanit ตัวใหญ่ ไม่ห่างตัวอักษร
+   - ตัวหนังสือเนื้อหาอย่างน้อย 17px, ตัวเล็กสุด 14px
+   - เพิ่มความเข้มสีตัวหนังสือรอง ให้ตัดกับพื้นชัดขึ้น */
+:root{--text-dim:rgba(10,10,10,.78);--text-dimmer:rgba(10,10,10,.62)}
+.dark{--text-dim:rgba(255,255,255,.85);--text-dimmer:rgba(255,255,255,.7)}
+body{font-size:17px;font-weight:400}
+/* ปุ่ม: กลับไปใช้สไตล์เดิม (ตัวพิมพ์ดีด ตัวใหญ่ ห่างตัวอักษร) แต่หนาและใหญ่ขึ้นให้อ่านง่าย */
+.btn{font-family:var(--f-mono);font-weight:700;font-size:clamp(16px,1.15vw,18px);letter-spacing:.14em;text-transform:uppercase;padding:18px 30px;min-height:58px}
+.nav__links a{font-family:var(--f-th);font-weight:500;font-size:17px;letter-spacing:.02em}
+.tag{font-size:14px;letter-spacing:.12em}
+.hero__side p,.aud__item p,.step p,.plan p,.faq__intro p,.cta-big p,.sec__head p{font-size:18px;line-height:1.75}
+.work .meta span{font-family:var(--f-th);font-size:15px;letter-spacing:.02em;text-transform:none}
+.work .ph{font-size:13px}
+.stat p{font-size:17px}
+.rows .n{font-size:15px}
+.rows .d{font-size:17px}
+.aud__ico{font-size:16px}
+.aud__item .fix{font-family:var(--f-th);font-weight:500;font-size:17px;letter-spacing:0}
+.rev .who b{font-size:17px}.rev .who span{font-size:15px}
+.note{font-family:var(--f-th);font-size:15px;letter-spacing:0;text-transform:none}
+.plan .name{font-size:15px;letter-spacing:.12em}
+.plan .sub{font-family:var(--f-th);font-size:17px;letter-spacing:0}
+.fine{font-size:15px}
+.qa summary{font-size:clamp(19px,1.4vw,22px)}
+.qa .a{font-size:18px}
+.foot__cols h4{font-size:14px;letter-spacing:.12em}
+.foot__cols a{font-size:17px}
+.foot__bar{font-family:var(--f-th);font-size:14px;letter-spacing:.04em;text-transform:none}
+.mmenu a{font-size:28px}
+
+/* ===================== ลูกเล่นโชว์ผลงาน =====================
+   1) การ์ดเอียง 3D ตามเมาส์ + แสงสะท้อนวิ่งตามเมาส์
+   2) ชี้แล้วข้อความเลื่อนขึ้น โชว์ "ดูผลงาน →" + กรอบเรืองฟ้า
+   3) การ์ดอื่นจางลง ให้การ์ดที่ชี้เด่น
+   4) เคอร์เซอร์วงกลม "ลาก / ดู" + ลากเมาส์เพื่อเลื่อนแถบได้
+   5) แถบความคืบหน้าใต้แถบผลงาน */
+.strip{perspective:1200px;cursor:none}
+.strip.dragging{scroll-snap-type:none;cursor:grabbing}
+.work{transform-style:preserve-3d;transition:transform .5s var(--ease),opacity .4s,box-shadow .5s,filter .4s;will-change:transform}
+.strip:hover .work:not(:hover){opacity:.55;filter:saturate(.6)}
+.work:hover{box-shadow:0 30px 60px -20px rgba(0,0,0,.6),0 0 0 1px rgba(156,196,255,.6)}
+.work .glare{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s;mix-blend-mode:soft-light;
+  background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.75),transparent 55%)}
+.work:hover .glare{opacity:1}
+.work .meta{transition:transform .5s var(--ease)}
+.work .meta::after{content:"ดูผลงาน →";display:block;margin-top:10px;font-family:var(--f-mono);font-weight:700;font-size:15px;letter-spacing:.12em;color:#9CC4FF;
+  opacity:0;transform:translateY(10px);transition:opacity .4s,transform .5s var(--ease)}
+.work:hover .meta::after{opacity:1;transform:none}
+.work--you .meta::after{display:none}
+.strip-progress{height:2px;background:rgba(255,255,255,.15);margin:0 var(--gutter) 40px;position:relative;overflow:hidden}
+.strip-progress i{position:absolute;inset:0;background:linear-gradient(90deg,#7FB2FF,#fff);transform-origin:left;transform:scaleX(.2);transition:transform .2s}
+.cursor{position:fixed;left:0;top:0;z-index:100;width:92px;height:92px;margin:-46px 0 0 -46px;border-radius:50%;
+  background:#fff;color:var(--navy);display:grid;place-items:center;font-family:var(--f-mono);font-weight:700;font-size:14px;letter-spacing:.12em;
+  pointer-events:none;transform:scale(0);transition:transform .35s var(--ease);mix-blend-mode:normal}
+.cursor.show{transform:scale(1)}
+.cursor.press{transform:scale(.8)}
+
+/* ===================== ลูกเล่นเมาส์คลิก =====================
+   - คลื่นวงกลม (ripple) กระจายจากจุดที่คลิก บนปุ่ม/การ์ด/เมนู
+   - ปุ่มยุบลงนิดตอนกด แล้วเด้งกลับ */
+.btn,.work,.nav__links a,.qa summary,.rows a{position:relative;overflow:hidden}
+.btn:active{transform:scale(.96)}
+.ripple{position:absolute;border-radius:50%;pointer-events:none;transform:scale(0);opacity:.45;
+  background:currentColor;animation:ripple .7s var(--ease) forwards}
+@keyframes ripple{to{transform:scale(1);opacity:0}}
+/* วงแหวนเล็ก ๆ ตรงจุดคลิก ทั่วทั้งหน้า */
+.click-ring{position:fixed;z-index:101;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:2px solid #7FB2FF;
+  pointer-events:none;animation:ring .6s var(--ease) forwards}
+@keyframes ring{from{transform:scale(.2);opacity:1}to{transform:scale(1.6);opacity:0}}
+@media (hover:none){.strip{cursor:auto}.cursor{display:none}.strip:hover .work:not(:hover){opacity:1;filter:none}}
+@media (prefers-reduced-motion:reduce){.ripple,.click-ring{display:none}.work{transform:none!important}}
+
+/* ===================== ภาพ Cover จาก Supabase (bucket: web solutions 2026 / Photos/cover) =====================
+   วางภาพไว้ใต้ชั้นไล่สีกรมท่า ให้ตัวหนังสือขาวอ่านง่าย — ถ้าภาพโหลดไม่ได้ จะเหลือพื้นกรมท่าเดิม */
+:root{--cover-hero:url("https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/cover/sydney01.jpg");--cover-cta:url("https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/cover/sydney02.jpg");--cover-foot:url("https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/cover/sydney03.jpg");--cover-band:url("https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/cover/hobart.jpg")}
+.hero{background:
+  linear-gradient(100deg,rgba(11,31,58,.94) 0%,rgba(11,31,58,.78) 45%,rgba(11,31,58,.55) 100%),
+  linear-gradient(to bottom,rgba(5,13,26,.35),rgba(5,13,26,.85)),
+  var(--cover-hero) center/cover no-repeat,var(--navy)}
+.cta-big{background:
+  linear-gradient(90deg,rgba(11,31,58,.95) 0%,rgba(11,31,58,.8) 50%,rgba(11,31,58,.5) 100%),
+  var(--cover-cta) center/cover no-repeat,var(--navy)}
+.foot{background:linear-gradient(to bottom,rgba(10,10,10,.82),rgba(10,10,10,.97) 55%),var(--cover-foot) center top/cover no-repeat,var(--ink)}
+/* แถบภาพ Hobart: ทำงานทั่วออสเตรเลีย */
+.band{position:relative;min-height:clamp(320px,42vw,560px);display:flex;align-items:flex-end;color:#fff;overflow:hidden;
+  background:linear-gradient(to top,rgba(11,31,58,.92) 0%,rgba(11,31,58,.35) 55%,rgba(11,31,58,.1) 100%),var(--cover-band) center/cover no-repeat,var(--navy-2)}
+.band__in{padding-top:60px;padding-bottom:clamp(40px,5vw,72px);width:100%;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.band h2{font-size:clamp(48px,7vw,130px)}
+.band p{font-family:var(--f-th);font-weight:500;font-size:clamp(19px,1.5vw,24px);max-width:26ch;line-height:1.5}
+@media (hover:hover){.band{background-attachment:scroll,fixed}}
+
+/* ===================== ไอคอน + วิดีโอ จาก Supabase =====================
+   ไอคอน icons8 (PNG 50px) — บังคับเป็นสีขาวบนพื้นเข้ม / สีดำบนพื้นขาว ด้วย filter
+   ถ้าโหลดไม่ได้ ไอคอนจะถูกลบทิ้งเอง (onerror) ไม่ทิ้งรูปแตกไว้ */
+.ico{width:24px;height:24px;object-fit:contain;filter:brightness(0);flex:0 0 auto}
+.dark .ico,.aud__ico .ico{filter:brightness(0) invert(1)}
+.aud__ico .ico{width:26px;height:26px}
+.aud__ico .ico + .n{display:none}
+.step__ico{display:flex;align-items:center;gap:16px}
+.step__ico .ico{width:34px;height:34px;opacity:.85}
+.foot__cols a{display:flex;align-items:center;gap:12px}
+.foot__cols a .ico{width:20px;height:20px;opacity:.75;transition:opacity .25s,transform .35s var(--ease)}
+.foot__cols a:hover .ico{opacity:1;transform:translateX(3px)}
+.btn .ico{width:22px;height:22px}
+/* วิดีโอในการ์ดผลงาน: เล่นวนตลอด (ไม่มีเสียง) ซ้อนบนกล่อง placeholder */
+.work video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.work:hover video{transform:scale(1.06)}
+.work .live{position:absolute;top:14px;left:14px;z-index:2;font-family:var(--f-mono);font-weight:700;font-size:12px;letter-spacing:.14em;
+  background:rgba(11,31,58,.75);backdrop-filter:blur(6px);padding:6px 10px;display:flex;align-items:center;gap:6px}
+.work .live::before{content:"";width:7px;height:7px;border-radius:50%;background:#7FB2FF;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO (navy) ============ -->
+<header class="hero dark" id="top">
+  <nav class="nav wrap">
+    <a href="#top" class="logo">CHAPTER99</a>
+    <div class="nav__right">
+      <div class="nav__links">
+        <a href="#solutions">โซลูชัน</a><a href="#how">วิธีทำงาน</a><a href="#pricing">แพ็กเกจ</a><a href="#faq">คำถาม</a>
+      </div>
+      <a href="#contact" class="btn btn--line">คุยกับเรา <span class="arr">↗</span></a>
+      <button class="toggle" id="toggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <div class="hero__top wrap">
+    <div>
+      <span class="tag">Thai business · Australia</span>
+      <h1 class="big" style="margin-top:22px">We build shops<br><em>that sell.</em></h1>
+    </div>
+    <div class="hero__side">
+      <p class="th-lead">ให้ร้านไทยในออสฯ ดูดี<br>และขายได้จริง</p>
+      <p>เว็บ ระบบจองคิว เมนูดิจิทัล ถ่ายภาพ และ Google ครบจบในที่เดียว ร้านโฟกัสที่ลูกค้า ส่วนออนไลน์เราดูแลให้</p>
+      <div class="hero__cta">
+        <a href="#contact" class="btn btn--solid">ประเมินธุรกิจฟรี →</a>
+        <a href="#work" class="btn btn--ghost">ดูผลงาน</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- แถบรูปผลงาน (TODO: ใส่ <img src="…supabase…"> แทน .ph) -->
+  <div class="strip-ctrl" aria-label="เลื่อนผลงาน"><button data-dir="-1" aria-label="ก่อนหน้า">←</button><button data-dir="1" aria-label="ถัดไป">→</button></div>
+  <div class="strip" id="work">
+    <a class="work" href="#"><div class="ph">[ รูป Thai Garlic ]</div><video src="https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/VDO/trip2talk_Pineapple_Fried_Rice_Prompt_Pineapple_Fried_Rice_se_c925ac99-f289-47ed-a0dd-202c4358c082_3%20(1).mp4" autoplay muted loop playsinline preload="metadata" aria-label="วิดีโอเมนูข้าวผัดสับปะรด" onerror="this.remove()"></video><span class="live">VIDEO</span><div class="meta"><b>Thai Garlic</b><span>ร้านอาหาร · เว็บ + เมนู</span></div></a>
+    <a class="work" href="#"><div class="ph">[ รูป Princess Thai Massage ]</div><div class="meta"><b>Princess Thai Massage</b><span>นวด · เว็บ + จองคิว</span></div></a>
+    <a class="work" href="#"><div class="ph">[ รูป Jasmine Massage &amp; Spa ]</div><div class="meta"><b>Jasmine Massage &amp; Spa</b><span>สปา · เว็บ + ถ่ายภาพ</span></div></a>
+    <a class="work" href="#"><div class="ph">[ รูป Mira Thai Massage ]</div><div class="meta"><b>Mira Thai Massage</b><span>นวด · ระบบร้าน</span></div></a>
+    <a class="work work--you" href="#contact"><span class="tag" style="color:var(--navy)">Next</span><span class="big">ร้าน<br>ของคุณ?</span><span style="font-family:var(--f-th);font-weight:500;font-size:18px">เริ่มคุยกันเลย →</span></a>
+  </div>
+  <div class="strip-progress" aria-hidden="true"><i id="stripBar"></i></div>
+</header>
+<div class="cursor" id="cursor" aria-hidden="true">ลาก</div>
+
+<!-- (strip-progress อยู่ท้าย hero) -->
+<!-- ============ โลโก้ลูกค้า + ตัวเลข ============ -->
+<section class="wrap">
+  <div class="logos">
+    <span class="tag">ลูกค้าของเรา</span>
+    <span class="l">THAI GARLIC</span><span class="l">PRINCESS THAI MASSAGE</span><span class="l">JASMINE MASSAGE &amp; SPA</span><span class="l">MIRA THAI MASSAGE</span>
+  </div>
+  <div class="stats">
+    <h2 class="th-big rv">เกือบ 10 ปี<br>ช่วยธุรกิจไทยในซิดนีย์ให้เติบโต</h2>
+    <div class="stat rv"><div class="num">10</div><p>ปี ประสบการณ์ถ่ายภาพ</p></div>
+    <div class="stat rv"><div class="num">10</div><p>ปี ในชุมชนไทยซิดนีย์</p></div>
+    <div class="stat rv"><div class="num">5</div><p>บริการ ครบในที่เดียว</p></div>
+  </div>
+</section>
+
+<!-- ============ โซลูชัน ============ -->
+<section class="sec wrap" id="solutions">
+  <div class="sec__head"><h2 class="big rv">Solutions</h2><p>เลือกตามประเภทธุรกิจ — แต่ละแบบออกแบบมาให้ใช้ได้จริงตั้งแต่วันแรก</p></div>
+  <ul class="rows">
+    <li><a href="#"><span class="n">01</span><span><span class="t">นวด / สปา</span><div class="d">เว็บ + จองคิวออนไลน์ + ระบบพนักงาน</div></span><span class="arr">→</span></a></li>
+    <li><a href="#"><span class="n">02</span><span><span class="t">ร้านอาหาร / คาเฟ่</span><div class="d">เมนูดิจิทัล + สั่งอาหาร QR</div></span><span class="arr">→</span></a></li>
+    <li><a href="#"><span class="n">03</span><span><span class="t">ความงาม / ทำเล็บ</span><div class="d">โชว์ผลงาน + นัดหมาย</div></span><span class="arr">→</span></a></li>
+    <li><a href="#"><span class="n">04</span><span><span class="t">ทำความสะอาด</span><div class="d">ขอใบเสนอราคาออนไลน์</div></span><span class="arr">→</span></a></li>
+    <li><a href="#"><span class="n">05</span><span><span class="t">ธุรกิจอื่น ๆ</span><div class="d">ออกแบบตามความต้องการ</div></span><span class="arr">→</span></a></li>
+  </ul>
+</section>
+
+<!-- ============ กลุ่มลูกค้า ============ -->
+<section class="sec wrap mist">
+  <div class="sec__head"><h2 class="big rv">Different shops.<br>Same problem.</h2><p>ธุรกิจต่างกัน แต่ปัญหาเดียวกัน — ลูกค้าหาร้านไม่เจอ และเจ้าของร้านไม่มีเวลาทำออนไลน์</p></div>
+  <div class="aud">
+    <div class="aud__item rv"><div class="aud__ico"><img class="ico" src="https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/Icon/icons8-smartphone-50.png" alt="" width="24" height="24" loading="lazy" onerror="this.remove()"><span class="n">01</span></div><div><h3>เจ้าของร้านนวด / สปา</h3><p>รับโทรศัพท์จองคิวทั้งวัน ไม่มีเวลาทำโซเชียล</p><span class="fix">→ จองคิวออนไลน์ 24 ชม.</span></div></div>
+    <div class="aud__item rv"><div class="aud__ico"><img class="ico" src="https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/Icon/icons8-soup-50.png" alt="" width="24" height="24" loading="lazy" onerror="this.remove()"><span class="n">02</span></div><div><h3>ร้านอาหาร / คาเฟ่</h3><p>เมนูกระดาษแก้ยาก รูปอาหารไม่น่ากิน</p><span class="fix">→ เมนูดิจิทัล + ถ่ายภาพมืออาชีพ</span></div></div>
+    <div class="aud__item rv"><div class="aud__ico"><img class="ico" src="https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/Icon/icons8-search-50.png" alt="" width="24" height="24" loading="lazy" onerror="this.remove()"><span class="n">03</span></div><div><h3>ร้านเปิดใหม่</h3><p>ยังไม่มีเว็บ ไม่ติด Google ลูกค้าไม่รู้จัก</p><span class="fix">→ เปิดตัวออนไลน์ครบในแพ็กเดียว</span></div></div>
+    <div class="aud__item rv"><div class="aud__ico"><img class="ico" src="https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/Icon/icons8-monitor-50.png" alt="" width="24" height="24" loading="lazy" onerror="this.remove()"><span class="n">04</span></div><div><h3>ร้านเก่าที่อยากรีแบรนด์</h3><p>เว็บเดิมดูเก่า ช้า และแก้เองไม่ได้</p><span class="fix">→ ทำใหม่ โดเมนและข้อมูลยังเป็นของร้าน</span></div></div>
+  </div>
+</section>
+
+<!-- ============ แถบภาพ Hobart ============ -->
+<section class="band" aria-label="ทำงานทั่วออสเตรเลีย">
+  <div class="band__in wrap">
+    <h2 class="big rv">Sydney<br>to Hobart.</h2>
+    <p class="rv">ดูแลร้านไทยทั่วออสเตรเลีย<br>ไม่ว่าร้านจะอยู่เมืองไหน</p>
+  </div>
+</section>
+
+<!-- ============ วิธีทำงาน ============ -->
+<section class="sec wrap" id="how">
+  <div class="sec__head"><h2 class="big rv">How it works</h2><p>3 ขั้นตอน ไม่ต้องยุ่งเรื่องเทคนิค</p></div>
+  <div class="steps">
+    <div class="step rv"><div class="step__ico"><span class="big">01</span><img class="ico" src="https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/Icon/icons8-chat-bubble-50.png" alt="" width="24" height="24" loading="lazy" onerror="this.remove()"></div><h3>คุยกัน</h3><p>เข้าใจร้าน ลูกค้า และเป้าหมาย</p></div>
+    <div class="step rv"><div class="step__ico"><span class="big">02</span><img class="ico" src="https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/Icon/icons8-settings-50.png" alt="" width="24" height="24" loading="lazy" onerror="this.remove()"></div><h3>เราสร้างให้</h3><p>เว็บ Google Business ระบบจอง ถ่ายภาพ พร้อมใช้งาน</p></div>
+    <div class="step rv"><div class="step__ico"><span class="big">03</span><img class="ico" src="https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/Icon/icons8-notification-50.png" alt="" width="24" height="24" loading="lazy" onerror="this.remove()"></div><h3>ดูแลต่อเนื่อง</h3><p>อัปเดตให้ตลอด พี่มีเวลาดูแลลูกค้ามากขึ้น</p></div>
+  </div>
+</section>
+
+<!-- ============ รีวิว (placeholder — ต้องใส่รีวิวจริงก่อนขึ้นเว็บ) ============ -->
+<section class="sec wrap mist">
+  <div class="sec__head"><h2 class="big rv">Loved by<br>Thai shops</h2><p>เสียงจากเจ้าของร้านที่ใช้ Chapter99</p></div>
+  <div class="reviews">
+    <div class="rev rv"><q>[ ใส่รีวิวจริงจากลูกค้า ]</q><div class="who"><div class="av">TG</div><div><b>Thai Garlic</b><span>ร้านอาหาร</span></div></div></div>
+    <div class="rev rev--hi dark rv"><q>[ ใส่รีวิวจริงจากลูกค้า ]</q><div class="who"><div class="av">PT</div><div><b>Princess Thai Massage</b><span>ร้านนวด</span></div></div></div>
+    <div class="rev rv"><q>[ ใส่รีวิวจริงจากลูกค้า ]</q><div class="who"><div class="av">MT</div><div><b>Mira Thai Massage</b><span>ร้านนวด</span></div></div></div>
+  </div>
+  <p class="note">* ช่องรีวิวเป็นตัวอย่าง — ใส่ข้อความจริงจากลูกค้า (หรือดึงจาก Google Reviews) ก่อนเผยแพร่</p>
+</section>
+
+<!-- ============ แพ็กเกจ ============ -->
+<section class="sec wrap" id="pricing">
+  <div class="sec__head"><h2 class="big rv">Pricing</h2><p>ราคา AUD · ยกเลิกได้ทุกเมื่อ</p></div>
+  <div class="plans">
+    <div class="plan"><span class="name">Starter</span><span class="price">$199</span><span class="sub">+ $19 / เดือน</span><p>เริ่มต้นออนไลน์ เว็บไซต์พร้อมข้อมูลร้านครบ</p><a href="#contact" class="btn btn--ghost">เริ่มเลย</a></div>
+    <div class="plan plan--hi dark"><span class="name">Professional · แนะนำ</span><span class="price">$499</span><span class="sub">+ $49 / เดือน</span><p>ครบทั้งเว็บ ระบบจอง และเครื่องมือหลังร้าน</p><a href="#contact" class="btn btn--solid">คุยกับ Chapter99</a></div>
+    <div class="plan"><span class="name">Business</span><span class="price">Custom</span><span class="sub">ตามขนาดธุรกิจ</span><p>หลายสาขา หรือระบบเฉพาะทาง</p><a href="#contact" class="btn btn--ghost">ขอใบเสนอราคา</a></div>
+  </div>
+  <p class="fine">* ราคาไม่รวมค่าโดเมน</p>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="sec wrap" id="faq">
+  <div class="faq">
+    <div class="faq__intro">
+      <h2 class="big rv">Frequently<br>asked</h2>
+      <p>มีคำถามอื่น? ทักมาได้เลย ตอบเป็นภาษาไทย</p>
+      <a href="https://wa.me/61452044382" class="btn btn--solid">ทัก WhatsApp →</a>
+    </div>
+    <div class="qa">
+      <details open><summary>ค่าใช้จ่ายเริ่มต้นเท่าไหร่?<i>+</i></summary><p class="a">เริ่มที่ A$199 + A$19/เดือน (Starter) ส่วนแพ็กเกจที่คนเลือกมากที่สุดคือ Professional A$499 + A$49/เดือน</p></details>
+      <details><summary>ใช้เวลานานแค่ไหนกว่าเว็บจะออนไลน์?<i>+</i></summary><p class="a">ขึ้นอยู่กับแพ็กเกจและความพร้อมของข้อมูลร้าน (รูป เมนู ราคา) เราจะแจ้งกำหนดการชัดเจนหลังคุยครั้งแรก</p></details>
+      <details><summary>โดเมนและข้อมูลลูกค้าเป็นของใคร?<i>+</i></summary><p class="a">เป็นของเจ้าของร้านทั้งหมด จดในชื่อร้าน ถ้าวันหนึ่งเลิกใช้บริการ ก็ย้ายออกได้</p></details>
+      <details><summary>ต้องมีความรู้เรื่องคอมพิวเตอร์ไหม?<i>+</i></summary><p class="a">ไม่ต้องเลย เราดูแลให้ทั้งหมด เจ้าของร้านแค่ส่งข้อมูลและรูปทาง WhatsApp</p></details>
+      <details><summary>ถ่ายภาพร้านให้ด้วยไหม?<i>+</i></summary><p class="a">ได้ครับ ทีมเรามีประสบการณ์ถ่ายภาพกว่า 10 ปี ทั้งภาพร้าน อาหาร และบรรยากาศ</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ใหญ่ ============ -->
+<section class="cta-big dark" id="contact">
+  <h2 class="big rv">Let's make<br>the next move<br>clear.</h2>
+  <div>
+    <p class="th">พร้อมให้ร้านดูดีแล้วหรือยัง?</p>
+    <p>ประเมินธุรกิจฟรี ไม่มีค่าใช้จ่าย ตอบภายใน 24 ชม.</p>
+    <a href="https://wa.me/61452044382" class="btn btn--solid"><img class="ico" src="https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/Icon/icons8-whatsapp-50.png" alt="" width="24" height="24" loading="lazy" onerror="this.remove()">ทัก WhatsApp 0452 044 382 →</a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot dark">
+  <div class="wrap"><h2 class="big foot__big">Better shops start with a clearer direction.</h2></div>
+  <div class="foot__cols wrap">
+    <div><span class="logo">CHAPTER99</span><p style="color:var(--text-dim);margin-top:14px;line-height:1.7;max-width:30ch">ระบบออนไลน์สำหรับธุรกิจไทยในออสเตรเลีย · Sydney</p></div>
+    <div><h4>สำรวจ</h4><a href="#solutions">โซลูชัน</a><a href="#how">วิธีทำงาน</a><a href="#pricing">แพ็กเกจ</a><a href="#faq">คำถาม</a></div>
+    <div><h4>บริการ</h4><a href="#">เว็บไซต์</a><a href="#">ระบบจองคิว</a><a href="#">เมนูดิจิทัล</a><a href="#">ถ่ายภาพ</a></div>
+    <div><h4>ติดต่อ</h4><a href="tel:+61452044382"><img class="ico" src="https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/Icon/icons8-call-50.png" alt="" width="24" height="24" loading="lazy" onerror="this.remove()">0452 044 382</a><a href="https://wa.me/61452044382"><img class="ico" src="https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/Icon/icons8-whatsapp-50.png" alt="" width="24" height="24" loading="lazy" onerror="this.remove()">WhatsApp</a><a href="mailto:chapter99solutions@gmail.com"><img class="ico" src="https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/Icon/icons8-email-50.png" alt="" width="24" height="24" loading="lazy" onerror="this.remove()">Email</a><a href="https://www.facebook.com/profile.php?id=61586534972406"><img class="ico" src="https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/Icon/icons8-chat-bubble-50.png" alt="" width="24" height="24" loading="lazy" onerror="this.remove()">Facebook</a><a href="#"><img class="ico" src="https://trtjcnpipsvaxwenjgva.supabase.co/storage/v1/object/public/web%20solutions%202026/Photos/Icon/icons8-location-50.png" alt="" width="24" height="24" loading="lazy" onerror="this.remove()">Sydney, NSW</a></div>
+  </div>
+  <div class="foot__bar wrap"><span>© 2026 Chapter99</span><span><a href="#" style="text-decoration:none">Privacy</a> · <a href="#" style="text-decoration:none">Terms</a></span></div>
+</footer>
+
+<!-- Mobile menu -->
+<div class="mmenu dark" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Site menu" aria-hidden="true" inert>
+  <a href="#solutions" style="--i:0">โซลูชัน</a><a href="#how" style="--i:1">วิธีทำงาน</a><a href="#pricing" style="--i:2">แพ็กเกจ</a><a href="#faq" style="--i:3">คำถาม</a><a href="#contact" style="--i:4">คุยกับเรา →</a>
+</div>
+
+<script>
+// ===== Mobile menu: เปิด/ปิด, Esc, คลิกลิงก์แล้วปิด, ปิดอัตโนมัติเมื่อจอ ≥901px =====
+(function(){
+  const t=document.getElementById('toggle'),m=document.getElementById('mobileMenu');
+  function set(open){
+    t.classList.toggle('is-active',open);m.classList.toggle('is-open',open);
+    t.setAttribute('aria-expanded',open);t.setAttribute('aria-label',open?'Close menu':'Open menu');
+    m.setAttribute('aria-hidden',!open);open?m.removeAttribute('inert'):m.setAttribute('inert','');
+    document.body.classList.toggle('menu-open',open);
+  }
+  t.addEventListener('click',()=>set(!m.classList.contains('is-open')));
+  m.addEventListener('click',e=>{if(e.target===m||e.target.tagName==='A')set(false)});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')set(false)});
+  matchMedia('(min-width:901px)').addEventListener('change',e=>{if(e.matches)set(false)});
+})();
+// ===== แถบผลงาน: ปุ่มเลื่อนซ้าย/ขวา =====
+document.querySelectorAll('.strip-ctrl button').forEach(b=>b.addEventListener('click',()=>{
+  const s=document.getElementById('work');s.scrollBy({left:+b.dataset.dir*(s.firstElementChild.offsetWidth+16),behavior:'smooth'});
+}));
+// ===== FAQ: เปิดได้ทีละข้อ =====
+document.querySelectorAll('.qa details').forEach(d=>d.addEventListener('toggle',()=>{
+  if(d.open)document.querySelectorAll('.qa details').forEach(o=>{if(o!==d)o.open=false});
+}));
+// ===== Scroll reveal: ค่อย ๆ โผล่เมื่อเลื่อนมาถึง (ถ้าไม่มี IntersectionObserver ให้แสดงทันที) =====
+(function(){
+  const els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return}
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+  els.forEach(e=>io.observe(e));
+})();
+
+// ===== ผลงาน: เอียง 3D + แสงสะท้อนตามเมาส์ =====
+(function(){
+  const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  document.querySelectorAll('.work').forEach(w=>{
+    const g=document.createElement('span');g.className='glare';w.appendChild(g);
+    if(!fine||reduce)return;
+    w.addEventListener('mousemove',e=>{
+      const r=w.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+      w.style.transform=`rotateY(${(x-.5)*14}deg) rotateX(${(.5-y)*14}deg) translateZ(20px)`;
+      w.style.setProperty('--gx',x*100+'%');w.style.setProperty('--gy',y*100+'%');
+    });
+    w.addEventListener('mouseleave',()=>{w.style.transform=''});
+  });
+  // ===== เคอร์เซอร์วงกลม + ลากเพื่อเลื่อน =====
+  const s=document.getElementById('work'),c=document.getElementById('cursor'),bar=document.getElementById('stripBar');
+  const upd=()=>{const max=s.scrollWidth-s.clientWidth;bar.style.transform=`scaleX(${max>0?Math.max(.08,(s.scrollLeft+s.clientWidth)/s.scrollWidth):1})`};
+  s.addEventListener('scroll',upd,{passive:true});upd();
+  if(!fine)return;
+  let down=false,sx=0,sl=0,moved=false;
+  s.addEventListener('mouseenter',()=>c.classList.add('show'));
+  s.addEventListener('mouseleave',()=>{c.classList.remove('show');down=false;s.classList.remove('dragging')});
+  s.addEventListener('mousemove',e=>{
+    c.style.left=e.clientX+'px';c.style.top=e.clientY+'px';
+    c.textContent=e.target.closest('.work')?'ดู':'ลาก';
+    if(down){const dx=e.clientX-sx;if(Math.abs(dx)>4)moved=true;s.scrollLeft=sl-dx}
+  });
+  s.addEventListener('mousedown',e=>{down=true;moved=false;sx=e.clientX;sl=s.scrollLeft;s.classList.add('dragging');c.classList.add('press');e.preventDefault()});
+  window.addEventListener('mouseup',()=>{down=false;s.classList.remove('dragging');c.classList.remove('press')});
+  s.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation()}},true); // ลากแล้วไม่นับเป็นคลิก
+})();
+// ===== คลิก: ripple ในปุ่ม/การ์ด + วงแหวนตรงจุดคลิก =====
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  document.addEventListener('pointerdown',e=>{
+    const ring=document.createElement('span');ring.className='click-ring';
+    ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';document.body.appendChild(ring);
+    ring.addEventListener('animationend',()=>ring.remove());
+    const t=e.target.closest('.btn,.work,.nav__links a,.qa summary,.rows a');if(!t)return;
+    const r=t.getBoundingClientRect(),d=Math.max(r.width,r.height)*2.2,rp=document.createElement('span');
+    rp.className='ripple';rp.style.width=rp.style.height=d+'px';
+    rp.style.left=(e.clientX-r.left-d/2)+'px';rp.style.top=(e.clientY-r.top-d/2)+'px';
+    t.appendChild(rp);rp.addEventListener('animationend',()=>rp.remove());
+  });
+})();
+/* Test cases (ลูกเล่นใหม่):
+   A) Hover การ์ดผลงาน → การ์ดเอียงตามเมาส์, การ์ดอื่นจาง, ข้อความ "ดูผลงาน →" โผล่
+   B) ลากเมาส์ในแถบผลงาน → #work.scrollLeft เปลี่ยน, แถบ progress ยาวขึ้น, ไม่เปิดลิงก์
+   C) คลิกปุ่มใดก็ได้ → มี .ripple ในปุ่ม และ .click-ring ที่จุดคลิก แล้วหายเองหลัง ~0.7 วิ */
+/* Test cases:
+   0) Hover เมนู → สีเปลี่ยนเป็นฟ้าอ่อน + เส้นใต้วิ่ง; Hover "คุยกับเรา" → พื้นขาวกวาด ตัวอักษรกรมท่า
+   1) จอ <900px กด hamburger → #mobileMenu มี class is-open, กด Esc → ปิด
+   2) กดปุ่ม → ที่แถบผลงาน → #work.scrollLeft เพิ่มขึ้น
+   3) เปิด FAQ ข้อ 2 → ข้อ 1 ต้องปิดอัตโนมัติ (มี details[open] แค่ 1 อัน)
+   4) document.documentElement.scrollWidth === innerWidth (ไม่มี scroll แนวนอน) */
+</script>
+</body>
+</html>
