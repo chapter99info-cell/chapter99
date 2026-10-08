@@ -14,6 +14,7 @@ import { BusinessToolkitPage } from './pages/BusinessToolkitPage'
 import SiteHomePage from './site/HomePage'
 import { SitePricingPage } from './pages/SitePricingPage'
 import { NotFoundPage } from './pages/NotFoundPage'
+import './site/theme-navy.css' // ธีมกรมท่า — ต้องอยู่หลัง import หน้าอื่น ๆ
 
 export default function App() {
   return (

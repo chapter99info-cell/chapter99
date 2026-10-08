@@ -1,0 +1,20 @@
+/* =========================================================
+   Chapter99 — ธีม ขาว-ดำ-น้ำเงินกรมท่า (ให้ทุกหน้าเข้ากับหน้าแรกใหม่ /mockup/)
+   - โหลดเป็นไฟล์สุดท้าย (import ท้าย App.tsx) จึงทับสไตล์เดิมได้
+   - เปลี่ยนแค่ฟอนต์ / สี / มุมปุ่ม ไม่แตะ layout หรือ logic
+   ========================================================= */
+:root{
+  --c99-navy:#0B1F3A;--c99-navy-2:#13294B;--c99-ink:#0A0A0A;--c99-mist:#F3F5F8;--c99-sky:#9CC4FF;
+  --navy:#0B1F3A;--navy2:#13294B;--blue:#0B1F3A;--blue2:#13294B;--ink:#0B1220;--soft:#F3F5F8;--line:#E3E7ED;
+}
+body{font-family:"IBM Plex Sans Thai","Sora",system-ui,sans-serif}
+h1,h2,h3,.brand strong{font-family:"Kanit","IBM Plex Sans Thai",sans-serif;letter-spacing:-.01em}
+/* ปุ่มหลัก: มุมเหลี่ยม ตัวหนา อ่านง่าย */
+.navcta,.btn,.site-v2 .navcta,.header-cta-ghost,.drawer-cta-ghost{border-radius:0!important;font-weight:600}
+.navcta{transition:background .35s,color .35s,box-shadow .35s,transform .35s}
+.navcta:hover{background:#fff!important;color:var(--c99-navy)!important;box-shadow:0 10px 30px -8px rgba(127,178,255,.55);transform:translateY(-2px)}
+/* เมนูบนสุด: เส้นใต้สีฟ้าอ่อนตอนชี้ */
+.navlinks a{position:relative}
+.navlinks a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:linear-gradient(90deg,#7FB2FF,var(--c99-navy));transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.navlinks a:hover::after,.navlinks a.is-active::after{transform:scaleX(1)}
+::selection{background:var(--c99-navy);color:#fff}

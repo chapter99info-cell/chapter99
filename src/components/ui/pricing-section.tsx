@@ -42,7 +42,7 @@ function PricingSwitch({
 
   return (
     <div className="flex justify-center">
-      <div className="relative z-10 mx-auto flex w-fit rounded-full border border-[#d7e6dc] bg-[#f7fbf8] p-1">
+      <div className="relative z-10 mx-auto flex w-fit rounded-full border border-[#dde3eb] bg-[#f7f8fa] p-1">
         <button
           type="button"
           onClick={() => handleSwitch('0')}
@@ -53,7 +53,7 @@ function PricingSwitch({
           {selected === '0' ? (
             <motion.span
               layoutId={layoutId}
-              className="absolute left-0 top-0 h-10 w-full rounded-full border-4 border-[#086344] bg-gradient-to-t from-[#06462f] via-[#0b704c] to-[#086344] shadow-sm shadow-[#086344]/40 sm:h-12"
+              className="absolute left-0 top-0 h-10 w-full rounded-full border-4 border-[#0b1f3a] bg-gradient-to-t from-[#0b1f3a] via-[#1d3a66] to-[#0b1f3a] shadow-sm shadow-[#0b1f3a]/40 sm:h-12"
               transition={{ type: 'spring', stiffness: 500, damping: 30 }}
             />
           ) : null}
@@ -69,14 +69,14 @@ function PricingSwitch({
           {selected === '1' ? (
             <motion.span
               layoutId={layoutId}
-              className="absolute left-0 top-0 h-10 w-full rounded-full border-4 border-[#086344] bg-gradient-to-t from-[#06462f] via-[#0b704c] to-[#086344] shadow-sm shadow-[#086344]/40 sm:h-12"
+              className="absolute left-0 top-0 h-10 w-full rounded-full border-4 border-[#0b1f3a] bg-gradient-to-t from-[#0b1f3a] via-[#1d3a66] to-[#0b1f3a] shadow-sm shadow-[#0b1f3a]/40 sm:h-12"
               transition={{ type: 'spring', stiffness: 500, damping: 30 }}
             />
           ) : null}
           <span className="relative flex items-center gap-2">
             {rightLabel}
             {saveLabel ? (
-              <span className="rounded-full bg-[#edf5f0] px-2 py-0.5 text-xs font-medium text-[#102b23]">
+              <span className="rounded-full bg-[#f3f5f8] px-2 py-0.5 text-xs font-medium text-[#0b1220]">
                 {saveLabel}
               </span>
             ) : null}
@@ -132,7 +132,7 @@ export default function PricingSection({
       <div
         className="pointer-events-none absolute left-[10%] right-[10%] top-0 z-0 h-full w-[80%]"
         style={{
-          backgroundImage: 'radial-gradient(circle at center, #086344 0%, transparent 70%)',
+          backgroundImage: 'radial-gradient(circle at center, #0b1f3a 0%, transparent 70%)',
           opacity: 0.12,
         }}
       />
@@ -144,7 +144,7 @@ export default function PricingSection({
             animationNum={0}
             timelineRef={pricingRef}
             customVariants={revealVariants}
-            className="mb-4 text-3xl font-medium text-[#102b23] sm:text-4xl md:text-5xl"
+            className="mb-4 text-3xl font-medium text-[#0b1220] sm:text-4xl md:text-5xl"
           >
             {heading}
           </TimelineContent>
@@ -154,7 +154,7 @@ export default function PricingSection({
               animationNum={1}
               timelineRef={pricingRef}
               customVariants={revealVariants}
-              className="mx-auto w-[90%] text-sm text-[#5d6864] sm:text-base"
+              className="mx-auto w-[90%] text-sm text-[#4a5160] sm:text-base"
             >
               {subheading}
             </TimelineContent>
@@ -193,24 +193,24 @@ export default function PricingSection({
             customVariants={revealVariants}
           >
             <Card
-              className={`relative h-full rounded-2xl border-[#e5eae7] shadow-sm ${
-                plan.popular ? 'bg-[#edf5f0] ring-2 ring-[#086344]' : 'bg-white'
+              className={`relative h-full rounded-2xl border-[#e3e7ed] shadow-sm ${
+                plan.popular ? 'bg-[#f3f5f8] ring-2 ring-[#0b1f3a]' : 'bg-white'
               }`}
             >
               <CardHeader className="text-left">
                 <div className="flex justify-between gap-3">
-                  <h3 className="mb-2 text-2xl font-semibold text-[#102b23] sm:text-3xl">
+                  <h3 className="mb-2 text-2xl font-semibold text-[#0b1220] sm:text-3xl">
                     {plan.name}
                   </h3>
                 </div>
-                <p className="mb-4 text-sm text-[#5d6864]">{plan.description}</p>
+                <p className="mb-4 text-sm text-[#4a5160]">{plan.description}</p>
                 <div className="flex items-baseline">
                   {plan.priceDisplay ? (
-                    <span className="text-xl font-semibold leading-snug text-[#102b23] sm:text-2xl">
+                    <span className="text-xl font-semibold leading-snug text-[#0b1220] sm:text-2xl">
                       {plan.priceDisplay}
                     </span>
                   ) : (
-                    <span className="text-4xl font-semibold text-[#102b23]">
+                    <span className="text-4xl font-semibold text-[#0b1220]">
                       {prefix}
                       <NumberFlow
                         value={isYearly ? plan.yearlyPrice : plan.price}
@@ -219,7 +219,7 @@ export default function PricingSection({
                     </span>
                   )}
                   {plan.periodLabel || !plan.priceDisplay ? (
-                    <span className="ml-1 text-[#5d6864]">
+                    <span className="ml-1 text-[#4a5160]">
                       {plan.periodLabel ?? `/${isYearly ? rightPeriod : leftPeriod}`}
                     </span>
                   ) : null}
@@ -230,8 +230,8 @@ export default function PricingSection({
                   href={plan.buttonHref}
                   className={`mb-6 block w-full rounded-xl p-4 text-center text-lg !text-white ${
                     plan.popular || plan.buttonVariant === 'default'
-                      ? 'border border-[#0b704c] bg-gradient-to-t from-[#06462f] to-[#0b704c] shadow-lg shadow-[#086344]/30'
-                      : 'border border-[#1b3d32] bg-gradient-to-t from-[#102b23] to-[#1b3d32] shadow-lg shadow-[#102b23]/20'
+                      ? 'border border-[#1d3a66] bg-gradient-to-t from-[#0b1f3a] to-[#1d3a66] shadow-lg shadow-[#0b1f3a]/30'
+                      : 'border border-[#13294b] bg-gradient-to-t from-[#0b1220] to-[#13294b] shadow-lg shadow-[#0b1220]/20'
                   }`}
                 >
                   {plan.buttonText}
@@ -239,23 +239,23 @@ export default function PricingSection({
                 <ul className="space-y-2 py-5 font-semibold">
                   {plan.features.map((feature) => (
                     <li key={feature.text} className="flex items-start">
-                      <span className="mr-3 mt-0.5 grid place-content-center text-[#086344]">
+                      <span className="mr-3 mt-0.5 grid place-content-center text-[#0b1f3a]">
                         {feature.icon}
                       </span>
-                      <span className="text-sm font-normal text-[#5d6864]">{feature.text}</span>
+                      <span className="text-sm font-normal text-[#4a5160]">{feature.text}</span>
                     </li>
                   ))}
                 </ul>
                 {plan.includes.length > 1 ? (
-                  <div className="space-y-3 border-t border-[#e5eae7] pt-4">
-                    <h4 className="mb-3 text-base font-medium text-[#102b23]">{plan.includes[0]}</h4>
+                  <div className="space-y-3 border-t border-[#e3e7ed] pt-4">
+                    <h4 className="mb-3 text-base font-medium text-[#0b1220]">{plan.includes[0]}</h4>
                     <ul className="space-y-2 font-semibold">
                       {plan.includes.slice(1).map((feature) => (
                         <li key={feature} className="flex items-start">
-                          <span className="mr-3 mt-0.5 grid h-6 w-6 flex-shrink-0 place-content-center rounded-full border border-[#086344] bg-[#edf5f0]">
-                            <CheckCheck className="h-4 w-4 text-[#086344]" />
+                          <span className="mr-3 mt-0.5 grid h-6 w-6 flex-shrink-0 place-content-center rounded-full border border-[#0b1f3a] bg-[#f3f5f8]">
+                            <CheckCheck className="h-4 w-4 text-[#0b1f3a]" />
                           </span>
-                          <span className="text-sm font-normal text-[#5d6864]">{feature}</span>
+                          <span className="text-sm font-normal text-[#4a5160]">{feature}</span>
                         </li>
                       ))}
                     </ul>
