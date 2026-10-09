@@ -117,6 +117,13 @@ export function PhotographyPage() {
     document.title = sales
       ? 'Photography & AI Creative | Chapter99'
       : 'Photography layout (not for sale) | Chapter99'
+    let robots = document.querySelector('meta[name="robots"]')
+    if (!robots) {
+      robots = document.createElement('meta')
+      robots.setAttribute('name', 'robots')
+      document.head.appendChild(robots)
+    }
+    robots.setAttribute('content', sales ? 'index,follow' : 'noindex,nofollow')
     const el = document.createElement('link')
     el.rel = 'stylesheet'
     el.href = FONT
