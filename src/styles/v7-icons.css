@@ -1,0 +1,82 @@
+.v7-icon-tile {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 16px;
+  background: #0a0f1a;
+  border-radius: 14px;
+  min-width: 140px;
+  text-align: center;
+}
+.v7-icon-tile img {
+  width: 56px;
+  height: 56px;
+  min-width: 48px;
+  min-height: 48px;
+  object-fit: contain;
+}
+.v7-icon-tile figcaption {
+  font-family: "IBM Plex Sans Thai", Kanit, sans-serif;
+  font-size: 18px;
+  line-height: 1.35;
+  color: #fbf7ee;
+}
+.v7-icons-test {
+  min-height: 100vh;
+  background: #fbf7ee;
+  color: #0a0f1a;
+  padding: 32px 20px 64px;
+  font-family: "IBM Plex Sans Thai", sans-serif;
+}
+.v7-icons-test h1 {
+  font-family: Anton, Impact, sans-serif;
+  font-size: clamp(32px, 6vw, 48px);
+  text-transform: uppercase;
+  margin: 0 0 8px;
+}
+.v7-icons-test > p {
+  font-size: 18px;
+  margin: 0 0 24px;
+}
+.v7-icons-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 24px;
+}
+.v7-icons-toggle button {
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 2px solid #0a0f1a;
+  background: #fff;
+  color: #0a0f1a;
+  font-family: "IBM Plex Sans Thai", sans-serif;
+  font-size: 18px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.v7-icons-toggle button[aria-pressed='true'] {
+  background: #0a0f1a;
+  color: #e8b54a;
+}
+.v7-icons-compare {
+  display: grid;
+  gap: 28px;
+}
+.v7-icons-compare h2 {
+  font-family: Anton, Impact, sans-serif;
+  font-size: 28px;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+.v7-icons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+  max-width: 960px;
+}
+.v7-icons-test a {
+  color: #8a5a00;
+}

@@ -9,6 +9,7 @@ import { BeautyPage } from './pages/BeautyPage'
 import { CleaningPage } from './pages/CleaningPage'
 import { MassagePage } from './pages/MassagePage'
 import { PhotographyPage } from './pages/PhotographyPage'
+import { V7IconsTestPage } from './pages/V7IconsTestPage'
 import { RestaurantsPage } from './pages/RestaurantsPage'
 import { WorkPage } from './pages/WorkPage'
 import { BusinessToolkitPage } from './pages/BusinessToolkitPage'
@@ -31,6 +32,7 @@ export default function App() {
           </Suspense>
         }
       />
+      <Route path="/v7/icons-test" element={<V7IconsTestPage />} />
       <Route path="/pricing" element={<SitePricingPage />} />
       <Route path="/business-toolkit" element={<BusinessToolkitPage />} />
       <Route path="/about" element={<AboutPage />} />

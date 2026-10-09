@@ -55,6 +55,9 @@ export function Footer() {
         <div className="fbar">
           <span>© 2026 Chapter99</span>
           <span>
+            <a href="https://icons8.com" rel="noopener noreferrer">
+              Icons by Icons8
+            </a>
             <a href="/legal/privacy">Privacy Policy</a>
             <a href="/legal/terms">Terms</a>
           </span>

@@ -1,0 +1,31 @@
+{
+  "color": "#E8B54A",
+  "license": "Free PNG — attribution required: https://icons8.com",
+  "line": {
+    "style": "Icons8 iOS line (ios7)",
+    "icons": [
+      { "file": "website.png", "id": "1349", "slug": "domain" },
+      { "file": "online-booking.png", "id": "23", "slug": "calendar" },
+      { "file": "food-ordering.png", "id": "611", "slug": "restaurant" },
+      { "file": "photography.png", "id": "5376", "slug": "camera" },
+      { "file": "video-reels.png", "id": "35090", "slug": "video" },
+      { "file": "payment-square.png", "id": "22128", "slug": "bank-card-back-side" },
+      { "file": "support-chat.png", "id": "3726", "slug": "chat" },
+      { "file": "mobile-phone.png", "id": "11409", "slug": "smartphone" }
+    ]
+  },
+  "filled": {
+    "style": "Icons8 iOS Filled (ios_filled / ios-glyphs)",
+    "dir": "filled/",
+    "icons": [
+      { "file": "website.png", "id": "9918", "slug": "domain" },
+      { "file": "online-booking.png", "id": "10053", "slug": "calendar" },
+      { "file": "food-ordering.png", "id": "8694", "slug": "restaurant" },
+      { "file": "photography.png", "id": "7211", "slug": "camera" },
+      { "file": "video-reels.png", "id": "106753", "slug": "video" },
+      { "file": "payment-square.png", "id": "22185", "slug": "bank-card-back-side" },
+      { "file": "support-chat.png", "id": "7859", "slug": "chat" },
+      { "file": "mobile-phone.png", "id": "11474", "slug": "smartphone" }
+    ]
+  }
+}
