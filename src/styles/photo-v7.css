@@ -467,6 +467,67 @@
   align-items: center;
   margin-left: 16px;
 }
+.photo-v7 .notice {
+  position: relative;
+  z-index: 2;
+  background: #fff8e8;
+  color: var(--ink);
+  border-bottom: 2px solid var(--gold);
+  padding: 12px var(--gutter);
+  font-family: var(--f-th);
+  font-size: 16px;
+  text-align: center;
+}
+.photo-v7 .slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 22px;
+}
+.photo-v7 .slot {
+  min-height: 160px;
+  border: 1.5px dashed var(--line);
+  border-radius: 12px;
+  background: repeating-linear-gradient(135deg, #f4f0e6 0 12px, #efe9db 12px 24px);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.photo-v7 .slot b {
+  font-family: var(--f-th);
+  font-size: 16px;
+}
+.photo-v7 .slot span {
+  font-size: 14px;
+  color: var(--dim);
+}
+.photo-v7 .slot .badge {
+  position: static;
+  width: fit-content;
+}
+.photo-v7 .shot-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 16px;
+}
+.photo-v7 .shot-table th,
+.photo-v7 .shot-table td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.photo-v7 .shot-table th {
+  font-family: var(--f-th);
+  font-size: 14px;
+}
+.photo-v7 .muted-price {
+  opacity: 0.55;
+  pointer-events: none;
+}
 @media (max-width: 1000px) {
   .photo-v7 .menu {
     display: none;
@@ -474,6 +535,7 @@
   .photo-v7 .cards,
   .photo-v7 .xplans,
   .photo-v7 .why,
+  .photo-v7 .slots,
   .photo-v7 .masonry {
     grid-template-columns: 1fr 1fr;
     columns: 2;
@@ -489,7 +551,8 @@
   }
   .photo-v7 .cards,
   .photo-v7 .xplans,
-  .photo-v7 .why {
+  .photo-v7 .why,
+  .photo-v7 .slots {
     grid-template-columns: 1fr;
   }
   .photo-v7 .masonry {

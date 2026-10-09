@@ -1,6 +1,10 @@
 # Approved photography portfolio
 
-Only files listed here with `permission.approved: true` appear on `/photography`.
+# Approved photography portfolio
+
+`/photography` is a **sales page only** when `manifest.json` has at least one REAL PHOTO with `permission.approved: true`. Until then the route is a layout + required-shot list. Never fake work.
+
+Only files listed here with `permission.approved: true` appear as real photos.
 
 Do not copy images from other folders automatically.
 

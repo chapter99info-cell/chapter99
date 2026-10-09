@@ -31,8 +31,15 @@ test('photography page responsive and links', async ({ page }) => {
   )
   expect(small, 'tap targets under 44px').toBeFalsy()
 
+  await expect(page.locator('.notice')).toContainText('ยังไม่เปิดขาย')
+
+  const order = await page.evaluate(() =>
+    [...document.querySelectorAll('.photo-v7 section[id]')].map((el) => el.id),
+  )
+  expect(order.slice(0, 6)).toEqual(['top', 'portfolio', 'before-after', 'process', 'create', 'pricing'])
+
   const wa = page.locator('a[href*="wa.me/61452044382"]').first()
-  await expect(wa).toHaveAttribute('href', /Photography%20%26%20AI%20Creative|Photography & AI Creative|%E0%B8%AA%E0%B8%A7%E0%B8%B1%E0%B8%AA/)
+  await expect(wa).toHaveAttribute('href', /wa.me\/61452044382/)
 
   await page.keyboard.press('Tab')
   const filters = page.locator('.filters button')

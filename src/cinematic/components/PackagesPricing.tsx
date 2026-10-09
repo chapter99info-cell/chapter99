@@ -195,7 +195,7 @@ export function PackagesPricing() {
           <p className="rate-note">{t(selected.note)}</p>
           {pack === 'photo' ? (
             <p className="rate-note">
-              <Link to="/photography">ดูหน้า Photography & AI Creative →</Link>
+              <Link to="/photography">ดูหน้า Photography (เลย์เอาต์ — ยังไม่เปิดขายจนกว่าจะมีภาพที่อนุญาต) →</Link>
             </p>
           ) : null}
         </section>
