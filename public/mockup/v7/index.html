@@ -249,15 +249,7 @@ footer .fgrid a:hover{color:var(--gold)}
 .dmodal{position:fixed;inset:0;z-index:80;background:rgba(10,15,26,.82);backdrop-filter:blur(6px);display:grid;place-items:center;padding:16px}
 .dmodal[hidden]{display:none}
 .dphone{position:relative;width:min(390px,100%);height:min(780px,92vh);background:#111;border-radius:40px;padding:12px;box-shadow:0 40px 80px -20px #000}
-.dphone iframe,.dfood{width:100%;height:100%;border:0;border-radius:30px;background:#fff;display:none}
-.dphone iframe.show,.dfood.show{display:flex;flex-direction:column}
-.dfood{overflow:hidden;position:relative}
-.dfood img{width:100%;flex:1;object-fit:cover;object-position:top}
-.dfood__badge{position:absolute;left:12px;top:12px;background:#111;color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:6px}
-.dfood__nav{display:flex;align-items:center;justify-content:center;gap:12px;padding:8px;background:#FBF7EE}
-.dfood__nav button{width:44px;height:44px;border-radius:8px;border:1px solid #e7e1d3;background:#fff;font-size:22px}
-.dfood__note{margin:0;padding:0 12px 8px;font-size:14px;color:#5a5f6b;text-align:center;background:#FBF7EE}
-.dfood__open{display:flex;align-items:center;justify-content:center;min-height:48px;margin:0 12px 12px;border-radius:8px;background:var(--gold);color:var(--ink);font-weight:600;text-decoration:none}
+.dphone iframe{width:100%;height:100%;border:0;border-radius:30px;background:#fff}
 .dclose{position:absolute;right:-10px;top:-10px;width:44px;height:44px;border-radius:50%;border:0;background:var(--gold);font-size:18px;cursor:pointer}
 @media (max-width:1000px){.trust3{grid-template-columns:1fr}}
 @media (max-width:640px){
@@ -381,10 +373,10 @@ footer .fgrid a:hover{color:var(--gold)}
         <span class="kicker"><img src="/mockup/media/web/logo.webp" alt="">Massage shops</span>
         <h2 class="th2" style="margin-top:12px">สำหรับร้านนวดไทย<br>ในออสเตรเลีย</h2>
         <p class="sub">มีเว็บร้าน ลูกค้าจองเองได้ ลดงานตอบแชท — ไม่ต้องเก่งคอม</p>
-        <div class="row"><a class="btn btn--gold" href="#" data-demo="demo-booking.html">▶ ลองจองคิว (เดโม)</a><a class="btn btn--outline" href="#" data-demo="food-app">ลองสั่งอาหาร (เดโม)</a></div>
+        <div class="row"><a class="btn btn--gold" href="#" data-demo="demo-booking.html">▶ ลองจองคิว (เดโม)</a><a class="btn btn--outline" href="#" data-demo="demo-order.html">ลองสั่งอาหาร (เดโม)</a></div>
       </div>
       <div class="devices rv">
-        <span class="demo-tag">ระบบจริงของร้าน Thai Garlic</span><button class="tryme" data-demo="demo-booking.html" aria-label="ลองกดเว็บตัวอย่าง">▶ ลองกดดู</button>
+        <span class="demo-tag">DEMO</span><button class="tryme" data-demo="demo-booking.html" aria-label="ลองกดเว็บตัวอย่าง">▶ ลองกดดู</button>
         <div class="laptop"><div class="laptop__screen"><img src="/mockup/media/web/demo-desk.webp" alt="ตัวอย่างเว็บร้านนวด (demo)"></div><div class="laptop__base"></div></div>
         <div class="phone"><img src="/mockup/media/web/demo-phone.webp" alt="ตัวอย่างเว็บร้านนวดบนมือถือ (demo)"></div>
       </div>
@@ -537,7 +529,7 @@ footer .fgrid a:hover{color:var(--gold)}
   <a href="mailto:chapter99solutions@gmail.com"><i>📧</i><span><b>อีเมล</b>chapter99solutions@gmail.com</span>›</a>
 </div>
 <!-- Demo modal -->
-<div class="dmodal" id="dmodal" hidden><div class="dphone"><div class="dtabs"><button data-src="demo-booking.html" class="on">จองคิว · ร้านนวด</button><button data-src="food-app">สั่งอาหาร · ร้านอาหาร</button></div><button class="dclose" aria-label="ปิด">✕</button><iframe title="เดโม" loading="lazy"></iframe><div class="dfood" id="dfood"><span class="dfood__badge">ระบบจริงของร้าน Thai Garlic</span><img id="dfood-shot" src="/mockup/media/web/app-food-01.webp" alt="แอปสั่งอาหารจริง ร้านตัวอย่าง"><div class="dfood__nav"><button type="button" id="dfood-prev" aria-label="ภาพก่อนหน้า">‹</button><span id="dfood-idx">1 / 3</span><button type="button" id="dfood-next" aria-label="ภาพถัดไป">›</button></div><p class="dfood__note">ดูหน้าตาแอป — กรุณาอย่ากดสั่งจริง</p><a class="dfood__open" href="https://thai-garlic.chapter99info.com/menu?channel=takeaway&shop=thai-garlic" target="_blank" rel="noopener">เปิดดูแอปจริงของร้าน Thai Garlic</a></div></div></div>
+<div class="dmodal" id="dmodal" hidden><div class="dphone"><div class="dtabs"><button data-src="demo-booking.html" class="on">จองคิว · ร้านนวด</button><button data-src="demo-order.html">สั่งอาหาร · ร้านอาหาร</button></div><button class="dclose" aria-label="ปิด">✕</button><iframe title="เดโม" loading="lazy"></iframe></div></div>
 
 <script>
 // Scroll reveal: ค่อย ๆ โผล่เมื่อเลื่อนถึง (ไม่มี IntersectionObserver → แสดงทันที)
@@ -560,19 +552,9 @@ document.querySelectorAll('.qa details').forEach(d=>d.addEventListener('toggle',
   fab.onclick=()=>{const o=pn.hidden;pn.hidden=!o;fab.setAttribute('aria-expanded',o)};
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){close();closeDemo()}});
   // ===== Demo modal: โหลด iframe ตอนกดเท่านั้น (ไม่ถ่วงหน้าแรก) =====
-  const m=document.getElementById('dmodal'),f=m.querySelector('iframe'),food=document.getElementById('dfood');
-  const shots=['/mockup/media/web/app-food-01.webp','/mockup/media/web/app-food-02.webp','/mockup/media/web/app-food-03.webp'];
-  let si=0;const img=document.getElementById('dfood-shot'),idx=document.getElementById('dfood-idx');
-  function showShot(){img.src=shots[si];idx.textContent=(si+1)+' / '+shots.length}
-  document.getElementById('dfood-prev').onclick=()=>{si=(si+shots.length-1)%shots.length;showShot()};
-  document.getElementById('dfood-next').onclick=()=>{si=(si+1)%shots.length;showShot()};
+  const m=document.getElementById('dmodal'),f=m.querySelector('iframe');
   const tabs=m.querySelectorAll('.dtabs button');
-  function load(src){
-    const isFood=src==='food-app';
-    f.classList.toggle('show',!isFood);food.classList.toggle('show',isFood);
-    if(!isFood){f.src=src}else{f.removeAttribute('src');showShot()}
-    tabs.forEach(t=>t.classList.toggle('on',t.dataset.src===src));
-  }
+  function load(src){f.src=src;tabs.forEach(t=>t.classList.toggle('on',t.dataset.src===src))}
   tabs.forEach(t=>t.onclick=()=>load(t.dataset.src));
   document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();load(b.dataset.demo||'demo-booking.html');m.hidden=false;document.body.style.overflow='hidden'}));
   function closeDemo(){m.hidden=true;document.body.style.overflow=''}

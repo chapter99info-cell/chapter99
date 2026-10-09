@@ -22,7 +22,7 @@ export function MassageDemo({ onOpenDemo }: Props) {
               <button type="button" className="btn btn--gold" onClick={() => onOpenDemo('/demo/demo-booking.html')}>
                 ▶ ลองจองคิว (เดโม)
               </button>
-              <button type="button" className="btn btn--outline" onClick={() => onOpenDemo('food-app')}>
+              <button type="button" className="btn btn--outline" onClick={() => onOpenDemo('/demo/demo-order.html')}>
                 ลองสั่งอาหาร (เดโม)
               </button>
             </div>
