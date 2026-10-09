@@ -1,3 +1,6 @@
+import { pricing } from '../../content/pricing'
+import { v7Copy } from '../../content/v7'
+
 export function Pricing() {
   return (
     <section className="sec dark" id="packages">
@@ -14,14 +17,15 @@ export function Pricing() {
               <span className="badge">อยากมีเว็บไซต์</span>
             </div>
             <div className="amt">
-              <b>A$199</b>
-              <span>+ A$19 / เดือน</span>
+              <b>{pricing.starter.setup}</b>
+              <span>+ {pricing.starter.monthly} / เดือน</span>
             </div>
             <div className="amt-note">ค่าตั้งค่าครั้งแรก</div>
             <ul>
               <li>เว็บไซต์ร้านแบบมือถือ</li>
               <li>บริการ / เมนู / ราคา</li>
               <li>ข้อมูลติดต่อ แผนที่</li>
+              <li>{v7Copy.th.starterNoBooking}</li>
             </ul>
             <a className="btn btn--dark" href="mailto:chapter99solutions@gmail.com?subject=Chapter99%20Starter">
               เลือก Starter →
@@ -33,8 +37,8 @@ export function Pricing() {
               <span className="badge">แนะนำ</span>
             </div>
             <div className="amt">
-              <b>A$499</b>
-              <span>+ A$49 / เดือน</span>
+              <b>{pricing.professional.setup}</b>
+              <span>+ {pricing.professional.monthly} / เดือน</span>
             </div>
             <div className="amt-note">ค่าตั้งค่าครั้งแรก</div>
             <ul>
@@ -64,13 +68,13 @@ export function Pricing() {
         <div className="xaddon rv">
           <span className="xtag">บริการเสริม · ไม่บังคับ — ไม่รวมในราคาแพ็กเกจ</span>
           <span>
-            ถ่ายภาพร้าน <b>A$349</b>
+            ถ่ายภาพร้าน <b>{pricing.addons.photography.price}</b>
           </span>
           <span>
-            วิดีโอ Reels <b>A$349</b>
+            วิดีโอ Reels <b>{pricing.addons.reels.price}</b>
           </span>
           <span>
-            Square Setup <b>A$199</b> ครั้งเดียว
+            Square Setup <b>{pricing.addons.square.price}</b> ครั้งเดียว
           </span>
           <a href="/pricing">ดูขอบเขตงาน →</a>
         </div>

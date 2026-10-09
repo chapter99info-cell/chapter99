@@ -6,11 +6,11 @@ import { Footer } from '../components/home-v7/Footer'
 import { Hero } from '../components/home-v7/Hero'
 import { HowSteps } from '../components/home-v7/HowSteps'
 import { MassageDemo } from '../components/home-v7/MassageDemo'
-import { MeetTeam } from '../components/home-v7/MeetTeam'
 import { OtherShops } from '../components/home-v7/OtherShops'
 import { Pricing } from '../components/home-v7/Pricing'
 import { StickyContact } from '../components/home-v7/StickyContact'
 import { TrustFaq } from '../components/home-v7/TrustFaq'
+import { v7Copy } from '../content/v7'
 import '../styles/home-v7.css'
 
 const FONT_HREF =
@@ -37,6 +37,23 @@ export default function HomeV7() {
     add('preconnect', 'https://fonts.gstatic.com')
     add('stylesheet', FONT_HREF)
     add('stylesheet', HAND_HREF, { media: '(min-width:1001px)' })
+    document.title = v7Copy.seo.title
+    const desc = document.querySelector('meta[name="description"]')
+    if (desc) desc.setAttribute('content', v7Copy.seo.description)
+    let robots = document.querySelector('meta[name="robots"]')
+    if (!robots) {
+      robots = document.createElement('meta')
+      robots.setAttribute('name', 'robots')
+      document.head.appendChild(robots)
+    }
+    robots.setAttribute('content', 'noindex,nofollow')
+    let og = document.querySelector('meta[property="og:image"]')
+    if (!og) {
+      og = document.createElement('meta')
+      og.setAttribute('property', 'og:image')
+      document.head.appendChild(og)
+    }
+    og.setAttribute('content', '/mockup/media/web/cta-spa.webp')
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const els = document.querySelectorAll('.home-v7 .rv')
@@ -69,7 +86,7 @@ export default function HomeV7() {
       <MassageDemo onOpenDemo={setDemoSrc} />
       <OtherShops />
       <HowSteps />
-      <MeetTeam />
+      {/* TODO: MeetTeam when real team.webp + ABN exist */}
       <Pricing />
       <TrustFaq />
       <FinalCta />
