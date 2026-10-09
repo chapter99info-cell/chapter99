@@ -1,9 +1,12 @@
 import { pricing } from '../../content/pricing'
 import { v7Copy } from '../../content/v7'
 
+import { DecoLines } from './PressIcon'
+
 export function Pricing() {
   return (
     <section className="sec dark" id="packages">
+      <DecoLines />
       <div className="wrap">
         <span className="kicker">06 / PACKAGES</span>
         <h2 className="th2" style={{ marginTop: 12 }}>

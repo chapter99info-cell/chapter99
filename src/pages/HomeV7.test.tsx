@@ -6,7 +6,7 @@ import { v7Copy } from '../content/v7'
 import HomeV7 from './HomeV7'
 
 describe('/v7 homepage', () => {
-  it('renders hero, SOP prices, and WhatsApp', () => {
+  it('renders hero, SOP prices, SMS and Facebook inbox', () => {
     render(
       <MemoryRouter>
         <HomeV7 />
@@ -17,8 +17,10 @@ describe('/v7 homepage', () => {
     expect(screen.getByText(`+ ${pricing.starter.monthly} / เดือน`)).toBeInTheDocument()
     expect(screen.getByText(pricing.professional.setup)).toBeInTheDocument()
     expect(screen.getByText(`+ ${pricing.professional.monthly} / เดือน`)).toBeInTheDocument()
-    const wa = document.querySelector(`a[href^="${v7Copy.contact.whatsapp}"]`)
-    expect(wa).toBeTruthy()
+    expect(document.querySelector(`a[href="${v7Copy.contact.sms}"]`)).toBeTruthy()
+    expect(document.querySelector(`a[href="${v7Copy.contact.facebookInbox}"]`)).toBeTruthy()
     expect(screen.getByText(/ABN 81 951 461 769/)).toBeInTheDocument()
+    expect(document.body.innerHTML).not.toMatch(/wa\.me/i)
+    expect(document.body.textContent).not.toMatch(/WhatsApp/i)
   })
 })

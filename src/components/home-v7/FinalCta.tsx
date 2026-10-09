@@ -1,4 +1,4 @@
-import { WA } from './Hero'
+import { v7Copy } from '../../content/v7'
 
 export function FinalCta() {
   return (
@@ -12,11 +12,11 @@ export function FinalCta() {
         </h2>
         <p>ให้ Chapter99 ช่วยพาธุรกิจของคุณไปต่อ</p>
         <div className="final__cta">
-          <a className="btn btn--gold" href={WA}>
-            💬 คุยภาษาไทยผ่าน WhatsApp →
+          <a className="btn btn--gold" href={v7Copy.contact.facebookInbox} target="_blank" rel="noopener noreferrer">
+            {v7Copy.th.ctaTalk}
           </a>
           <a className="btn btn--line" href="#packages">
-            ดูแพ็กเกจ →
+            {v7Copy.th.ctaPackages}
           </a>
         </div>
       </div>

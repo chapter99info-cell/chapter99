@@ -1,12 +1,10 @@
 import { CalendarCheck, MessagesSquare, Smartphone, Timer } from 'lucide-react'
 import { v7Copy } from '../../content/v7'
-import { PressIcon } from './PressIcon'
+import { DecoLines, PressIcon } from './PressIcon'
 
 type HeroProps = {
   onOpenDemo?: (src: string) => void
 }
-
-const WA = `${v7Copy.contact.whatsapp}?text=${encodeURIComponent('สวัสดีครับ สนใจเว็บไซต์ร้าน (จากเว็บ Chapter99)')}`
 
 export function Hero(_props: HeroProps) {
   return (
@@ -27,6 +25,7 @@ export function Hero(_props: HeroProps) {
         <span className="bl" />
         <span className="br" />
       </div>
+      <DecoLines />
       <header className="nav">
         <div className="wrap">
           <a className="logo" href="#top">
@@ -39,7 +38,7 @@ export function Hero(_props: HeroProps) {
             <a href="#packages">ราคา</a>
             <a href="#faq">คำถาม</a>
           </nav>
-          <a className="btn btn--gold" href="#contact">
+          <a className="btn btn--gold" href={v7Copy.contact.facebookInbox} target="_blank" rel="noopener noreferrer">
             {v7Copy.th.ctaTalk}
           </a>
           <a className="burger" href="#packages" aria-label="ไปที่แพ็กเกจ">
@@ -54,11 +53,11 @@ export function Hero(_props: HeroProps) {
         </h1>
         <p className="lead2">{v7Copy.th.heroSub}</p>
         <div className="hero__cta">
-          <a className="btn btn--gold" href="#contact">
+          <a className="btn btn--gold" href={v7Copy.contact.facebookInbox} target="_blank" rel="noopener noreferrer">
             {v7Copy.th.ctaTalk}
           </a>
-          <a className="btn btn--line" href="/business-toolkit">
-            {v7Copy.th.ctaToolkit}
+          <a className="btn btn--line" href="#packages">
+            {v7Copy.th.ctaPackages}
           </a>
         </div>
       </div>
@@ -97,5 +96,3 @@ export function Hero(_props: HeroProps) {
     </section>
   )
 }
-
-export { WA }

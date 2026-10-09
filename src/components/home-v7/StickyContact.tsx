@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { WA } from './Hero'
+import { v7Copy } from '../../content/v7'
 
 type Props = { heroSelector?: string }
 
@@ -33,8 +33,11 @@ export function StickyContact({ heroSelector = '.home-v7 .hero' }: Props) {
   return (
     <>
       <div className="mbar" hidden={!visible}>
-        <a className="btn btn--gold" href={WA}>
-          คุยภาษาไทย (WhatsApp)
+        <a className="btn btn--gold" href={v7Copy.contact.sms}>
+          {v7Copy.th.ctaSms}
+        </a>
+        <a className="btn btn--line" href={v7Copy.contact.facebookInbox} target="_blank" rel="noopener noreferrer">
+          {v7Copy.th.ctaFacebook}
         </a>
       </div>
       <button
@@ -44,37 +47,41 @@ export function StickyContact({ heroSelector = '.home-v7 .hero' }: Props) {
         aria-controls="cpanel"
         onClick={() => setOpen((v) => !v)}
       >
-        <span className="fab__open">💬 คุยภาษาไทย</span>
+        <span className="fab__open">ทักแชท Facebook</span>
         <span className="fab__x">✕</span>
       </button>
       {open && visible ? (
         <div className="cpanel" id="cpanel" role="dialog" aria-label="ติดต่อเรา">
           <h4>ติดต่อเรา</h4>
-          <a href="tel:+61452044382">
+          <a href={v7Copy.contact.phoneHref}>
             <i>📞</i>
             <span>
-              <b>โทรหาเรา</b>0452 044 382
+              <b>โทรหาเรา</b>
+              {v7Copy.contact.phoneDisplay}
             </span>
             ›
           </a>
-          <a href={WA} className="wa">
+          <a href={v7Copy.contact.sms}>
             <i>💬</i>
             <span>
-              <b>WhatsApp</b>ทักภาษาไทยได้เลย
+              <b>{v7Copy.th.ctaSms}</b>
+              0452 044 382
             </span>
             ›
           </a>
-          <a href="https://m.me/61586534972406" target="_blank" rel="noopener noreferrer">
+          <a href={v7Copy.contact.facebookInbox} target="_blank" rel="noopener noreferrer">
             <i>✉️</i>
             <span>
-              <b>Inbox Facebook</b>Chapter99
+              <b>ทักแชท Facebook</b>
+              Chapter99
             </span>
             ›
           </a>
-          <a href="mailto:chapter99solutions@gmail.com">
+          <a href={`mailto:${v7Copy.contact.email}`}>
             <i>📧</i>
             <span>
-              <b>อีเมล</b>chapter99solutions@gmail.com
+              <b>อีเมล</b>
+              {v7Copy.contact.email}
             </span>
             ›
           </a>

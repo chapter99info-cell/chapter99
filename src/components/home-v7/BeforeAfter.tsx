@@ -1,3 +1,5 @@
+import { DecoLines } from './PressIcon'
+
 function CheckIcon() {
   return (
     <svg className="ic" viewBox="0 0 24 24" aria-hidden="true">
@@ -9,6 +11,7 @@ function CheckIcon() {
 export function BeforeAfter() {
   return (
     <section className="sec" id="before-after">
+      <DecoLines />
       <div className="wrap">
         <span className="kicker">02 / PROCESS</span>
         <h2 className="th2" style={{ marginTop: 12 }}>

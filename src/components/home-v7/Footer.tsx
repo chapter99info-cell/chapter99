@@ -1,7 +1,7 @@
-import { Mail, Phone } from 'lucide-react'
+import { Mail, MessageSquareText, Phone } from 'lucide-react'
+import { v7Copy } from '../../content/v7'
 import { company } from '../../data/proof'
 import { BrandGlyph, PressIcon } from './PressIcon'
-import { WA } from './Hero'
 
 export function Footer() {
   return (
@@ -36,21 +36,21 @@ export function Footer() {
           </div>
           <div className="fcontact">
             <h4>ติดต่อเรา</h4>
-            <a href="tel:+61452044382">
+            <a href={v7Copy.contact.phoneHref}>
               <PressIcon icon={Phone} label="โทร" />
-              0452 044 382
+              {v7Copy.contact.phoneDisplay}
             </a>
-            <a href={WA}>
-              <BrandGlyph name="whatsapp" />
-              WhatsApp
+            <a href={v7Copy.contact.sms}>
+              <PressIcon icon={MessageSquareText} label="SMS" />
+              {v7Copy.th.ctaSms}
             </a>
-            <a href="mailto:chapter99solutions@gmail.com">
+            <a href={v7Copy.contact.facebookInbox} target="_blank" rel="noopener noreferrer">
+              <BrandGlyph />
+              ทักแชท Facebook
+            </a>
+            <a href={`mailto:${v7Copy.contact.email}`}>
               <PressIcon icon={Mail} label="อีเมล" />
-              chapter99solutions@gmail.com
-            </a>
-            <a href="https://m.me/61586534972406" target="_blank" rel="noopener noreferrer">
-              <BrandGlyph name="facebook" />
-              Inbox Facebook
+              {v7Copy.contact.email}
             </a>
           </div>
         </div>

@@ -375,8 +375,25 @@
   color: rgba(255, 255, 255, 0.72);
 }
 .home-v7 .sec {
+  position: relative;
   border-top: 1px solid rgba(10, 15, 26, 0.1);
   padding: clamp(64px, 8vw, 110px) 0;
+}
+.home-v7 .deco-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+.home-v7 .deco-lines line {
+  stroke: #e8b54a;
+  stroke-width: 1;
+  stroke-opacity: 0.25;
+}
+.home-v7 .hero .deco-lines {
+  z-index: 2;
 }
 .home-v7 .sec.dark {
   border-top-color: rgba(251, 247, 238, 0.1);
@@ -1582,7 +1599,9 @@
     padding: 10px 16px;
   }
   .home-v7 .mbar {
-    display: block;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
     position: fixed;
     left: 0;
     right: 0;
@@ -1593,7 +1612,7 @@
   }
   .home-v7 .mbar .btn {
     width: 100%;
-    min-height: 52px;
+    min-height: 48px;
   }
   .home-v7 .fab,
   .home-v7 .cpanel {

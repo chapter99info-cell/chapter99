@@ -1,6 +1,9 @@
+import { DecoLines } from './PressIcon'
+
 export function HowSteps() {
   return (
     <section className="sec cream" id="how">
+      <DecoLines />
       <div className="wrap">
         <div className="xpanel">
           <div className="xpanel__head">

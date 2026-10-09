@@ -3,8 +3,10 @@ export const v7Copy = {
     heroKicker: 'สำหรับธุรกิจไทยในออสเตรเลีย',
     heroHeadline: 'งานหลังร้านน้อยลง มีเวลาดูแลลูกค้ามากขึ้น',
     heroSub: 'เว็บไซต์ ระบบจองคิว และเครื่องมือร้าน — เราตั้งค่าให้ ไม่ต้องเก่งคอม',
-    ctaTalk: 'คุยกับเรา',
-    ctaToolkit: 'เริ่มใช้เครื่องมือฟรี',
+    ctaTalk: 'ทักแชท Facebook →',
+    ctaPackages: 'ดูแพ็กเกจ →',
+    ctaSms: 'ส่ง SMS',
+    ctaFacebook: 'ทัก Facebook',
     starterNoBooking: 'ไม่มีระบบจองคิว',
   },
   en: {
@@ -14,7 +16,8 @@ export const v7Copy = {
     email: 'chapter99solutions@gmail.com',
     phoneDisplay: '0452 044 382',
     phoneHref: 'tel:+61452044382',
-    whatsapp: 'https://wa.me/61452044382',
+    sms: 'sms:+61452044382',
+    facebookInbox: 'https://m.me/61586534972406',
     facebook: 'https://www.facebook.com/profile.php?id=61586534972406',
   },
   seo: {
