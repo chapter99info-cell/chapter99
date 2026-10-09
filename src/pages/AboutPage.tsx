@@ -195,8 +195,8 @@ function AboutInner() {
                 en: 'Photos go onto the website, into content and along the customer path. This is not a generic photographer marketplace.',
               })}
             </p>
-            <Link className="v2-btn secondary" to="/photography">
-              {t({ th: 'ดูหน้างานภาพ', en: 'View photography' })}
+            <Link className="v2-btn secondary" to="/contact">
+              {t({ th: 'ติดต่อเรื่องงานภาพ', en: 'Ask about photography' })}
             </Link>
           </div>
         </div>

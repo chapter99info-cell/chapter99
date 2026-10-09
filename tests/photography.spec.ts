@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
-import { mkdirSync } from 'node:fs'
+import { mkdirSync, readFileSync } from 'node:fs'
 
 const shotDir = 'docs/screenshots'
 
@@ -12,26 +12,20 @@ async function noHScroll(page: Page, width: number, height: number) {
   expect(sw, `horizontal scroll at ${width}`).toBeLessThanOrEqual(iw + 1)
 }
 
-test('photography page responsive and links', async ({ page }) => {
+test('photography unpublished gate, noindex, layout preview', async ({ page }) => {
   mkdirSync(shotDir, { recursive: true })
-  const res = await page.goto('/photography')
+
+  const sitemap = readFileSync('public/sitemap.xml', 'utf8')
+  expect(sitemap).not.toMatch(/photography/)
+
+  const robots = readFileSync('public/robots.txt', 'utf8')
+  expect(robots).toMatch(/Disallow:\s*\/photography/)
+
+  const res = await page.goto('/photography?layout=1')
   expect(res?.ok()).toBeTruthy()
 
-  const bodySize = await page.evaluate(() => {
-    const el = document.querySelector('.photo-v7')
-    return el ? Number(getComputedStyle(el).fontSize.replace('px', '')) : 0
-  })
-  expect(bodySize).toBeGreaterThanOrEqual(16)
-
-  const small = await page.evaluate(() =>
-    [...document.querySelectorAll('.photo-v7 .btn, .photo-v7 .filters button, .photo-v7 .ba-tabs button')].some((el) => {
-      const r = el.getBoundingClientRect()
-      return r.width > 0 && r.height > 0 && r.height < 44
-    }),
-  )
-  expect(small, 'tap targets under 44px').toBeFalsy()
-
-  await expect(page.locator('.notice')).toContainText('ยังไม่เปิดขาย')
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex,nofollow')
+  await expect(page.locator('.notice')).toContainText('LAYOUT PREVIEW ONLY')
 
   const order = await page.evaluate(() =>
     [...document.querySelectorAll('.photo-v7 section[id]')].map((el) => el.id),
@@ -41,15 +35,8 @@ test('photography page responsive and links', async ({ page }) => {
   const wa = page.locator('a[href*="wa.me/61452044382"]').first()
   await expect(wa).toHaveAttribute('href', /wa.me\/61452044382/)
 
-  await page.keyboard.press('Tab')
-  const filters = page.locator('.filters button')
-  if (await filters.count()) {
-    await filters.first().focus()
-    await page.keyboard.press('Enter')
-  }
-
-  for (const w of [390, 820, 1440] as const) {
-    await noHScroll(page, w, w === 390 ? 844 : 900)
-    await page.screenshot({ path: `${shotDir}/photography-${w}.png`, fullPage: true })
-  }
+  await noHScroll(page, 390, 844)
+  await page.screenshot({ path: `${shotDir}/photography-v2-390.png`, fullPage: true })
+  await noHScroll(page, 1440, 900)
+  await page.screenshot({ path: `${shotDir}/photography-v2-1440.png`, fullPage: true })
 })

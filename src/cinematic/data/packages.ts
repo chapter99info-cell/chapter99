@@ -339,8 +339,8 @@ export const industries = [
       th: 'โฟกัส: งานภาพ → สินทรัพย์ธุรกิจ → เว็บ / Google / พอร์ตโฟลิโอ → สอบถาม / จอง',
       en: 'Focus: photography → business assets → website / Google / portfolio → enquiry / booking.',
     },
-    href: '/photography',
-    cta: { th: 'ดูหน้าช่างภาพ', en: 'See photography page' },
+    href: '/contact',
+    cta: { th: 'ติดต่อเรื่องงานภาพ', en: 'Ask about photography' },
   },
 ] as const;
 

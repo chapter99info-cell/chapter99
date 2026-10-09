@@ -44,7 +44,7 @@ const shops = [
     },
   },
   {
-    to: '/photography',
+    to: '/contact',
     glow: 'blue',
     photo: siteMedia.photography,
     title: { th: 'ภาพถ่าย', en: 'Photography' },

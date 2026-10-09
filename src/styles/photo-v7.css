@@ -415,6 +415,76 @@
   cursor: ew-resize;
   margin: 0;
 }
+.photo-v7 .slider__tag {
+  position: absolute;
+  top: 12px;
+  z-index: 2;
+  background: var(--ink);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 5px 8px;
+  border-radius: 6px;
+  pointer-events: none;
+}
+.photo-v7 .slider__tag--before {
+  left: 12px;
+}
+.photo-v7 .slider__tag--after {
+  right: 12px;
+}
+.photo-v7 .editorial {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 22px;
+}
+.photo-v7 .editorial .feat,
+.photo-v7 .feat-slot {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.photo-v7 .feat-slot .slot,
+.photo-v7 .editorial .slot {
+  min-height: 220px;
+  height: 100%;
+}
+.photo-v7 .process,
+.photo-v7 .svc {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 22px;
+}
+.photo-v7 .svc-card h3 {
+  font-family: var(--f-th);
+  margin: 12px 0 6px;
+}
+.photo-v7 .svc-card p {
+  margin: 0;
+  font-size: 16px;
+  color: var(--dim);
+}
+.photo-v7 .hero--fill {
+  min-height: 78vh;
+}
+.photo-v7 .hero__ph {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--f-big);
+  font-size: clamp(28px, 6vw, 72px);
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.18);
+  background: linear-gradient(180deg, #0a0f1a, #152238 55%, #0a0f1a);
+}
+.photo-v7 .stub {
+  min-height: 70vh;
+  padding: 120px 0 80px;
+  background: var(--cream);
+}
 .photo-v7 .slider__bar {
   position: absolute;
   top: 0;
@@ -536,9 +606,17 @@
   .photo-v7 .xplans,
   .photo-v7 .why,
   .photo-v7 .slots,
+  .photo-v7 .editorial,
+  .photo-v7 .process,
+  .photo-v7 .svc,
   .photo-v7 .masonry {
     grid-template-columns: 1fr 1fr;
     columns: 2;
+  }
+  .photo-v7 .editorial .feat,
+  .photo-v7 .feat-slot {
+    grid-column: span 2;
+    grid-row: auto;
   }
 }
 @media (max-width: 640px) {
@@ -552,8 +630,15 @@
   .photo-v7 .cards,
   .photo-v7 .xplans,
   .photo-v7 .why,
-  .photo-v7 .slots {
+  .photo-v7 .slots,
+  .photo-v7 .editorial,
+  .photo-v7 .process,
+  .photo-v7 .svc {
     grid-template-columns: 1fr;
+  }
+  .photo-v7 .editorial .feat,
+  .photo-v7 .feat-slot {
+    grid-column: span 1;
   }
   .photo-v7 .masonry {
     columns: 1;

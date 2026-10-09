@@ -55,7 +55,6 @@ export function Layout() {
           <Link to="/business-toolkit">เครื่องมือฟรี</Link>
           <Link to="/massage">ร้านนวด</Link>
           <Link to="/restaurants">ร้านอาหาร</Link>
-          <Link to="/photography">ถ่ายภาพ</Link>
           <Link to="/legal">ธุรกิจบริการอื่น</Link>
         </nav>
         <nav aria-label="เกี่ยวกับเรา">

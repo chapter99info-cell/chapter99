@@ -26,6 +26,8 @@ export function CompareSlider({ item }: Props) {
           height={item.after.height ?? 800}
           loading="lazy"
         />
+        <span className="slider__tag slider__tag--before">ORIGINAL</span>
+        <span className="slider__tag slider__tag--after">EDITED</span>
         <div className="slider__bar" aria-hidden="true" />
         <input
           type="range"

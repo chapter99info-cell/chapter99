@@ -1,9 +1,11 @@
-# Photography page — layout until visual proof exists
+# Photography V2
 
-`/photography` is not a live sales page while `public/portfolio/approved/manifest.json` has no REAL PHOTO with `permission.approved: true`.
+Status: **layout prep only**. Section 3 minimums are not met. Do not merge as a sales page.
 
-Page order: Hero → Portfolio → Before/After → Creative Process → Services → Pricing → CTA.
+Gate: `canPublishSalesPage()` + `photography-assets/rights.txt`.
 
-Until approved shots exist, the page shows labeled empty frames plus the required-shot table. No stock, mock, or generated “client work.”
+Public production domain: unpublished stub, `noindex,nofollow`, removed from sitemap and nav.
 
-Sales unlock: `canPublishSalesPage()` in `src/data/photoPortfolio.ts`.
+Preview layout: Vite dev, or `?layout=1` on localhost / Vercel preview hosts.
+
+Inventory: `docs/photography-v2-asset-inventory.md`.
