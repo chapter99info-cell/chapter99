@@ -14,7 +14,7 @@ import { RestaurantsPage } from './pages/RestaurantsPage'
 import { WorkPage } from './pages/WorkPage'
 import { BusinessToolkitPage } from './pages/BusinessToolkitPage'
 import SiteHomePage from './site/HomePage'
-import { SitePricingPage } from './pages/SitePricingPage'
+import { PricingPage } from './pages/pricing/PricingPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import './site/theme-navy.css' // ธีมกรมท่า — ต้องอยู่หลัง import หน้าอื่น ๆ
 
@@ -33,7 +33,7 @@ export default function App() {
         }
       />
       <Route path="/v7/icons-test" element={<V7IconsTestPage />} />
-      <Route path="/pricing" element={<SitePricingPage />} />
+      <Route path="/pricing" element={<PricingPage />} />
       <Route path="/business-toolkit" element={<BusinessToolkitPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/contact" element={<ContactPage />} />
