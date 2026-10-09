@@ -14,8 +14,7 @@ import { v7Copy } from '../content/v7'
 import '../styles/home-v7.css'
 
 const FONT_HREF =
-  'https://fonts.googleapis.com/css2?family=Anton&family=Kanit:wght@600;700&family=IBM+Plex+Sans+Thai:wght@400;600&display=swap'
-const HAND_HREF = 'https://fonts.googleapis.com/css2?family=Charmonman:wght@700&display=swap'
+  'https://fonts.googleapis.com/css2?family=Anton&family=Anuphan:wght@500;600;700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+Thai:wght@400;500&display=swap'
 
 export default function HomeV7() {
   const [demoSrc, setDemoSrc] = useState<string | null>(null)
@@ -36,7 +35,6 @@ export default function HomeV7() {
     add('preconnect', 'https://fonts.googleapis.com')
     add('preconnect', 'https://fonts.gstatic.com')
     add('stylesheet', FONT_HREF)
-    add('stylesheet', HAND_HREF, { media: '(min-width:1001px)' })
     document.title = v7Copy.seo.title
     const desc = document.querySelector('meta[name="description"]')
     if (desc) desc.setAttribute('content', v7Copy.seo.description)
@@ -86,7 +84,7 @@ export default function HomeV7() {
       <MassageDemo onOpenDemo={setDemoSrc} />
       <OtherShops />
       <HowSteps />
-      {/* TODO: MeetTeam when real team.webp + ABN exist */}
+      {/* TODO: MeetTeam when real team.webp exists */}
       <Pricing />
       <TrustFaq />
       <FinalCta />

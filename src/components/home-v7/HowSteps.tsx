@@ -5,7 +5,7 @@ export function HowSteps() {
         <div className="xpanel">
           <div className="xpanel__head">
             <div>
-              <span className="kicker">How to start</span>
+              <span className="kicker">05 / STEPS</span>
               <h2 className="th2" style={{ marginTop: 10 }}>
                 เริ่มง่าย 3 ขั้น
               </h2>

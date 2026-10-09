@@ -67,7 +67,7 @@ export function TrustFaq() {
         ) : null}
         <div className="faq" style={{ marginTop: 56 }}>
           <div>
-            <span className="kicker">FAQ</span>
+            <span className="kicker">07 / FAQ</span>
             <h2 className="th2" style={{ marginTop: 12 }}>
               คำถามที่เจอบ่อย
             </h2>

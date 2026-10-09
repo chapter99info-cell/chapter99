@@ -33,7 +33,7 @@ export function OtherShops() {
   return (
     <section className="sec" id="shops">
       <div className="wrap">
-        <span className="kicker">Other shops</span>
+        <span className="kicker">04 / SHOPS</span>
         <h2 className="th2" style={{ marginTop: 12 }}>
           สำหรับธุรกิจไทยอื่น ๆ
         </h2>

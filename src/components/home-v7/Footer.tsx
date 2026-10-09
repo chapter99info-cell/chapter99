@@ -1,4 +1,6 @@
+import { Mail, Phone } from 'lucide-react'
 import { company } from '../../data/proof'
+import { BrandGlyph, PressIcon } from './PressIcon'
 import { WA } from './Hero'
 
 export function Footer() {
@@ -16,7 +18,7 @@ export function Footer() {
               <br />
               Sydney, NSW
             </p>
-            {company.abn ? <p>ABN {company.abn}</p> : null}
+            <p>ABN {company.abn ?? '81 951 461 769'}</p>
           </div>
           <div>
             <h4>ธุรกิจ</h4>
@@ -35,19 +37,19 @@ export function Footer() {
           <div className="fcontact">
             <h4>ติดต่อเรา</h4>
             <a href="tel:+61452044382">
-              <img src="/mockup/media/icons8-call-50.png" alt="" width={18} height={18} />
+              <PressIcon icon={Phone} label="โทร" />
               0452 044 382
             </a>
             <a href={WA}>
-              <img src="/mockup/media/icons8-whatsapp-50.png" alt="" width={18} height={18} />
+              <BrandGlyph name="whatsapp" />
               WhatsApp
             </a>
             <a href="mailto:chapter99solutions@gmail.com">
-              <img src="/mockup/media/icons8-email-50.png" alt="" width={18} height={18} />
+              <PressIcon icon={Mail} label="อีเมล" />
               chapter99solutions@gmail.com
             </a>
             <a href="https://m.me/61586534972406" target="_blank" rel="noopener noreferrer">
-              <img src="/mockup/media/icons8-chat-bubble-50.png" alt="" width={18} height={18} />
+              <BrandGlyph name="facebook" />
               Inbox Facebook
             </a>
           </div>
@@ -55,9 +57,6 @@ export function Footer() {
         <div className="fbar">
           <span>© 2026 Chapter99</span>
           <span>
-            <a href="https://icons8.com" rel="noopener noreferrer">
-              Icons by Icons8
-            </a>
             <a href="/legal/privacy">Privacy Policy</a>
             <a href="/legal/terms">Terms</a>
           </span>

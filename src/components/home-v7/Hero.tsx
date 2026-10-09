@@ -1,4 +1,6 @@
+import { CalendarCheck, MessagesSquare, Smartphone, Timer } from 'lucide-react'
 import { v7Copy } from '../../content/v7'
+import { PressIcon } from './PressIcon'
 
 type HeroProps = {
   onOpenDemo?: (src: string) => void
@@ -18,6 +20,12 @@ export function Hero(_props: HeroProps) {
           fetchPriority="high"
           decoding="async"
         />
+      </div>
+      <div className="hero__crop" aria-hidden="true">
+        <span className="tl" />
+        <span className="tr" />
+        <span className="bl" />
+        <span className="br" />
       </div>
       <header className="nav">
         <div className="wrap">
@@ -40,8 +48,8 @@ export function Hero(_props: HeroProps) {
         </div>
       </header>
       <div className="hero__in">
-        <span className="kicker">{v7Copy.th.heroKicker}</span>
-        <h1 className="th2" style={{ color: '#fff', fontSize: 'clamp(36px, 8vw, 64px)', lineHeight: 1.2 }}>
+        <span className="kicker">01 / AUSTRALIA</span>
+        <h1 className="th2" style={{ color: '#fff', fontSize: 'clamp(36px, 8vw, 64px)' }}>
           {v7Copy.th.heroHeadline}
         </h1>
         <p className="lead2">{v7Copy.th.heroSub}</p>
@@ -54,44 +62,31 @@ export function Hero(_props: HeroProps) {
           </a>
         </div>
       </div>
-      <p className="hand hero__note">
-        “ให้คุณโฟกัสกับสิ่งที่คุณถนัด
-        <br />
-        เราดูแลเรื่องออนไลน์ให้”
-      </p>
       <div className="perks">
         <div className="wrap">
           <div className="perk">
-            <i>
-              <img src="/icons/v7/online-booking.png" alt="" width={40} height={40} />
-            </i>
+            <PressIcon icon={CalendarCheck} label="จองออนไลน์" />
             <div>
               <b>ลูกค้าจองออนไลน์</b>
               <span>ในแพ็ก Professional</span>
             </div>
           </div>
           <div className="perk">
-            <i>
-              <img src="/icons/v7/mobile-phone.png" alt="" width={40} height={40} />
-            </i>
+            <PressIcon icon={Smartphone} label="มือถือ" />
             <div>
               <b>ใช้งานง่าย</b>
               <span>บนมือถือ</span>
             </div>
           </div>
           <div className="perk">
-            <i>
-              <img src="/icons/v7/website.png" alt="" width={40} height={40} />
-            </i>
+            <PressIcon icon={Timer} label="งานแอดมิน" />
             <div>
               <b>ลดงานหลังร้าน</b>
               <span>ประหยัดเวลา</span>
             </div>
           </div>
           <div className="perk">
-            <i>
-              <img src="/icons/v7/support-chat.png" alt="" width={40} height={40} />
-            </i>
+            <PressIcon icon={MessagesSquare} label="ซัพพอร์ตไทย" />
             <div>
               <b>คุยภาษาไทย</b>
               <span>ดูแลในออสเตรเลีย</span>

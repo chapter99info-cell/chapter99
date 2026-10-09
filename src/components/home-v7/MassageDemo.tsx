@@ -6,10 +6,7 @@ export function MassageDemo({ onOpenDemo }: Props) {
       <div className="wrap">
         <div className="massage">
           <div className="rv">
-            <span className="kicker">
-              <img src="/mockup/media/web/logo.webp" alt="" width={22} height={22} />
-              Massage shops
-            </span>
+            <span className="kicker">03 / MASSAGE</span>
             <h2 className="th2" style={{ marginTop: 12 }}>
               สำหรับร้านนวดไทย
               <br />

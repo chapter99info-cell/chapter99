@@ -10,15 +10,15 @@
   --dim: #5a5f6b;
   --line: #e7e1d3;
   --f-big: "Anton", Impact, sans-serif;
-  --f-th: "Kanit", "IBM Plex Sans Thai", sans-serif;
+  --f-th: "Anuphan", "IBM Plex Sans Thai", sans-serif;
   --f-body: "IBM Plex Sans Thai", system-ui, sans-serif;
-  --f-hand: "Charmonman", cursive;
+  --f-mono: "IBM Plex Mono", ui-monospace, monospace;
   --gutter: clamp(18px, 5vw, 88px);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --max: 1280px;
   font-family: var(--f-body);
-  font-size: 17px;
-  line-height: 1.6;
+  font-size: 18px;
+  line-height: 1.7;
   color: var(--text);
   background: var(--paper);
   -webkit-font-smoothing: antialiased;
@@ -51,10 +51,10 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--f-th);
-  font-weight: 600;
-  font-size: 16px;
-  letter-spacing: 0.08em;
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #8a5a00;
 }
@@ -71,7 +71,7 @@
 .home-v7 h1,
 .home-v7 h2,
 .home-v7 h3 {
-  line-height: 1.15;
+  line-height: 1.25;
 }
 .home-v7 .big {
   font-family: var(--f-big);
@@ -84,17 +84,28 @@
   font-family: var(--f-th);
   font-weight: 700;
   font-size: clamp(30px, 3.4vw, 48px);
+  letter-spacing: -0.01em;
+  line-height: 1.25;
 }
 .home-v7 .sub {
   color: var(--dim);
   font-size: 18px;
   margin-top: 8px;
 }
-.home-v7 .hand {
-  font-family: var(--f-hand);
-  font-weight: 700;
-  color: var(--gold-2);
-  line-height: 1.5;
+.home-v7 .press-ic {
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+  border: 1px solid rgba(232, 181, 74, 0.3);
+  background: transparent;
+  color: var(--gold);
+  display: grid;
+  place-items: center;
+  font-style: normal;
+}
+.home-v7 .press-ic svg {
+  width: 24px;
+  height: 24px;
 }
 .home-v7 .btn {
   display: inline-flex;
@@ -301,15 +312,38 @@
   flex-wrap: wrap;
   margin-top: 30px;
 }
-.home-v7 .hero__note {
+.home-v7 .hero__crop {
   position: absolute;
-  right: clamp(20px, 8vw, 140px);
-  top: 38%;
-  transform: rotate(-8deg);
-  font-size: clamp(18px, 1.6vw, 24px);
-  max-width: 15ch;
-  text-align: center;
-  z-index: 1;
+  inset: 18px;
+  z-index: 2;
+  pointer-events: none;
+}
+.home-v7 .hero__crop span {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: rgba(232, 181, 74, 0.4);
+  border-style: solid;
+}
+.home-v7 .hero__crop .tl {
+  top: 0;
+  left: 0;
+  border-width: 1px 0 0 1px;
+}
+.home-v7 .hero__crop .tr {
+  top: 0;
+  right: 0;
+  border-width: 1px 1px 0 0;
+}
+.home-v7 .hero__crop .bl {
+  bottom: 0;
+  left: 0;
+  border-width: 0 0 1px 1px;
+}
+.home-v7 .hero__crop .br {
+  bottom: 0;
+  right: 0;
+  border-width: 0 1px 1px 0;
 }
 .home-v7 .perks {
   border-top: 1px solid rgba(255, 255, 255, 0.14);
@@ -327,19 +361,8 @@
   align-items: center;
   gap: 14px;
 }
-.home-v7 .perk i {
-  flex: 0 0 52px;
-  height: 52px;
-  border: 1.5px solid rgba(232, 181, 74, 0.6);
-  border-radius: 12px;
-  display: grid;
-  place-items: center;
-  font-style: normal;
-}
-.home-v7 .perk i img {
-  width: 26px;
-  height: 26px;
-  filter: brightness(0) saturate(100%) invert(76%) sepia(43%) saturate(640%) hue-rotate(352deg) brightness(97%);
+.home-v7 .perk .press-ic {
+  flex: 0 0 56px;
 }
 .home-v7 .perk b {
   display: block;
@@ -352,7 +375,11 @@
   color: rgba(255, 255, 255, 0.72);
 }
 .home-v7 .sec {
+  border-top: 1px solid rgba(10, 15, 26, 0.1);
   padding: clamp(64px, 8vw, 110px) 0;
+}
+.home-v7 .sec.dark {
+  border-top-color: rgba(251, 247, 238, 0.1);
 }
 .home-v7 .cream {
   background: var(--cream);
@@ -1133,10 +1160,10 @@
   align-items: center;
   gap: 10px;
 }
-.home-v7 .fcontact img {
-  width: 18px;
-  height: 18px;
-  filter: brightness(0) saturate(100%) invert(76%) sepia(43%) saturate(640%) hue-rotate(352deg);
+.home-v7 .fcontact .press-ic {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
 }
 .home-v7 .fbar {
   display: flex;
@@ -1478,10 +1505,8 @@
     align-items: flex-start;
     gap: 8px;
   }
-  .home-v7 .perk i {
+  .home-v7 .perk .press-ic {
     flex-basis: auto;
-    width: 44px;
-    height: 44px;
   }
   .home-v7 .checks {
     grid-template-columns: 1fr;

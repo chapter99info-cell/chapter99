@@ -10,7 +10,7 @@ export function BeforeAfter() {
   return (
     <section className="sec" id="before-after">
       <div className="wrap">
-        <span className="kicker">Before → After</span>
+        <span className="kicker">02 / PROCESS</span>
         <h2 className="th2" style={{ marginTop: 12 }}>
           ร้านเดิม ทำงานน้อยลง
         </h2>

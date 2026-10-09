@@ -5,7 +5,7 @@ export function Pricing() {
   return (
     <section className="sec dark" id="packages">
       <div className="wrap">
-        <span className="kicker">Packages</span>
+        <span className="kicker">06 / PACKAGES</span>
         <h2 className="th2" style={{ marginTop: 12 }}>
           2 แพ็กเกจ ราคาชัดเจน
         </h2>

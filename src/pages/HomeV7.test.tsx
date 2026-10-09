@@ -19,5 +19,6 @@ describe('/v7 homepage', () => {
     expect(screen.getByText(`+ ${pricing.professional.monthly} / เดือน`)).toBeInTheDocument()
     const wa = document.querySelector(`a[href^="${v7Copy.contact.whatsapp}"]`)
     expect(wa).toBeTruthy()
+    expect(screen.getByText(/ABN 81 951 461 769/)).toBeInTheDocument()
   })
 })
