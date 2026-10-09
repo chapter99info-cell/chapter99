@@ -1,0 +1,23 @@
+/** Lucide outline set for V7 Digital Press — no Icons8 IDs. */
+export const v7LucideIcons = [
+  { location: 'Hero perks', name: 'CalendarCheck', label: 'จองออนไลน์', size: 56 },
+  { location: 'Hero perks', name: 'Smartphone', label: 'มือถือ', size: 56 },
+  { location: 'Hero perks', name: 'Timer', label: 'งานแอดมิน', size: 56 },
+  { location: 'Hero perks', name: 'MessagesSquare', label: 'ซัพพอร์ตไทย', size: 56 },
+  { location: 'Massage benefits', name: 'Globe', label: 'เว็บไซต์', size: 56 },
+  { location: 'Massage benefits', name: 'CalendarCheck', label: 'จองคิว', size: 56 },
+  { location: 'Massage benefits', name: 'Smartphone', label: 'จัดการง่าย', size: 56 },
+  { location: 'Massage benefits', name: 'ShieldCheck', label: 'น่าเชื่อถือ', size: 56 },
+  { location: 'Other shops', name: 'Flower2', label: 'ร้านนวด', size: 40 },
+  { location: 'Other shops', name: 'UtensilsCrossed', label: 'ร้านอาหาร', size: 40 },
+  { location: 'Other shops', name: 'Sparkles', label: 'ความงาม', size: 40 },
+  { location: 'Other shops', name: 'SprayCan', label: 'ทำความสะอาด', size: 40 },
+  { location: 'Trust', name: 'FolderLock', label: 'ข้อมูลร้าน', size: 56 },
+  { location: 'Trust', name: 'FileCheck', label: 'ราคาชัด', size: 56 },
+  { location: 'Trust', name: 'CreditCard', label: 'การรับเงิน', size: 56 },
+  { location: 'Footer', name: 'Phone', label: 'โทร', size: 44 },
+  { location: 'Footer', name: 'MessageSquareText', label: 'ส่ง SMS', size: 44 },
+  { location: 'Footer', name: 'Messenger (Simple Icons)', label: 'ทักแชท Facebook', size: 44 },
+  { location: 'Footer', name: 'Mail', label: 'อีเมล', size: 44 },
+  { location: 'Footer', name: 'MapPin', label: 'Sydney, NSW', size: 44 },
+] as const

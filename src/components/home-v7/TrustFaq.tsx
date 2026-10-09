@@ -1,5 +1,7 @@
+import { CreditCard, FileCheck, FolderLock } from 'lucide-react'
 import { useId, useState } from 'react'
 import { liveWorks, reviews } from '../../data/proof'
+import { PressIcon } from './PressIcon'
 
 const faqs = [
   {
@@ -29,14 +31,17 @@ export function TrustFaq() {
       <div className="wrap">
         <div className="xtrust rv">
           <div>
+            <PressIcon icon={FolderLock} label="ข้อมูลร้าน" />
             <b>ข้อมูลเป็นของร้าน</b>
             <span>ย้ายออกได้</span>
           </div>
           <div>
+            <PressIcon icon={FileCheck} label="ราคาชัด" />
             <b>ราคาชัดก่อนเริ่ม</b>
             <span>ตกลงเป็นลายลักษณ์อักษร</span>
           </div>
           <div>
+            <PressIcon icon={CreditCard} label="การรับเงิน" />
             <b>ไม่รับเงินแทนร้าน</b>
             <span>ร้านรับผ่าน Square / เครื่องรูดบัตรของร้าน</span>
           </div>

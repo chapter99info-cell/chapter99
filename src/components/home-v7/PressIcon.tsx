@@ -8,7 +8,7 @@ type Props = {
 export function PressIcon({ icon: Icon, label }: Props) {
   return (
     <i className="press-ic" aria-hidden="true" title={label}>
-      <Icon strokeWidth={2} size={24} />
+      <Icon strokeWidth={2.25} size={24} />
     </i>
   )
 }

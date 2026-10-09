@@ -1,4 +1,4 @@
-import { Mail, MessageSquareText, Phone } from 'lucide-react'
+import { Mail, MapPin, MessageSquareText, Phone } from 'lucide-react'
 import { v7Copy } from '../../content/v7'
 import { company } from '../../data/proof'
 import { BrandGlyph, PressIcon } from './PressIcon'
@@ -13,9 +13,9 @@ export function Footer() {
               <img src="/mockup/media/web/logo.webp" alt="" width={40} height={40} />
               CHAPTER99
             </a>
-            <p style={{ marginTop: 12, color: '#d5d8e0' }}>
-              ระบบออนไลน์สำหรับธุรกิจไทยในออสเตรเลีย
-              <br />
+            <p style={{ marginTop: 12, color: '#d5d8e0' }}>ระบบออนไลน์สำหรับธุรกิจไทยในออสเตรเลีย</p>
+            <p className="floc">
+              <PressIcon icon={MapPin} label="ที่ตั้ง" />
               Sydney, NSW
             </p>
             <p>ABN {company.abn ?? '81 951 461 769'}</p>

@@ -95,7 +95,9 @@
 .home-v7 .press-ic {
   flex: 0 0 56px;
   width: 56px;
+  min-width: 40px;
   height: 56px;
+  min-height: 40px;
   border: 1px solid rgba(232, 181, 74, 0.3);
   background: transparent;
   color: var(--gold);
@@ -489,17 +491,8 @@
   display: flex;
   gap: 12px;
 }
-.home-v7 .check i {
-  flex: 0 0 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--gold);
-  display: grid;
-  place-items: center;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--ink);
+.home-v7 .check .press-ic {
+  color: var(--gold);
 }
 .home-v7 .check b {
   display: block;
@@ -551,9 +544,17 @@
   flex: 1;
 }
 .home-v7 .shop h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--f-th);
   font-weight: 600;
   font-size: 21px;
+}
+.home-v7 .shop h3 .press-ic {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
 }
 .home-v7 .shop p {
   color: var(--dim);
@@ -1020,6 +1021,10 @@
   border-top: 2px solid var(--ink);
   padding-top: 16px;
 }
+.home-v7 .xtrust .press-ic {
+  margin-bottom: 10px;
+  color: var(--gold);
+}
 .home-v7 .xtrust b {
   display: block;
   font-family: var(--f-th);
@@ -1171,6 +1176,12 @@
 }
 .home-v7 footer .fgrid a:hover {
   color: var(--gold);
+}
+.home-v7 .floc {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
 }
 .home-v7 .fcontact a {
   display: flex !important;

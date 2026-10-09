@@ -1,11 +1,8 @@
+import { Check } from 'lucide-react'
 import { DecoLines } from './PressIcon'
 
 function CheckIcon() {
-  return (
-    <svg className="ic" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M20 6 9 17l-5-5" />
-    </svg>
-  )
+  return <Check className="ic" strokeWidth={2.25} aria-hidden="true" />
 }
 
 export function BeforeAfter() {
