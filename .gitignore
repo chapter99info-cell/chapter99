@@ -25,3 +25,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Mockup source photos — keep only WebP + icons8 in git
+public/mockup/media/*.jpg
+public/mockup/media/*.png
+!public/mockup/media/icons8-*.png
+!public/mockup/media/web/
