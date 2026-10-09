@@ -22,7 +22,7 @@ export function Hero(_props: HeroProps) {
       <header className="nav">
         <div className="wrap">
           <a className="logo" href="#top">
-            <img src="/mockup/media/web/logo.webp" alt="Chapter99" width={40} height={40} />
+            <img src="/mockup/media/web/logo.webp" alt="Chapter99" width={44} height={44} />
             CHAPTER99
           </a>
           <nav className="menu" aria-label="เมนูหลัก">

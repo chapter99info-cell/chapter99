@@ -164,7 +164,7 @@ export function PhotographyPage() {
         <header className="nav">
           <div className="wrap">
             <a className="logo" href="/v7">
-              <img src="/mockup/media/web/logo.webp" alt="Chapter99" width={40} height={40} />
+              <img src="/mockup/media/web/logo.webp" alt="Chapter99" width={44} height={44} />
               CHAPTER99
             </a>
             <nav className="menu" aria-label="เมนูหลัก">
@@ -175,7 +175,11 @@ export function PhotographyPage() {
               <a href="#pricing">ราคา</a>
               <a href="/v7">หน้าแรก</a>
             </nav>
-            <a className="btn btn--gold" href={sales ? '#contact' : '#shots'}>
+            <a
+              className="btn btn--gold"
+              href={sales ? '#contact' : '#shots'}
+              aria-label={sales ? 'คุยเรื่องถ่ายภาพร้าน' : 'ดูรายการภาพที่ต้องใช้'}
+            >
               {sales ? 'คุยเรื่องถ่ายภาพร้าน' : 'ดูรายการภาพที่ต้องใช้'}
             </a>
           </div>
