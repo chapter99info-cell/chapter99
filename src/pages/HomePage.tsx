@@ -146,11 +146,11 @@ export function HomePage() {
           <p>คุณเลือกถ่ายภาพอย่างเดียวได้ หรือให้เราวางภาพและเว็บไซต์ไปด้วยกัน</p>
         </div>
         <div className="photo-choices">
-          <Link to="/photography">
+          <Link to="/contact">
             <span>01 / ภาพถ่ายอย่างเดียว</span>
             <strong>มีเว็บอยู่แล้ว อยากได้ภาพใหม่ ↗</strong>
           </Link>
-          <Link to="/photography#photo-packages">
+          <Link to="/contact">
             <span>02 / ภาพถ่าย + เว็บไซต์</span>
             <strong>วางแผนวันถ่ายและหน้าเว็บพร้อมกัน ↗</strong>
           </Link>
