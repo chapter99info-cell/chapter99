@@ -45,7 +45,7 @@ h1,h2,h3{line-height:1.25}
 .price-hint{display:block;font-size:13px;font-weight:500;opacity:.85}
 
 /* ===================== NAV ===================== */
-.nav{position:absolute;top:0;left:0;right:0;z-index:20}
+.nav{position:absolute;top:0;left:0;right:0;z-index:80}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:84px;gap:24px}
 .logo{display:flex;align-items:center;gap:12px;color:#fff;font-family:var(--f-th);font-weight:500;letter-spacing:.14em}
 .logo img{width:40px;height:40px;border-radius:8px;box-shadow:0 0 0 1px rgba(255,255,255,.2)}
@@ -248,9 +248,12 @@ footer .fgrid a:hover{color:var(--gold)}
 .cpanel h4{font-family:var(--f-th);font-size:14px;letter-spacing:.12em;color:rgba(255,255,255,.65);padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:4px}
 .cpanel a{display:flex;align-items:center;gap:14px;padding:12px 4px;border-bottom:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.6);font-size:20px}
 .cpanel a:last-child{border:0}
-.cpanel i{flex:0 0 46px;height:46px;border-radius:12px;background:rgba(255,255,255,.07);display:grid;place-items:center;font-style:normal;font-size:20px}
-.cpanel .wa i{background:var(--navy);color:var(--gold)}
+.cpanel .press-ic{flex:0 0 44px;width:44px;height:44px}
 .cpanel span{flex:1;font-size:14px;color:rgba(255,255,255,.65);line-height:1.4}.cpanel b{display:block;color:#fff;font-family:var(--f-th);font-size:17px}
+.mnav{position:fixed;inset:0;z-index:70;background:rgba(10,15,26,.96);padding:96px var(--gutter) 24px}
+.mnav[hidden]{display:none}
+.mnav__list{display:flex;flex-direction:column;gap:4px;max-width:420px}
+.mnav__list a{min-height:56px;display:flex;align-items:center;color:#fff;font-family:var(--f-th);font-size:20px}
 /* Demo modal: กรอบมือถือ */
 .dmodal{position:fixed;inset:0;z-index:80;background:rgba(10,15,26,.82);backdrop-filter:blur(6px);display:grid;place-items:center;padding:16px}
 .dmodal[hidden]{display:none}
@@ -265,8 +268,7 @@ footer .fgrid a:hover{color:var(--gold)}
   .perk span{font-size:15px}
   .row .btn{width:100%}
   .tryme{left:30%;top:30%;font-size:14px;padding:10px 16px}
-  .fab{left:16px;right:16px;bottom:12px;width:auto}.fab[aria-expanded=true]{left:auto;width:56px}
-  .cpanel{left:16px;right:16px;width:auto;bottom:80px}
+  .fab,.cpanel{display:none!important}
   .dphone{border-radius:0;padding:0;height:100%;width:100%;background:none}.dphone iframe{border-radius:16px}.dclose{right:auto;left:8px;top:8px;width:40px;height:40px}
 }
 
@@ -330,9 +332,19 @@ footer .fgrid a:hover{color:var(--gold)}
       <a href="#massage">ตัวอย่างร้าน</a><a href="#how">วิธีทำงาน</a><a href="#packages">ราคา</a><a href="#faq">คำถาม</a>
     </nav>
     <a class="btn btn--gold" href="https://m.me/61586534972406" target="_blank" rel="noopener noreferrer">ทักแชท Facebook →</a>
-    <button class="burger" aria-label="เปิดเมนู" onclick="location.href='#packages'">☰</button>
+    <button class="burger" id="burger" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="v7-mnav">☰</button>
   </div>
 </header>
+<div class="mnav" id="v7-mnav" hidden role="dialog" aria-label="เมนู">
+  <nav class="mnav__list">
+    <a href="#massage">ตัวอย่างร้าน</a>
+    <a href="#how">วิธีทำงาน</a>
+    <a href="#packages">ราคา</a>
+    <a href="#faq">คำถาม</a>
+    <a class="btn btn--gold" href="sms:+61452044382">ส่ง SMS</a>
+    <a class="btn btn--line" href="https://m.me/61586534972406" target="_blank" rel="noopener noreferrer">ทัก Facebook</a>
+  </nav>
+</div>
 
 <!-- ============ 1) HERO: ขายประโยชน์ ============ -->
 <section class="hero" id="top">
@@ -481,7 +493,6 @@ footer .fgrid a:hover{color:var(--gold)}
       <div><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/><rect width="8" height="5" x="8" y="12" rx="1"/><path d="M10 12v-1a2 2 0 1 1 4 0v1"/></svg></i><b>ข้อมูลเป็นของร้าน</b><span>ย้ายออกได้</span></div>
       <div><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></svg></i><b>ราคาชัดก่อนเริ่ม</b><span>ตกลงเป็นลายลักษณ์อักษร</span></div>
       <div><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg></i><b>ไม่รับเงินแทนร้าน</b><span>ร้านรับผ่าน Square / เครื่องรูดบัตรของร้าน</span></div>
-      <div><b>ABN</b><span>81 951 461 769</span></div>
     </div>
     <div class="faq" style="margin-top:56px">
       <div><span class="kicker">07 / FAQ</span><h2 class="th2" style="margin-top:12px">คำถามที่เจอบ่อย</h2></div>
@@ -534,10 +545,10 @@ footer .fgrid a:hover{color:var(--gold)}
 <button class="fab" id="fab" aria-expanded="false" aria-controls="cpanel"><span class="fab__open">ทักแชท Facebook</span><span class="fab__x">✕</span></button>
 <div class="cpanel" id="cpanel" role="dialog" aria-label="ติดต่อเรา" hidden>
   <h4>ติดต่อเรา</h4>
-  <a href="tel:+61452044382"><i>📞</i><span><b>โทรหาเรา</b>0452 044 382</span>›</a>
-  <a href="sms:+61452044382"><i>💬</i><span><b>ส่ง SMS</b>0452 044 382</span>›</a>
-  <a href="https://m.me/61586534972406" target="_blank" rel="noopener noreferrer"><i>✉️</i><span><b>ทักแชท Facebook</b>Chapter99</span>›</a>
-  <a href="mailto:chapter99solutions@gmail.com"><i>📧</i><span><b>อีเมล</b>chapter99solutions@gmail.com</span>›</a>
+  <a href="tel:+61452044382"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></i><span><b>โทรหาเรา</b>0452 044 382</span></a>
+  <a href="sms:+61452044382"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/></svg></i><span><b>ส่ง SMS</b>0452 044 382</span></a>
+  <a href="https://m.me/61586534972406" target="_blank" rel="noopener noreferrer"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.745 6.616 4.472 8.652V24l4.086-2.242c1.09.301 2.246.464 3.442.464 6.627 0 12-4.975 12-11.111C24 4.974 18.627 0 12 0m1.191 14.963-3.055-3.26-5.963 3.26L10.732 8.1l3.131 3.259L19.752 8.1z"/></svg></i><span><b>ทักแชท Facebook</b>Chapter99</span></a>
+  <a href="mailto:chapter99solutions@gmail.com"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></i><span><b>อีเมล</b>chapter99solutions@gmail.com</span></a>
 </div>
 <!-- Demo modal -->
 <div class="dmodal" id="dmodal" hidden><div class="dphone"><div class="dtabs"><button data-src="demo-booking.html" class="on">จองคิว · ร้านนวด</button><button data-src="demo-order.html">สั่งอาหาร · ร้านอาหาร</button></div><button class="dclose" aria-label="ปิด">✕</button><iframe title="เดโม" loading="lazy"></iframe></div></div>
@@ -555,13 +566,17 @@ document.querySelectorAll('.qa details').forEach(d=>d.addEventListener('toggle',
    2) กด "ดูแพ็กเกจ" → เลื่อนไป #packages ที่มีแค่ Starter + Professional
    3) เปิด FAQ ข้อ 2 → ข้อ 1 ปิดเอง */
 
-// ===== V5: ปุ่มติดต่อลอยโผล่หลัง Hero + แผงติดต่อ =====
 (function(){
+  const burger=document.getElementById('burger'),mnav=document.getElementById('v7-mnav');
+  function setMenu(on){mnav.hidden=!on;burger.setAttribute('aria-expanded',on);burger.setAttribute('aria-label',on?'ปิดเมนู':'เปิดเมนู');burger.textContent=on?'✕':'☰'}
+  burger.onclick=()=>setMenu(mnav.hidden);
+  mnav.addEventListener('click',e=>{if(e.target===mnav)setMenu(false)});
+  mnav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
   const fab=document.getElementById('fab'),pn=document.getElementById('cpanel'),hero=document.querySelector('.hero');
   new IntersectionObserver(([e])=>{fab.classList.toggle('show',!e.isIntersecting);if(e.isIntersecting)close()}).observe(hero);
   function close(){pn.hidden=true;fab.setAttribute('aria-expanded','false')}
   fab.onclick=()=>{const o=pn.hidden;pn.hidden=!o;fab.setAttribute('aria-expanded',o)};
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'){close();closeDemo()}});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){setMenu(false);close();closeDemo()}});
   // ===== Demo modal: โหลด iframe ตอนกดเท่านั้น (ไม่ถ่วงหน้าแรก) =====
   const m=document.getElementById('dmodal'),f=m.querySelector('iframe');
   const tabs=m.querySelectorAll('.dtabs button');

@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { CalendarCheck, MessagesSquare, Smartphone, Timer } from 'lucide-react'
 import { v7Copy } from '../../content/v7'
+import { MobileNav } from './MobileNav'
 import { DecoLines, PressIcon } from './PressIcon'
 
 type HeroProps = {
@@ -7,6 +9,7 @@ type HeroProps = {
 }
 
 export function Hero(_props: HeroProps) {
+  const [menuOpen, setMenuOpen] = useState(false)
   return (
     <section className="hero" id="top">
       <div className="hero__bg">
@@ -41,11 +44,19 @@ export function Hero(_props: HeroProps) {
           <a className="btn btn--gold" href={v7Copy.contact.facebookInbox} target="_blank" rel="noopener noreferrer">
             {v7Copy.th.ctaTalk}
           </a>
-          <a className="burger" href="#packages" aria-label="ไปที่แพ็กเกจ">
-            ☰
-          </a>
+          <button
+            type="button"
+            className="burger"
+            aria-label={menuOpen ? 'ปิดเมนู' : 'เปิดเมนู'}
+            aria-expanded={menuOpen}
+            aria-controls="v7-mnav"
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            {menuOpen ? '✕' : '☰'}
+          </button>
         </div>
       </header>
+      <MobileNav open={menuOpen} onClose={() => setMenuOpen(false)} />
       <div className="hero__in">
         <span className="kicker">01 / AUSTRALIA</span>
         <h1 className="th2" style={{ color: '#fff', fontSize: 'clamp(36px, 8vw, 64px)' }}>

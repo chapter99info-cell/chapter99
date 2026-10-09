@@ -168,7 +168,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 20;
+  z-index: 80;
 }
 .home-v7 .nav .wrap {
   display: flex;
@@ -1296,18 +1296,31 @@
 .home-v7 .cpanel a:last-child {
   border: 0;
 }
-.home-v7 .cpanel i {
-  flex: 0 0 46px;
-  height: 46px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.07);
-  display: grid;
-  place-items: center;
-  font-style: normal;
-  font-size: 20px;
+.home-v7 .cpanel .press-ic {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
 }
-.home-v7 .cpanel .wa i {
-  background: #0f5132;
+.home-v7 .mnav {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(10, 15, 26, 0.96);
+  padding: 96px var(--gutter) 24px;
+}
+.home-v7 .mnav__list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 420px;
+}
+.home-v7 .mnav__list a {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-family: var(--f-th);
+  font-size: 20px;
 }
 .home-v7 .cpanel span {
   flex: 1;
@@ -1627,7 +1640,7 @@
   }
   .home-v7 .fab,
   .home-v7 .cpanel {
-    display: none;
+    display: none !important;
   }
   .home-v7 .dtabs {
     top: 8px;
