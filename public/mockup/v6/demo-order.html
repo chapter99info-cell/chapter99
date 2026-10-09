@@ -1,34 +1,78 @@
-<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DEMO · Baan Thai Kitchen</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;600&family=Oswald:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600&family=Oswald:wght@500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,"IBM Plex Sans Thai",sans-serif;background:#fff;color:#16130F;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:100px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"IBM Plex Sans Thai",sans-serif;background:#fff;color:#16130F;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:24px}
 .bar{position:sticky;top:0;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #EEE9E1;z-index:3;gap:8px}
-.bar b{font-family:Oswald,sans-serif;color:#9C6B35;letter-spacing:.04em;font-size:16px}.demo{background:#16130F;color:#fff;font-size:11px;font-weight:600;padding:4px 8px;border-radius:6px;flex:0 0 auto}
-h1{font-size:22px;padding:16px 18px 4px}.sub{color:#6E675D;font-size:14px;padding:0 18px 10px}
-.item{display:flex;gap:10px;padding:14px 18px;border-top:1px solid #F0ECE5;align-items:center}
+.bar b{font-family:Oswald,sans-serif;color:#9C6B35;letter-spacing:.04em;font-size:16px}
+.demo{background:#16130F;color:#fff;font-size:11px;font-weight:600;padding:4px 8px;border-radius:6px;flex:0 0 auto}
+h1{font-size:22px;padding:16px 18px 4px}
+.sub{color:#6E675D;font-size:15px;padding:0 18px 10px}
+.item{display:flex;gap:12px;padding:14px 18px;border-top:1px solid #F0ECE5;align-items:center}
 .tile{width:56px;height:56px;border-radius:10px;background:#FBF7EE;display:grid;place-items:center;flex:0 0 56px}
 .tile img{width:36px;height:36px;object-fit:contain}
-.item .copy{flex:1;min-width:0}.item b{display:block;font-size:15px;line-height:1.3;overflow-wrap:anywhere}.item small{color:#6E675D}
-.item .p{font-weight:600;margin-top:4px}
-.qty{display:flex;align-items:center;gap:4px;flex:0 0 auto}.qty button{width:32px;height:32px;border-radius:8px;border:1px solid #E6E1D8;background:#fff;font-size:18px}
+.copy{flex:1;min-width:0}
+.copy b{display:block;font-size:16px;line-height:1.35;overflow-wrap:anywhere}
+.copy small{color:#6E675D;font-size:14px}
+.copy .p{font-weight:600;margin-top:4px}
+.qty{display:flex;align-items:center;gap:4px;flex:0 0 auto}
+.qty button{width:36px;height:36px;border-radius:8px;border:1px solid #E6E1D8;background:#fff;font-size:18px}
 .qty span{min-width:1.2em;text-align:center}
-.note{font-size:13px;color:#6E675D;padding:12px 18px}
-</style></head><body>
+.note{font-size:14px;color:#6E675D;padding:14px 18px}
+</style>
+</head>
+<body>
 <div class="bar"><b>BAAN THAI KITCHEN</b><span class="demo">DEMO</span></div>
 <main>
 <h1>สั่งกลับบ้าน</h1>
 <p class="sub">ตัวอย่างการใช้งาน · ไม่มีการสั่งซื้อจริง</p>
-<div class="item"><div class="tile"><img src="/icons/icons8-soup-50.png" alt=""></div><div class="copy"><b>ผัดไทยกุ้ง</b><small>เส้นจันท์ กุ้งสด</small><div class="p">A$18.90</div></div><div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div></div>
-<div class="item"><div class="tile"><img src="/icons/icons8-chili-pepper-50.png" alt=""></div><div class="copy"><b>แกงเขียวหวานไก่</b><small>พร้อมข้าวสวย</small><div class="p">A$19.50</div></div><div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div></div>
-<div class="item"><div class="tile"><img src="/icons/icons8-vegetable-50.png" alt=""></div><div class="copy"><b>ข้าวผัดสับปะรด</b><small>ใส่ในลูกสับปะรด</small><div class="p">A$21.00</div></div><div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div></div>
-<div class="item"><div class="tile"><img src="/icons/icons8-chicken-50.png" alt=""></div><div class="copy"><b>ไก่ทอด</b><small>ไอคอนกลาง ไม่ใช่ภาพจานจริง</small><div class="p">A$16.50</div></div><div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div></div>
-<p class="note">ร้านสมมติ Baan Thai Kitchen · ไอคอน Icons8 · ไม่ใช้ภาพการตลาดแทนจานอาหาร · ไม่คิดเงิน · ไม่เชื่อมร้านจริง</p>
+
+<div class="item">
+  <div class="tile"><img src="/icons/icons8-chili-pepper-50.png" alt="ไอคอนพริก — ผัดไทย"></div>
+  <div class="copy"><b>ผัดไทยกุ้ง</b><small>เส้นจันท์ กุ้งสด</small><div class="p">A$18.90</div></div>
+  <div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div>
+</div>
+<div class="item">
+  <div class="tile"><img src="/icons/icons8-soup-50.png" alt="ไอคอนชามแกง — แกงเขียวหวาน"></div>
+  <div class="copy"><b>แกงเขียวหวานไก่</b><small>พร้อมข้าวสวย</small><div class="p">A$19.50</div></div>
+  <div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div>
+</div>
+<div class="item">
+  <div class="tile"><img src="/icons/icons8-vegetable-50.png" alt="ไอคอนผัก — ข้าวผัดสับปะรด"></div>
+  <div class="copy"><b>ข้าวผัดสับปะรด</b><small>ใส่ในลูกสับปะรด</small><div class="p">A$21.00</div></div>
+  <div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div>
+</div>
+<div class="item">
+  <div class="tile"><img src="/icons/icons8-chicken-50.png" alt="ไอคอนไก่ — ไก่ทอด"></div>
+  <div class="copy"><b>ไก่ทอด</b><small>ชิ้นไก่ทอด ไม่ใช่ภาพจานจริง</small><div class="p">A$16.50</div></div>
+  <div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div>
+</div>
+<div class="item">
+  <div class="tile"><img src="/icons/icons8-pork-50.png" alt="ไอคอนหมู — หมูกรอบ"></div>
+  <div class="copy"><b>หมูกรอบผัดกะเพรา</b><small>ข้าวสวย ไข่ดาว</small><div class="p">A$18.50</div></div>
+  <div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div>
+</div>
+<div class="item">
+  <div class="tile"><img src="/icons/icons8-cuts-of-beef-50.png" alt="ไอคอนเนื้อ — เนื้อย่าง"></div>
+  <div class="copy"><b>เนื้อย่างน้ำจิ้มแจ่ว</b><small>สไลซ์บาง</small><div class="p">A$22.00</div></div>
+  <div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div>
+</div>
+
+<p class="note">ร้านสมมติ · ไอคอนจากโฟลเดอร์ iconon (Icons8) · ไม่ใช้รูปถ่ายแทนจานอาหาร · ไม่คิดเงิน</p>
 </main>
 <script>
-document.querySelectorAll('.item').forEach(row=>{
-  const n=row.querySelector('.qty span');const btns=row.querySelectorAll('.qty button');let q=0;
-  btns[1].onclick=()=>{q++;n.textContent=q};btns[0].onclick=()=>{if(q){q--;n.textContent=q}};
+document.querySelectorAll('.item').forEach(function(row){
+  var n=row.querySelector('.qty span');
+  var btns=row.querySelectorAll('.qty button');
+  var q=0;
+  btns[1].onclick=function(){q++;n.textContent=q};
+  btns[0].onclick=function(){if(q){q--;n.textContent=q}};
 });
 </script>
-</body></html>
+</body>
+</html>
