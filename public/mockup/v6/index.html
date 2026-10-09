@@ -1,0 +1,580 @@
+﻿<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chapter99 — เว็บไซต์และระบบจองสำหรับร้านไทยในออสเตรเลีย</title>
+<meta name="description" content="Chapter99 ทำเว็บไซต์และตั้งค่าระบบจองให้ร้านไทยในออสเตรเลีย คุยภาษาไทย เริ่มต้น A$199">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Inter = ตัวอังกฤษ/ตัวเลข, IBM Plex Sans Thai = ตัวไทย, Oswald = โลโก้ตัวแคบ -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   V6 — แนวเรียบ มืออาชีพ (อ้างอิงงานดีไซน์ SaaS/บูติก)
+   หลักการ: พื้นสว่าง, ตัวอักษรคม, สีเน้นเดียว (น้ำตาลบรอนซ์),
+   โชว์ "หน้าจอจริง" แทนภาพประกอบ, ไม่มีอีโมจิ/เรืองแสง/กะพริบ
+   ========================================================= */
+:root{
+  --bg:#F7F5F1;--paper:#FFFFFF;--ink:#16130F;--ink-2:#3B352D;--dim:#6E675D;--line:#E6E1D8;--soft:#F0ECE5;
+  --brand:#9C6B35;--brand-2:#7F5427;--dark:#1E1D1F;--dark-2:#2A292C;
+  --r:14px;--gutter:clamp(18px,5vw,72px);--max:1200px;--ease:cubic-bezier(.2,.8,.2,1);
+  --f:"Inter","IBM Plex Sans Thai",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--f);font-size:17px;line-height:1.6;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.ico{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--brand)}
+h1,h2,h3{font-weight:700;letter-spacing:-.015em;line-height:1.2}
+h2{font-size:clamp(30px,3.4vw,44px)}
+.lead{color:var(--dim);font-size:18px;max-width:52ch}
+
+/* ปุ่ม: เรียบ ชัด ไม่มีเงาเรืองแสง */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:10px;font-weight:600;font-size:16px;border:1px solid transparent;transition:background .2s,color .2s,border-color .2s}
+.btn--brand{background:var(--brand);color:#fff}.btn--brand:hover{background:var(--brand-2)}
+.btn--ink{background:var(--ink);color:#fff}.btn--ink:hover{background:#000}
+.btn--line{border-color:var(--line);background:var(--paper);color:var(--ink)}.btn--line:hover{border-color:var(--ink)}
+.btn--cyan{background:#fff;color:var(--dark)}.btn--cyan:hover{background:var(--soft)}
+.link{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--ink);border-bottom:1px solid currentColor;padding-bottom:2px}
+.link:hover{color:var(--brand)}
+
+/* ===================== NAV ===================== */
+.nav{position:sticky;top:0;z-index:40;background:rgba(247,245,241,.9);backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
+.nav.scrolled{border-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.logo{display:flex;align-items:center;gap:10px;font-family:"Oswald",var(--f);font-weight:500;font-size:22px;letter-spacing:.06em;color:var(--brand)}
+.logo img{width:30px;height:30px;border-radius:7px}
+.menu{display:flex;gap:28px;font-size:15px;font-weight:500;color:var(--ink-2)}
+.menu a:hover{color:var(--ink)}
+.nav .btn{min-height:42px;padding:0 18px;font-size:15px}
+.burger{display:none;width:44px;height:44px;border:1px solid var(--line);border-radius:10px;background:var(--paper);align-items:center;justify-content:center}
+
+/* ===================== HERO ===================== */
+.hero{padding:clamp(48px,7vw,96px) 0 clamp(56px,7vw,96px)}
+.hero .wrap{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(32px,5vw,72px);align-items:center}
+.hero h1{font-size:clamp(34px,4vw,56px);margin:14px 0 18px}.nw{white-space:nowrap}
+.hero h1 span{color:var(--brand)}
+.hero__cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.hero__facts{display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:28px;font-size:15px;color:var(--dim)}
+.hero__facts span{display:inline-flex;align-items:center;gap:8px}
+.hero__facts .ico{width:18px;height:18px;color:var(--brand)}
+/* ฉากโทรศัพท์ 2 เครื่อง บนพื้นไล่สีนุ่ม (แบบภาพอ้างอิง 1) */
+.stage{position:relative;border-radius:24px;padding:clamp(22px,3vw,40px);background:linear-gradient(135deg,#3B78C4 0%,#5A8FCB 45%,#A6948A 100%);display:flex;gap:clamp(12px,2vw,24px);justify-content:center;overflow:hidden}
+.phone{flex:1;max-width:260px;background:#fff;border-radius:34px;padding:10px;box-shadow:0 0 0 7px rgba(255,255,255,.28),0 30px 60px -30px rgba(0,0,0,.45)}
+.phone__in{border-radius:26px;overflow:hidden;background:#fff;height:100%;display:flex;flex-direction:column;font-size:12px}
+.status{display:flex;justify-content:space-between;padding:10px 16px 4px;font-weight:600;font-size:12px}
+.status i{width:36px;height:9px;border-radius:3px;background:var(--ink);opacity:.85}
+.ph-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 16px}
+.ph-logo{font-family:"Oswald",var(--f);font-weight:500;color:var(--brand);letter-spacing:.04em;font-size:15px}
+.ph-burger{width:16px;height:10px;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);position:relative}
+.ph-burger::after{content:"";position:absolute;left:0;right:0;top:2px;border-top:2px solid var(--ink)}
+.ph-body{padding:4px 16px 14px;flex:1;display:flex;flex-direction:column}
+.crumb{color:var(--dim);font-size:11px;margin-bottom:10px}.crumb b{color:var(--ink)}
+.ph-img{border-radius:10px;overflow:hidden;aspect-ratio:1/1.05}.ph-img img{width:100%;height:100%;object-fit:cover}
+.ph-body h4{font-size:17px;margin:12px 0 2px}
+.ph-meta{font-weight:600;font-size:11px}
+.ph-txt{color:var(--dim);font-size:11px;line-height:1.5;margin-top:6px}
+.ph-add{margin-top:auto;background:var(--brand);color:#fff;text-align:center;border-radius:8px;padding:10px;font-weight:600}
+.cal-head{display:flex;justify-content:space-between;align-items:center;margin:6px 0 10px}
+.cal-head b{font-size:16px}
+.cal-nav{display:flex;gap:6px}.cal-nav span{width:26px;height:26px;border-radius:7px;background:var(--soft);display:grid;place-items:center;font-size:12px}
+.days{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;gap:2px;font-size:10px;color:var(--dim)}
+.days span{padding:5px 0;border-radius:6px}.days b{display:block;color:var(--ink);font-size:12px;font-weight:500}
+.days .on{background:var(--ink);color:#fff}.days .on b{color:#fff}.days .off b{color:#BDB6AA}
+.tz{text-align:center;color:var(--dim);font-size:10px;border-top:1px solid var(--line);margin-top:10px;padding-top:8px}
+.slot-h{font-size:13px;font-weight:700;margin:12px 0 4px}.slot-l{font-size:10px;color:var(--dim);margin:8px 0 4px}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.slots span{background:var(--soft);border-radius:6px;padding:7px 0;text-align:center;font-size:10.5px;font-weight:500}
+.textus{position:absolute;right:calc(50% + 14px);bottom:22%;background:#fff;border-radius:10px;padding:8px 12px;font-weight:600;font-size:12px;display:flex;align-items:center;gap:6px;box-shadow:0 8px 20px -8px rgba(0,0,0,.35)}
+.textus .ico{width:15px;height:15px}
+.stage__tag{position:absolute;left:16px;top:14px;background:rgba(255,255,255,.18);color:#fff;font-size:11px;font-weight:600;letter-spacing:.08em;padding:4px 9px;border-radius:6px}
+.stage__try{position:absolute;right:16px;top:12px;background:#fff;color:var(--ink);font-size:13px;font-weight:600;padding:7px 12px;border-radius:8px;border:0}
+.stage__try:hover{background:var(--soft)}
+
+/* ===================== STEPS (แผงเข้ม แบบภาพอ้างอิง 2) ===================== */
+.panel{background:var(--dark);color:#fff;border-radius:28px;padding:clamp(28px,5vw,72px);position:relative;overflow:hidden}
+.panel::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,transparent 0 120px,rgba(255,255,255,.035) 120px 121px);pointer-events:none}
+.panel__head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;position:relative}
+.panel h2{font-size:clamp(34px,4.6vw,64px)}
+.panel__body{display:grid;grid-template-columns:.85fr 1.25fr;gap:clamp(28px,4vw,56px);align-items:center;margin-top:clamp(28px,4vw,56px);position:relative}
+.steps{list-style:none;display:grid;gap:clamp(24px,3vw,40px)}
+.steps li{display:grid;grid-template-columns:64px 1fr;gap:20px;align-items:start}
+.steps .n{width:64px;height:64px;border-radius:50%;background:var(--dark-2);display:grid;place-items:center;font-size:26px;font-weight:600}
+.steps b{display:block;font-size:22px;font-weight:600;margin-bottom:4px}
+.steps span{color:rgba(255,255,255,.72);font-size:17px}
+.browser{border:2px solid #C9A47A;border-radius:12px;overflow:hidden;background:#fff}
+.browser__bar{display:flex;align-items:center;gap:6px;padding:9px 12px;background:#F3F1EE;border-bottom:1px solid #E3DFD8}
+.browser__bar i{width:10px;height:10px;border-radius:50%;background:#FF5F57}.browser__bar i:nth-child(2){background:#FEBC2E}.browser__bar i:nth-child(3){background:#28C840}
+.browser__bar span{margin-left:10px;flex:1;background:#fff;border-radius:6px;font-size:11px;color:#8A847B;padding:3px 10px}
+.browser img{aspect-ratio:16/10;object-fit:cover;object-position:top;width:100%}
+
+/* ===================== SECTIONS ===================== */
+.sec{padding:clamp(64px,8vw,112px) 0}
+.sec__head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,48px)}
+.sec__head h2{margin-top:8px}
+/* ประเภทร้าน */
+.shops{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.shop{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,transform .3s var(--ease)}
+.shop:hover{border-color:#CFC7BA;transform:translateY(-3px)}
+.shop img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.shop div{padding:16px 18px 18px;display:flex;flex-direction:column;gap:4px;flex:1}
+.shop h3{font-size:19px}
+.shop p{color:var(--dim);font-size:15px;flex:1}
+.shop .link{margin-top:10px;align-self:flex-start;font-size:15px}
+/* แพ็กเกจ */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:960px}
+.plan{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:clamp(24px,3vw,36px);display:flex;flex-direction:column}
+.plan--pro{border:2px solid var(--brand)}
+.plan__top{display:flex;justify-content:space-between;align-items:center}
+.plan h3{font-size:22px}
+.tag{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--soft);color:var(--ink-2)}
+.plan--pro .tag{background:var(--brand);color:#fff}
+.price{display:flex;align-items:baseline;gap:8px;margin:18px 0 2px}
+.price b{font-family:"Inter";font-size:clamp(40px,4vw,52px);letter-spacing:-.03em}
+.price span{color:var(--dim);font-weight:500}
+.price-note{font-size:14px;color:var(--dim)}
+.plan ul{list-style:none;margin:20px 0 26px;display:grid;gap:10px;flex:1;border-top:1px solid var(--line);padding-top:20px}
+.plan li{display:flex;gap:10px;align-items:flex-start;font-size:16px}
+.plan li .ico{width:18px;height:18px;margin-top:3px;color:var(--brand)}
+.plan .btn{width:100%}
+.addons{margin-top:20px;font-size:15px;color:var(--dim)}
+/* ร้านเป็นเจ้าของ */
+.own{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.own div{border-top:2px solid var(--ink);padding-top:18px}
+.own b{display:block;font-size:19px;margin-bottom:6px}
+.own span{color:var(--dim)}
+/* FAQ */
+.faq{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px}
+.qa details{border-bottom:1px solid var(--line)}
+.qa summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font-weight:600;font-size:18px}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary .ico{transition:transform .25s}
+.qa details[open] summary .ico{transform:rotate(45deg)}
+.qa p{padding:0 0 20px;color:var(--dim)}
+/* CTA ปิด */
+.close{background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:clamp(32px,5vw,64px);display:grid;grid-template-columns:1.3fr 1fr;gap:30px;align-items:center}
+.close h2{font-size:clamp(28px,3vw,40px)}
+.close__cta{display:flex;flex-direction:column;gap:10px}
+/* FOOTER */
+footer{padding:48px 0 32px;font-size:15px;color:var(--dim)}
+.fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.3fr;gap:28px;border-top:1px solid var(--line);padding-top:40px}
+footer h4{font-size:14px;color:var(--ink);margin-bottom:10px}
+footer .fgrid a{display:block;padding:3px 0}footer .fgrid a:hover{color:var(--ink)}
+.fbar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:36px;font-size:14px}
+.fbar a{margin-left:18px}
+
+/* ===================== Text us (ปุ่มติดต่อแบบภาพอ้างอิง 1) ===================== */
+.textbtn{position:fixed;right:20px;bottom:20px;z-index:50;display:flex;align-items:center;gap:8px;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-weight:600;font-size:15px;box-shadow:0 12px 30px -12px rgba(22,19,15,.35);opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .25s,transform .25s var(--ease)}
+.textbtn.show{opacity:1;transform:none;pointer-events:auto}
+.sheet{position:fixed;right:20px;bottom:80px;z-index:50;width:min(340px,calc(100vw - 40px));background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 24px 50px -20px rgba(22,19,15,.4);padding:8px}
+.sheet[hidden]{display:none}
+.sheet p{font-size:13px;color:var(--dim);padding:10px 12px 6px}
+.sheet a{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px}
+.sheet a:hover{background:var(--soft)}
+.sheet a i{width:38px;height:38px;border-radius:10px;background:var(--soft);display:grid;place-items:center}
+.sheet a span{flex:1;font-size:13px;color:var(--dim);line-height:1.35}.sheet a b{display:block;color:var(--ink);font-size:15px}
+/* Demo modal */
+.dmodal{position:fixed;inset:0;z-index:80;background:rgba(22,19,15,.55);display:grid;place-items:center;padding:16px}
+.dmodal[hidden]{display:none}
+.dbox{position:relative;width:min(400px,100%);height:min(780px,92vh);background:#fff;border-radius:28px;padding:10px;box-shadow:0 0 0 8px rgba(255,255,255,.25)}
+.dbox iframe,.dfood{width:100%;height:100%;border:0;border-radius:20px;background:#fff;display:none}
+.dbox iframe.show,.dfood.show{display:flex;flex-direction:column}
+.dfood{overflow:hidden;position:relative}
+.dfood img{width:100%;flex:1;object-fit:cover;object-position:top}
+.dfood__badge{position:absolute;left:12px;top:12px;background:#111;color:#fff;font-size:11px;font-weight:700;padding:4px 8px;border-radius:6px}
+.dfood__nav{display:flex;align-items:center;justify-content:center;gap:12px;padding:8px;background:#FBF7EE}
+.dfood__nav button{width:44px;height:44px}
+.dfood__note{margin:0;padding:0 12px 8px;font-size:14px;text-align:center;background:#FBF7EE}
+.dfood__open{display:flex;align-items:center;justify-content:center;min-height:48px;margin:0 12px 12px;border-radius:8px;background:#16130F;color:#fff;text-decoration:none}
+.dclose{position:absolute;right:-8px;top:-8px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#fff;display:grid;place-items:center}
+
+/* reveal: เบา ๆ ครั้งเดียว */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.steps li.rv:nth-child(2){transition-delay:.12s}.steps li.rv:nth-child(3){transition-delay:.24s}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width:1000px){
+  .menu,.nav .btn{display:none}.burger{display:inline-flex}
+  .hero .wrap,.panel__body,.faq,.close{grid-template-columns:1fr}
+  .shops{grid-template-columns:1fr 1fr}
+  .fgrid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .hero{padding-top:28px}
+  .hero__cta .btn{width:100%}
+  .stage{padding:16px 12px;border-radius:18px}.phone{border-radius:26px;padding:7px}.phone__in{border-radius:20px}
+  .phone:first-child .ph-txt{display:none}.textus{display:none}.stage__try{display:none}.stage{padding-top:36px}
+  .shops{grid-template-columns:1fr}
+  .shop{flex-direction:row}.shop img{width:38%;aspect-ratio:auto}.shop div{padding:14px}
+  .plans,.own{grid-template-columns:1fr}
+  .steps li{grid-template-columns:52px 1fr;gap:14px}.steps .n{width:52px;height:52px;font-size:22px}.steps b{font-size:19px}
+  .panel{border-radius:20px}.panel__head .btn{width:100%}
+  .fgrid{grid-template-columns:1fr}.fgrid>div:nth-child(2),.fgrid>div:nth-child(3){display:none}
+  .textbtn{left:16px;right:16px;bottom:12px;justify-content:center;min-height:52px}
+  .sheet{left:16px;right:16px;width:auto;bottom:74px}
+  .dbox{height:100%;width:100%;border-radius:20px;padding:6px;box-shadow:none}.dclose{right:10px;top:10px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.rv{opacity:1;transform:none}}
+
+/* ===== V6 trust sections ===== */
+.ba{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:stretch}
+.ba__col{border:1px solid var(--line);border-radius:18px;padding:clamp(22px,3vw,34px);background:var(--paper)}
+.ba__col h3{font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:14px}
+.ba__col ul{list-style:none;display:grid;gap:12px}
+.ba__col li{display:flex;gap:10px;align-items:flex-start;font-size:17px;color:var(--dim);text-decoration:line-through;text-decoration-color:rgba(110,103,93,.35)}
+.ba__col--after{border:2px solid var(--brand)}.ba__col--after h3{color:var(--brand)}
+.ba__col--after li{color:var(--ink);text-decoration:none}.ba__col--after li .ico{color:var(--brand);margin-top:3px}
+.ba__col em{font-style:normal;color:var(--brand);font-weight:600}
+.ba__arrow{display:grid;place-items:center;color:var(--dim)}
+.trydemo{margin-top:20px;background:var(--soft);border-radius:18px;padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.trydemo b{display:block;font-size:18px}.trydemo span{color:var(--dim);font-size:15px}
+.trydemo__btns{display:flex;gap:10px;flex-wrap:wrap}
+.meet{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,72px);align-items:center}
+.meet__photo{position:relative;aspect-ratio:4/5;border-radius:22px;background:repeating-linear-gradient(135deg,var(--soft) 0 14px,#E9E4DB 14px 28px);display:grid;place-items:center;overflow:hidden;border:1px dashed #CFC7BA}
+.meet__photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.meet__photo figcaption{text-align:center;color:var(--dim);font-weight:600}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px;border-top:1px solid var(--line);padding-top:18px}
+.facts dt{font-size:13px;color:var(--dim)}.facts dd{font-weight:600}
+.after{margin-top:24px;max-width:960px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:clamp(22px,3vw,32px)}
+.after h3{font-size:20px;margin-bottom:16px}
+.after__grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 28px}
+.after__grid b{display:block;font-size:16px}.after__grid span{color:var(--dim);font-size:15px}
+.addon-box{margin-top:16px;max-width:960px;border:1px dashed #CFC7BA;border-radius:18px;padding:22px 26px;display:grid;grid-template-columns:1fr 1.2fr;gap:20px;align-items:center;background:transparent}
+.addon-box h3{font-size:19px;margin-top:8px}.addon-box p{color:var(--dim);font-size:15px}
+.addon-box ul{list-style:none;display:grid;gap:8px}
+.addon-box li{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:8px;font-size:16px}
+.proof{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.proof__card{border:1px solid var(--line);border-radius:16px;padding:22px;background:var(--paper);display:flex;flex-direction:column;gap:6px}
+.proof__card b{font-size:18px}.proof__card span{color:var(--dim);font-size:15px}
+.todo{font-style:normal;font-size:13px;font-weight:600;color:#A04A2A;background:#FBEDE6;border-radius:6px;padding:3px 8px;align-self:flex-start;display:inline-block}
+.dtabs{position:absolute;left:50%;top:-50px;transform:translateX(-50%);display:flex;gap:6px;background:rgba(255,255,255,.15);padding:4px;border-radius:10px}
+.dtabs button{border:0;background:transparent;color:#fff;font-weight:600;font-size:14px;padding:8px 12px;border-radius:8px;white-space:nowrap}
+.dtabs .on{background:#fff;color:var(--ink)}
+.dbox{margin-top:50px}
+@media (max-width:1000px){.ba{grid-template-columns:1fr}.ba__arrow{transform:rotate(90deg)}.meet{grid-template-columns:1fr}.meet__photo{max-width:420px;aspect-ratio:4/3}.proof{grid-template-columns:1fr}.addon-box{grid-template-columns:1fr}}
+@media (max-width:640px){.after__grid,.facts{grid-template-columns:1fr}.trydemo__btns .btn{width:100%}.dtabs{top:8px;left:12px;transform:none;z-index:2;background:rgba(22,19,15,.75)}.dbox{margin-top:0;padding-top:58px}.dclose{top:12px}}
+</style>
+</head>
+<body>
+<!-- ไอคอนเส้น (inline SVG) — ใช้แทนอีโมจิ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.5 8.5 0 1 1 21 11.5z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+</svg>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><img src="/mockup/media/web/logo.webp" alt="">CHAPTER99</a>
+    <nav class="menu" aria-label="เมนูหลัก">
+      <a href="#shops">ประเภทร้าน</a><a href="#how">วิธีทำงาน</a><a href="#team">ทีมงาน</a><a href="#pricing">ราคา</a><a href="/business-toolkit">เครื่องมือฟรี</a><a href="#faq">คำถาม</a>
+    </nav>
+    <a class="btn btn--ink" href="#pricing">เริ่มต้น A$199</a>
+    <a class="burger" href="#pricing" aria-label="ไปที่ราคา"><svg class="ico"><use href="#i-menu"/></svg></a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">For Thai businesses in Australia</p>
+      <h1><span class="nw" style="color:inherit">งานหลังร้านน้อยลง</span><br><span>มีเวลาดูแลลูกค้า</span><span class="nw">มากขึ้น</span></h1>
+      <p class="lead">เราทำเว็บไซต์ร้านและตั้งค่าระบบจองให้ ลูกค้าดูบริการ ราคา และจองคิวได้เอง คุณไม่ต้องเก่งคอม</p>
+      <div class="hero__cta">
+        <a class="btn btn--brand" href="#pricing">ดูราคา · เริ่มต้น A$199</a>
+        <button class="btn btn--line" data-demo><svg class="ico"><use href="#i-play"/></svg>ลองระบบจริงในเดโม</button>
+      </div>
+      <div class="hero__facts">
+        <span><svg class="ico"><use href="#i-chat"/></svg>คุยภาษาไทย</span>
+        <span><svg class="ico"><use href="#i-globe"/></svg>ดูแลร้านในออสเตรเลีย</span>
+        <span><svg class="ico"><use href="#i-lock"/></svg>ร้านเป็นเจ้าของข้อมูล</span>
+      </div>
+    </div>
+
+    <!-- หน้าจอจริงของเว็บร้านตัวอย่าง (HTML ไม่ใช่รูป) -->
+    <div class="stage" aria-label="ตัวอย่างเว็บร้านบนมือถือ (demo)">
+      <span class="stage__tag">ระบบจริงของร้าน Thai Garlic</span>
+      <button class="stage__try" data-demo>ลองกดดู</button>
+      <div class="phone"><div class="phone__in">
+        <div class="status"><span>9:41</span><i></i></div>
+        <div class="ph-bar"><span class="ph-logo">SABAI THAI</span><span class="ph-burger"></span></div>
+        <div class="ph-body">
+          <div class="crumb">บริการทั้งหมด / <b>นวดไทย</b></div>
+          <div class="ph-img"><img src="/mockup/media/web/pg-massage.webp" alt=""></div>
+          <h4>นวดไทยแผนโบราณ</h4>
+          <div class="ph-meta">A$80 · 60 นาที</div>
+          <p class="ph-txt">คลายกล้ามเนื้อ ผ่อนคลายทั้งตัว โดยหมอนวดประสบการณ์</p>
+          <div class="ph-add" style="margin-top:12px">เลือกบริการนี้</div>
+        </div>
+      </div></div>
+      <div class="phone"><div class="phone__in">
+        <div class="status"><span>9:41</span><i></i></div>
+        <div class="ph-bar"><span class="ph-logo">SABAI THAI</span><span class="ph-burger"></span></div>
+        <div class="ph-body">
+          <div class="cal-head"><b>ต.ค. 2026</b><span class="cal-nav"><span>‹</span><span>›</span></span></div>
+          <div class="days"><span class="off">อา<b>11</b></span><span class="on">จ<b>12</b></span><span>อ<b>13</b></span><span>พ<b>14</b></span><span>พฤ<b>15</b></span><span>ศ<b>16</b></span><span>ส<b>17</b></span></div>
+          <div class="tz">เวลาแสดงตาม Sydney</div>
+          <div class="slot-h">จันทร์ 12 ต.ค.</div>
+          <div class="slot-l">ช่วงเช้า</div><div class="slots"><span>10:00</span><span>11:30</span></div>
+          <div class="slot-l">ช่วงบ่าย</div><div class="slots"><span>13:00</span><span>14:30</span><span>15:00</span><span>16:00</span><span>17:30</span></div>
+        </div>
+      </div></div>
+      <span class="textus"><svg class="ico"><use href="#i-msg"/></svg>ทักร้าน</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Before → After ============ -->
+<section class="sec" id="before-after" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec__head"><div><p class="eyebrow">Before → After</p><h2>วันทำงานของเจ้าของร้าน</h2></div><p class="lead">สิ่งที่เปลี่ยนเมื่อร้านมีเว็บและระบบจอง</p></div>
+    <div class="ba">
+      <div class="ba__col rv"><h3>ก่อน</h3>
+        <ul><li>ตอบแชทถามราคาซ้ำ ๆ ทั้งวัน</li><li>จดคิวในสมุดหรือแชท ตกหล่นง่าย</li><li>ลูกค้าใหม่หาร้านบน Google ไม่เจอ</li><li>ข้อมูลร้านกระจายหลายที่</li></ul></div>
+      <div class="ba__arrow" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></div>
+      <div class="ba__col ba__col--after rv"><h3>หลัง</h3>
+        <ul><li><svg class="ico"><use href="#i-check"/></svg>ลูกค้าดูบริการและราคาบนเว็บเอง</li><li><svg class="ico"><use href="#i-check"/></svg>ลูกค้าจองออนไลน์ได้ <em>(Professional)</em></li><li><svg class="ico"><use href="#i-check"/></svg>มีเว็บร้านให้ลูกค้าใหม่หาเจอ</li><li><svg class="ico"><use href="#i-check"/></svg>ข้อมูลร้านอยู่ที่เดียว แก้ง่าย</li></ul></div>
+    </div>
+    <div class="trydemo rv">
+      <div><b>ลองระบบจริงในเดโม</b><span>กดจองคิวหรือสั่งอาหารได้ครบขั้นตอน · ร้านสมมติ ไม่ใช่ร้านจริง ไม่มีการส่งข้อมูล</span></div>
+      <div class="trydemo__btns"><button class="btn btn--ink" data-demo="demo-booking.html">ลองจองคิว (ร้านนวด)</button><button class="btn btn--line" data-demo="food-app">ลองสั่งอาหาร (ร้านอาหาร)</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 ขั้น (แผงเข้ม) ============ -->
+<section class="wrap" id="how">
+  <div class="panel">
+    <div class="panel__head">
+      <h2>เริ่มง่าย 3 ขั้น</h2>
+      <a class="btn btn--cyan" href="#contact">คุยกับเรา</a>
+    </div>
+    <div class="panel__body">
+      <ol class="steps">
+        <li class="rv"><span class="n">1</span><div><b>คุยกันภาษาไทย</b><span>เล่าเรื่องร้าน บริการ ราคา แล้วเลือกแพ็กเกจที่เหมาะ</span></div></li>
+        <li class="rv"><span class="n">2</span><div><b>เราตั้งค่าให้</b><span>ทำเว็บไซต์ ใส่ข้อมูลร้าน และระบบจองตามแพ็กเกจ คุณไม่ต้องทำเอง</span></div></li>
+        <li class="rv"><span class="n">3</span><div><b>เปิดใช้ พร้อมสอนใช้งาน</b><span>ส่งลิงก์ให้ลูกค้าได้ทันที ร้านเป็นเจ้าของข้อมูล</span></div></li>
+      </ol>
+      <div class="browser rv">
+        <div class="browser__bar"><i></i><i></i><i></i><span>sabai-thai-massage.com.au</span></div>
+        <img src="/mockup/media/web/demo-desk.webp" alt="ตัวอย่างเว็บร้านนวดบนคอมพิวเตอร์ (demo)" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Meet Chapter99 ============ -->
+<section class="sec" id="team">
+  <div class="wrap meet">
+    <figure class="meet__photo rv">
+      <!-- TODO: ใส่รูปพี่แสน/ทีมงานจริง (ไม่ใช้ภาพ stock) → /mockup/media/web/team.webp -->
+      <img src="/mockup/media/web/team.webp" alt="ทีมงาน Chapter99" loading="lazy" onerror="this.remove()">
+      <figcaption>รูปทีมงานจริง<br><small>(รอใส่รูป)</small></figcaption>
+    </figure>
+    <div class="rv">
+      <p class="eyebrow">Meet Chapter99</p>
+      <h2 style="margin-top:8px">คนไทยดูแลคนไทย<br>ในออสเตรเลีย</h2>
+      <p class="lead" style="margin-top:14px">Chapter99 อยู่ที่ซิดนีย์ ทำงานกับชุมชนธุรกิจไทยมาเกือบ 10 ปี และมีประสบการณ์ถ่ายภาพกว่า 10 ปี เราคุยภาษาไทย เข้าใจร้านไทย และดูแลหลังเปิดใช้ตามแพ็กเกจ</p>
+      <dl class="facts">
+        <div><dt>ที่ตั้ง</dt><dd>Sydney, NSW</dd></div>
+        <div><dt>ภาษา</dt><dd>ไทย · English</dd></div>
+        <div><dt>ติดต่อ</dt><dd>0452 044 382</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ประเภทร้าน ============ -->
+<section class="sec" id="shops">
+  <div class="wrap">
+    <div class="sec__head">
+      <div><p class="eyebrow">Example websites</p><h2>ตัวอย่างเว็บไซต์ตามประเภทร้าน</h2></div>
+      <p class="lead">เริ่มจากร้านนวด แล้วปรับให้เข้ากับร้านของคุณ</p>
+    </div>
+    <div class="shops">
+      <a class="shop rv" href="/massage"><img src="/mockup/media/web/sol-massage.webp" alt="" loading="lazy"><div><h3>ร้านนวด / สปา</h3><p>บริการ ราคา และจองคิว</p><span class="link">ดูตัวอย่าง <svg class="ico"><use href="#i-arrow"/></svg></span></div></a>
+      <a class="shop rv" href="/restaurants"><img src="/mockup/media/web/pg-food.webp" alt="" loading="lazy"><div><h3>ร้านอาหาร / คาเฟ่</h3><p>เมนูออนไลน์ ลูกค้าหาร้านเจอ</p><span class="link">ดูตัวอย่าง <svg class="ico"><use href="#i-arrow"/></svg></span></div></a>
+      <a class="shop rv" href="/beauty"><img src="/mockup/media/web/sol-beauty.webp" alt="" loading="lazy"><div><h3>ความงาม</h3><p>โชว์ผลงาน นัดหมายง่าย</p><span class="link">ดูตัวอย่าง <svg class="ico"><use href="#i-arrow"/></svg></span></div></a>
+      <a class="shop rv" href="/cleaning"><img src="/mockup/media/web/sol-clean.webp" alt="" loading="lazy"><div><h3>ทำความสะอาด</h3><p>บริการ ราคา ขอใบเสนอราคา</p><span class="link">ดูตัวอย่าง <svg class="ico"><use href="#i-arrow"/></svg></span></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ราคา ============ -->
+<section class="sec" id="pricing" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec__head">
+      <div><p class="eyebrow">Pricing</p><h2>2 แพ็กเกจ ราคาชัดเจน</h2></div>
+      <p class="lead">ค่าตั้งค่าครั้งแรก + รายเดือน ขอบเขตงานตกลงกันก่อนเริ่ม</p>
+    </div>
+    <div class="plans">
+      <div class="plan rv" id="starter">
+        <div class="plan__top"><h3>Starter</h3><span class="tag">อยากมีเว็บไซต์</span></div>
+        <div class="price"><b>A$199</b><span>+ A$19/เดือน</span></div>
+        <div class="price-note">ค่าตั้งค่าครั้งแรก · รายเดือนรวมโฮสติ้งและดูแล</div>
+        <ul>
+          <li><svg class="ico"><use href="#i-check"/></svg>เว็บไซต์ร้านที่ใช้บนมือถือได้ดี</li>
+          <li><svg class="ico"><use href="#i-check"/></svg>บริการ / เมนู / ราคา</li>
+          <li><svg class="ico"><use href="#i-check"/></svg>ข้อมูลติดต่อและแผนที่</li>
+          <li><svg class="ico"><use href="#i-check"/></svg>เหมาะกับร้านเปิดใหม่หรือร้านเล็ก</li>
+        </ul>
+        <a class="btn btn--line" href="mailto:chapter99solutions@gmail.com?subject=Chapter99%20Starter">เลือก Starter</a>
+      </div>
+      <div class="plan plan--pro rv" id="professional">
+        <div class="plan__top"><h3>Professional</h3><span class="tag">แนะนำ</span></div>
+        <div class="price"><b>A$499</b><span>+ A$49/เดือน</span></div>
+        <div class="price-note">ค่าตั้งค่าครั้งแรก · รายเดือนรวมโฮสติ้งและดูแล</div>
+        <ul>
+          <li><svg class="ico"><use href="#i-check"/></svg>ทุกอย่างใน Starter</li>
+          <li><svg class="ico"><use href="#i-check"/></svg>ตั้งค่าระบบจองคิว / สั่งอาหาร ตามขอบเขตที่ตกลง</li>
+          <li><svg class="ico"><use href="#i-check"/></svg>เครื่องมือช่วยจัดการร้าน</li>
+          <li><svg class="ico"><use href="#i-check"/></svg>เหมาะกับร้านที่มีลูกค้าประจำ งานเยอะ</li>
+        </ul>
+        <a class="btn btn--brand" href="mailto:chapter99solutions@gmail.com?subject=Chapter99%20Professional">เลือก Professional</a>
+      </div>
+    </div>
+    <div class="after rv">
+      <h3>หลังชำระเงิน ได้อะไรบ้าง?</h3>
+      <div class="after__grid">
+        <div><b>ค่ารายเดือนครอบคลุม</b><span>โฮสติ้งเว็บไซต์ · ดูแลให้เว็บใช้งานได้ · อัปเดตเล็กน้อยตามขอบเขต</span></div>
+        <div><b>ใครแก้ข้อมูลร้าน</b><span>ส่งข้อมูลมาทาง WhatsApp/อีเมล เราแก้ให้ตามขอบเขตแพ็กเกจ</span></div>
+        <div><b>มีปัญหาติดต่อใคร</b><span>ทีม Chapter99 โดยตรง คุยภาษาไทย</span></div>
+        <div><b>ค่าใช้จ่ายเพิ่มเติม</b><span>ค่าโดเมน (ถ้ามี) และงานนอกขอบเขต แจ้งราคาก่อนทำทุกครั้ง</span></div>
+      </div>
+    </div>
+    <div class="addon-box rv">
+      <div><span class="tag">ไม่บังคับ</span><h3>บริการเสริม</h3><p>เลือกเพิ่มได้เมื่อพร้อม ไม่รวมในราคาแพ็กเกจ</p></div>
+      <ul><li><span>ถ่ายภาพร้าน</span><b>A$349</b></li><li><span>วิดีโอ Reels</span><b>A$349</b></li><li><span>Square Setup (ครั้งเดียว)</span><b>A$199</b></li></ul>
+    </div>
+    <p class="addons">* ราคาตามขอบเขตงานที่ตกลง ยืนยันเป็นลายลักษณ์อักษรก่อนเริ่ม — <a class="link" href="/pricing">ดูขอบเขตงานเต็ม</a></p>
+  </div>
+</section>
+
+<!-- ============ ร้านเป็นเจ้าของ ============ -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec__head"><div><p class="eyebrow">Your shop, your system</p><h2>ร้านของคุณ ระบบของคุณ</h2></div></div>
+    <div class="own">
+      <div class="rv"><b>ข้อมูลเป็นของร้าน</b><span>ข้อมูลธุรกิจและลูกค้าอยู่ภายใต้สิทธิ์ที่ตกลงกัน ย้ายออกได้</span></div>
+      <div class="rv"><b>ราคาชัดก่อนเริ่ม</b><span>ขอบเขตงานและค่าใช้จ่ายตกลงกันก่อนทุกครั้ง</span></div>
+      <div class="rv"><b>ไม่รับเงินแทนร้าน</b><span>ร้านรับเงินผ่านเครื่องรูดบัตรหรือ Square ของร้านเอง</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Trust & Proof ============ -->
+<section class="sec" id="proof" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec__head"><div><p class="eyebrow">Trust & proof</p><h2>ข้อมูลที่ตรวจสอบได้</h2></div><p class="lead">เราแสดงเฉพาะสิ่งที่ยืนยันได้ ไม่ใส่ตัวเลขหรือรีวิวที่ไม่มีหลักฐาน</p></div>
+    <div class="proof">
+      <div class="proof__card rv"><b>ผลงานที่เปิดใช้จริง</b><span>แสดงเมื่อร้านอนุญาตเป็นลายลักษณ์อักษร</span><em class="todo">รอใส่ผลงาน + ลิงก์จริง</em></div>
+      <div class="proof__card rv"><b>รีวิวจากลูกค้า</b><span>ลิงก์ไปรีวิวต้นทางบน Google / Facebook</span><em class="todo">รอใส่ลิงก์รีวิวจริง</em></div>
+      <div class="proof__card rv"><b>ข้อมูลบริษัท</b><span>Chapter99 · Sydney, NSW<br>ABN: <em class="todo">รอยืนยันเลข ABN</em></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="sec" id="faq" style="padding-top:0">
+  <div class="wrap faq">
+    <div><p class="eyebrow">FAQ</p><h2 style="margin-top:8px">คำถามที่เจอบ่อย</h2></div>
+    <div class="qa">
+      <details open><summary>ต้องเก่งคอมไหม?<svg class="ico"><use href="#i-plus"/></svg></summary><p>ไม่ต้องครับ เราตั้งค่าให้และสอนใช้งาน ร้านแค่ส่งข้อมูลและรูปมา</p></details>
+      <details><summary>ใช้เวลานานไหมกว่าจะเปิดใช้?<svg class="ico"><use href="#i-plus"/></svg></summary><p>ขึ้นกับขอบเขตงานและความพร้อมของข้อมูลร้าน เราแจ้งกำหนดการชัดเจนหลังคุยกัน</p></details>
+      <details><summary>ค่ารายเดือนจ่ายเพื่ออะไร?<svg class="ico"><use href="#i-plus"/></svg></summary><p>โฮสติ้งเว็บไซต์และการดูแลให้ใช้งานได้ รวมการแก้ข้อมูลเล็กน้อยตามขอบเขตแพ็กเกจ</p></details>
+      <details><summary>ถ้าเลิกใช้ ข้อมูลไปไหน?<svg class="ico"><use href="#i-plus"/></svg></summary><p>ข้อมูลเป็นของร้าน ขอส่งออกและย้ายไปที่อื่นได้</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ปิดท้าย ============ -->
+<section class="wrap" id="contact" style="padding-bottom:56px">
+  <div class="close">
+    <div><p class="eyebrow">Talk to the team</p><h2 style="margin-top:8px">คุยกับทีมงานก่อน<br>แล้วค่อยเลือกแพ็กเกจ</h2><p class="lead" style="margin-top:10px">ตอบภาษาไทย · ไม่มีค่าใช้จ่ายในการคุย</p></div>
+    <div class="close__cta">
+      <a class="btn btn--brand" href="https://wa.me/61452044382?text=%E0%B8%AA%E0%B8%A7%E0%B8%B1%E0%B8%AA%E0%B8%94%E0%B8%B5%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B8%9A%20%E0%B8%AA%E0%B8%99%E0%B9%83%E0%B8%88%E0%B9%80%E0%B8%A7%E0%B9%87%E0%B8%9A%E0%B9%84%E0%B8%8B%E0%B8%95%E0%B9%8C%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99"><svg class="ico"><use href="#i-chat"/></svg>ทัก WhatsApp ภาษาไทย</a>
+      <a class="btn btn--line" href="mailto:chapter99solutions@gmail.com?subject=Chapter99%20Business%20Audit"><svg class="ico"><use href="#i-mail"/></svg>ส่งอีเมล</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div><a class="logo" href="#top"><img src="/mockup/media/web/logo.webp" alt="">CHAPTER99</a><p style="margin-top:12px">เว็บไซต์และระบบจองสำหรับร้านไทยในออสเตรเลีย · Sydney, NSW</p></div>
+      <div><h4>ประเภทร้าน</h4><a href="/massage">ร้านนวด</a><a href="/restaurants">ร้านอาหาร / คาเฟ่</a><a href="/beauty">ความงาม</a><a href="/cleaning">ทำความสะอาด</a></div>
+      <div><h4>Chapter99</h4><a href="/pricing">ราคา</a><a href="/business-toolkit">เครื่องมือฟรี</a><a href="/about">เกี่ยวกับเรา</a></div>
+      <div><h4>ติดต่อ</h4><a href="tel:+61452044382">0452 044 382</a><a href="https://wa.me/61452044382">WhatsApp</a><a href="mailto:chapter99solutions@gmail.com">chapter99solutions@gmail.com</a><a href="https://m.me/61586534972406">Inbox Facebook</a></div>
+    </div>
+    <div class="fbar"><span>© 2026 Chapter99 · ภาพหน้าจอร้านเป็นเดโม ไม่ใช่ร้านลูกค้าจริง</span><span><a href="/legal/privacy">Privacy Policy</a><a href="/legal/terms">Terms</a></span></div>
+  </div>
+</footer>
+
+<!-- ปุ่ม "ทักเรา" + แผ่นรายการติดต่อ -->
+<button class="textbtn" id="textbtn" aria-expanded="false" aria-controls="sheet"><svg class="ico"><use href="#i-msg"/></svg><span>ทักเรา</span></button>
+<div class="sheet" id="sheet" role="dialog" aria-label="ติดต่อ Chapter99" hidden>
+  <p>ตอบภาษาไทย</p>
+  <a href="https://wa.me/61452044382"><i><svg class="ico"><use href="#i-chat"/></svg></i><span><b>WhatsApp</b>แชทกับเรา</span></a>
+  <a href="tel:+61452044382"><i><svg class="ico"><use href="#i-phone"/></svg></i><span><b>โทร</b>0452 044 382</span></a>
+  <a href="https://m.me/61586534972406"><i><svg class="ico"><use href="#i-msg"/></svg></i><span><b>Inbox Facebook</b>Chapter99</span></a>
+  <a href="mailto:chapter99solutions@gmail.com"><i><svg class="ico"><use href="#i-mail"/></svg></i><span><b>อีเมล</b>chapter99solutions@gmail.com</span></a>
+</div>
+<div class="dmodal" id="dmodal" hidden><div class="dbox"><div class="dtabs" role="tablist"><button class="on" data-src="demo-booking.html">จองคิว · ร้านนวด</button><button data-src="food-app">สั่งอาหาร · ร้านอาหาร</button></div><button class="dclose" aria-label="ปิด"><svg class="ico"><use href="#i-x"/></svg></button><iframe title="เดโมจองคิว" data-src="demo-booking.html"></iframe><div class="dfood" id="dfood"><span class="dfood__badge">ระบบจริงของร้าน Thai Garlic</span><img id="dfood-shot" src="/mockup/media/web/app-food-01.webp" alt="แอปสั่งอาหารจริง ร้านตัวอย่าง"><div class="dfood__nav"><button type="button" id="dfood-prev" aria-label="ภาพก่อนหน้า">‹</button><span id="dfood-idx">1 / 3</span><button type="button" id="dfood-next" aria-label="ภาพถัดไป">›</button></div><p class="dfood__note">ดูหน้าตาแอป — กรุณาอย่ากดสั่งจริง</p><a class="dfood__open" href="https://thai-garlic.chapter99info.com/menu?channel=takeaway&shop=thai-garlic" target="_blank" rel="noopener">เปิดดูแอปจริงของร้าน Thai Garlic</a></div></div></div>
+
+<script>
+// Nav: เส้นขอบเมื่อเลื่อน
+const nav=document.getElementById('nav');addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>8),{passive:true});
+// Reveal ครั้งเดียว
+(function(){const els=document.querySelectorAll('.rv');if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return}
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});els.forEach(e=>io.observe(e))})();
+// ปุ่มทักเรา: โผล่หลังผ่าน Hero
+(function(){const b=document.getElementById('textbtn'),s=document.getElementById('sheet');
+  new IntersectionObserver(([e])=>{b.classList.toggle('show',!e.isIntersecting);if(e.isIntersecting)close()}).observe(document.querySelector('.hero'));
+  function close(){s.hidden=true;b.setAttribute('aria-expanded','false');b.querySelector('span').textContent='ทักเรา'}
+  b.onclick=()=>{const o=s.hidden;s.hidden=!o;b.setAttribute('aria-expanded',o);b.querySelector('span').textContent=o?'ปิด':'ทักเรา'};
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){close();closeDemo()}});
+  // เดโม: โหลดเมื่อกดเท่านั้น
+  const m=document.getElementById('dmodal'),f=m.querySelector('iframe'),food=document.getElementById('dfood');
+  const shots=['/mockup/media/web/app-food-01.webp','/mockup/media/web/app-food-02.webp','/mockup/media/web/app-food-03.webp'];
+  let si=0;const img=document.getElementById('dfood-shot'),idx=document.getElementById('dfood-idx');
+  function showShot(){img.src=shots[si];idx.textContent=(si+1)+' / '+shots.length}
+  document.getElementById('dfood-prev').onclick=()=>{si=(si+shots.length-1)%shots.length;showShot()};
+  document.getElementById('dfood-next').onclick=()=>{si=(si+1)%shots.length;showShot()};
+  const tabs=m.querySelectorAll('.dtabs button');
+  function load(src){
+    const isFood=src==='food-app';
+    f.classList.toggle('show',!isFood);food.classList.toggle('show',isFood);
+    if(!isFood){f.src=src}else{f.removeAttribute('src');showShot()}
+    tabs.forEach(t=>t.classList.toggle('on',t.dataset.src===src));
+  }
+  tabs.forEach(t=>t.onclick=()=>load(t.dataset.src));
+  document.querySelectorAll('[data-demo]').forEach(x=>x.addEventListener('click',()=>{load(x.dataset.demo||'demo-booking.html');m.hidden=false;document.body.style.overflow='hidden'}));
+  function closeDemo(){m.hidden=true;document.body.style.overflow=''}
+  m.querySelector('.dclose').onclick=closeDemo;m.addEventListener('click',e=>{if(e.target===m)closeDemo()});
+})();
+// FAQ ทีละข้อ
+document.querySelectorAll('.qa details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)document.querySelectorAll('.qa details').forEach(o=>{if(o!==d)o.open=false})}));
+/* Tests: 390px ไม่มี scroll แนวนอน; เลื่อนผ่าน hero → ปุ่ม "ทักเรา" โผล่; กด → แผ่นติดต่อเปิด, Esc ปิด; ปุ่ม "ลองจองคิวในเดโม" → modal โหลด demo-booking.html */
+</script>
+</body>
+</html>

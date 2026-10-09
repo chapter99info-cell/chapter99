@@ -1,8 +1,16 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import {
+  FOOD_APP_SHOTS,
+  FOOD_APP_URL,
+  FOOD_DEMO_BADGE,
+  FOOD_DEMO_NOTE,
+  FOOD_DEMO_OPEN,
+  FOOD_DEMO_TAB,
+} from '../../data/foodDemo'
 
 const TABS = [
   { src: '/demo/demo-booking.html', label: 'จองคิว · ร้านนวด' },
-  { src: '/demo/demo-order.html', label: 'สั่งอาหาร · ร้านอาหาร' },
+  { src: FOOD_DEMO_TAB, label: 'สั่งอาหาร · ร้านอาหาร' },
 ] as const
 
 type Props = {
@@ -12,10 +20,16 @@ type Props = {
 }
 
 export function DemoModal({ src, onClose, onChange }: Props) {
+  const [shot, setShot] = useState(0)
+  const food = src === FOOD_DEMO_TAB
+
   useEffect(() => {
     if (!src) return
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
+      if (!food) return
+      if (e.key === 'ArrowRight') setShot((n) => (n + 1) % FOOD_APP_SHOTS.length)
+      if (e.key === 'ArrowLeft') setShot((n) => (n + FOOD_APP_SHOTS.length - 1) % FOOD_APP_SHOTS.length)
     }
     document.body.style.overflow = 'hidden'
     document.addEventListener('keydown', onKey)
@@ -23,7 +37,7 @@ export function DemoModal({ src, onClose, onChange }: Props) {
       document.body.style.overflow = ''
       document.removeEventListener('keydown', onKey)
     }
-  }, [src, onClose])
+  }, [src, onClose, food])
 
   if (!src) return null
 
@@ -50,7 +64,29 @@ export function DemoModal({ src, onClose, onChange }: Props) {
         <button type="button" className="dclose" aria-label="ปิด" onClick={onClose}>
           ✕
         </button>
-        <iframe title="เดโม" src={src} loading="lazy" />
+        {food ? (
+          <div className="dfood">
+            <span className="dfood__badge">{FOOD_DEMO_BADGE}</span>
+            <img src={FOOD_APP_SHOTS[shot].src} alt={FOOD_APP_SHOTS[shot].alt} width={366} height={720} />
+            <div className="dfood__nav">
+              <button type="button" aria-label="ภาพก่อนหน้า" onClick={() => setShot((n) => (n + FOOD_APP_SHOTS.length - 1) % FOOD_APP_SHOTS.length)}>
+                ‹
+              </button>
+              <span>
+                {shot + 1} / {FOOD_APP_SHOTS.length}
+              </span>
+              <button type="button" aria-label="ภาพถัดไป" onClick={() => setShot((n) => (n + 1) % FOOD_APP_SHOTS.length)}>
+                ›
+              </button>
+            </div>
+            <p className="dfood__note">{FOOD_DEMO_NOTE}</p>
+            <a className="dfood__open" href={FOOD_APP_URL} target="_blank" rel="noopener">
+              {FOOD_DEMO_OPEN}
+            </a>
+          </div>
+        ) : (
+          <iframe title="เดโม" src={src} loading="lazy" />
+        )}
       </div>
     </div>
   )
