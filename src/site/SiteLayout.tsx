@@ -24,7 +24,6 @@ const solutionLinks = [
   { href: '/restaurants', label: { th: 'ร้านอาหาร', en: 'Restaurants' } },
   { href: '/beauty', label: { th: 'ความงาม', en: 'Beauty' } },
   { href: '/cleaning', label: { th: 'ทำความสะอาด', en: 'Cleaning' } },
-  { href: '/photography', label: { th: 'ภาพถ่าย', en: 'Photography' } },
 ];
 
 function linkActive(pathname: string, hash: string, href: string) {
@@ -235,7 +234,6 @@ function SiteChrome({ children }: { children: ReactNode }) {
                 <Link to="/restaurants">{t({ th: 'ร้านอาหาร', en: 'Restaurants' })}</Link>
                 <Link to="/beauty">{t({ th: 'ความงาม', en: 'Beauty' })}</Link>
                 <Link to="/cleaning">{t({ th: 'ทำความสะอาด', en: 'Cleaning' })}</Link>
-                <Link to="/photography">{t({ th: 'ภาพถ่าย', en: 'Photography' })}</Link>
               </div>
               <div className="footerCol">
                 <strong>{t({ th: 'ทรัพยากร', en: 'RESOURCES' })}</strong>

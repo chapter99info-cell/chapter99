@@ -7,7 +7,6 @@ export const siteNav = [
   { to: '/massage', label: 'ร้านนวด' },
   { to: '/restaurants', label: 'ร้านอาหาร' },
   { to: '/pricing', label: 'ราคา' },
-  { to: '/photography', label: 'ถ่ายภาพ' },
   { to: '/work', label: 'ผลงาน' },
   { to: '/about', label: 'เกี่ยวกับเรา' },
 ] as const
