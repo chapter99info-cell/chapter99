@@ -31,3 +31,9 @@ public/mockup/media/*.jpg
 public/mockup/media/*.png
 !public/mockup/media/icons8-*.png
 !public/mockup/media/web/
+
+# Playwright
+test-results
+playwright-report
+blob-report
+playwright/.cache

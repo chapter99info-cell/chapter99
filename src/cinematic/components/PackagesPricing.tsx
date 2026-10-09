@@ -193,6 +193,11 @@ export function PackagesPricing() {
           </div>
           <PackAnimatedPricing key={pack} packId={pack} tiers={selected.tiers} />
           <p className="rate-note">{t(selected.note)}</p>
+          {pack === 'photo' ? (
+            <p className="rate-note">
+              <Link to="/photography">ดูหน้า Photography & AI Creative →</Link>
+            </p>
+          ) : null}
         </section>
 
         <section id="stages" className="pkg-section">
