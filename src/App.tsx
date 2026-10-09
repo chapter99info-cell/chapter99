@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { AboutPage } from './pages/AboutPage'
 import { ContactPage } from './pages/ContactPage'
@@ -16,10 +17,20 @@ import { SitePricingPage } from './pages/SitePricingPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import './site/theme-navy.css' // ธีมกรมท่า — ต้องอยู่หลัง import หน้าอื่น ๆ
 
+const HomeV7 = lazy(() => import('./pages/HomeV7'))
+
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<SiteHomePage />} />
+      <Route
+        path="/v7"
+        element={
+          <Suspense fallback={null}>
+            <HomeV7 />
+          </Suspense>
+        }
+      />
       <Route path="/pricing" element={<SitePricingPage />} />
       <Route path="/business-toolkit" element={<BusinessToolkitPage />} />
       <Route path="/about" element={<AboutPage />} />

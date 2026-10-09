@@ -1,0 +1,36 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DEMO · Baan Thai Kitchen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;600&family=Oswald:wght@500&display=swap" rel="stylesheet">
+<style>
+/* ร้านอาหารสมมติ (DEMO) — สั่งได้ในหน้า ไม่ส่งข้อมูลไปไหน */
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,"IBM Plex Sans Thai",sans-serif;background:#fff;color:#16130F;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:90px}
+.bar{position:sticky;top:0;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #EEE9E1;z-index:3}
+.bar b{font-family:Oswald;color:#9C6B35;letter-spacing:.04em;font-size:18px}.demo{background:#16130F;color:#fff;font-size:11px;font-weight:600;padding:4px 8px;border-radius:6px}
+h1{font-size:22px;padding:16px 18px 4px}.sub{color:#6E675D;font-size:14px;padding:0 18px 10px}
+.cats{display:flex;gap:8px;padding:0 18px 12px;overflow-x:auto}.cats span{flex:0 0 auto;border:1px solid #E6E1D8;border-radius:999px;padding:6px 12px;font-size:13px}.cats .on{background:#16130F;color:#fff;border-color:#16130F}
+.item{display:flex;gap:12px;padding:14px 18px;border-top:1px solid #F0ECE5;align-items:center}
+.item img{width:76px;height:76px;border-radius:10px;object-fit:cover}.item div{flex:1}.item b{display:block}.item small{color:#6E675D}
+.item .p{font-weight:600;margin-top:4px}
+.qty{display:flex;align-items:center;gap:8px}.qty button{width:32px;height:32px;border-radius:8px;border:1px solid #E6E1D8;background:#fff;font-size:18px}
+.cart{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;width:min(444px,calc(100% - 28px));background:#9C6B35;color:#fff;border:0;border-radius:12px;min-height:54px;font-weight:600;font-size:16px;display:flex;justify-content:space-between;align-items:center;padding:0 18px}
+.cart:disabled{background:#CDBBA6}
+.done{display:none;text-align:center;padding:60px 24px}.done i{display:grid;place-items:center;width:72px;height:72px;margin:0 auto 14px;border-radius:50%;background:#F0ECE5;font-style:normal;font-size:30px}
+.note{font-size:12px;color:#6E675D;margin-top:12px}
+</style></head><body>
+<div class="bar"><b>BAAN THAI KITCHEN</b><span class="demo">DEMO</span></div>
+<main id="menu">
+<h1>สั่งกลับบ้าน</h1><p class="sub">ร้านตัวอย่าง · รับที่ร้านใน 20 นาที</p>
+<div class="cats"><span class="on">ยอดนิยม</span><span>ผัด</span><span>แกง</span><span>เครื่องดื่ม</span></div>
+<div id="list"></div>
+</main>
+<section class="done" id="done"><i>✓</i><h1 style="padding:0">ส่งออเดอร์แล้ว (ตัวอย่าง)</h1><p class="sub" id="sum" style="padding:8px 0"></p><p class="note">นี่คือเดโม ไม่มีการสั่งหรือชำระเงินจริง</p></section>
+<button class="cart" id="cart" disabled><span id="cnt">ยังไม่ได้เลือก</span><span id="tot">A$0</span></button>
+<script>
+const items=[['ผัดไทยกุ้ง','เส้นจันท์ กุ้งสด',18.9,'pg-food'],['แกงเขียวหวานไก่','พร้อมข้าวสวย',19.5,'sol-cafe'],['ข้าวผัดสับปะรด','ใส่ในลูกสับปะรด',21,'work-food'],['ชาไทยเย็น','หวานน้อยได้',6.5,'sol-cafe']];
+const q=items.map(()=>0),$=id=>document.getElementById(id);
+items.forEach((it,i)=>{const d=document.createElement('div');d.className='item';d.innerHTML=`<img src="/mockup/media/web/${it[3]}.webp" alt=""><div><b>${it[0]}</b><small>${it[1]}</small><div class="p">A$${it[2].toFixed(2)}</div></div><div class="qty"><button aria-label="ลด">−</button><span>0</span><button aria-label="เพิ่ม">+</button></div>`;
+  const [m,n,p]=d.querySelectorAll('.qty>*');p.onclick=()=>{q[i]++;n.textContent=q[i];upd()};m.onclick=()=>{if(q[i]){q[i]--;n.textContent=q[i];upd()}};$('list').appendChild(d)});
+function upd(){const c=q.reduce((a,b)=>a+b,0),t=q.reduce((a,b,i)=>a+b*items[i][2],0);$('cnt').textContent=c?`สั่ง ${c} รายการ`:'ยังไม่ได้เลือก';$('tot').textContent='A$'+t.toFixed(2);$('cart').disabled=!c}
+$('cart').onclick=()=>{$('sum').textContent=items.filter((_,i)=>q[i]).map((it,i)=>it[0]+' × '+q[items.indexOf(it)]).join(' · ');$('menu').style.display='none';$('cart').style.display='none';$('done').style.display='block'};
+/* Test: กด + → ปุ่มสั่งเปิดและยอดรวมถูก; กดสั่ง → หน้าสำเร็จ */
+</script></body></html>

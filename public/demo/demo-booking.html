@@ -1,0 +1,93 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DEMO · Sabai Thai Massage</title>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600&family=IBM+Plex+Sans+Thai:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* เว็บร้านนวดสมมติ (DEMO) — กดจองได้จริงในหน้า แต่ไม่ส่งข้อมูลไปไหน */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"IBM Plex Sans Thai",sans-serif;background:#FBF7EE;color:#2B2116;max-width:480px;margin:0 auto;min-height:100vh}
+.bar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#fff;border-bottom:1px solid #EFE6D4}
+.bar b{font-family:Kanit;color:#7A4E1D;font-size:19px}
+.demo{background:#2B2116;color:#fff;font-size:11px;font-weight:600;letter-spacing:.1em;padding:4px 8px;border-radius:6px}
+.scr{display:none;padding:18px}.scr.on{display:block;animation:in .35s ease}
+@keyframes in{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.crumb{font-size:13px;color:#8a7a66;margin-bottom:12px}
+.hero{border-radius:14px;overflow:hidden;aspect-ratio:4/3;background:#ddd}.hero img{width:100%;height:100%;object-fit:cover}
+h1{font-family:Kanit;font-size:24px;margin:14px 0 4px}
+.meta{color:#7A4E1D;font-weight:600}
+p{color:#6b5a48;font-size:15px;margin-top:8px}
+.svc{display:grid;gap:10px;margin-top:16px}
+.svc label{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1.5px solid #EFE6D4;border-radius:12px;padding:14px;cursor:pointer;font-size:16px}
+.svc input{accent-color:#7A4E1D;margin-right:10px}
+.svc label:has(input:checked){border-color:#7A4E1D;background:#FFF8E8}
+.btn{display:block;width:100%;margin-top:18px;min-height:52px;border:0;border-radius:10px;background:#A0713A;color:#fff;font-family:Kanit;font-size:17px;cursor:pointer}
+.btn:disabled{opacity:.4}
+.btn.ghost{background:#fff;color:#2B2116;border:1.5px solid #EFE6D4}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:14px 0}
+.day{border:0;background:#fff;border-radius:10px;padding:8px 0;font-size:13px;color:#2B2116;cursor:pointer}
+.day b{display:block;font-size:17px}
+.day.on{background:#2B2116;color:#fff}.day:disabled{color:#c8bba8}
+h3{font-family:Kanit;font-size:16px;margin:16px 0 8px}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.slot{border:0;background:#F1EADB;border-radius:8px;padding:12px 0;font-size:15px;cursor:pointer}
+.slot.on{background:#A0713A;color:#fff}
+.ok{text-align:center;padding-top:40px}
+.ok i{display:grid;place-items:center;width:84px;height:84px;margin:0 auto 14px;border-radius:50%;background:#E8B54A;font-style:normal;font-size:40px}
+.sum{background:#fff;border-radius:12px;padding:16px;margin-top:16px;text-align:left;font-size:15px;line-height:1.9}
+.note{font-size:12px;color:#8a7a66;text-align:center;margin-top:14px}
+</style></head><body>
+<div class="bar"><b>Sabai Thai Massage</b><span class="demo">DEMO</span></div>
+
+<!-- 1) เลือกบริการ -->
+<section class="scr on" id="s1">
+  <div class="crumb">บริการทั้งหมด / นวดไทย</div>
+  <div class="hero"><img src="/mockup/media/web/pg-massage.webp" alt=""></div>
+  <h1>เลือกบริการ</h1><span class="meta">ร้านตัวอย่าง · ไม่ใช่ร้านจริง</span>
+  <div class="svc" id="svc">
+    <label><span><input type="radio" name="s" value="นวดไทย 60 นาที|A$80">นวดไทย 60 นาที</span><b>A$80</b></label>
+    <label><span><input type="radio" name="s" value="นวดน้ำมัน 60 นาที|A$90">นวดน้ำมัน 60 นาที</span><b>A$90</b></label>
+    <label><span><input type="radio" name="s" value="นวดเท้า 45 นาที|A$60">นวดเท้า 45 นาที</span><b>A$60</b></label>
+  </div>
+  <button class="btn" id="n1" disabled>เลือกวันและเวลา →</button>
+</section>
+
+<!-- 2) เลือกวันเวลา -->
+<section class="scr" id="s2">
+  <div class="crumb"><a href="#" id="b2">← กลับ</a></div>
+  <h1 id="mon"></h1>
+  <div class="days" id="days"></div>
+  <h3>เช้า</h3><div class="slots" data-p="am"></div>
+  <h3>บ่าย</h3><div class="slots" data-p="pm"></div>
+  <button class="btn" id="n2" disabled>ยืนยันการจอง</button>
+</section>
+
+<!-- 3) จองสำเร็จ -->
+<section class="scr" id="s3">
+  <div class="ok"><i>✓</i><h1>จองสำเร็จ (ตัวอย่าง)</h1><p>ลูกค้าจะเห็นหน้านี้หลังจองคิว</p></div>
+  <div class="sum" id="sum"></div>
+  <button class="btn ghost" id="again">ลองจองใหม่</button>
+  <p class="note">นี่คือเดโม ไม่มีการส่งข้อมูลหรือจองจริง</p>
+</section>
+
+<script>
+// ===== DEMO จองคิว: state อยู่ในหน้าเท่านั้น ไม่มีการส่งข้อมูล =====
+const st={svc:null,day:null,time:null};
+const $=id=>document.getElementById(id);
+const go=n=>{document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id==='s'+n));scrollTo(0,0)};
+document.querySelectorAll('#svc input').forEach(i=>i.addEventListener('change',()=>{st.svc=i.value;$('n1').disabled=false}));
+$('n1').onclick=()=>go(2);$('b2').onclick=e=>{e.preventDefault();go(1)};
+// สร้างปฏิทิน 7 วันจากวันนี้ (อาทิตย์ปิด)
+const th=['อา','จ','อ','พ','พฤ','ศ','ส'],d0=new Date();
+$('mon').textContent=d0.toLocaleDateString('th-TH',{month:'long',year:'numeric'});
+for(let k=0;k<7;k++){const d=new Date(d0);d.setDate(d0.getDate()+k);const b=document.createElement('button');b.className='day';b.innerHTML=th[d.getDay()]+'<b>'+d.getDate()+'</b>';
+  if(d.getDay()===0)b.disabled=true;
+  b.onclick=()=>{document.querySelectorAll('.day').forEach(x=>x.classList.remove('on'));b.classList.add('on');st.day=d.toLocaleDateString('th-TH',{weekday:'long',day:'numeric',month:'short'});chk()};
+  $('days').appendChild(b)}
+const times={am:['10:00','10:30','11:30'],pm:['13:00','14:30','15:00','16:00','17:30','18:00']};
+document.querySelectorAll('.slots').forEach(box=>times[box.dataset.p].forEach(t=>{const b=document.createElement('button');b.className='slot';b.textContent=t;
+  b.onclick=()=>{document.querySelectorAll('.slot').forEach(x=>x.classList.remove('on'));b.classList.add('on');st.time=t;chk()};box.appendChild(b)}));
+function chk(){$('n2').disabled=!(st.day&&st.time)}
+$('n2').onclick=()=>{const [n,p]=st.svc.split('|');$('sum').innerHTML=`<b>${n}</b> · ${p}<br>${st.day} เวลา ${st.time}<br>ร้าน Sabai Thai Massage (ตัวอย่าง)`;go(3)};
+$('again').onclick=()=>{location.reload()};
+/* Test: เลือกบริการ → ปุ่มเปิด, เลือกวัน+เวลา → ยืนยัน → เห็นสรุป; วันอาทิตย์กดไม่ได้ */
+</script>
+</body></html>
