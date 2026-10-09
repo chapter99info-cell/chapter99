@@ -6,10 +6,9 @@
  *   node scripts/backup-icons.mjs --dry-run
  *   npm run backup:icons
  *
- * Reads SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY from .env.local.
- * Backup project: trtjcnpipsvaxwenjgva (https://trtjcnpipsvaxwenjgva.supabase.co).
- * Do not use a service role from a different project. Never prints secrets.
- * VITE_SUPABASE_URL is only a fallback if SUPABASE_URL is unset.
+ * Reads ICONS_BACKUP_SUPABASE_URL and ICONS_BACKUP_SERVICE_KEY from .env.local.
+ * Backup project: trtjcnpipsvaxwenjgva. Never reuse the site SUPABASE_* keys.
+ * Never prints secrets.
  */
 import { createClient } from '@supabase/supabase-js'
 import { readdir, readFile, stat } from 'node:fs/promises'
@@ -121,10 +120,10 @@ function remotePath(localFile) {
 
 await loadLocalEnv()
 
-const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL
-const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+const url = process.env.ICONS_BACKUP_SUPABASE_URL
+const key = process.env.ICONS_BACKUP_SERVICE_KEY
 if (!url || !key) {
-  console.error('Missing SUPABASE_URL (or VITE_SUPABASE_URL) or SUPABASE_SERVICE_ROLE_KEY in .env.local')
+  console.error('Missing ICONS_BACKUP_SUPABASE_URL or ICONS_BACKUP_SERVICE_KEY in .env.local')
   process.exit(1)
 }
 
