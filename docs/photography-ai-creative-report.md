@@ -3,11 +3,12 @@
 ## 1. Live URL + deploy
 - หน้าบนมือถือ: https://chapter99info.com/photography
 - โฮมเพจยังเป็น `/` → `/mockup/` ตาม vercel.json (ไม่ได้แก้)
-- สถานะดีพลอย: ดูท้ายรายงานหลัง push
+- สถานะดีพลอย: **สำเร็จ** (Vercel production `186b66d`)
+- Dashboard: https://vercel.com/saenmans-projects/chapter99/2kNWS7xziu5ywhTBWh31gD9bfzLz
 
 ## 2. SHA
 - ROLLBACK_SHA: `441320dfac145b2d47e42738afe71cea86cce416`
-- Commit งานนี้: ใส่หลัง `git log -1`
+- Commit งานนี้: `186b66d4` (feat photography)
 
 ## 3. ไฟล์ที่เปลี่ยน
 - `src/pages/PhotographyPage.tsx` (reuse `/photography`)
@@ -31,7 +32,7 @@
 - oxlint ไฟล์ใหม่: ผ่าน
 - Playwright 390/820/1440: ไม่มีสกอร์ลแนวนอน, ปุ่ม `.btn` สูง ≥ 44px, ตัวอักษร ≥ 16px, ลิงก์ WhatsApp ถูก
 - คีย์บอร์ด: Tab บนหน้า; สไลเดอร์ยังไม่โชว์เพราะไม่มีคู่ภาพที่อนุญาต
-- Live smoke: ใส่หลังดีพลอย
+- Live smoke 390px (200, ไม่มี pageerror): `/` → `/mockup/`, `/photography`, `/pricing`, `/v7` — WhatsApp บน `/photography` ตรง `wa.me/61452044382` + ข้อความ Photography & AI Creative
 
 ## 6. SOP / ราคา
 - Starter / Professional ไม่แตะ ✓
