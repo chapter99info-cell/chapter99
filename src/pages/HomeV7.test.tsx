@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, describe, expect, it } from 'vitest'
@@ -69,6 +71,19 @@ describe('/v7 homepage', () => {
       </MemoryRouter>,
     )
     expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(v7Copy.th.heroHeadline)
+  })
+
+  it('uses Taviraj headings and Noto Sans Thai Looped body, not Anuphan', () => {
+    const css = readFileSync(resolve(__dirname, '../styles/home-v7.css'), 'utf8')
+    const html = readFileSync(resolve(__dirname, '../../index.html'), 'utf8')
+    expect(css).toMatch(/--f-th:\s*"Taviraj"/)
+    expect(css).toMatch(/--f-body:\s*"Noto Sans Thai Looped"/)
+    expect(css).not.toMatch(/Anuphan/)
+    expect(css).not.toMatch(/IBM Plex Sans Thai/)
+    expect(html).toMatch(/family=Taviraj/)
+    expect(html).toMatch(/family=Noto\+Sans\+Thai\+Looped/)
+    expect(html).not.toMatch(/Anuphan/)
+    expect(html).not.toMatch(/IBM\+Plex\+Sans\+Thai/)
   })
 
   it('opens the mobile menu from the burger', () => {

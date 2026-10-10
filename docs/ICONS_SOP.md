@@ -41,6 +41,7 @@ Rules:
   - Always pair an icon with a **text label** (Thai and/or English, 18px+). No icon-only buttons except universal ones (close, menu, phone).
 - Color: icons follow brand tokens via `currentColor` (SVG) or a CSS tint; never hardcode random colors.
   - Chapter99 V7 Hybrid: navy `#0A0F1A`, gold `#E8B54A`, cream. Icons = gold on navy, or navy on cream.
+  - Type (2026-10-10): `--f-th` Taviraj 600 (Thai headings); `--f-body` Noto Sans Thai Looped 400/500/600 (body + Thai buttons/labels); `--f-big` Anton (EN display); `--f-mono` IBM Plex Mono (labels). Do not use Anuphan or IBM Plex Sans Thai.
   - Client sites: use the shop's primary/accent colors from its theme.
 - Accessibility: decorative icons get `aria-hidden="true"`; meaningful icons get `aria-label` or adjacent visible text; PNG `<img>` needs `alt`.
 - Do **not** display Icons8 IDs or file names in the UI (IDs live in data/metadata only).
