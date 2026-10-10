@@ -1,11 +1,10 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, describe, expect, it } from 'vitest'
-import { pricing } from '../../content/pricing'
-import { v7Copy } from '../../content/v7'
+import { money, plansFor, pricing } from '../../content/pricing'
 import { PricingPage } from './PricingPage'
 
-function renderPage() {
+function renderPricing() {
   return render(
     <MemoryRouter>
       <PricingPage />
@@ -13,40 +12,32 @@ function renderPage() {
   )
 }
 
-describe('/pricing V7', () => {
-  afterEach(() => cleanup())
+afterEach(() => cleanup())
 
-  it('renders prices from pricing.ts', () => {
-    renderPage()
-    expect(screen.getAllByText(pricing.starter.setup).length).toBeGreaterThan(0)
-    expect(screen.getByText(pricing.professional.setup)).toBeInTheDocument()
-    expect(screen.getAllByText(pricing.addons.photography.price).length).toBeGreaterThan(0)
-    expect(screen.getAllByText(pricing.addons.reels.price).length).toBeGreaterThan(0)
-    expect(screen.getAllByText(pricing.addons.square.price).length).toBeGreaterThan(0)
+describe('/pricing segments', () => {
+  it('renders three massage cards with prices from pricing.ts', () => {
+    renderPricing()
+    const plans = plansFor('massage')
+    expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(3)
+    expect(screen.getByRole('heading', { name: 'Starter' })).toBeInTheDocument()
+    expect(screen.getAllByText(money(plans[0].setup)).length).toBeGreaterThan(0)
+    expect(screen.getByText(`+ ${money(plans[1].monthly)} / เดือน`)).toBeInTheDocument()
+    expect(screen.getByText(`เริ่มต้น ${money(pricing.massage.business.setup)}`)).toBeInTheDocument()
+    expect(screen.getByText('แก้ข้อมูล 2 รอบ/เดือน')).toBeInTheDocument()
+    expect(screen.getByText(/ราคารวม GST แล้ว/)).toBeInTheDocument()
+    expect(screen.queryByText('เริ่มต้น A$199')).toBeNull()
+    expect(document.body.textContent).not.toMatch(/ไม่จำกัด|Loyalty|WhatsApp/)
   })
 
-  it('has no Product Catalog, WhatsApp, or Photography tab', () => {
-    renderPage()
-    expect(document.body.textContent).not.toMatch(/Product Catalog/i)
-    expect(document.body.textContent).not.toMatch(/WhatsApp/i)
-    expect(document.body.innerHTML).not.toMatch(/wa\.me/i)
-    expect(screen.queryByRole('tab', { name: /photography|ถ่ายภาพ|ช่างภาพ/i })).toBeNull()
-  })
-
-  it('toggles wording between massage and restaurant', () => {
-    renderPage()
-    expect(screen.getByText('ระบบจองคิว')).toBeInTheDocument()
-    expect(document.querySelector('a[href="/mockup/v7/demo-booking.html"]')).toBeTruthy()
+  it('switches to three restaurant cards', () => {
+    renderPricing()
     fireEvent.click(screen.getByRole('tab', { name: 'ร้านอาหาร' }))
-    expect(screen.getByText('ระบบสั่งอาหาร')).toBeInTheDocument()
-    expect(document.querySelector('a[href="/mockup/v7/demo-order.html"]')).toBeTruthy()
-    expect(screen.queryByText('ระบบจองคิว')).toBeNull()
-  })
-
-  it('uses Facebook inbox CTAs and V7 footer ABN', () => {
-    renderPage()
-    expect(document.querySelectorAll(`a[href="${v7Copy.contact.facebookInbox}"]`).length).toBeGreaterThan(1)
-    expect(document.querySelector(`a[href="${v7Copy.contact.sms}"]`)).toBeTruthy()
-    expect(screen.getByText(/ABN 81 951 461 769/)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Menu' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Order' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Launch' })).toBeInTheDocument()
+    expect(screen.getAllByText(money(pricing.restaurant.menu.setup)).length).toBeGreaterThan(0)
+    expect(screen.getByText(`เริ่มต้น ${money(pricing.restaurant.launch.setup)}`)).toBeInTheDocument()
+    expect(screen.queryByText('เริ่มต้น A$349')).toBeNull()
+    expect(screen.queryByRole('heading', { name: 'Starter' })).toBeNull()
   })
 })

@@ -1,8 +1,6 @@
-import type { Bilingual } from '../cinematic/i18n/types'
-
 export const pricingPage = {
   eyebrow: { th: '06 / PACKAGES', en: '06 / PACKAGES' },
-  h1: { th: 'ราคาชัด 2 แพ็กเกจ', en: 'Two packages. Clear prices.' },
+  h1: { th: 'ราคาตามประเภทธุรกิจ', en: 'Prices by shop type' },
   sub: {
     th: 'ค่าตั้งค่าครั้งแรก + รายเดือน · ตกลงขอบเขตก่อนเริ่ม',
     en: 'One-time setup + monthly · scope agreed first',
@@ -14,34 +12,6 @@ export const pricingPage = {
     massage: { th: 'ระบบจองคิว', en: 'booking system' },
     restaurant: { th: 'ระบบสั่งอาหาร', en: 'ordering system' },
   },
-  starterBullets: {
-    massage: [
-      { th: 'เว็บไซต์ร้านบนมือถือ', en: 'Mobile shop website' },
-      { th: 'บริการ/เมนู/ราคา', en: 'Services / menu / prices' },
-      { th: 'แผนที่+ติดต่อ', en: 'Map + contact' },
-      { th: 'ไม่มีระบบจอง', en: 'No booking system' },
-    ],
-    restaurant: [
-      { th: 'เว็บไซต์ร้านบนมือถือ', en: 'Mobile shop website' },
-      { th: 'บริการ/เมนู/ราคา', en: 'Services / menu / prices' },
-      { th: 'แผนที่+ติดต่อ', en: 'Map + contact' },
-      { th: 'ไม่มีระบบสั่งอาหาร', en: 'No ordering system' },
-    ],
-  } satisfies Record<string, Bilingual[]>,
-  proBullets: {
-    massage: [
-      { th: 'ทุกอย่างใน Starter', en: 'Everything in Starter' },
-      { th: 'ระบบจองคิว ตามขอบเขต', en: 'Booking system, as scoped' },
-      { th: 'แจ้งเตือนลูกค้า', en: 'Customer alerts' },
-      { th: 'สอนใช้งาน', en: 'Hands-on training' },
-    ],
-    restaurant: [
-      { th: 'ทุกอย่างใน Starter', en: 'Everything in Starter' },
-      { th: 'ระบบสั่งอาหาร ตามขอบเขต', en: 'Ordering system, as scoped' },
-      { th: 'แจ้งเตือนลูกค้า', en: 'Customer alerts' },
-      { th: 'สอนใช้งาน', en: 'Hands-on training' },
-    ],
-  } satisfies Record<string, Bilingual[]>,
   recommended: { th: 'แนะนำ', en: 'Recommended' },
   ctaFb: { th: 'ทักแชท Facebook', en: 'Facebook chat' },
   optional: { th: 'ไม่บังคับ', en: 'Optional' },
@@ -49,9 +19,17 @@ export const pricingPage = {
   reels: { th: 'วิดีโอ Reels', en: 'Reels video' },
   square: { th: 'Square Setup', en: 'Square Setup' },
   once: { th: 'ครั้งเดียว', en: 'one-time' },
+  gstLine: {
+    th: 'ราคารวม GST แล้ว · ค่าเครื่อง/Square/SMS ร้านจ่ายเอง · งานนอกขอบเขตแจ้งราคาก่อน · ถ่ายภาพในซิดนีย์ (ต่างเมืองคิดค่าเดินทาง)',
+    en: 'GST included · shop pays hardware/Square/SMS · extra scope priced first · photos in Sydney (travel extra)',
+  },
+  addonNote: {
+    th: 'ไม่คิดซ้ำถ้ารวมในแพ็กแล้ว',
+    en: 'Not charged twice if already in the package',
+  },
   include: {
-    th: 'รวม: โฮสติ้ง ดูแลเว็บ แก้ข้อมูลเล็กน้อย',
-    en: 'Includes: hosting, site care, small edits',
+    th: 'รวม: โฮสติ้ง ดูแลเว็บ ตามรอบแก้ที่ระบุ',
+    en: 'Includes: hosting, site care, listed edit rounds',
   },
   exclude: {
     th: 'ไม่รวม: ค่าโดเมน งานนอกขอบเขต — แจ้งราคาก่อนทำ',
