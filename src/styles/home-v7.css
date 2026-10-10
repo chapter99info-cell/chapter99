@@ -10,15 +10,16 @@
   --dim: #5a5f6b;
   --line: #e7e1d3;
   --f-big: "Anton", Impact, sans-serif;
-  --f-th: "Taviraj", "Noto Serif Thai", serif;
-  --f-body: "Noto Sans Thai Looped", "Noto Sans Thai", sans-serif;
+  --f-th: "Kanit", sans-serif;
+  --f-body: "Sarabun", sans-serif;
   --f-mono: "IBM Plex Mono", ui-monospace, monospace;
   --gutter: clamp(18px, 5vw, 88px);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --max: 1280px;
   font-family: var(--f-body);
   font-size: 18px;
-  line-height: 1.75;
+  font-weight: 400;
+  line-height: 1.7;
   color: var(--text);
   background: var(--paper);
   -webkit-font-smoothing: antialiased;
@@ -76,7 +77,7 @@
 .home-v7 h3 {
   font-family: var(--f-th);
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 1.3;
   letter-spacing: 0;
   overflow: visible;
   overflow-wrap: anywhere;
@@ -97,7 +98,7 @@
   font-weight: 600;
   font-size: clamp(30px, 3.4vw, 48px);
   letter-spacing: 0;
-  line-height: 1.35;
+  line-height: 1.3;
 }
 .home-v7 .sub {
   color: var(--dim);
@@ -130,9 +131,9 @@
   min-width: 44px;
   padding: 14px 24px;
   border-radius: 8px;
-  font-family: var(--f-body);
-  font-weight: 600;
-  font-size: 17px;
+  font-family: var(--f-th);
+  font-weight: 500;
+  font-size: 18px;
   cursor: pointer;
   border: 0;
   transition: transform 0.3s var(--ease), box-shadow 0.3s, background 0.3s, color 0.3s;
@@ -173,8 +174,8 @@
 .home-v7 .price-faq summary,
 .home-v7 .price-square summary,
 .home-v7 .mnav a {
-  font-family: var(--f-body);
-  font-weight: 600;
+  font-family: var(--f-th);
+  font-weight: 500;
 }
 .home-v7 .btn .play {
   width: 26px;
@@ -251,7 +252,7 @@
 .home-v7 .nav .btn {
   min-height: 46px;
   padding: 10px 20px;
-  font-size: 15px;
+  font-size: 16px;
 }
 .home-v7 .burger {
   display: none;
@@ -323,9 +324,9 @@
 .home-v7 .hero h1,
 .home-v7 .hero h1.hero__title {
   color: #fff;
-  font-size: clamp(36px, 4.2vw, 64px);
+  font-size: clamp(36px, 4.2vw, 60px);
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 1.3;
   letter-spacing: 0;
   margin: 16px 0 18px;
 }
@@ -1577,6 +1578,9 @@
   }
 }
 @media (max-width: 640px) {
+  .home-v7 {
+    font-size: 19px;
+  }
   .home-v7 .hero__in {
     padding-top: 110px;
   }
@@ -1584,7 +1588,7 @@
   .home-v7 .hero h1.hero__title {
     font-size: clamp(30px, 8vw, 38px);
     font-weight: 600;
-    line-height: 1.35;
+    line-height: 1.3;
     letter-spacing: 0;
   }
   .home-v7 .hero__cta {

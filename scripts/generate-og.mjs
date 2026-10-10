@@ -10,14 +10,14 @@ await page.setContent(`<!doctype html>
 <meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Taviraj:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Kanit:wght@600&display=swap" rel="stylesheet">
 <style>
 html,body{margin:0;width:1200px;height:630px;background:#0A0F1A;color:#FBF7EE;overflow:hidden}
 .card{width:1200px;height:630px;display:flex;flex-direction:column;justify-content:center;padding:72px 80px;box-sizing:border-box;background:
   radial-gradient(circle at 85% 20%, rgba(232,181,74,.18), transparent 42%), #0A0F1A}
 .kicker{font-family:Anton,Impact,sans-serif;letter-spacing:.16em;font-size:22px;color:#E8B54A;margin:0 0 18px}
-h1{font-family:Taviraj,serif;font-weight:600;font-size:54px;line-height:1.35;letter-spacing:0;margin:0 0 16px;max-width:18ch}
-p{font-family:Taviraj,serif;font-weight:500;font-size:22px;line-height:1.45;color:#E8B54A;margin:0}
+h1{font-family:Kanit,sans-serif;font-weight:600;font-size:54px;line-height:1.3;letter-spacing:0;margin:0 0 16px;max-width:18ch}
+p{font-family:Kanit,sans-serif;font-weight:500;font-size:22px;line-height:1.45;color:#E8B54A;margin:0}
 </style>
 </head>
 <body>
