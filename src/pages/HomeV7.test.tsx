@@ -29,8 +29,16 @@ describe('/v7 homepage', () => {
     expect(screen.getByText(`ดูแพ็กเกจ · เริ่มต้น ${money(fromPrices.massage)} →`)).toBeInTheDocument()
     expect(screen.getByText('THAI GARLIC')).toBeInTheDocument()
     expect(screen.getByText('Princess Thai Massage')).toBeInTheDocument()
-    expect(v7Copy.stats.enabled).toBe(false)
-    expect(screen.queryByText(v7Copy.stats.headline)).toBeNull()
+    expect(v7Copy.stats.enabled).toBe(true)
+    expect(screen.getByText('1995')).toBeInTheDocument()
+    expect(screen.getByText('ตั้งแต่ 1995 · ใช้ชีวิตในซิดนีย์')).toBeInTheDocument()
+    expect(screen.getByText('เกือบ 10 ปี')).toBeInTheDocument()
+    expect(screen.getByText('ช่วยธุรกิจไทยในซิดนีย์')).toBeInTheDocument()
+    expect(screen.getByText('10 ปี')).toBeInTheDocument()
+    expect(screen.getByText('ประสบการณ์ช่างภาพ')).toBeInTheDocument()
+    expect(screen.getByText('บริการครบในที่เดียว')).toBeInTheDocument()
+    expect(screen.getByText('เว็บ · จองคิว/สั่งอาหาร · ถ่ายภาพ · Reels · Square')).toBeInTheDocument()
+    expect(document.querySelectorAll('.stat').length).toBe(4)
     expect(document.body.textContent).not.toMatch(/Business Audit/i)
     expect(
       screen.getByText(`ร้านนวด เริ่ม ${money(fromPrices.massage)} · ร้านอาหาร เริ่ม ${money(fromPrices.restaurant)}`),
