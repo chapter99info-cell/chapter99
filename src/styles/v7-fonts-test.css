@@ -1,0 +1,134 @@
+.fonts-test {
+  --ink: #0a0f1a;
+  --gold: #e8b54a;
+  --cream: #fbf7ee;
+  min-height: 100vh;
+  margin: 0;
+  padding: 24px 16px 48px;
+  background: var(--ink);
+  color: #fff;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: clip;
+}
+.fonts-test *,
+.fonts-test *::before,
+.fonts-test *::after {
+  box-sizing: border-box;
+}
+.fonts-test__kicker,
+.fonts-test__note,
+.fonts-col__label {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.fonts-test__en {
+  font-family: Anton, Impact, sans-serif;
+  font-weight: 400;
+  font-size: clamp(36px, 8vw, 64px);
+  margin: 8px 0 12px;
+}
+.fonts-test__note {
+  text-transform: none;
+  letter-spacing: 0;
+  color: #c9c4b8;
+  margin-bottom: 24px;
+}
+.fonts-test__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.fonts-col {
+  background: var(--cream);
+  color: var(--ink);
+  padding: 18px 16px 22px;
+  min-width: 0;
+}
+.fonts-col h2,
+.fonts-col h3 {
+  font-weight: 600;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  line-break: auto;
+  margin: 8px 0;
+}
+.fonts-col h2 {
+  font-size: clamp(26px, 3vw, 34px);
+}
+.fonts-col h3 {
+  font-size: 22px;
+}
+.fonts-hero {
+  background: var(--ink);
+  color: #fff;
+  padding: 16px;
+  margin: 12px 0;
+}
+.fonts-hero .fonts-col__label {
+  color: var(--gold);
+}
+.fonts-hero__sub,
+.fonts-p,
+.fonts-card p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.fonts-hero__sub {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.86);
+}
+.fonts-card {
+  border: 1px solid rgba(10, 15, 26, 0.12);
+  padding: 14px;
+  margin-bottom: 12px;
+  background: #fff;
+}
+.fonts-card__price {
+  font-weight: 500;
+  font-size: 20px;
+  margin: 4px 0 8px;
+}
+.fonts-card__price span {
+  font-size: 15px;
+}
+.opt-a h2,
+.opt-a h3 {
+  font-family: Taviraj, "Noto Serif Thai", serif;
+}
+.opt-a .fonts-hero__sub,
+.opt-a .fonts-p,
+.opt-a .fonts-card p,
+.opt-a .fonts-card__price {
+  font-family: "Noto Sans Thai Looped", "Noto Sans Thai", sans-serif;
+}
+.opt-b h2,
+.opt-b h3 {
+  font-family: Trirong, "Noto Serif Thai", serif;
+}
+.opt-b .fonts-hero__sub,
+.opt-b .fonts-p,
+.opt-b .fonts-card p,
+.opt-b .fonts-card__price {
+  font-family: Sarabun, "Noto Sans Thai", sans-serif;
+}
+.opt-c h2,
+.opt-c h3 {
+  font-family: "Noto Sans Thai", sans-serif;
+}
+.opt-c .fonts-hero__sub,
+.opt-c .fonts-p,
+.opt-c .fonts-card p,
+.opt-c .fonts-card__price {
+  font-family: "Noto Sans Thai Looped", "Noto Sans Thai", sans-serif;
+}
+@media (max-width: 800px) {
+  .fonts-test__grid {
+    grid-template-columns: 1fr;
+  }
+}

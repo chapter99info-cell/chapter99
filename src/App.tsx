@@ -9,6 +9,7 @@ import { BeautyPage } from './pages/BeautyPage'
 import { CleaningPage } from './pages/CleaningPage'
 import { MassagePage } from './pages/MassagePage'
 import { PhotographyPage } from './pages/PhotographyPage'
+import { V7FontsTestPage } from './pages/V7FontsTestPage'
 import { V7IconsTestPage } from './pages/V7IconsTestPage'
 import { RestaurantsPage } from './pages/RestaurantsPage'
 import { WorkPage } from './pages/WorkPage'
@@ -33,6 +34,7 @@ export default function App() {
       />
       <Route path="/v7" element={<Navigate to="/" replace />} />
       <Route path="/v7/icons-test" element={<V7IconsTestPage />} />
+      <Route path="/v7/fonts-test" element={<V7FontsTestPage />} />
       <Route
         path="/legacy"
         element={
