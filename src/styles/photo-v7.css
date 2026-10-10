@@ -9,8 +9,8 @@
   --dim: #4a4f5a;
   --line: #e7e1d3;
   --f-big: "Anton", Impact, sans-serif;
-  --f-th: "Taviraj", "Noto Serif Thai", serif;
-  --f-body: "Noto Sans Thai Looped", "Noto Sans Thai", sans-serif;
+  --f-th: "Kanit", sans-serif;
+  --f-body: "Sarabun", sans-serif;
   --gutter: clamp(18px, 5vw, 88px);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --max: 1280px;

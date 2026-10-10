@@ -18,7 +18,7 @@
   object-fit: contain;
 }
 .v7-icon-tile figcaption {
-  font-family: "Noto Sans Thai Looped", "Noto Sans Thai", sans-serif;
+  font-family: "Sarabun", sans-serif;
   font-size: 18px;
   line-height: 1.35;
   color: #fbf7ee;
@@ -28,7 +28,7 @@
   background: #fbf7ee;
   color: #0a0f1a;
   padding: 32px 20px 64px;
-  font-family: "Noto Sans Thai Looped", "Noto Sans Thai", sans-serif;
+  font-family: "Sarabun", sans-serif;
 }
 .v7-icons-test h1 {
   font-family: Anton, Impact, sans-serif;
@@ -52,7 +52,7 @@
   border: 2px solid #0a0f1a;
   background: #fff;
   color: #0a0f1a;
-  font-family: "Noto Sans Thai Looped", "Noto Sans Thai", sans-serif;
+  font-family: "Sarabun", sans-serif;
   font-size: 18px;
   border-radius: 999px;
   cursor: pointer;
