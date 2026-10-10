@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { BeforeAfter } from '../components/home-v7/BeforeAfter'
+import { ClientStrip } from '../components/home-v7/ClientStrip'
 import { DemoModal } from '../components/home-v7/DemoModal'
 import { FinalCta } from '../components/home-v7/FinalCta'
 import { Footer } from '../components/home-v7/Footer'
 import { Hero } from '../components/home-v7/Hero'
+import { StatsBlock } from '../components/home-v7/StatsBlock'
+import { WorkStrip } from '../components/home-v7/WorkStrip'
 import { HowSteps } from '../components/home-v7/HowSteps'
 import { MassageDemo } from '../components/home-v7/MassageDemo'
 import { OtherShops } from '../components/home-v7/OtherShops'
@@ -29,7 +32,7 @@ export default function HomeV7() {
       document.head.appendChild(el)
       links.push(el)
     }
-    add('preload', '/mockup/media/web/cta-spa.webp', { as: 'image', fetchPriority: 'high' })
+    add('preload', '/mockup/media/web/hero-sydney.webp', { as: 'image', fetchPriority: 'high' })
     setSeo({
       title: v7Copy.seo.title,
       description: v7Copy.seo.description,
@@ -66,6 +69,9 @@ export default function HomeV7() {
     <div className="home-v7">
       <main>
       <Hero onOpenDemo={setDemoSrc} />
+      <WorkStrip />
+      <ClientStrip />
+      <StatsBlock />
       <BeforeAfter />
       <MassageDemo onOpenDemo={setDemoSrc} />
       <OtherShops />
