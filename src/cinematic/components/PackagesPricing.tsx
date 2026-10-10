@@ -74,7 +74,7 @@ const stageVisuals: Record<
     photo: siteMedia.photography,
     links: [
       { href: '/pricing#audit', label: { th: 'Audit', en: 'Audit' }, Icon: Sparkles },
-      { href: '/photography', label: { th: 'ภาพถ่าย', en: 'Photos' }, Icon: Globe },
+      { href: '/about', label: { th: 'เกี่ยวกับเรา', en: 'About' }, Icon: Globe },
     ],
   },
 };
@@ -195,7 +195,7 @@ export function PackagesPricing() {
           <p className="rate-note">{t(selected.note)}</p>
           {pack === 'photo' ? (
             <p className="rate-note">
-              <Link to="/photography">ดูหน้า Photography (เลย์เอาต์ — ยังไม่เปิดขายจนกว่าจะมีภาพที่อนุญาต) →</Link>
+              งานภาพเปิดขายเมื่อมีผลงานที่ได้รับอนุญาต
             </p>
           ) : null}
         </section>

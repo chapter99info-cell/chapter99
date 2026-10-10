@@ -26,19 +26,21 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
+    },
+    {
+      "source": "/mockup/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     }
   ],
   "rewrites": [
     {
-      "source": "/((?!api/|admin/sw.js|admin/manifest.json|admin/icon-).*)",
+      "source": "/((?!api/|mockup/|admin/sw.js|admin/manifest.json|admin/icon-).*)",
       "destination": "/index.html"
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "/mockup/",
-      "permanent": false
     }
   ]
 }

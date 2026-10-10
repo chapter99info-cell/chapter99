@@ -13,7 +13,6 @@ import { V7IconsTestPage } from './pages/V7IconsTestPage'
 import { RestaurantsPage } from './pages/RestaurantsPage'
 import { WorkPage } from './pages/WorkPage'
 import { BusinessToolkitPage } from './pages/BusinessToolkitPage'
-import SiteHomePage from './site/HomePage'
 import { PricingPage } from './pages/pricing/PricingPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import './site/theme-navy.css' // ธีมกรมท่า — ต้องอยู่หลัง import หน้าอื่น ๆ
@@ -23,7 +22,14 @@ const HomeV7 = lazy(() => import('./pages/HomeV7'))
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<SiteHomePage />} />
+      <Route
+        path="/"
+        element={
+          <Suspense fallback={null}>
+            <HomeV7 />
+          </Suspense>
+        }
+      />
       <Route
         path="/v7"
         element={

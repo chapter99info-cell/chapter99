@@ -44,7 +44,10 @@ export default function HomeV7() {
       robots.setAttribute('name', 'robots')
       document.head.appendChild(robots)
     }
-    robots.setAttribute('content', 'noindex,nofollow')
+    robots.setAttribute(
+      'content',
+      window.location.pathname === '/v7' ? 'noindex,nofollow' : 'index,follow',
+    )
     let og = document.querySelector('meta[property="og:image"]')
     if (!og) {
       og = document.createElement('meta')

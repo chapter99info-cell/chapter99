@@ -43,16 +43,6 @@ const shops = [
       en: 'Scoping, appointments and quote templates in the Toolkit.',
     },
   },
-  {
-    to: '/photography',
-    glow: 'blue',
-    photo: siteMedia.photography,
-    title: { th: 'ภาพถ่าย', en: 'Photography' },
-    body: {
-      th: 'งานภาพของ Chapter99 ไปใช้บนเว็บและเส้นทางลูกค้า ไม่ใช่แอปจ้างช่างภาพ',
-      en: 'Chapter99 photography used on the site and customer path — not a photographer app.',
-    },
-  },
 ] as const;
 
 export function ShopGlowGrid() {

@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { afterEach, describe, expect, it } from 'vitest'
 import { pricing } from '../content/pricing'
 import { v7Copy } from '../content/v7'
+import App from '../App'
 import HomeV7 from './HomeV7'
 
 const emoji = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u
@@ -45,6 +46,16 @@ describe('/v7 homepage', () => {
       expect(node.textContent || '').not.toMatch(emoji)
       expect(node.innerHTML).not.toMatch(emoji)
     })
+  })
+
+  it('serves V7 on / with 200-route, not a mockup redirect', async () => {
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <App />
+      </MemoryRouter>,
+    )
+    expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(v7Copy.th.heroHeadline)
+    expect(document.body.innerHTML).not.toMatch(/destination": "\/mockup\//)
   })
 
   it('opens the mobile menu from the burger', () => {
