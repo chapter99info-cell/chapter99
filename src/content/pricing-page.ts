@@ -7,11 +7,29 @@ export const pricingPage = {
   },
   massage: { th: 'ร้านนวด', en: 'Massage' },
   restaurant: { th: 'ร้านอาหาร', en: 'Restaurant' },
+  photography: { th: 'ถ่ายภาพ', en: 'Photography' },
   demo: { th: 'DEMO', en: 'DEMO' },
   system: {
     massage: { th: 'ระบบจองคิว', en: 'booking system' },
     restaurant: { th: 'ระบบสั่งอาหาร', en: 'ordering system' },
+    photography: { th: 'ถ่ายภาพอย่างเดียว ไม่มีรายเดือน', en: 'Photography only · no monthly fee' },
   },
+  fit: { th: 'เหมาะกับ', en: 'Best for' },
+  photoScope: [
+    {
+      th: 'รวม: คุยบรีฟ วางรายการภาพ · ช่างภาพ 1 คน · 1 สถานที่ · ส่งภาพที่คัดแล้วทั้งหมด ปรับแสง สี ครอป',
+      en: 'Includes: brief + shot list · 1 photographer · 1 location · all selected files, light/colour/crop',
+    },
+    {
+      th: 'รีทัชละเอียด (เก็บผิว ไดคัท เปลี่ยนฉาก): เลือกภาพแล้วเสนอราคาก่อนทำ',
+      en: 'Detailed retouch (skin, cut-out, backdrop): quoted per image before work',
+    },
+    {
+      th: 'ไม่รวม: ไฟล์ RAW · วิดีโอ · ค่าเดินทางนอกซิดนีย์ · ราคารวม GST แล้ว',
+      en: 'Not included: RAW · video · travel outside Sydney · GST included in the price',
+    },
+  ],
+  fbWork: { th: 'ดูผลงานบน Facebook →', en: 'See work on Facebook →' },
   recommended: { th: 'แนะนำ', en: 'Recommended' },
   ctaFb: { th: 'ทักแชท Facebook', en: 'Facebook chat' },
   optional: { th: 'ไม่บังคับ', en: 'Optional' },

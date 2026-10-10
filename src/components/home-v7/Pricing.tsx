@@ -14,6 +14,9 @@ export function Pricing() {
         <p className="sub price-teaser">
           ร้านนวด เริ่ม {money(fromPrices.massage)} · ร้านอาหาร เริ่ม {money(fromPrices.restaurant)}
         </p>
+        <p className="sub price-teaser">
+          <a href="/pricing?tab=photography">ถ่ายภาพอย่างเดียว เริ่ม {money(fromPrices.photography)}</a>
+        </p>
         <a className="btn btn--gold" href="/pricing">
           ดูแพ็กเกจ →
         </a>
