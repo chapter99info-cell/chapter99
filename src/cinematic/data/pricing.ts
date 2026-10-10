@@ -143,8 +143,8 @@ export const pricingTrust = {
   label: { th: 'ราคา', en: 'Pricing' },
   heading: { th: 'เลือกลายงานก่อน แล้วค่อยดูราคา', en: 'Pick a service line, then see prices' },
   body: {
-    th: 'ช่างภาพมืออาชีพมากกว่า 10 ปี ถ่ายงานแต่งกว่า 100 งานทั่วออสเตรเลีย และงานภาพร้านอาหาร/สปาให้ธุรกิจไทยในออสเตรเลีย เลือกลายงานด้านล่างก่อน — ราคาจะโชว์เฉพาะสายที่เลือก ไม่ใช่ทุกแพ็กเกจพร้อมกัน',
-    en: 'A photographer with 10+ years behind the camera, 100+ weddings shot across Australia, and commercial work for Thai F&B and spa businesses. Choose a line below first — you only see that category\'s packages, not every price on the page.',
+    th: 'ช่างภาพมืออาชีพ 10 ปี ถ่ายงานแต่งกว่า 100 งานทั่วออสเตรเลีย และงานภาพร้านอาหาร/สปาให้ธุรกิจไทยในออสเตรเลีย เลือกลายงานด้านล่างก่อน — ราคาจะโชว์เฉพาะสายที่เลือก ไม่ใช่ทุกแพ็กเกจพร้อมกัน',
+    en: 'A photographer with 10 years behind the camera, 100+ weddings shot across Australia, and commercial work for Thai F&B and spa businesses. Choose a line below first — you only see that category\'s packages, not every price on the page.',
   },
 } as const;
 
