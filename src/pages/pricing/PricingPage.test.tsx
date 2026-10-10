@@ -26,7 +26,8 @@ describe('/pricing segments', () => {
     expect(screen.getByText('แก้ข้อมูล 2 รอบ/เดือน')).toBeInTheDocument()
     expect(screen.getByText(/ราคารวม GST แล้ว/)).toBeInTheDocument()
     expect(screen.queryByText('เริ่มต้น A$199')).toBeNull()
-    expect(document.body.textContent).not.toMatch(/ไม่จำกัด|Loyalty|WhatsApp/)
+    expect(document.body.textContent).not.toMatch(/ไม่จำกัด|Loyalty|WhatsApp|ป้ายจอ|signage|สั่งออนไลน์ผ่าน Square|Square online ordering/)
+    expect(screen.getByText('รายงานยอดขาย ส่งออก CSV')).toBeInTheDocument()
   })
 
   it('switches to three restaurant cards', () => {
@@ -39,5 +40,7 @@ describe('/pricing segments', () => {
     expect(screen.getByText(`เริ่มต้น ${money(pricing.restaurant.launch.setup)}`)).toBeInTheDocument()
     expect(screen.queryByText('เริ่มต้น A$349')).toBeNull()
     expect(screen.queryByRole('heading', { name: 'Starter' })).toBeNull()
+    expect(document.body.textContent).not.toMatch(/ป้ายจอ|signage|สั่งออนไลน์ผ่าน Square|Square online ordering/)
+    expect(screen.getByText('ระบบสั่งอาหารออนไลน์ (รับที่ร้าน)')).toBeInTheDocument()
   })
 })
