@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import { AboutPage } from './pages/AboutPage'
 import { ContactPage } from './pages/ContactPage'
 import { LegalDocPage } from './pages/LegalDocPage'
@@ -18,6 +18,7 @@ import { NotFoundPage } from './pages/NotFoundPage'
 import './site/theme-navy.css' // ธีมกรมท่า — ต้องอยู่หลัง import หน้าอื่น ๆ
 
 const HomeV7 = lazy(() => import('./pages/HomeV7'))
+const LegacyHomePage = lazy(() => import('./pages/LegacyHomePage'))
 
 export default function App() {
   return (
@@ -30,15 +31,16 @@ export default function App() {
           </Suspense>
         }
       />
+      <Route path="/v7" element={<Navigate to="/" replace />} />
+      <Route path="/v7/icons-test" element={<V7IconsTestPage />} />
       <Route
-        path="/v7"
+        path="/legacy"
         element={
           <Suspense fallback={null}>
-            <HomeV7 />
+            <LegacyHomePage />
           </Suspense>
         }
       />
-      <Route path="/v7/icons-test" element={<V7IconsTestPage />} />
       <Route path="/pricing" element={<PricingPage />} />
       <Route path="/business-toolkit" element={<BusinessToolkitPage />} />
       <Route path="/about" element={<AboutPage />} />

@@ -35,6 +35,22 @@
           "value": "noindex, nofollow"
         }
       ]
+    },
+    {
+      "source": "/legacy",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/v7",
+      "destination": "/",
+      "permanent": true
     }
   ],
   "rewrites": [

@@ -11,6 +11,7 @@ import { Pricing } from '../components/home-v7/Pricing'
 import { StickyContact } from '../components/home-v7/StickyContact'
 import { TrustFaq } from '../components/home-v7/TrustFaq'
 import { v7Copy } from '../content/v7'
+import { setSeo } from '../lib/seo'
 import '../styles/home-v7.css'
 
 const FONT_HREF =
@@ -35,26 +36,13 @@ export default function HomeV7() {
     add('preconnect', 'https://fonts.googleapis.com')
     add('preconnect', 'https://fonts.gstatic.com')
     add('stylesheet', FONT_HREF)
-    document.title = v7Copy.seo.title
-    const desc = document.querySelector('meta[name="description"]')
-    if (desc) desc.setAttribute('content', v7Copy.seo.description)
-    let robots = document.querySelector('meta[name="robots"]')
-    if (!robots) {
-      robots = document.createElement('meta')
-      robots.setAttribute('name', 'robots')
-      document.head.appendChild(robots)
-    }
-    robots.setAttribute(
-      'content',
-      window.location.pathname === '/v7' ? 'noindex,nofollow' : 'index,follow',
-    )
-    let og = document.querySelector('meta[property="og:image"]')
-    if (!og) {
-      og = document.createElement('meta')
-      og.setAttribute('property', 'og:image')
-      document.head.appendChild(og)
-    }
-    og.setAttribute('content', '/mockup/media/web/cta-spa.webp')
+    setSeo({
+      title: v7Copy.seo.title,
+      description: v7Copy.seo.description,
+      path: '/',
+      robots: 'index,follow',
+      lang: 'th',
+    })
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const els = document.querySelectorAll('.home-v7 .rv')
@@ -82,6 +70,7 @@ export default function HomeV7() {
 
   return (
     <div className="home-v7">
+      <main>
       <Hero onOpenDemo={setDemoSrc} />
       <BeforeAfter />
       <MassageDemo onOpenDemo={setDemoSrc} />
@@ -91,6 +80,7 @@ export default function HomeV7() {
       <Pricing />
       <TrustFaq />
       <FinalCta />
+      </main>
       <Footer />
       <StickyContact />
       <DemoModal src={demoSrc} onClose={() => setDemoSrc(null)} onChange={setDemoSrc} />

@@ -9,6 +9,7 @@ import { StickyContact } from '../../components/home-v7/StickyContact'
 import { pricing } from '../../content/pricing'
 import { demoHref, pricingPage as copy } from '../../content/pricing-page'
 import { v7Copy } from '../../content/v7'
+import { setSeo } from '../../lib/seo'
 import '../../styles/home-v7.css'
 
 const FONT_HREF =
@@ -33,8 +34,17 @@ function PricingInner() {
     add('preconnect', 'https://fonts.googleapis.com')
     add('preconnect', 'https://fonts.gstatic.com')
     add('stylesheet', FONT_HREF)
-    document.title = lang === 'th' ? 'Chapter99 — ราคาชัด 2 แพ็กเกจ' : 'Chapter99 — Two clear packages'
-    document.documentElement.lang = lang
+    const title = lang === 'th' ? 'Chapter99 — ราคาชัด 2 แพ็กเกจ' : 'Chapter99 — Two clear packages'
+    const description =
+      lang === 'th'
+        ? 'ค่าตั้งค่าครั้งแรก + รายเดือน · ตกลงขอบเขตก่อนเริ่ม Starter และ Professional'
+        : 'One-time setup plus monthly. Scope agreed first. Starter and Professional.'
+    setSeo({
+      title,
+      description,
+      path: '/pricing',
+      lang,
+    })
     return () => links.forEach((l) => l.remove())
   }, [lang])
 
@@ -45,12 +55,12 @@ function PricingInner() {
     <div className="home-v7 price-v7">
       <header className="nav price-v7__nav">
         <div className="wrap">
-          <a className="logo" href="/v7">
+          <a className="logo" href="/">
             <img src="/mockup/media/web/logo.webp" alt="Chapter99" width={44} height={44} />
             CHAPTER99
           </a>
           <nav className="menu" aria-label={lang === 'th' ? 'เมนูหลัก' : 'Main'}>
-            <a href="/v7#massage">{lang === 'th' ? 'ตัวอย่างร้าน' : 'Shops'}</a>
+            <a href="/#massage">{lang === 'th' ? 'ตัวอย่างร้าน' : 'Shops'}</a>
             <a href="#packages">{lang === 'th' ? 'ราคา' : 'Prices'}</a>
             <a href="#faq">{lang === 'th' ? 'คำถาม' : 'FAQ'}</a>
           </nav>
@@ -76,6 +86,7 @@ function PricingInner() {
       </header>
       <MobileNav open={menuOpen} onClose={() => setMenuOpen(false)} />
 
+      <main>
       <section className="price-hero" id="top">
         <div className="wrap">
           <span className="kicker">{t(copy.eyebrow)}</span>
@@ -203,6 +214,7 @@ function PricingInner() {
           </div>
         </div>
       </section>
+      </main>
       <Footer />
       <StickyContact heroSelector=".price-v7 .price-hero" />
     </div>

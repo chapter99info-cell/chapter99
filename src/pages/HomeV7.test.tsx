@@ -55,7 +55,20 @@ describe('/v7 homepage', () => {
       </MemoryRouter>,
     )
     expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(v7Copy.th.heroHeadline)
+    expect(document.documentElement.lang).toBe('th')
+    expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(
+      'https://www.chapter99info.com/',
+    )
     expect(document.body.innerHTML).not.toMatch(/destination": "\/mockup\//)
+  })
+
+  it('redirects /v7 to /', async () => {
+    render(
+      <MemoryRouter initialEntries={['/v7']}>
+        <App />
+      </MemoryRouter>,
+    )
+    expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(v7Copy.th.heroHeadline)
   })
 
   it('opens the mobile menu from the burger', () => {
