@@ -12,14 +12,14 @@ Do **not** sell or mention Loyalty or OTP/SMS features (not ready).
 |---|---:|---:|---:|---|
 | Starter | A$199 | A$19 | 2 | No booking |
 | Professional | A$499 | A$49 | 4 | Recommended |
-| Business | from A$999 | A$89 | 6 | POS, gift voucher, TV sign |
+| Business | from A$999 | A$89 | 6 | POS, gift voucher, sales CSV |
 
 ## Restaurant
 
 | Plan | Setup | Monthly | Edits / month | Notes |
 |---|---:|---:|---:|---|
 | Menu | A$349 | A$29 | 2 | Menu ≤40 items + QR |
-| Order | A$899 | A$69 | 5 | Recommended · Square of the shop |
+| Order | A$899 | A$69 | 5 | Recommended · online order (pickup) |
 | Launch | from A$1,499 | A$119 | 8 | Photos ≤20 + 1 Reel · on-site ≤2 hrs |
 
 ## Add-ons (one-time)

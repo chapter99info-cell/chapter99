@@ -72,7 +72,7 @@ export const pricing = {
         { th: 'ทุกอย่างใน Professional', en: 'Everything in Professional' },
         { th: 'ระบบคิดเงิน POS', en: 'POS payments' },
         { th: 'Gift Voucher', en: 'Gift voucher' },
-        { th: 'ป้ายจอทีวีในร้าน', en: 'In-shop TV display' },
+        { th: 'รายงานยอดขาย ส่งออก CSV', en: 'Sales report, CSV export' },
       ],
     },
   },
@@ -98,7 +98,7 @@ export const pricing = {
       badge: { th: 'แนะนำ', en: 'Recommended' },
       bullets: [
         { th: 'ทุกอย่างใน Menu', en: 'Everything in Menu' },
-        { th: 'สั่งออนไลน์ผ่าน Square ของร้าน', en: 'Online orders via the shop’s Square' },
+        { th: 'ระบบสั่งอาหารออนไลน์ (รับที่ร้าน)', en: 'Online food ordering (pickup)' },
         { th: 'ถ่ายรูป 10 จานเด่น', en: 'Photos of 10 hero dishes' },
         { th: 'สอนใช้งาน', en: 'Hands-on training' },
       ],

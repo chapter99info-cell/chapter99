@@ -180,8 +180,8 @@ export const pricingCategories: {
     hash: 'other-rates',
     title: { th: 'บริการอื่นๆ', en: 'Other Services' },
     blurb: {
-      th: 'QR เมนู แผนที่ ลิงก์รีวิว และป้ายดิจิทัล — ซื้อแยกหรือเป็นแพ็ก',
-      en: 'QR menus, maps, review links, and digital signage — à la carte or bundled',
+      th: 'QR เมนู แผนที่ และลิงก์รีวิว — ซื้อแยกหรือเป็นแพ็ก',
+      en: 'QR menus, maps, and review links — à la carte or bundled',
     },
     videoSrc: `${SUPABASE_VDO}/01luxurious.mp4`,
   },

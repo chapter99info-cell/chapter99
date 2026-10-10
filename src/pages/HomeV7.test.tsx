@@ -49,6 +49,7 @@ describe('/v7 homepage', () => {
     expect(screen.getByText(/ABN 81 951 461 769/)).toBeInTheDocument()
     expect(document.body.innerHTML).not.toMatch(/wa\.me/i)
     expect(document.body.textContent).not.toMatch(/WhatsApp/i)
+    expect(document.body.textContent).not.toMatch(/ป้ายจอ|signage|สั่งออนไลน์ผ่าน Square|Square online ordering/)
   })
 
   it('has no horizontal overflow lock and one mobile sticky contact without emoji', () => {
