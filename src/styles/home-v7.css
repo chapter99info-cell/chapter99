@@ -22,7 +22,8 @@
   color: var(--text);
   background: var(--paper);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
   padding-bottom: 88px;
 }
 .home-v7 *,
@@ -46,6 +47,8 @@
   max-width: var(--max);
   margin: 0 auto;
   padding: 0 var(--gutter);
+  min-width: 0;
+  width: 100%;
 }
 .home-v7 .kicker {
   display: inline-flex;
@@ -72,6 +75,10 @@
 .home-v7 h2,
 .home-v7 h3 {
   line-height: 1.25;
+  overflow-wrap: anywhere;
+  line-break: auto;
+  word-break: normal;
+  max-width: 100%;
 }
 .home-v7 .big {
   font-family: var(--f-big);
@@ -256,9 +263,14 @@
 .home-v7 .hero__bg img {
   width: 100%;
   height: 100%;
+  max-width: 100%;
   object-fit: cover;
   object-position: 70% 30%;
-  animation: home-v7-kb 20s ease-in-out infinite alternate;
+}
+@media (min-width: 641px) and (prefers-reduced-motion: no-preference) {
+  .home-v7 .hero__bg img {
+    animation: home-v7-kb 20s ease-in-out infinite alternate;
+  }
 }
 @keyframes home-v7-kb {
   to {
@@ -287,11 +299,16 @@
   max-width: var(--max);
   margin: 0 auto;
   width: 100%;
+  min-width: 0;
   padding-left: var(--gutter);
   padding-right: var(--gutter);
 }
-.home-v7 .hero h1 {
-  font-size: clamp(54px, 7.4vw, 112px);
+.home-v7 .hero h1,
+.home-v7 .hero h1.hero__title {
+  color: #fff;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 600;
+  line-height: 1.3;
   margin: 16px 0 18px;
 }
 .home-v7 .hero h1 em {
@@ -313,6 +330,8 @@
   gap: 14px;
   flex-wrap: wrap;
   margin-top: 30px;
+  max-width: 100%;
+  min-width: 0;
 }
 .home-v7 .hero__crop {
   position: absolute;
@@ -362,6 +381,11 @@
   display: flex;
   align-items: center;
   gap: 14px;
+  min-width: 0;
+  max-width: 100%;
+}
+.home-v7 .perk > div {
+  min-width: 0;
 }
 .home-v7 .perk .press-ic {
   flex: 0 0 56px;
@@ -385,7 +409,10 @@
   position: absolute;
   inset: 0;
   width: 100%;
+  max-width: 100%;
   height: 100%;
+  min-width: 0;
+  overflow: hidden;
   pointer-events: none;
   z-index: 1;
 }
@@ -1265,7 +1292,7 @@
   right: 18px;
   bottom: 88px;
   z-index: 60;
-  width: min(360px, calc(100vw - 36px));
+  width: min(360px, calc(100% - 36px));
   padding: 18px;
   border-radius: 20px;
   background: rgba(16, 20, 36, 0.86);
@@ -1522,11 +1549,22 @@
   .home-v7 .hero__in {
     padding-top: 110px;
   }
-  .home-v7 .hero h1 {
-    font-size: clamp(46px, 13vw, 64px);
+  .home-v7 .hero h1,
+  .home-v7 .hero h1.hero__title {
+    font-size: clamp(30px, 8.4vw, 38px);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .home-v7 .hero__cta {
+    width: 100%;
   }
   .home-v7 .hero__cta .btn {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .home-v7 .btn:hover {
+    transform: none;
   }
   .home-v7 .hero::after {
     background: linear-gradient(to bottom, rgba(10, 15, 26, 0.55), rgba(10, 15, 26, 0.88) 45%, rgba(10, 15, 26, 0.95));
@@ -1540,6 +1578,7 @@
   }
   .home-v7 .perks .wrap {
     gap: 16px 12px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
   .home-v7 .perk {
     flex-direction: column;
@@ -1624,19 +1663,27 @@
   }
   .home-v7 .mbar {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 8px;
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 50;
-    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 10px max(12px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom))
+      max(12px, env(safe-area-inset-left));
     background: rgba(10, 15, 26, 0.96);
   }
   .home-v7 .mbar .btn {
     width: 100%;
+    min-width: 0;
+    max-width: 100%;
     min-height: 48px;
+    white-space: normal;
+    text-align: center;
   }
   .home-v7 .fab,
   .home-v7 .cpanel {

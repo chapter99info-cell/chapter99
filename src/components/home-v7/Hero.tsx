@@ -59,7 +59,7 @@ export function Hero(_props: HeroProps) {
       <MobileNav open={menuOpen} onClose={() => setMenuOpen(false)} />
       <div className="hero__in">
         <span className="kicker">01 / AUSTRALIA</span>
-        <h1 className="th2" style={{ color: '#fff', fontSize: 'clamp(36px, 8vw, 64px)' }}>
+        <h1 className="th2 hero__title">
           {v7Copy.th.heroHeadline}
         </h1>
         <p className="lead2">{v7Copy.th.heroSub}</p>

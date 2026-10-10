@@ -364,7 +364,7 @@ function ToolkitInner() {
                                 setDraft(text)
                                 setStatus(t('เปิดแม่แบบด้านล่างแล้ว คัดลอกหรือพิมพ์ได้', 'Template opened below. Copy or print it.'))
                                 window.requestAnimationFrame(() => {
-                                  docPreviewRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                                  docPreviewRef.current?.scrollIntoView({ behavior: 'auto', block: 'center' })
                                 })
                               }}
                             >
@@ -376,7 +376,7 @@ function ToolkitInner() {
                   </div>
                 </div>
               ))}
-              <article className="toolkit-doc-preview" ref={docPreviewRef} id="doc-preview" aria-live="polite">
+              <article className={`toolkit-doc-preview${draft ? '' : ' is-empty'}`} ref={docPreviewRef} id="doc-preview" aria-live="polite">
                 <h3>
                   {th
                     ? documentTemplates.find((d) => d.id === docId)?.th
@@ -388,7 +388,7 @@ function ToolkitInner() {
                     : t('กดใช้งานการ์ดด้านบน เพื่อเปิดแม่แบบในช่องนี้', 'Tap Use on a card above to open the template here.')}
                 </p>
                 <textarea
-                  rows={16}
+                  rows={draft ? 16 : 2}
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}
                   aria-label={t('เอกสารที่สร้างแล้ว', 'Generated document')}
