@@ -14,9 +14,6 @@ import { v7Copy } from '../content/v7'
 import { setSeo } from '../lib/seo'
 import '../styles/home-v7.css'
 
-const FONT_HREF =
-  'https://fonts.googleapis.com/css2?family=Anton&family=Anuphan:wght@500;600;700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+Thai:wght@400;500&display=swap'
-
 export default function HomeV7() {
   const [demoSrc, setDemoSrc] = useState<string | null>(null)
 
@@ -33,9 +30,6 @@ export default function HomeV7() {
       links.push(el)
     }
     add('preload', '/mockup/media/web/cta-spa.webp', { as: 'image', fetchPriority: 'high' })
-    add('preconnect', 'https://fonts.googleapis.com')
-    add('preconnect', 'https://fonts.gstatic.com')
-    add('stylesheet', FONT_HREF)
     setSeo({
       title: v7Copy.seo.title,
       description: v7Copy.seo.description,

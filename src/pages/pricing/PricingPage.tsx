@@ -12,9 +12,6 @@ import { v7Copy } from '../../content/v7'
 import { setSeo } from '../../lib/seo'
 import '../../styles/home-v7.css'
 
-const FONT_HREF =
-  'https://fonts.googleapis.com/css2?family=Anton&family=Anuphan:wght@500;600;700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+Thai:wght@400;500&display=swap'
-
 type Segment = 'massage' | 'restaurant'
 
 function PricingInner() {
@@ -23,17 +20,6 @@ function PricingInner() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
-    const links: HTMLLinkElement[] = []
-    const add = (rel: string, href: string) => {
-      const el = document.createElement('link')
-      el.rel = rel
-      el.href = href
-      document.head.appendChild(el)
-      links.push(el)
-    }
-    add('preconnect', 'https://fonts.googleapis.com')
-    add('preconnect', 'https://fonts.gstatic.com')
-    add('stylesheet', FONT_HREF)
     const title = lang === 'th' ? 'Chapter99 — ราคาชัด 2 แพ็กเกจ' : 'Chapter99 — Two clear packages'
     const description =
       lang === 'th'
@@ -45,7 +31,6 @@ function PricingInner() {
       path: '/pricing',
       lang,
     })
-    return () => links.forEach((l) => l.remove())
   }, [lang])
 
   const starterBullets = copy.starterBullets[segment]

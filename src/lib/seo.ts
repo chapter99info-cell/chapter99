@@ -29,7 +29,12 @@ export function setSeo(opts: {
   set('property', 'og:url', url)
   set('property', 'og:type', 'website')
   set('property', 'og:locale', 'th_TH')
-  set('property', 'og:image', opts.image ?? `${SITE}/mockup/media/web/cta-spa.webp`)
+  const image = opts.image ?? `${SITE}/og/chapter99-og.jpg`
+  set('property', 'og:image', image)
+  set('property', 'og:image:width', '1200')
+  set('property', 'og:image:height', '630')
+  set('name', 'twitter:card', 'summary_large_image')
+  set('name', 'twitter:image', image)
   set('rel', 'canonical', url)
 }
 

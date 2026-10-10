@@ -21,9 +21,6 @@ const WA_SALES =
   'https://wa.me/61452044382?text=' +
   encodeURIComponent('สวัสดีครับ สนใจบริการ Photography & AI Creative ของ Chapter99 อยากสอบถามรายละเอียดครับ')
 
-const FONT =
-  'https://fonts.googleapis.com/css2?family=Anton&family=Kanit:wght@600;700&family=IBM+Plex+Sans+Thai:wght@400;600&display=swap'
-
 const creates = [
   {
     title: 'Professional Photography',
@@ -124,16 +121,11 @@ export function PhotographyPage() {
       document.head.appendChild(robots)
     }
     robots.setAttribute('content', sales ? 'index,follow' : 'noindex,nofollow')
-    const el = document.createElement('link')
-    el.rel = 'stylesheet'
-    el.href = FONT
-    document.head.appendChild(el)
     void loadPhotoManifest().then((data) => {
       setManifest(data)
       const first = data.beforeAfter[0]?.category
       if (first) setBaTab(first)
     })
-    return () => el.remove()
   }, [sales])
 
   return (

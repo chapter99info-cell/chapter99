@@ -8,7 +8,7 @@
   --navy:#0B1F3A;--navy2:#13294B;--blue:#0B1F3A;--blue2:#13294B;--ink:#0B1220;--soft:#F3F5F8;--line:#E3E7ED;
 }
 body{font-family:"IBM Plex Sans Thai","Sora",system-ui,sans-serif}
-h1,h2,h3,.brand strong{font-family:"Kanit","IBM Plex Sans Thai",sans-serif;letter-spacing:-.01em}
+h1,h2,h3,.brand strong{font-family:"Anuphan","IBM Plex Sans Thai",sans-serif;letter-spacing:-.01em}
 /* ปุ่มหลัก: มุมเหลี่ยม ตัวหนา อ่านง่าย */
 .navcta,.btn,.site-v2 .navcta,.header-cta-ghost,.drawer-cta-ghost{border-radius:0!important;font-weight:600}
 .navcta{transition:background .35s,color .35s,box-shadow .35s,transform .35s}
