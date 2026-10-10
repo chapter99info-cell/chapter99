@@ -52,6 +52,23 @@ html:has(.site-root.is-toolkit) {
     max-width: min(560px, calc(100% - 48px));
   }
 }
+.toolkit-v2 .hero-dock {
+  max-width: 100%;
+}
+.toolkit-v2 .hero-dock-bar {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.toolkit-v2 .toolkit-doc-preview.is-empty {
+  min-height: 0;
+}
+.toolkit-v2 h1,
+.toolkit-v2 h2,
+.toolkit-v2 .hero-dock-label {
+  overflow-wrap: anywhere;
+  line-break: auto;
+  word-break: normal;
+}
 .toolkit-v2 .eyebrow { color: var(--v2-green); letter-spacing: 0.12em; }
 .toolkit-v2 .toolkit-toolbar { color: var(--v2-ink); }
 .toolkit-v2 .toolkit-model {
