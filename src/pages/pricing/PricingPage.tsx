@@ -6,13 +6,18 @@ import { Footer } from '../../components/home-v7/Footer'
 import { MobileNav } from '../../components/home-v7/MobileNav'
 import { PressIcon } from '../../components/home-v7/PressIcon'
 import { StickyContact } from '../../components/home-v7/StickyContact'
-import { pricing } from '../../content/pricing'
+import {
+  editsDisplay,
+  monthlyDisplay,
+  plansFor,
+  pricing,
+  setupDisplay,
+  type Segment,
+} from '../../content/pricing'
 import { demoHref, pricingPage as copy } from '../../content/pricing-page'
 import { v7Copy } from '../../content/v7'
 import { setSeo } from '../../lib/seo'
 import '../../styles/home-v7.css'
-
-type Segment = 'massage' | 'restaurant'
 
 function PricingInner() {
   const { lang, setLang, t } = useTranslation()
@@ -20,11 +25,11 @@ function PricingInner() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
-    const title = lang === 'th' ? 'Chapter99 — ราคาชัด 2 แพ็กเกจ' : 'Chapter99 — Two clear packages'
+    const title = lang === 'th' ? 'Chapter99 — ราคาตามประเภทธุรกิจ' : 'Chapter99 — Prices by shop type'
     const description =
       lang === 'th'
-        ? 'ค่าตั้งค่าครั้งแรก + รายเดือน · ตกลงขอบเขตก่อนเริ่ม Starter และ Professional'
-        : 'One-time setup plus monthly. Scope agreed first. Starter and Professional.'
+        ? 'ร้านนวดและร้านอาหาร · ค่าตั้งค่า + รายเดือน รวม GST แล้ว'
+        : 'Massage and restaurant packages. Setup plus monthly. GST included.'
     setSeo({
       title,
       description,
@@ -33,8 +38,7 @@ function PricingInner() {
     })
   }, [lang])
 
-  const starterBullets = copy.starterBullets[segment]
-  const proBullets = copy.proBullets[segment]
+  const plans = plansFor(segment)
 
   return (
     <div className="home-v7 price-v7">
@@ -102,43 +106,40 @@ function PricingInner() {
             </a>
           </p>
 
-          <div className="xplans">
-            <article className="plan" id="starter">
-              <div className="plan__top">
-                <h3>{pricing.starter.name}</h3>
-              </div>
-              <div className="amt">
-                <b>{pricing.starter.setup}</b>
-                <span>+ {pricing.starter.monthly} / {lang === 'th' ? 'เดือน' : 'mo'}</span>
-              </div>
-              <ul>
-                {starterBullets.map((item) => (
-                  <li key={item.en}>{t(item)}</li>
-                ))}
-              </ul>
-              <a className="btn btn--dark" href={v7Copy.contact.facebookInbox} target="_blank" rel="noopener noreferrer">
-                {t(copy.ctaFb)}
-              </a>
-            </article>
-            <article className="plan plan--hi" id="professional">
-              <div className="plan__top">
-                <h3>{pricing.professional.name}</h3>
-                <span className="badge">{t(copy.recommended)}</span>
-              </div>
-              <div className="amt">
-                <b>{pricing.professional.setup}</b>
-                <span>+ {pricing.professional.monthly} / {lang === 'th' ? 'เดือน' : 'mo'}</span>
-              </div>
-              <ul>
-                {proBullets.map((item) => (
-                  <li key={item.en}>{t(item)}</li>
-                ))}
-              </ul>
-              <a className="btn btn--gold" href={v7Copy.contact.facebookInbox} target="_blank" rel="noopener noreferrer">
-                {t(copy.ctaFb)}
-              </a>
-            </article>
+          <div className="xplans xplans--3">
+            {plans.map((plan, index) => (
+              <article
+                key={plan.id}
+                className={`plan${plan.badge ? ' plan--hi' : ''}`}
+                id={plan.id}
+              >
+                <div className="plan__top">
+                  <h3>{plan.label}</h3>
+                  {plan.badge ? <span className="badge">{t(plan.badge)}</span> : null}
+                </div>
+                <div className="amt">
+                  <b>{setupDisplay(plan, lang)}</b>
+                  <span>{monthlyDisplay(plan, lang)}</span>
+                </div>
+                <div className="amt-note">{editsDisplay(plan, lang)}</div>
+                <ul>
+                  {plan.bullets.map((item) => (
+                    <li key={item.en}>{t(item)}</li>
+                  ))}
+                </ul>
+                <a
+                  className={index === 1 ? 'btn btn--gold' : 'btn btn--dark'}
+                  href={v7Copy.contact.facebookInbox}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t(copy.ctaFb)}
+                </a>
+              </article>
+            ))}
           </div>
+
+          <p className="price-inc">{t(copy.gstLine)}</p>
 
           <div className="xaddon price-addons">
             <span className="xtag">{t(copy.optional)}</span>
@@ -152,12 +153,10 @@ function PricingInner() {
             </span>
             <span>
               <PressIcon icon={CreditCard} label={t(copy.square)} />
-              {t(copy.square)} <b>{pricing.addons.square.price}</b> {t(copy.once)}
+              {t(copy.square)} <b>{pricing.addons.squareSetup.price}</b> {t(copy.once)}
             </span>
+            <p className="price-exc">{t(copy.addonNote)}</p>
           </div>
-
-          <p className="price-inc">{t(copy.include)}</p>
-          <p className="price-exc">{t(copy.exclude)}</p>
 
           <div className="price-square" id="square-setup">
             <p>{t(copy.squareLine)}</p>

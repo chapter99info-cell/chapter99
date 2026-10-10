@@ -914,6 +914,15 @@
   margin-top: 30px;
   max-width: 900px;
 }
+.home-v7 .xplans--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 1100px;
+}
+.home-v7 .price-teaser {
+  font-size: 18px;
+  line-height: 1.75;
+  margin: 12px 0 24px;
+}
 .home-v7 .plan {
   background: #fff;
   color: var(--text);
@@ -960,8 +969,9 @@
 .home-v7 .amt b {
   font-family: var(--f-big);
   font-weight: 400;
-  font-size: clamp(46px, 4vw, 60px);
-  line-height: 1;
+  font-size: clamp(32px, 3.4vw, 48px);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
 }
 .home-v7 .amt span {
   font-family: var(--f-th);
@@ -1517,6 +1527,9 @@
   display: none;
 }
 @media (max-width: 1000px) {
+  .home-v7 .xplans--3 {
+    grid-template-columns: 1fr;
+  }
   .home-v7 .menu,
   .home-v7 .nav .btn {
     display: none;
@@ -1632,8 +1645,13 @@
     font-size: 26px;
     color: var(--dim);
   }
-  .home-v7 .xplans {
+  .home-v7 .xplans,
+  .home-v7 .xplans--3 {
     grid-template-columns: 1fr;
+  }
+  .home-v7 .amt b {
+    font-size: clamp(28px, 8vw, 40px);
+    line-height: 1.2;
   }
   .home-v7 .xaddon a {
     margin-left: 0;
