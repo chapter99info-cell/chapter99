@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { CalendarCheck, MessagesSquare, Smartphone, Timer } from 'lucide-react'
+import { fromPrices, money } from '../../content/pricing'
 import { v7Copy } from '../../content/v7'
 import { MobileNav } from './MobileNav'
-import { DecoLines, PressIcon } from './PressIcon'
+import { DecoLines } from './PressIcon'
 
 type HeroProps = {
   onOpenDemo?: (src: string) => void
@@ -10,12 +10,13 @@ type HeroProps = {
 
 export function Hero(_props: HeroProps) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const priceCta = `ดูแพ็กเกจ · เริ่มต้น ${money(fromPrices.massage)} →`
   return (
-    <section className="hero" id="top">
+    <section className="hero hero--cover" id="top">
       <div className="hero__bg">
         <img
-          src="/mockup/media/web/cta-spa.webp"
-          alt="ร้านนวดไทยในออสเตรเลีย"
+          src="/mockup/media/web/hero-sydney.webp"
+          alt="ซิดนีย์ยามค่ำ"
           width={2000}
           height={1333}
           fetchPriority="high"
@@ -58,49 +59,24 @@ export function Hero(_props: HeroProps) {
       </header>
       <MobileNav open={menuOpen} onClose={() => setMenuOpen(false)} />
       <div className="hero__in">
-        <span className="kicker">01 / AUSTRALIA</span>
-        <h1 className="th2 hero__title">
-          {v7Copy.th.heroHeadline}
-        </h1>
-        <p className="lead2">{v7Copy.th.heroSub}</p>
-        <div className="hero__cta">
-          <a className="btn btn--gold" href={v7Copy.contact.facebookInbox} target="_blank" rel="noopener noreferrer">
-            {v7Copy.th.ctaTalk}
-          </a>
-          <a className="btn btn--line" href="#packages">
-            {v7Copy.th.ctaPackages}
-          </a>
+        <div>
+          <span className="kicker">{v7Copy.cover.kicker}</span>
+          <h1 className="big cover-title">
+            <span>WE BUILD</span>
+            <span>SHOPS</span>
+            <em>THAT SELL.</em>
+          </h1>
         </div>
-      </div>
-      <div className="perks">
-        <div className="wrap">
-          <div className="perk">
-            <PressIcon icon={CalendarCheck} label="จองออนไลน์" />
-            <div>
-              <b>ลูกค้าจองออนไลน์</b>
-              <span>ในแพ็ก Professional</span>
-            </div>
-          </div>
-          <div className="perk">
-            <PressIcon icon={Smartphone} label="มือถือ" />
-            <div>
-              <b>ใช้งานง่าย</b>
-              <span>บนมือถือ</span>
-            </div>
-          </div>
-          <div className="perk">
-            <PressIcon icon={Timer} label="งานแอดมิน" />
-            <div>
-              <b>ลดงานหลังร้าน</b>
-              <span>ประหยัดเวลา</span>
-            </div>
-          </div>
-          <div className="perk">
-            <PressIcon icon={MessagesSquare} label="ซัพพอร์ตไทย" />
-            <div>
-              <b>คุยภาษาไทย</b>
-              <span>ดูแลในออสเตรเลีย</span>
-            </div>
+        <div className="hero__side">
+          <p className="th-lead">{v7Copy.th.heroSub}</p>
+          <p className="lead2">{v7Copy.th.heroLine}</p>
+          <div className="hero__cta">
+            <a className="btn btn--gold" href={v7Copy.contact.facebookInbox} target="_blank" rel="noopener noreferrer">
+              {v7Copy.th.ctaTalk}
+            </a>
+            <a className="btn btn--line" href="/pricing">
+              {priceCta}
+            </a>
           </div>
         </div>
       </div>

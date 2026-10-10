@@ -23,7 +23,15 @@ describe('/v7 homepage', () => {
 
   it('renders hero, SOP prices, SMS and Facebook inbox', () => {
     renderHome()
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(v7Copy.th.heroHeadline)
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('WE BUILD')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('THAT SELL.')
+    expect(screen.getByText(v7Copy.th.heroSub)).toBeInTheDocument()
+    expect(screen.getByText(`ดูแพ็กเกจ · เริ่มต้น ${money(fromPrices.massage)} →`)).toBeInTheDocument()
+    expect(screen.getByText('THAI GARLIC')).toBeInTheDocument()
+    expect(screen.getByText('Princess Thai Massage')).toBeInTheDocument()
+    expect(v7Copy.stats.enabled).toBe(false)
+    expect(screen.queryByText(v7Copy.stats.headline)).toBeNull()
+    expect(document.body.textContent).not.toMatch(/Business Audit/i)
     expect(
       screen.getByText(`ร้านนวด เริ่ม ${money(fromPrices.massage)} · ร้านอาหาร เริ่ม ${money(fromPrices.restaurant)}`),
     ).toBeInTheDocument()
@@ -56,7 +64,7 @@ describe('/v7 homepage', () => {
         <App />
       </MemoryRouter>,
     )
-    expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(v7Copy.th.heroHeadline)
+    expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent('WE BUILD')
     expect(document.documentElement.lang).toBe('th')
     expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(
       'https://www.chapter99info.com/',
@@ -70,7 +78,7 @@ describe('/v7 homepage', () => {
         <App />
       </MemoryRouter>,
     )
-    expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(v7Copy.th.heroHeadline)
+    expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent('WE BUILD')
   })
 
   it('uses Kanit headings and Sarabun body, not Taviraj or Anuphan', () => {
