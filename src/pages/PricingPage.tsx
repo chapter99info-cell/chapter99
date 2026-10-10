@@ -35,9 +35,9 @@ export function PricingPage() {
       <section className="service-picker">
         <p className="eyebrow">เลือกบริการที่คุณสนใจ</p>
         <div className="service-links">
-          <Link to="/photography">
-            <strong>01 / ช่างภาพ F&B / สปา ↗</strong>
-            <span>ถ่ายอาหาร ร้านนวด และคอนเทนต์ร้านค้า</span>
+          <Link to="/about">
+            <strong>01 / ช่างภาพ F&B / สปา</strong>
+            <span>ถ่ายอาหาร ร้านนวด และคอนเทนต์ร้านค้า — เปิดเมื่อมีผลงานที่อนุญาต</span>
           </Link>
           <a href="#web-packages">
             <strong>02 / เว็บไซต์และงานดูแล ↓</strong>

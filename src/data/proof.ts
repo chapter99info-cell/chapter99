@@ -18,4 +18,4 @@ export const liveWorks: LiveWork[] = []
 
 export const reviews: Review[] = []
 
-export const company: { abn?: string } = {}
+export const company: { abn?: string } = { abn: '81 951 461 769' }

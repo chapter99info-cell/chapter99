@@ -1,16 +1,16 @@
+import { Check } from 'lucide-react'
+import { DecoLines } from './PressIcon'
+
 function CheckIcon() {
-  return (
-    <svg className="ic" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M20 6 9 17l-5-5" />
-    </svg>
-  )
+  return <Check className="ic" strokeWidth={2.25} aria-hidden="true" />
 }
 
 export function BeforeAfter() {
   return (
     <section className="sec" id="before-after">
+      <DecoLines />
       <div className="wrap">
-        <span className="kicker">Before → After</span>
+        <span className="kicker">02 / PROCESS</span>
         <h2 className="th2" style={{ marginTop: 12 }}>
           ร้านเดิม ทำงานน้อยลง
         </h2>

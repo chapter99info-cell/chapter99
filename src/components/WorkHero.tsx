@@ -10,7 +10,7 @@ const tiles = [
   {
     src: siteMedia.photography,
     alt: 'ภาพแนวคิดถ่ายอาหารแล้วใช้บนระบบร้าน / ไม่ใช่ผลงานลูกค้า',
-    to: '/photography',
+    to: '/work',
   },
   {
     src: siteMedia.booking,

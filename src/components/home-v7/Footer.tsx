@@ -1,5 +1,7 @@
+import { Mail, MapPin, MessageSquareText, Phone } from 'lucide-react'
+import { v7Copy } from '../../content/v7'
 import { company } from '../../data/proof'
-import { WA } from './Hero'
+import { BrandGlyph, PressIcon } from './PressIcon'
 
 export function Footer() {
   return (
@@ -11,12 +13,12 @@ export function Footer() {
               <img src="/mockup/media/web/logo.webp" alt="" width={40} height={40} />
               CHAPTER99
             </a>
-            <p style={{ marginTop: 12, color: '#d5d8e0' }}>
-              ระบบออนไลน์สำหรับธุรกิจไทยในออสเตรเลีย
-              <br />
+            <p style={{ marginTop: 12, color: '#d5d8e0' }}>ระบบออนไลน์สำหรับธุรกิจไทยในออสเตรเลีย</p>
+            <p className="floc">
+              <PressIcon icon={MapPin} label="ที่ตั้ง" />
               Sydney, NSW
             </p>
-            {company.abn ? <p>ABN {company.abn}</p> : null}
+            <p>ABN {company.abn ?? '81 951 461 769'}</p>
           </div>
           <div>
             <h4>ธุรกิจ</h4>
@@ -34,21 +36,21 @@ export function Footer() {
           </div>
           <div className="fcontact">
             <h4>ติดต่อเรา</h4>
-            <a href="tel:+61452044382">
-              <img src="/mockup/media/icons8-call-50.png" alt="" width={18} height={18} />
-              0452 044 382
+            <a href={v7Copy.contact.phoneHref}>
+              <PressIcon icon={Phone} label="โทร" />
+              {v7Copy.contact.phoneDisplay}
             </a>
-            <a href={WA}>
-              <img src="/mockup/media/icons8-whatsapp-50.png" alt="" width={18} height={18} />
-              WhatsApp
+            <a href={v7Copy.contact.sms}>
+              <PressIcon icon={MessageSquareText} label="SMS" />
+              {v7Copy.th.ctaSms}
             </a>
-            <a href="mailto:chapter99solutions@gmail.com">
-              <img src="/mockup/media/icons8-email-50.png" alt="" width={18} height={18} />
-              chapter99solutions@gmail.com
+            <a href={v7Copy.contact.facebookInbox} target="_blank" rel="noopener noreferrer">
+              <BrandGlyph />
+              ทักแชท Facebook
             </a>
-            <a href="https://m.me/61586534972406" target="_blank" rel="noopener noreferrer">
-              <img src="/mockup/media/icons8-chat-bubble-50.png" alt="" width={18} height={18} />
-              Inbox Facebook
+            <a href={`mailto:${v7Copy.contact.email}`}>
+              <PressIcon icon={Mail} label="อีเมล" />
+              {v7Copy.contact.email}
             </a>
           </div>
         </div>

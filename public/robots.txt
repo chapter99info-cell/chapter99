@@ -1,3 +1,7 @@
 User-agent: *
 Allow: /
-Sitemap: https://chapter99.example/sitemap.xml
+Disallow: /legacy
+Disallow: /mockup
+Disallow: /photography
+Disallow: /v7
+Sitemap: https://www.chapter99info.com/sitemap.xml

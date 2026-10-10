@@ -1,0 +1,91 @@
+import type { Bilingual } from '../cinematic/i18n/types'
+
+export const pricingPage = {
+  eyebrow: { th: '06 / PACKAGES', en: '06 / PACKAGES' },
+  h1: { th: 'ราคาชัด 2 แพ็กเกจ', en: 'Two packages. Clear prices.' },
+  sub: {
+    th: 'ค่าตั้งค่าครั้งแรก + รายเดือน · ตกลงขอบเขตก่อนเริ่ม',
+    en: 'One-time setup + monthly · scope agreed first',
+  },
+  massage: { th: 'ร้านนวด', en: 'Massage' },
+  restaurant: { th: 'ร้านอาหาร', en: 'Restaurant' },
+  demo: { th: 'DEMO', en: 'DEMO' },
+  system: {
+    massage: { th: 'ระบบจองคิว', en: 'booking system' },
+    restaurant: { th: 'ระบบสั่งอาหาร', en: 'ordering system' },
+  },
+  starterBullets: {
+    massage: [
+      { th: 'เว็บไซต์ร้านบนมือถือ', en: 'Mobile shop website' },
+      { th: 'บริการ/เมนู/ราคา', en: 'Services / menu / prices' },
+      { th: 'แผนที่+ติดต่อ', en: 'Map + contact' },
+      { th: 'ไม่มีระบบจอง', en: 'No booking system' },
+    ],
+    restaurant: [
+      { th: 'เว็บไซต์ร้านบนมือถือ', en: 'Mobile shop website' },
+      { th: 'บริการ/เมนู/ราคา', en: 'Services / menu / prices' },
+      { th: 'แผนที่+ติดต่อ', en: 'Map + contact' },
+      { th: 'ไม่มีระบบสั่งอาหาร', en: 'No ordering system' },
+    ],
+  } satisfies Record<string, Bilingual[]>,
+  proBullets: {
+    massage: [
+      { th: 'ทุกอย่างใน Starter', en: 'Everything in Starter' },
+      { th: 'ระบบจองคิว ตามขอบเขต', en: 'Booking system, as scoped' },
+      { th: 'แจ้งเตือนลูกค้า', en: 'Customer alerts' },
+      { th: 'สอนใช้งาน', en: 'Hands-on training' },
+    ],
+    restaurant: [
+      { th: 'ทุกอย่างใน Starter', en: 'Everything in Starter' },
+      { th: 'ระบบสั่งอาหาร ตามขอบเขต', en: 'Ordering system, as scoped' },
+      { th: 'แจ้งเตือนลูกค้า', en: 'Customer alerts' },
+      { th: 'สอนใช้งาน', en: 'Hands-on training' },
+    ],
+  } satisfies Record<string, Bilingual[]>,
+  recommended: { th: 'แนะนำ', en: 'Recommended' },
+  ctaFb: { th: 'ทักแชท Facebook', en: 'Facebook chat' },
+  optional: { th: 'ไม่บังคับ', en: 'Optional' },
+  photo: { th: 'ถ่ายภาพร้าน', en: 'Shop photos' },
+  reels: { th: 'วิดีโอ Reels', en: 'Reels video' },
+  square: { th: 'Square Setup', en: 'Square Setup' },
+  once: { th: 'ครั้งเดียว', en: 'one-time' },
+  include: {
+    th: 'รวม: โฮสติ้ง ดูแลเว็บ แก้ข้อมูลเล็กน้อย',
+    en: 'Includes: hosting, site care, small edits',
+  },
+  exclude: {
+    th: 'ไม่รวม: ค่าโดเมน งานนอกขอบเขต — แจ้งราคาก่อนทำ',
+    en: 'Not included: domain, extra scope — priced first',
+  },
+  squareLine: {
+    th: 'ค่าธรรมเนียม Square/อุปกรณ์ จ่ายให้ Square โดยตรงตามการใช้จริง · ร้านเป็นเจ้าของบัญชี · เราไม่เก็บข้อมูลบัตร',
+    en: 'Square fees/hardware are paid to Square as used · shop owns the account · we never store card data',
+  },
+  details: { th: 'ดูรายละเอียด', en: 'See details' },
+  faqKicker: { th: '08 / FAQ', en: '08 / FAQ' },
+  faqTitle: { th: 'คำถาม', en: 'FAQ' },
+  faqs: [
+    {
+      q: { th: 'ต้องเก่งคอมไหม?', en: 'Do I need to be techy?' },
+      a: { th: 'ไม่ต้อง เราตั้งค่าให้และสอนใช้งาน', en: 'No. We set it up and train you.' },
+    },
+    {
+      q: { th: 'ค่ารายเดือนจ่ายเพื่ออะไร?', en: 'What is the monthly for?' },
+      a: {
+        th: 'โฮสติ้ง ดูแลเว็บ และแก้ข้อมูลเล็กน้อยตามขอบเขต',
+        en: 'Hosting, site care, and small scoped edits',
+      },
+    },
+    {
+      q: { th: 'เลิกใช้แล้วข้อมูลไปไหน?', en: 'If I stop, where does data go?' },
+      a: { th: 'ข้อมูลเป็นของร้าน ส่งออกและย้ายได้', en: 'The shop owns it. Export and move it.' },
+    },
+  ],
+  close: { th: 'คุยภาษาไทย ตอบไว', en: 'Thai support. Fast replies.' },
+  sms: { th: 'ส่ง SMS', en: 'Send SMS' },
+} as const
+
+export const demoHref = {
+  massage: '/mockup/v7/demo-booking.html',
+  restaurant: '/mockup/v7/demo-order.html',
+} as const

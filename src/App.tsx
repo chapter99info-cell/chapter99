@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import { AboutPage } from './pages/AboutPage'
 import { ContactPage } from './pages/ContactPage'
 import { LegalDocPage } from './pages/LegalDocPage'
@@ -9,29 +9,39 @@ import { BeautyPage } from './pages/BeautyPage'
 import { CleaningPage } from './pages/CleaningPage'
 import { MassagePage } from './pages/MassagePage'
 import { PhotographyPage } from './pages/PhotographyPage'
+import { V7IconsTestPage } from './pages/V7IconsTestPage'
 import { RestaurantsPage } from './pages/RestaurantsPage'
 import { WorkPage } from './pages/WorkPage'
 import { BusinessToolkitPage } from './pages/BusinessToolkitPage'
-import SiteHomePage from './site/HomePage'
-import { SitePricingPage } from './pages/SitePricingPage'
+import { PricingPage } from './pages/pricing/PricingPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import './site/theme-navy.css' // ธีมกรมท่า — ต้องอยู่หลัง import หน้าอื่น ๆ
 
 const HomeV7 = lazy(() => import('./pages/HomeV7'))
+const LegacyHomePage = lazy(() => import('./pages/LegacyHomePage'))
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<SiteHomePage />} />
       <Route
-        path="/v7"
+        path="/"
         element={
           <Suspense fallback={null}>
             <HomeV7 />
           </Suspense>
         }
       />
-      <Route path="/pricing" element={<SitePricingPage />} />
+      <Route path="/v7" element={<Navigate to="/" replace />} />
+      <Route path="/v7/icons-test" element={<V7IconsTestPage />} />
+      <Route
+        path="/legacy"
+        element={
+          <Suspense fallback={null}>
+            <LegacyHomePage />
+          </Suspense>
+        }
+      />
+      <Route path="/pricing" element={<PricingPage />} />
       <Route path="/business-toolkit" element={<BusinessToolkitPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/contact" element={<ContactPage />} />

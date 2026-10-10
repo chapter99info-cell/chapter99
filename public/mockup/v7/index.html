@@ -6,34 +6,33 @@
 <title>Chapter99 — Less admin. More time for customers.</title>
 <meta name="description" content="Chapter99 ช่วยร้านไทยในออสเตรเลียมีเว็บไซต์ ระบบจองคิว และเครื่องมือจัดการร้าน — คุยภาษาไทย ตั้งค่าให้ครบ">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Anton = หัวข้ออังกฤษ, Kanit = หัวข้อไทย, IBM Plex Sans Thai = เนื้อหา, Charmonman = ลายมือไทย -->
+<!-- Anton = EN display, Anuphan = Thai headings, IBM Plex Sans Thai = body, IBM Plex Mono = labels -->
 <link rel="preload" as="image" href="/mockup/media/web/cta-spa.webp" fetchpriority="high">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Kanit:wght@600;700&family=IBM+Plex+Sans+Thai:wght@400;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Charmonman:wght@700&display=swap" rel="stylesheet" media="(min-width:1001px)">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Anuphan:wght@500;600;700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+Thai:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ===================== TOKENS: กรมท่าเข้ม + ทอง (สีเดียวกับโลโก้) + ครีม ===================== */
 :root{
   --ink:#0A0F1A;--navy:#0B1F3A;--navy-2:#132A4A;--gold:#E8B54A;--gold-2:#F4CD72;--cream:#FBF7EE;--paper:#fff;
   --text:#14161C;--dim:#5A5F6B;--line:#E7E1D3;
-  --f-big:"Anton",Impact,sans-serif;--f-th:"Kanit","IBM Plex Sans Thai",sans-serif;--f-body:"IBM Plex Sans Thai",system-ui,sans-serif;--f-hand:"Charmonman",cursive;
+  --f-big:"Anton",Impact,sans-serif;--f-th:"Anuphan","IBM Plex Sans Thai",sans-serif;--f-body:"IBM Plex Sans Thai",system-ui,sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,monospace;
   --gutter:clamp(18px,5vw,88px);--ease:cubic-bezier(.16,1,.3,1);--max:1280px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--f-body);font-size:17px;line-height:1.6;color:var(--text);background:var(--paper);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{font-family:var(--f-body);font-size:18px;line-height:1.7;color:var(--text);background:var(--paper);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
-.kicker{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-th);font-weight:600;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
-.kicker img{width:22px;height:22px;border-radius:4px}
-h1,h2,h3{line-height:1.15}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-mono);font-weight:500;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+h1,h2,h3{line-height:1.25}
 .big{font-family:var(--f-big);font-weight:400;text-transform:uppercase;letter-spacing:.005em;line-height:.95}
-.th2{font-family:var(--f-th);font-weight:700;font-size:clamp(30px,3.4vw,48px)}
+.th2{font-family:var(--f-th);font-weight:700;font-size:clamp(30px,3.4vw,48px);letter-spacing:-.01em;line-height:1.25}
 .sub{color:var(--dim);font-size:18px;margin-top:8px}
-.hand{font-family:var(--f-hand);font-weight:700;color:var(--gold-2);line-height:1.5}
+.press-ic{flex:0 0 56px;width:56px;height:56px;border:1px solid rgba(232,181,74,.3);background:transparent;color:var(--gold);display:grid;place-items:center;font-style:normal}
+.press-ic svg{width:24px;height:24px}
 /* ปุ่ม */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:14px 24px;border-radius:8px;font-family:var(--f-th);font-weight:600;font-size:17px;cursor:pointer;border:0;
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:14px 24px;border-radius:8px;font-family:var(--f-th);font-weight:600;font-size:18px;cursor:pointer;border:0;
   transition:transform .3s var(--ease),box-shadow .3s,background .3s,color .3s}
 .btn:hover{transform:translateY(-2px)}
 .btn--gold{background:var(--gold);color:var(--ink);box-shadow:0 10px 26px -10px rgba(232,181,74,.7)}
@@ -46,7 +45,7 @@ h1,h2,h3{line-height:1.15}
 .price-hint{display:block;font-size:13px;font-weight:500;opacity:.85}
 
 /* ===================== NAV ===================== */
-.nav{position:absolute;top:0;left:0;right:0;z-index:20}
+.nav{position:absolute;top:0;left:0;right:0;z-index:80}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:84px;gap:24px}
 .logo{display:flex;align-items:center;gap:12px;color:#fff;font-family:var(--f-th);font-weight:500;letter-spacing:.14em}
 .logo img{width:40px;height:40px;border-radius:8px;box-shadow:0 0 0 1px rgba(255,255,255,.2)}
@@ -72,18 +71,24 @@ h1,h2,h3{line-height:1.15}
 .hero .lead{font-family:var(--f-th);font-weight:600;font-size:clamp(20px,1.8vw,26px)}
 .hero .lead2{color:rgba(255,255,255,.82);max-width:46ch;margin-top:6px}
 .hero__cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
-.hero__note{position:absolute;right:clamp(20px,8vw,140px);top:38%;transform:rotate(-8deg);font-size:clamp(18px,1.6vw,24px);max-width:15ch;text-align:center;z-index:1}
+.hero__crop{position:absolute;inset:18px;z-index:2;pointer-events:none}
+.hero__crop span{position:absolute;width:14px;height:14px;border-color:rgba(232,181,74,.4);border-style:solid}
+.hero__crop .tl{top:0;left:0;border-width:1px 0 0 1px}.hero__crop .tr{top:0;right:0;border-width:1px 1px 0 0}
+.hero__crop .bl{bottom:0;left:0;border-width:0 0 1px 1px}.hero__crop .br{bottom:0;right:0;border-width:0 1px 1px 0}
+.deco-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+.deco-lines line{stroke:#E8B54A;stroke-width:1;stroke-opacity:.25}
+.sec{position:relative}
+.sec .deco-lines{z-index:0}
 /* แถบประโยชน์ 4 ข้อ */
 .perks{border-top:1px solid rgba(255,255,255,.14);margin-top:auto}
 .perks .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding-top:24px;padding-bottom:26px}
 .perk{display:flex;align-items:center;gap:14px}
-.perk i{flex:0 0 52px;height:52px;border:1.5px solid rgba(232,181,74,.6);border-radius:12px;display:grid;place-items:center}
-.perk i img{width:26px;height:26px;filter:brightness(0) saturate(100%) invert(76%) sepia(43%) saturate(640%) hue-rotate(352deg) brightness(97%)}
 .perk b{display:block;font-family:var(--f-th);font-weight:600;font-size:17px}
 .perk span{font-size:14px;color:rgba(255,255,255,.72)}
 
 /* ===================== 2) ร้านนวด (ครีม) ===================== */
-.sec{padding:clamp(64px,8vw,110px) 0}
+.sec{padding:clamp(64px,8vw,110px) 0;border-top:1px solid rgba(10,15,26,.1)}
+.sec.dark{border-top-color:rgba(251,247,238,.1)}
 .cream{background:var(--cream)}
 .massage{display:grid;grid-template-columns:1fr 1.25fr;gap:clamp(30px,5vw,70px);align-items:center}
 .massage p.sub{max-width:30ch}
@@ -99,8 +104,7 @@ h1,h2,h3{line-height:1.15}
 .phone img{border-radius:19px;aspect-ratio:9/18;object-fit:cover;object-position:top}
 .demo-tag{position:absolute;left:4%;top:-14px;background:var(--ink);color:#fff;font-size:12px;font-weight:600;letter-spacing:.1em;padding:5px 10px;border-radius:6px}
 .checks{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:clamp(36px,4vw,56px)}
-.check{display:flex;gap:12px}
-.check i{flex:0 0 28px;height:28px;border-radius:50%;background:var(--gold);display:grid;place-items:center;font-style:normal;font-weight:700;font-size:14px;color:var(--ink)}
+.check{display:flex;gap:12px;align-items:center}
 .check b{display:block;font-family:var(--f-th);font-weight:600;font-size:18px}
 .check span{font-size:15px;color:var(--dim)}
 
@@ -112,7 +116,8 @@ h1,h2,h3{line-height:1.15}
 .shop__img img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
 .shop:hover .shop__img img{transform:scale(1.07)}
 .shop__body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:4px;flex:1}
-.shop h3{font-family:var(--f-th);font-weight:600;font-size:21px}
+.shop h3{display:flex;align-items:center;gap:10px;font-family:var(--f-th);font-weight:600;font-size:21px}
+.shop h3 .press-ic{flex:0 0 40px;width:40px;height:40px}
 .shop p{color:var(--dim);font-size:15px;flex:1}
 .shop .btn{margin-top:12px;min-height:46px;font-size:15px}
 
@@ -179,7 +184,8 @@ footer h4{font-family:var(--f-th);font-weight:600;color:#fff;font-size:16px;marg
 footer .fgrid a{display:block;padding:4px 0}
 footer .fgrid a:hover{color:var(--gold)}
 .fcontact a{display:flex!important;align-items:center;gap:10px}
-.fcontact img{width:18px;height:18px;filter:brightness(0) saturate(100%) invert(76%) sepia(43%) saturate(640%) hue-rotate(352deg)}
+.fcontact .press-ic{flex:0 0 44px;width:44px;height:44px}
+.fcontact a{min-height:44px}
 .fbar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.12);margin-top:40px;padding-top:20px;font-size:14px}
 .fbar a{margin-left:18px}
 .demo-note{font-size:13px;color:var(--dim);margin-top:14px}
@@ -200,14 +206,14 @@ footer .fgrid a:hover{color:var(--gold)}
   .shops{grid-template-columns:1fr 1fr}
   .pk{grid-template-columns:1fr 1fr}.assure{grid-column:1/-1;min-height:300px}
   .fgrid{grid-template-columns:1fr 1fr}
-  .hero__note{display:none}
+  .hero__crop{inset:10px}
 }
 @media (max-width:640px){
-  body{padding-bottom:76px}
+  body{padding-bottom:84px}
   .hero__in{padding-top:110px}
   .hero h1{font-size:clamp(46px,13vw,64px)}
   .hero__cta .btn{width:100%}
-  .perks .wrap{gap:16px 12px}.perk{flex-direction:column;align-items:flex-start;gap:8px}.perk i{flex-basis:auto;width:44px;height:44px}
+  .perks .wrap{gap:16px 12px}.perk{flex-direction:column;align-items:flex-start;gap:8px}
   .checks{grid-template-columns:1fr;gap:14px}
   .shops{grid-template-columns:1fr;gap:12px}
   .shop{flex-direction:row}.shop__img{flex:0 0 38%;aspect-ratio:auto}.shop__body{padding:14px}.shop .btn{display:none}
@@ -218,7 +224,7 @@ footer .fgrid a:hover{color:var(--gold)}
   .final__cta .btn{width:100%}
   .fgrid{grid-template-columns:1fr}.fgrid>div:nth-child(2),.fgrid>div:nth-child(3){display:none}
   .mbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(10,15,26,.96);backdrop-filter:blur(10px)}
-  .mbar .btn{min-height:52px;font-size:15px;padding:8px}
+  .mbar .btn{min-height:48px;font-size:16px;padding:8px;width:100%}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 
@@ -236,15 +242,18 @@ footer .fgrid a:hover{color:var(--gold)}
 .fab{position:fixed;right:18px;bottom:18px;z-index:60;border:0;cursor:pointer;min-height:56px;padding:0 22px;border-radius:999px;background:var(--gold);color:var(--ink);font-family:var(--f-th);font-weight:700;font-size:17px;box-shadow:0 14px 30px -10px rgba(0,0,0,.5);
   opacity:0;transform:translateY(20px);pointer-events:none;transition:opacity .35s,transform .35s var(--ease),background .3s}
 .fab.show{opacity:1;transform:none;pointer-events:auto}
-.fab__x{display:none}.fab[aria-expanded=true]{background:#5B5FE0;color:#fff;width:56px;padding:0}.fab[aria-expanded=true] .fab__open{display:none}.fab[aria-expanded=true] .fab__x{display:inline;font-size:20px}
-.cpanel{position:fixed;right:18px;bottom:88px;z-index:60;width:min(360px,calc(100vw - 36px));padding:18px;border-radius:20px;background:rgba(16,20,36,.86);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 60px -20px rgba(0,0,0,.6),0 0 0 1px rgba(91,95,224,.25);color:#fff;animation:pop .3s var(--ease)}
+.fab__x{display:none}.fab[aria-expanded=true]{background:var(--navy);color:var(--gold);width:56px;padding:0}.fab[aria-expanded=true] .fab__open{display:none}.fab[aria-expanded=true] .fab__x{display:inline;font-size:20px}
+.cpanel{position:fixed;right:18px;bottom:88px;z-index:60;width:min(360px,calc(100vw - 36px));padding:18px;border-radius:20px;background:rgba(10,15,26,.92);backdrop-filter:blur(18px);border:1px solid rgba(232,181,74,.35);box-shadow:0 30px 60px -20px rgba(0,0,0,.6);color:#fff;animation:pop .3s var(--ease)}
 @keyframes pop{from{opacity:0;transform:translateY(12px) scale(.97)}}
 .cpanel h4{font-family:var(--f-th);font-size:14px;letter-spacing:.12em;color:rgba(255,255,255,.65);padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:4px}
 .cpanel a{display:flex;align-items:center;gap:14px;padding:12px 4px;border-bottom:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.6);font-size:20px}
 .cpanel a:last-child{border:0}
-.cpanel i{flex:0 0 46px;height:46px;border-radius:12px;background:rgba(255,255,255,.07);display:grid;place-items:center;font-style:normal;font-size:20px}
-.cpanel .wa i{background:#0F5132}
+.cpanel .press-ic{flex:0 0 44px;width:44px;height:44px}
 .cpanel span{flex:1;font-size:14px;color:rgba(255,255,255,.65);line-height:1.4}.cpanel b{display:block;color:#fff;font-family:var(--f-th);font-size:17px}
+.mnav{position:fixed;inset:0;z-index:70;background:rgba(10,15,26,.96);padding:96px var(--gutter) 24px}
+.mnav[hidden]{display:none}
+.mnav__list{display:flex;flex-direction:column;gap:4px;max-width:420px}
+.mnav__list a{min-height:56px;display:flex;align-items:center;color:#fff;font-family:var(--f-th);font-size:20px}
 /* Demo modal: กรอบมือถือ */
 .dmodal{position:fixed;inset:0;z-index:80;background:rgba(10,15,26,.82);backdrop-filter:blur(6px);display:grid;place-items:center;padding:16px}
 .dmodal[hidden]{display:none}
@@ -253,14 +262,13 @@ footer .fgrid a:hover{color:var(--gold)}
 .dclose{position:absolute;right:-10px;top:-10px;width:44px;height:44px;border-radius:50%;border:0;background:var(--gold);font-size:18px;cursor:pointer}
 @media (max-width:1000px){.trust3{grid-template-columns:1fr}}
 @media (max-width:640px){
-  body{padding-bottom:0}
+  body{padding-bottom:84px}
   .hero::after{background:linear-gradient(to bottom,rgba(10,15,26,.55),rgba(10,15,26,.88) 45%,rgba(10,15,26,.95))}
   .hero .lead{font-size:21px}.hero .lead2{font-size:17px;color:rgba(255,255,255,.92)}
   .perk span{font-size:15px}
   .row .btn{width:100%}
   .tryme{left:30%;top:30%;font-size:14px;padding:10px 16px}
-  .fab{left:16px;right:16px;bottom:12px;width:auto}.fab[aria-expanded=true]{left:auto;width:56px}
-  .cpanel{left:16px;right:16px;width:auto;bottom:80px}
+  .fab,.cpanel{display:none!important}
   .dphone{border-radius:0;padding:0;height:100%;width:100%;background:none}.dphone iframe{border-radius:16px}.dclose{right:auto;left:8px;top:8px;width:40px;height:40px}
 }
 
@@ -321,41 +329,52 @@ footer .fgrid a:hover{color:var(--gold)}
   <div class="wrap">
     <a class="logo" href="#top"><img src="/mockup/media/web/logo.webp" alt="Chapter99">CHAPTER99</a>
     <nav class="menu" aria-label="เมนูหลัก">
-      <a href="#massage">ตัวอย่างร้าน</a><a href="#how">วิธีทำงาน</a><a href="#team">ทีมงาน</a><a href="#packages">ราคา</a><a href="#faq">คำถาม</a>
+      <a href="#massage">ตัวอย่างร้าน</a><a href="#how">วิธีทำงาน</a><a href="#packages">ราคา</a><a href="#faq">คำถาม</a>
     </nav>
-    <a class="btn btn--gold" href="#contact">ติดต่อเรา</a>
-    <button class="burger" aria-label="เปิดเมนู" onclick="location.href='#packages'">☰</button>
+    <a class="btn btn--gold" href="https://m.me/61586534972406" target="_blank" rel="noopener noreferrer">ทักแชท Facebook →</a>
+    <button class="burger" id="burger" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="v7-mnav">☰</button>
   </div>
 </header>
+<div class="mnav" id="v7-mnav" hidden role="dialog" aria-label="เมนู">
+  <nav class="mnav__list">
+    <a href="#massage">ตัวอย่างร้าน</a>
+    <a href="#how">วิธีทำงาน</a>
+    <a href="#packages">ราคา</a>
+    <a href="#faq">คำถาม</a>
+    <a class="btn btn--gold" href="sms:+61452044382">ส่ง SMS</a>
+    <a class="btn btn--line" href="https://m.me/61586534972406" target="_blank" rel="noopener noreferrer">ทัก Facebook</a>
+  </nav>
+</div>
 
 <!-- ============ 1) HERO: ขายประโยชน์ ============ -->
 <section class="hero" id="top">
   <div class="hero__bg"><img src="/mockup/media/web/cta-spa.webp" alt="ร้านนวดไทยในออสเตรเลีย" fetchpriority="high" decoding="async"></div>
+  <div class="hero__crop" aria-hidden="true"><span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span></div>
+  <svg class="deco-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="18" x2="14" y2="0"/><line x1="4" y1="22" x2="18" y2="4"/><line x1="86" y1="0" x2="100" y2="18"/><line x1="82" y1="4" x2="96" y2="22"/><line x1="0" y1="82" x2="14" y2="100"/><line x1="4" y1="78" x2="18" y2="96"/><line x1="86" y1="100" x2="100" y2="82"/><line x1="82" y1="96" x2="96" y2="78"/></svg>
   <div class="hero__in">
-    <span class="kicker">For Thai businesses in Australia</span>
-    <h1 class="big">Less admin.<br><em>More time</em><br>for customers.</h1>
-    <p class="lead">งานหลังร้านน้อยลง มีเวลาดูแลลูกค้ามากขึ้น</p>
-    <p class="lead2">เว็บไซต์ ระบบจองคิว เมนูออนไลน์ และเครื่องมือจัดการร้าน — ไม่ต้องเก่งคอม เราตั้งค่าให้ครับ</p>
+    <span class="kicker">01 / AUSTRALIA</span>
+    <h1 class="th2" style="color:#fff;font-size:clamp(36px,8vw,64px)">งานหลังร้านน้อยลง<br>มีเวลาดูแลลูกค้ามากขึ้น</h1>
+    <p class="lead2">เว็บไซต์ ระบบจองคิว และเครื่องมือร้าน — เราตั้งค่าให้ ไม่ต้องเก่งคอม</p>
     <div class="hero__cta">
-      <a class="btn btn--gold" href="#packages">ดูแพ็กเกจ · เริ่มต้น A$199 →</a>
-      <a class="btn btn--line" href="#" data-demo="demo-booking.html">ลองระบบในเดโม <span class="play">▶</span></a>
+      <a class="btn btn--gold" href="https://m.me/61586534972406" target="_blank" rel="noopener noreferrer">ทักแชท Facebook →</a>
+      <a class="btn btn--line" href="#packages">ดูแพ็กเกจ →</a>
     </div>
   </div>
-  <p class="hand hero__note">“ให้คุณโฟกัสกับสิ่งที่คุณถนัด<br>เราดูแลเรื่องออนไลน์ให้”</p>
   <div class="perks">
     <div class="wrap">
-      <div class="perk"><i><img src="/mockup/media/icons8-notification-50.png" alt=""></i><div><b>ลูกค้าจองออนไลน์</b><span>ในแพ็ก Professional</span></div></div>
-      <div class="perk"><i><img src="/mockup/media/icons8-smartphone-50.png" alt=""></i><div><b>ใช้งานง่าย</b><span>บนมือถือ</span></div></div>
-      <div class="perk"><i><img src="/mockup/media/icons8-settings-50.png" alt=""></i><div><b>ลดงานหลังร้าน</b><span>ประหยัดเวลา</span></div></div>
-      <div class="perk"><i><img src="/mockup/media/icons8-chat-bubble-50.png" alt=""></i><div><b>คุยภาษาไทย</b><span>ดูแลในออสเตรเลีย</span></div></div>
+      <div class="perk"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="m9 16 2 2 4-4"/></svg></i><div><b>ลูกค้าจองออนไลน์</b><span>ในแพ็ก Professional</span></div></div>
+      <div class="perk"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></svg></i><div><b>ใช้งานง่าย</b><span>บนมือถือ</span></div></div>
+      <div class="perk"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg></i><div><b>ลดงานหลังร้าน</b><span>ประหยัดเวลา</span></div></div>
+      <div class="perk"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></svg></i><div><b>คุยภาษาไทย</b><span>ดูแลในออสเตรเลีย</span></div></div>
     </div>
   </div>
 </section>
 
 <!-- ============ Before → After (จาก V6, กระชับ) ============ -->
 <section class="sec" id="before-after">
+  <svg class="deco-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="18" x2="14" y2="0"/><line x1="4" y1="22" x2="18" y2="4"/><line x1="86" y1="0" x2="100" y2="18"/><line x1="82" y1="4" x2="96" y2="22"/><line x1="0" y1="82" x2="14" y2="100"/><line x1="4" y1="78" x2="18" y2="96"/><line x1="86" y1="100" x2="100" y2="82"/><line x1="82" y1="96" x2="96" y2="78"/></svg>
   <div class="wrap">
-    <span class="kicker">Before → After</span>
+    <span class="kicker">02 / PROCESS</span>
     <h2 class="th2" style="margin-top:12px">ร้านเดิม ทำงานน้อยลง</h2>
     <div class="xba">
       <div class="xba__c rv"><b>ก่อน</b><ul><li>ตอบแชทถามราคาทั้งวัน</li><li>จดคิวในสมุด ตกหล่นง่าย</li><li>ลูกค้าใหม่หาร้านไม่เจอ</li></ul></div>
@@ -370,7 +389,7 @@ footer .fgrid a:hover{color:var(--gold)}
   <div class="wrap">
     <div class="massage">
       <div class="rv">
-        <span class="kicker"><img src="/mockup/media/web/logo.webp" alt="">Massage shops</span>
+        <span class="kicker">03 / MASSAGE</span>
         <h2 class="th2" style="margin-top:12px">สำหรับร้านนวดไทย<br>ในออสเตรเลีย</h2>
         <p class="sub">มีเว็บร้าน ลูกค้าจองเองได้ ลดงานตอบแชท — ไม่ต้องเก่งคอม</p>
         <div class="row"><a class="btn btn--gold" href="#" data-demo="demo-booking.html">▶ ลองจองคิว (เดโม)</a><a class="btn btn--outline" href="#" data-demo="demo-order.html">ลองสั่งอาหาร (เดโม)</a></div>
@@ -382,10 +401,10 @@ footer .fgrid a:hover{color:var(--gold)}
       </div>
     </div>
     <div class="checks">
-      <div class="check rv"><i>✓</i><div><b>เว็บไซต์สวย</b><span>บริการและราคาครบ</span></div></div>
-      <div class="check rv"><i>✓</i><div><b>ระบบจองคิว</b><span>จองออนไลน์ (Professional)</span></div></div>
-      <div class="check rv"><i>✓</i><div><b>จัดการง่าย</b><span>ดูคิวบนมือถือหรือคอม</span></div></div>
-      <div class="check rv"><i>✓</i><div><b>น่าเชื่อถือขึ้น</b><span>ลูกค้าใหม่หาร้านเจอ</span></div></div>
+      <div class="check rv"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></i><div><b>เว็บไซต์สวย</b><span>บริการและราคาครบ</span></div></div>
+      <div class="check rv"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="m9 16 2 2 4-4"/></svg></i><div><b>ระบบจองคิว</b><span>จองออนไลน์ (Professional)</span></div></div>
+      <div class="check rv"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></svg></i><div><b>จัดการง่าย</b><span>ดูคิวบนมือถือหรือคอม</span></div></div>
+      <div class="check rv"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6-2 1.5.8 4 2 6 2a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></i><div><b>น่าเชื่อถือขึ้น</b><span>ลูกค้าใหม่หาร้านเจอ</span></div></div>
     </div>
     <p class="demo-note">* ภาพหน้าจอเป็นเว็บตัวอย่าง (demo) ไม่ใช่ร้านลูกค้าจริง</p>
   </div>
@@ -394,7 +413,7 @@ footer .fgrid a:hover{color:var(--gold)}
 <!-- ============ 3) ธุรกิจไทยอื่น ๆ ============ -->
 <section class="sec" id="shops">
   <div class="wrap">
-    <span class="kicker">Other shops</span>
+    <span class="kicker">04 / SHOPS</span>
     <h2 class="th2" style="margin-top:12px">สำหรับธุรกิจไทยอื่น ๆ</h2>
     <p class="sub">เครื่องมือเดียวกัน ปรับให้เหมาะกับร้านของคุณ</p>
     <div class="shops">
@@ -410,7 +429,7 @@ footer .fgrid a:hover{color:var(--gold)}
 <section class="sec cream" id="how">
   <div class="wrap">
     <div class="xpanel">
-      <div class="xpanel__head"><div><span class="kicker">How to start</span><h2 class="th2" style="margin-top:10px">เริ่มง่าย 3 ขั้น</h2><p class="xsub">เราตั้งค่าให้ ไม่ต้องทำเอง</p></div><a class="btn btn--gold" href="#contact">คุยกับเรา</a></div>
+      <div class="xpanel__head"><div><span class="kicker">05 / STEPS</span><h2 class="th2" style="margin-top:10px">เริ่มง่าย 3 ขั้น</h2><p class="xsub">เราตั้งค่าให้ ไม่ต้องทำเอง</p></div><a class="btn btn--gold" href="#contact">คุยกับเรา</a></div>
       <div class="xpanel__body">
         <ol class="xsteps">
           <li class="rv"><span>1</span><div><b>คุยกันภาษาไทย</b><em>เล่าเรื่องร้าน เลือกแพ็กที่ใช่</em></div></li>
@@ -423,8 +442,8 @@ footer .fgrid a:hover{color:var(--gold)}
   </div>
 </section>
 
-<!-- ============ Meet Chapter99 ============ -->
-<section class="sec" id="team">
+<!-- TODO: hide team until real team.webp exists. Do not invent. -->
+<section class="sec" id="team" hidden>
   <div class="wrap xmeet" id="meet">
     <!-- รูปทีมงานจริง: /mockup/media/web/team.webp — ถ้าไม่มีไฟล์ กรอบรูปจะถูกซ่อนทั้งกรอบ (ไม่โชว์ช่องว่าง) -->
     <figure class="xmeet__photo"><img src="/mockup/media/web/team.webp" alt="ทีมงาน Chapter99" loading="lazy" onerror="this.closest('.xmeet').classList.add('nophoto')"></figure>
@@ -440,7 +459,7 @@ footer .fgrid a:hover{color:var(--gold)}
 <!-- ============ แพ็กเกจ (V6 + สีดำทอง) ============ -->
 <section class="sec dark" id="packages">
   <div class="wrap">
-    <span class="kicker">Packages</span>
+    <span class="kicker">06 / PACKAGES</span>
     <h2 class="th2" style="margin-top:12px">2 แพ็กเกจ ราคาชัดเจน</h2>
     <p class="sub">ค่าตั้งค่าครั้งแรก + รายเดือน · ขอบเขตงานตกลงกันก่อนเริ่ม</p>
     <div class="xplans">
@@ -448,7 +467,7 @@ footer .fgrid a:hover{color:var(--gold)}
         <div class="plan__top"><h3>Starter</h3><span class="badge">อยากมีเว็บไซต์</span></div>
         <div class="amt"><b>A$199</b><span>+ A$19 / เดือน</span></div>
         <div class="amt-note">ค่าตั้งค่าครั้งแรก</div>
-        <ul><li>เว็บไซต์ร้านแบบมือถือ</li><li>บริการ / เมนู / ราคา</li><li>ข้อมูลติดต่อ แผนที่</li></ul>
+        <ul><li>เว็บไซต์ร้านแบบมือถือ</li><li>บริการ / เมนู / ราคา</li><li>ข้อมูลติดต่อ แผนที่</li><li>ไม่มีระบบจองคิว</li></ul>
         <a class="btn btn--dark" href="mailto:chapter99solutions@gmail.com?subject=Chapter99%20Starter">เลือก Starter →</a>
       </div>
       <div class="plan plan--hi rv" id="professional">
@@ -471,17 +490,16 @@ footer .fgrid a:hover{color:var(--gold)}
 <section class="sec" id="faq">
   <div class="wrap">
     <div class="xtrust rv">
-      <div><b>ข้อมูลเป็นของร้าน</b><span>ย้ายออกได้</span></div>
-      <div><b>ราคาชัดก่อนเริ่ม</b><span>ตกลงเป็นลายลักษณ์อักษร</span></div>
-      <div><b>ไม่รับเงินแทนร้าน</b><span>ร้านรับผ่าน Square / เครื่องรูดบัตรของร้าน</span></div>
-      <div data-proof hidden><b>ABN</b><span><!-- ใส่เลข ABN เมื่อยืนยันแล้ว --></span></div>
+      <div><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/><rect width="8" height="5" x="8" y="12" rx="1"/><path d="M10 12v-1a2 2 0 1 1 4 0v1"/></svg></i><b>ข้อมูลเป็นของร้าน</b><span>ย้ายออกได้</span></div>
+      <div><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></svg></i><b>ราคาชัดก่อนเริ่ม</b><span>ตกลงเป็นลายลักษณ์อักษร</span></div>
+      <div><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg></i><b>ไม่รับเงินแทนร้าน</b><span>ร้านรับผ่าน Square / เครื่องรูดบัตรของร้าน</span></div>
     </div>
     <div class="faq" style="margin-top:56px">
-      <div><span class="kicker">FAQ</span><h2 class="th2" style="margin-top:12px">คำถามที่เจอบ่อย</h2></div>
+      <div><span class="kicker">07 / FAQ</span><h2 class="th2" style="margin-top:12px">คำถามที่เจอบ่อย</h2></div>
       <div class="qa">
         <details open><summary>ต้องเก่งคอมไหม?</summary><p>ไม่ต้องครับ เราตั้งค่าให้และสอนใช้งาน ร้านแค่ส่งข้อมูลและรูปมา</p></details>
         <details><summary>ค่ารายเดือนจ่ายเพื่ออะไร?</summary><p>โฮสติ้งและการดูแลให้เว็บใช้งานได้ รวมการแก้ข้อมูลเล็กน้อยตามขอบเขตแพ็กเกจ</p></details>
-        <details><summary>มีปัญหาติดต่อใคร?</summary><p>ทีม Chapter99 โดยตรง ทาง WhatsApp โทร หรืออีเมล คุยภาษาไทย</p></details>
+        <details><summary>มีปัญหาติดต่อใคร?</summary><p>ทีม Chapter99 โดยตรง ทาง SMS โทร Facebook Inbox หรืออีเมล คุยภาษาไทย</p></details>
         <details><summary>ถ้าเลิกใช้ ข้อมูลไปไหน?</summary><p>ข้อมูลเป็นของร้าน ขอส่งออกและย้ายไปที่อื่นได้</p></details>
       </div>
     </div>
@@ -495,7 +513,7 @@ footer .fgrid a:hover{color:var(--gold)}
     <h2 class="big">Better shops<br>start with a clearer direction.</h2>
     <p>ให้ Chapter99 ช่วยพาธุรกิจของคุณไปต่อ</p>
     <div class="final__cta">
-      <a class="btn btn--gold" href="https://wa.me/61452044382?text=สวัสดีครับ%20สนใจเว็บไซต์ร้าน%20(จากเว็บ%20Chapter99)">💬 คุยภาษาไทยผ่าน WhatsApp →</a>
+      <a class="btn btn--gold" href="https://m.me/61586534972406" target="_blank" rel="noopener noreferrer">ทักแชท Facebook →</a>
       <a class="btn btn--line" href="#packages">ดูแพ็กเกจ →</a>
     </div>
   </div>
@@ -505,28 +523,32 @@ footer .fgrid a:hover{color:var(--gold)}
 <footer>
   <div class="wrap">
     <div class="fgrid">
-      <div><a class="logo" href="#top"><img src="/mockup/media/web/logo.webp" alt="">CHAPTER99</a><p style="margin-top:12px">ระบบออนไลน์สำหรับธุรกิจไทยในออสเตรเลีย<br>Sydney, NSW</p></div>
+      <div><a class="logo" href="#top"><img src="/mockup/media/web/logo.webp" alt="">CHAPTER99</a><p style="margin-top:12px">ระบบออนไลน์สำหรับธุรกิจไทยในออสเตรเลีย</p><p class="floc" style="display:flex;align-items:center;gap:10px;margin-top:10px"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></i>Sydney, NSW</p><p>ABN 81 951 461 769</p></div>
       <div><h4>ธุรกิจ</h4><a href="/massage">ร้านนวด</a><a href="/restaurants">ร้านอาหาร / คาเฟ่</a><a href="/beauty">ความงาม</a><a href="/cleaning">ทำความสะอาด</a></div>
       <div><h4>บริการ</h4><a href="/pricing">แพ็กเกจ</a><a href="/business-toolkit">เครื่องมือฟรี</a><a href="#shops">ตัวอย่างร้าน</a><a href="/about">เกี่ยวกับเรา</a></div>
       <div class="fcontact"><h4>ติดต่อเรา</h4>
-        <a href="tel:+61452044382"><img src="/mockup/media/icons8-call-50.png" alt="">0452 044 382</a>
-        <a href="https://wa.me/61452044382?text=สวัสดีครับ%20สนใจเว็บไซต์ร้าน%20(จากเว็บ%20Chapter99)"><img src="/mockup/media/icons8-whatsapp-50.png" alt="">WhatsApp</a>
-        <a href="mailto:chapter99solutions@gmail.com"><img src="/mockup/media/icons8-email-50.png" alt="">chapter99solutions@gmail.com</a>
-        <a href="https://m.me/61586534972406"><img src="/mockup/media/icons8-chat-bubble-50.png" alt="">Inbox Facebook</a>
+        <a href="tel:+61452044382"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></i>0452 044 382</a>
+        <a href="sms:+61452044382"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/></svg></i>ส่ง SMS</a>
+        <a href="https://m.me/61586534972406" target="_blank" rel="noopener noreferrer"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.745 6.616 4.472 8.652V24l4.086-2.242c1.09.301 2.246.464 3.442.464 6.627 0 12-4.975 12-11.111C24 4.974 18.627 0 12 0m1.191 14.963-3.055-3.26-5.963 3.26L10.732 8.1l3.131 3.259L19.752 8.1z"/></svg></i>ทักแชท Facebook</a>
+        <a href="mailto:chapter99solutions@gmail.com"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></i>chapter99solutions@gmail.com</a>
       </div>
     </div>
     <div class="fbar"><span>© 2026 Chapter99</span><span><a href="/legal/privacy">Privacy Policy</a><a href="/legal/terms">Terms</a></span></div>
   </div>
 </footer>
+<nav class="mbar" aria-label="ติดต่อด่วน">
+  <a class="btn btn--gold" href="sms:+61452044382">ส่ง SMS</a>
+  <a class="btn btn--line" href="https://m.me/61586534972406" target="_blank" rel="noopener noreferrer">ทัก Facebook</a>
+</nav>
 
 <!-- ปุ่มติดต่อลอย: โผล่หลังเลื่อนผ่าน Hero -->
-<button class="fab" id="fab" aria-expanded="false" aria-controls="cpanel"><span class="fab__open">💬 คุยภาษาไทย</span><span class="fab__x">✕</span></button>
+<button class="fab" id="fab" aria-expanded="false" aria-controls="cpanel"><span class="fab__open">ทักแชท Facebook</span><span class="fab__x">✕</span></button>
 <div class="cpanel" id="cpanel" role="dialog" aria-label="ติดต่อเรา" hidden>
   <h4>ติดต่อเรา</h4>
-  <a href="tel:+61452044382"><i>📞</i><span><b>โทรหาเรา</b>0452 044 382</span>›</a>
-  <a href="https://wa.me/61452044382?text=สวัสดีครับ%20สนใจเว็บไซต์ร้าน%20(จากเว็บ%20Chapter99)" class="wa"><i>💬</i><span><b>WhatsApp</b>ทักภาษาไทยได้เลย</span>›</a>
-  <a href="https://m.me/61586534972406"><i>✉️</i><span><b>Inbox Facebook</b>Chapter99</span>›</a>
-  <a href="mailto:chapter99solutions@gmail.com"><i>📧</i><span><b>อีเมล</b>chapter99solutions@gmail.com</span>›</a>
+  <a href="tel:+61452044382"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></i><span><b>โทรหาเรา</b>0452 044 382</span></a>
+  <a href="sms:+61452044382"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/></svg></i><span><b>ส่ง SMS</b>0452 044 382</span></a>
+  <a href="https://m.me/61586534972406" target="_blank" rel="noopener noreferrer"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.745 6.616 4.472 8.652V24l4.086-2.242c1.09.301 2.246.464 3.442.464 6.627 0 12-4.975 12-11.111C24 4.974 18.627 0 12 0m1.191 14.963-3.055-3.26-5.963 3.26L10.732 8.1l3.131 3.259L19.752 8.1z"/></svg></i><span><b>ทักแชท Facebook</b>Chapter99</span></a>
+  <a href="mailto:chapter99solutions@gmail.com"><i class="press-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></i><span><b>อีเมล</b>chapter99solutions@gmail.com</span></a>
 </div>
 <!-- Demo modal -->
 <div class="dmodal" id="dmodal" hidden><div class="dphone"><div class="dtabs"><button data-src="demo-booking.html" class="on">จองคิว · ร้านนวด</button><button data-src="demo-order.html">สั่งอาหาร · ร้านอาหาร</button></div><button class="dclose" aria-label="ปิด">✕</button><iframe title="เดโม" loading="lazy"></iframe></div></div>
@@ -544,13 +566,17 @@ document.querySelectorAll('.qa details').forEach(d=>d.addEventListener('toggle',
    2) กด "ดูแพ็กเกจ" → เลื่อนไป #packages ที่มีแค่ Starter + Professional
    3) เปิด FAQ ข้อ 2 → ข้อ 1 ปิดเอง */
 
-// ===== V5: ปุ่มติดต่อลอยโผล่หลัง Hero + แผงติดต่อ =====
 (function(){
+  const burger=document.getElementById('burger'),mnav=document.getElementById('v7-mnav');
+  function setMenu(on){mnav.hidden=!on;burger.setAttribute('aria-expanded',on);burger.setAttribute('aria-label',on?'ปิดเมนู':'เปิดเมนู');burger.textContent=on?'✕':'☰'}
+  burger.onclick=()=>setMenu(mnav.hidden);
+  mnav.addEventListener('click',e=>{if(e.target===mnav)setMenu(false)});
+  mnav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
   const fab=document.getElementById('fab'),pn=document.getElementById('cpanel'),hero=document.querySelector('.hero');
   new IntersectionObserver(([e])=>{fab.classList.toggle('show',!e.isIntersecting);if(e.isIntersecting)close()}).observe(hero);
   function close(){pn.hidden=true;fab.setAttribute('aria-expanded','false')}
   fab.onclick=()=>{const o=pn.hidden;pn.hidden=!o;fab.setAttribute('aria-expanded',o)};
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'){close();closeDemo()}});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){setMenu(false);close();closeDemo()}});
   // ===== Demo modal: โหลด iframe ตอนกดเท่านั้น (ไม่ถ่วงหน้าแรก) =====
   const m=document.getElementById('dmodal'),f=m.querySelector('iframe');
   const tabs=m.querySelectorAll('.dtabs button');

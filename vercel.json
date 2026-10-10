@@ -26,19 +26,37 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
-    }
-  ],
-  "rewrites": [
+    },
     {
-      "source": "/((?!api/|admin/sw.js|admin/manifest.json|admin/icon-).*)",
-      "destination": "/index.html"
+      "source": "/mockup/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/legacy",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     }
   ],
   "redirects": [
     {
-      "source": "/",
-      "destination": "/mockup/",
-      "permanent": false
+      "source": "/v7",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!api/|mockup/|admin/sw.js|admin/manifest.json|admin/icon-).*)",
+      "destination": "/index.html"
     }
   ]
 }

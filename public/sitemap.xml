@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>/</loc></url>
-  <url><loc>/massage</loc></url>
-  <url><loc>/restaurants</loc></url>
-  <url><loc>/pricing</loc></url>
-  <url><loc>/work</loc></url>
-  <url><loc>/about</loc></url>
-  <url><loc>/contact</loc></url>
-  <url><loc>/demo/massage</loc></url>
+  <url><loc>https://www.chapter99info.com/</loc></url>
+  <url><loc>https://www.chapter99info.com/pricing</loc></url>
 </urlset>

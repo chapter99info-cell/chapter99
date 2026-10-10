@@ -9,7 +9,7 @@
   --dim: #4a4f5a;
   --line: #e7e1d3;
   --f-big: "Anton", Impact, sans-serif;
-  --f-th: "Kanit", "IBM Plex Sans Thai", sans-serif;
+  --f-th: "Anuphan", "IBM Plex Sans Thai", sans-serif;
   --f-body: "IBM Plex Sans Thai", system-ui, sans-serif;
   --gutter: clamp(18px, 5vw, 88px);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -48,7 +48,7 @@
   display: inline-flex;
   font-family: var(--f-th);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #8a5a00;
@@ -139,13 +139,15 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  min-height: 44px;
+  min-width: 44px;
   color: #fff;
   font-family: var(--f-th);
   letter-spacing: 0.14em;
 }
 .photo-v7 .logo img {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 8px;
 }
 .photo-v7 .menu {
@@ -258,7 +260,7 @@
 .photo-v7 .scope {
   display: inline-block;
   margin-top: 12px;
-  font-size: 13px;
+  font-size: 16px;
   font-family: var(--f-th);
   color: #8a5a00;
 }
@@ -359,7 +361,7 @@
   top: 10px;
   background: var(--ink);
   color: #fff;
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.08em;
   padding: 5px 8px;
@@ -500,7 +502,7 @@
   font-size: 16px;
 }
 .photo-v7 .slot span {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--dim);
 }
 .photo-v7 .slot .badge {
@@ -522,7 +524,7 @@
 }
 .photo-v7 .shot-table th {
   font-family: var(--f-th);
-  font-size: 14px;
+  font-size: 16px;
 }
 .photo-v7 .muted-price {
   opacity: 0.55;
@@ -542,6 +544,20 @@
   }
 }
 @media (max-width: 640px) {
+  .photo-v7 .nav .btn--gold {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    font-size: 0;
+    line-height: 0;
+  }
+  .photo-v7 .nav .btn--gold::after {
+    content: "↓";
+    font-size: 20px;
+    line-height: 44px;
+  }
   .photo-v7 .hero__in {
     padding-top: 110px;
   }

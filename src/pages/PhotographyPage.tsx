@@ -21,9 +21,6 @@ const WA_SALES =
   'https://wa.me/61452044382?text=' +
   encodeURIComponent('สวัสดีครับ สนใจบริการ Photography & AI Creative ของ Chapter99 อยากสอบถามรายละเอียดครับ')
 
-const FONT =
-  'https://fonts.googleapis.com/css2?family=Anton&family=Kanit:wght@600;700&family=IBM+Plex+Sans+Thai:wght@400;600&display=swap'
-
 const creates = [
   {
     title: 'Professional Photography',
@@ -124,16 +121,11 @@ export function PhotographyPage() {
       document.head.appendChild(robots)
     }
     robots.setAttribute('content', sales ? 'index,follow' : 'noindex,nofollow')
-    const el = document.createElement('link')
-    el.rel = 'stylesheet'
-    el.href = FONT
-    document.head.appendChild(el)
     void loadPhotoManifest().then((data) => {
       setManifest(data)
       const first = data.beforeAfter[0]?.category
       if (first) setBaTab(first)
     })
-    return () => el.remove()
   }, [sales])
 
   return (
@@ -164,7 +156,7 @@ export function PhotographyPage() {
         <header className="nav">
           <div className="wrap">
             <a className="logo" href="/v7">
-              <img src="/mockup/media/web/logo.webp" alt="Chapter99" width={40} height={40} />
+              <img src="/mockup/media/web/logo.webp" alt="Chapter99" width={44} height={44} />
               CHAPTER99
             </a>
             <nav className="menu" aria-label="เมนูหลัก">
@@ -175,7 +167,11 @@ export function PhotographyPage() {
               <a href="#pricing">ราคา</a>
               <a href="/v7">หน้าแรก</a>
             </nav>
-            <a className="btn btn--gold" href={sales ? '#contact' : '#shots'}>
+            <a
+              className="btn btn--gold"
+              href={sales ? '#contact' : '#shots'}
+              aria-label={sales ? 'คุยเรื่องถ่ายภาพร้าน' : 'ดูรายการภาพที่ต้องใช้'}
+            >
               {sales ? 'คุยเรื่องถ่ายภาพร้าน' : 'ดูรายการภาพที่ต้องใช้'}
             </a>
           </div>

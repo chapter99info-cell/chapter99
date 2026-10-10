@@ -1,5 +1,7 @@
+import { CreditCard, FileCheck, FolderLock } from 'lucide-react'
 import { useId, useState } from 'react'
 import { liveWorks, reviews } from '../../data/proof'
+import { PressIcon } from './PressIcon'
 
 const faqs = [
   {
@@ -12,7 +14,7 @@ const faqs = [
   },
   {
     q: 'มีปัญหาติดต่อใคร',
-    a: 'ทีม Chapter99 โดยตรง ทาง WhatsApp โทร หรืออีเมล คุยภาษาไทย',
+    a: 'ทีม Chapter99 โดยตรง ทาง SMS โทร Facebook Inbox หรืออีเมล คุยภาษาไทย',
   },
   {
     q: 'ถ้าเลิกใช้ ข้อมูลไปไหน',
@@ -29,14 +31,17 @@ export function TrustFaq() {
       <div className="wrap">
         <div className="xtrust rv">
           <div>
+            <PressIcon icon={FolderLock} label="ข้อมูลร้าน" />
             <b>ข้อมูลเป็นของร้าน</b>
             <span>ย้ายออกได้</span>
           </div>
           <div>
+            <PressIcon icon={FileCheck} label="ราคาชัด" />
             <b>ราคาชัดก่อนเริ่ม</b>
             <span>ตกลงเป็นลายลักษณ์อักษร</span>
           </div>
           <div>
+            <PressIcon icon={CreditCard} label="การรับเงิน" />
             <b>ไม่รับเงินแทนร้าน</b>
             <span>ร้านรับผ่าน Square / เครื่องรูดบัตรของร้าน</span>
           </div>
@@ -67,7 +72,7 @@ export function TrustFaq() {
         ) : null}
         <div className="faq" style={{ marginTop: 56 }}>
           <div>
-            <span className="kicker">FAQ</span>
+            <span className="kicker">07 / FAQ</span>
             <h2 className="th2" style={{ marginTop: 12 }}>
               คำถามที่เจอบ่อย
             </h2>

@@ -6,16 +6,13 @@ import { Footer } from '../components/home-v7/Footer'
 import { Hero } from '../components/home-v7/Hero'
 import { HowSteps } from '../components/home-v7/HowSteps'
 import { MassageDemo } from '../components/home-v7/MassageDemo'
-import { MeetTeam } from '../components/home-v7/MeetTeam'
 import { OtherShops } from '../components/home-v7/OtherShops'
 import { Pricing } from '../components/home-v7/Pricing'
 import { StickyContact } from '../components/home-v7/StickyContact'
 import { TrustFaq } from '../components/home-v7/TrustFaq'
+import { v7Copy } from '../content/v7'
+import { setSeo } from '../lib/seo'
 import '../styles/home-v7.css'
-
-const FONT_HREF =
-  'https://fonts.googleapis.com/css2?family=Anton&family=Kanit:wght@600;700&family=IBM+Plex+Sans+Thai:wght@400;600&display=swap'
-const HAND_HREF = 'https://fonts.googleapis.com/css2?family=Charmonman:wght@700&display=swap'
 
 export default function HomeV7() {
   const [demoSrc, setDemoSrc] = useState<string | null>(null)
@@ -33,10 +30,13 @@ export default function HomeV7() {
       links.push(el)
     }
     add('preload', '/mockup/media/web/cta-spa.webp', { as: 'image', fetchPriority: 'high' })
-    add('preconnect', 'https://fonts.googleapis.com')
-    add('preconnect', 'https://fonts.gstatic.com')
-    add('stylesheet', FONT_HREF)
-    add('stylesheet', HAND_HREF, { media: '(min-width:1001px)' })
+    setSeo({
+      title: v7Copy.seo.title,
+      description: v7Copy.seo.description,
+      path: '/',
+      robots: 'index,follow',
+      lang: 'th',
+    })
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const els = document.querySelectorAll('.home-v7 .rv')
@@ -64,15 +64,17 @@ export default function HomeV7() {
 
   return (
     <div className="home-v7">
+      <main>
       <Hero onOpenDemo={setDemoSrc} />
       <BeforeAfter />
       <MassageDemo onOpenDemo={setDemoSrc} />
       <OtherShops />
       <HowSteps />
-      <MeetTeam />
+      {/* TODO: MeetTeam when real team.webp exists */}
       <Pricing />
       <TrustFaq />
       <FinalCta />
+      </main>
       <Footer />
       <StickyContact />
       <DemoModal src={demoSrc} onClose={() => setDemoSrc(null)} onChange={setDemoSrc} />

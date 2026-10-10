@@ -1,3 +1,6 @@
+import { CalendarCheck, Globe, ShieldCheck, Smartphone } from 'lucide-react'
+import { PressIcon } from './PressIcon'
+
 type Props = { onOpenDemo: (src: string) => void }
 
 export function MassageDemo({ onOpenDemo }: Props) {
@@ -6,10 +9,7 @@ export function MassageDemo({ onOpenDemo }: Props) {
       <div className="wrap">
         <div className="massage">
           <div className="rv">
-            <span className="kicker">
-              <img src="/mockup/media/web/logo.webp" alt="" width={22} height={22} />
-              Massage shops
-            </span>
+            <span className="kicker">03 / MASSAGE</span>
             <h2 className="th2" style={{ marginTop: 12 }}>
               สำหรับร้านนวดไทย
               <br />
@@ -20,7 +20,7 @@ export function MassageDemo({ onOpenDemo }: Props) {
             </p>
             <div className="row">
               <button type="button" className="btn btn--gold" onClick={() => onOpenDemo('/demo/demo-booking.html')}>
-                ▶ ลองจองคิว (เดโม)
+                ลองจองคิว (เดโม)
               </button>
               <button type="button" className="btn btn--outline" onClick={() => onOpenDemo('/demo/demo-order.html')}>
                 ลองสั่งอาหาร (เดโม)
@@ -35,7 +35,7 @@ export function MassageDemo({ onOpenDemo }: Props) {
               onClick={() => onOpenDemo('/demo/demo-booking.html')}
               aria-label="ลองกดเว็บตัวอย่าง"
             >
-              ▶ ลองกดดู
+              ลองกดดู
             </button>
             <div className="laptop">
               <div className="laptop__screen">
@@ -62,14 +62,14 @@ export function MassageDemo({ onOpenDemo }: Props) {
         </div>
         <div className="checks">
           <div className="check rv">
-            <i>✓</i>
+            <PressIcon icon={Globe} label="เว็บไซต์" />
             <div>
               <b>เว็บไซต์สวย</b>
               <span>บริการและราคาครบ</span>
             </div>
           </div>
           <div className="check rv">
-            <i>✓</i>
+            <PressIcon icon={CalendarCheck} label="จองคิว" />
             <div>
               <b>ระบบจองคิว</b>
               <span>
@@ -78,14 +78,14 @@ export function MassageDemo({ onOpenDemo }: Props) {
             </div>
           </div>
           <div className="check rv">
-            <i>✓</i>
+            <PressIcon icon={Smartphone} label="จัดการง่าย" />
             <div>
               <b>จัดการง่าย</b>
               <span>ดูคิวบนมือถือหรือคอม</span>
             </div>
           </div>
           <div className="check rv">
-            <i>✓</i>
+            <PressIcon icon={ShieldCheck} label="น่าเชื่อถือ" />
             <div>
               <b>น่าเชื่อถือขึ้น</b>
               <span>ลูกค้าใหม่หาร้านเจอ</span>
