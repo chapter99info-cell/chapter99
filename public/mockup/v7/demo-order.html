@@ -7,23 +7,30 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600&family=Oswald:wght@500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"IBM Plex Sans Thai",sans-serif;background:#fff;color:#16130F;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:24px}
+html,body{overflow-x:hidden}
+body{font-family:"IBM Plex Sans Thai",sans-serif;background:#fff;color:#0A0F1A;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:24px}
 .bar{position:sticky;top:0;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #EEE9E1;z-index:3;gap:8px}
-.bar b{font-family:Oswald,sans-serif;color:#9C6B35;letter-spacing:.04em;font-size:16px}
-.demo{background:#16130F;color:#fff;font-size:11px;font-weight:600;padding:4px 8px;border-radius:6px;flex:0 0 auto}
+.bar b{font-family:Oswald,sans-serif;color:#0A0F1A;letter-spacing:.04em;font-size:16px}
+.demo{background:#0A0F1A;color:#E8B54A;font-size:11px;font-weight:600;padding:4px 8px;border-radius:6px;flex:0 0 auto}
 h1{font-size:22px;padding:16px 18px 4px}
 .sub{color:#6E675D;font-size:15px;padding:0 18px 10px}
-.item{display:flex;gap:12px;padding:14px 18px;border-top:1px solid #F0ECE5;align-items:center}
-.tile{width:56px;height:56px;border-radius:10px;background:#FBF7EE;display:grid;place-items:center;flex:0 0 56px}
-.tile img{width:36px;height:36px;object-fit:contain}
-.copy{flex:1;min-width:0}
-.copy b{display:block;font-size:16px;line-height:1.35;overflow-wrap:anywhere}
-.copy small{color:#6E675D;font-size:14px}
+.item{display:grid;grid-template-columns:56px 1fr auto;gap:10px 12px;padding:14px 18px;border-top:1px solid #F0ECE5;align-items:center}
+.tile{width:56px;height:56px;border-radius:10px;background:#FBF7EE;border:1px solid rgba(232,181,74,.3);display:grid;place-items:center;color:#E8B54A}
+.tile svg{width:28px;height:28px;display:block}
+.copy{min-width:0}
+.copy b{display:flex;align-items:center;gap:6px;font-size:16px;line-height:1.35;overflow-wrap:anywhere}
+.copy small{display:block;color:#6E675D;font-size:14px;margin-top:2px}
 .copy .p{font-weight:600;margin-top:4px}
-.qty{display:flex;align-items:center;gap:4px;flex:0 0 auto}
-.qty button{width:36px;height:36px;border-radius:8px;border:1px solid #E6E1D8;background:#fff;font-size:18px}
-.qty span{min-width:1.2em;text-align:center}
+.spicy{display:inline-flex;color:#E8B54A;flex:0 0 auto}
+.spicy svg{width:16px;height:16px}
+.qty{display:flex;align-items:center;gap:6px;justify-self:end}
+.qty button{min-width:44px;min-height:44px;border-radius:8px;border:1px solid #E6E1D8;background:#fff;font-size:18px;color:#0A0F1A;cursor:pointer}
+.qty span{min-width:1.4em;text-align:center;font-weight:600}
 .note{font-size:14px;color:#6E675D;padding:14px 18px}
+@media (max-width:399px){
+  .item{grid-template-columns:56px 1fr}
+  .qty{grid-column:2;justify-self:end}
+}
 </style>
 </head>
 <body>
@@ -33,37 +40,52 @@ h1{font-size:22px;padding:16px 18px 4px}
 <p class="sub">ตัวอย่างการใช้งาน · ไม่มีการสั่งซื้อจริง</p>
 
 <div class="item">
-  <div class="tile"><img src="/icons/icons8-chili-pepper-50.png" alt="ไอคอนพริก — ผัดไทย"></div>
-  <div class="copy"><b>ผัดไทยกุ้ง</b><small>เส้นจันท์ กุ้งสด</small><div class="p">A$18.90</div></div>
+  <div class="tile" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2a3.28 3.28 0 003.227 1.798l6.17-.561A1 1 0 1119.614 8H8.5a6.44 6.44 0 00-5.63 9.75A6.5 6.5 0 008.5 21c1.38 0 2-.5 2.5-1"/><path d="M10 8a8.5 8.5 0 000 8"/><path d="M11 22c-.5-.5-1.12-1-2.5-1a1 1 0 010-5H12a7 7 0 007-7V8"/><path d="M13 12h.01"/><path d="M8 16c-2 0-4.5-4-4-6"/></svg></div>
+  <div class="copy"><b>ผัดไทยกุ้ง</b><small>เส้นจันท์ กุ้งสด ถั่วงอก</small><div class="p">A$18.90</div></div>
   <div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div>
 </div>
 <div class="item">
-  <div class="tile"><img src="/icons/icons8-soup-50.png" alt="ไอคอนชามแกง — แกงเขียวหวาน"></div>
-  <div class="copy"><b>แกงเขียวหวานไก่</b><small>พร้อมข้าวสวย</small><div class="p">A$19.50</div></div>
+  <div class="tile" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.248 3c.273.1.808.53.747 1.36-.05.83-.938 1.2-.989 2.02-.06.78.333 1.24.727 1.62"/><path d="M16.252 3c.268.1.794.53.745 1.36-.06.83-.923 1.2-.993 2.02-.05.78.338 1.24.725 1.62"/><path d="M19.5 12 22 6"/><path d="M4 12a1 1 0 00-.99 1.133A9 9 0 0012 21a9 9 0 008.99-7.867A1 1 0 0020 12z"/><path d="M6.252 3c.268.1.794.53.745 1.36-.06.83-.923 1.2-.993 2.02-.05.78.338 1.24.735 1.62"/><path d="M7 21h10"/></svg></div>
+  <div class="copy"><b>แกงเขียวหวานไก่ <span class="spicy" aria-label="เผ็ด"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg></span></b><small>กะทิ มะเขือเปราะ เสิร์ฟกับข้าว</small><div class="p">A$19.50</div></div>
   <div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div>
 </div>
 <div class="item">
-  <div class="tile"><img src="/icons/icons8-vegetable-50.png" alt="ไอคอนผัก — ข้าวผัดสับปะรด"></div>
-  <div class="copy"><b>ข้าวผัดสับปะรด</b><small>ใส่ในลูกสับปะรด</small><div class="p">A$21.00</div></div>
+  <div class="tile" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"/><path d="m4 8 16-4"/><path d="m8.86 6.78-.45-1.81a2 2 0 0 1 1.45-2.43l1.94-.48a2 2 0 0 1 2.43 1.46l.45 1.8"/></svg></div>
+  <div class="copy"><b>ข้าวผัดสับปะรด</b><small>ข้าวผัด ใส่ในลูกสับปะรด</small><div class="p">A$21.00</div></div>
   <div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div>
 </div>
 <div class="item">
-  <div class="tile"><img src="/icons/icons8-chicken-50.png" alt="ไอคอนไก่ — ไก่ทอด"></div>
-  <div class="copy"><b>ไก่ทอด</b><small>ชิ้นไก่ทอด ไม่ใช่ภาพจานจริง</small><div class="p">A$16.50</div></div>
+  <div class="tile" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.4 15.63a7.875 6 135 1 1 6.23-6.23 4.5 3.43 135 0 0-6.23 6.23"/><path d="m8.29 12.71-2.6 2.6a2.5 2.5 0 1 0-1.65 4.65A2.5 2.5 0 1 0 8.7 18.3l2.59-2.59"/></svg></div>
+  <div class="copy"><b>ไก่ทอด</b><small>ไก่ทอดกรอบ ซอสพริก</small><div class="p">A$16.50</div></div>
   <div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div>
 </div>
 <div class="item">
-  <div class="tile"><img src="/icons/icons8-pork-50.png" alt="ไอคอนหมู — หมูกรอบ"></div>
-  <div class="copy"><b>หมูกรอบผัดกะเพรา</b><small>ข้าวสวย ไข่ดาว</small><div class="p">A$18.50</div></div>
+  <div class="tile" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11.5" cy="12.5" r="3.5"/><path d="M3 8c0-3.5 2.5-6 6.5-6 5 0 4.83 3 7.5 5s5 2 5 6c0 4.5-2.5 6.5-7 6.5-2.5 0-2.5 2.5-6 2.5s-7-2-7-5.5c0-3 1.5-3 1.5-5C3.5 10 3 9 3 8Z"/></svg></div>
+  <div class="copy"><b>หมูกรอบผัดกะเพรา <span class="spicy" aria-label="เผ็ด"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg></span></b><small>กะเพรา หมูกรอบ ไข่ดาว</small><div class="p">A$18.50</div></div>
   <div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div>
 </div>
 <div class="item">
-  <div class="tile"><img src="/icons/icons8-cuts-of-beef-50.png" alt="ไอคอนเนื้อ — เนื้อย่าง"></div>
-  <div class="copy"><b>เนื้อย่างน้ำจิ้มแจ่ว</b><small>สไลซ์บาง</small><div class="p">A$22.00</div></div>
+  <div class="tile" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.4 13.7A6.5 6.5 0 1 0 6.28 6.6c-1.1 3.13-.78 3.9-3.18 6.08A3 3 0 0 0 5 18c4 0 8.4-1.8 11.4-4.3"/><path d="m18.5 6 1.754 3.5a6.48 6.48 0 0 1-1.854 8.2C15.4 20.2 11 22 7 22a3 3 0 0 1-2.68-1.66L2.4 16.5"/><circle cx="12.5" cy="8.5" r="2.5"/></svg></div>
+  <div class="copy"><b>เนื้อย่างน้ำจิ้มแจ่ว <span class="spicy" aria-label="เผ็ด"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg></span></b><small>เนื้อย่างสไลซ์ น้ำจิ้มแจ่ว</small><div class="p">A$22.00</div></div>
+  <div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div>
+</div>
+<div class="item">
+  <div class="tile" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.496 12a2.5 2.5 0 00.399-2.214A2 2 0 0020.32 6.5 2 2 0 0019 3a2 2 0 00-1.5.68 2 2 0 00-3.287.424 2.5 2.5 0 00-3.189 2.06A3 3 0 0012 12l4-4"/><path d="M4 12a1 1 0 00-.99 1.133A9 9 0 0012 21a9 9 0 008.99-7.867A1 1 0 0020 12z"/><path d="M7 21h10"/><path d="M9.85 6.907A3.5 3.5 0 005.05 12"/></svg></div>
+  <div class="copy"><b>ส้มตำไทย <span class="spicy" aria-label="เผ็ด"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg></span></b><small>มะละกอ ถั่วฝักยาว มะเขือเทศ</small><div class="p">A$14.50</div></div>
+  <div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div>
+</div>
+<div class="item">
+  <div class="tile" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 8 1.75 12.28a2 2 0 0 0 2 1.72h4.54a2 2 0 0 0 2-1.72L18 8"/><path d="M5 8h14"/><path d="M7 15a6.47 6.47 0 0 1 5 0 6.47 6.47 0 0 0 5 0"/><path d="m12 8 1-6h2"/></svg></div>
+  <div class="copy"><b>น้ำมะพร้าว</b><small>น้ำมะพร้าวสด ใส่น้ำแข็ง</small><div class="p">A$6.00</div></div>
+  <div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div>
+</div>
+<div class="item">
+  <div class="tile" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17c5 0 8-2.69 8-6H4c0 3.31 3 6 8 6m-4 4h8m-4-3v3M5.14 11a3.5 3.5 0 1 1 6.71 0"/><path d="M12.14 11a3.5 3.5 0 1 1 6.71 0"/><path d="M15.5 6.5a3.5 3.5 0 1 0-7 0"/></svg></div>
+  <div class="copy"><b>ข้าวเหนียวมะม่วง</b><small>มะม่วงสุก ข้าวเหนียวมูน</small><div class="p">A$12.00</div></div>
   <div class="qty"><button type="button" aria-label="ลด">−</button><span>0</span><button type="button" aria-label="เพิ่ม">+</button></div>
 </div>
 
-<p class="note">ร้านสมมติ · ไอคอนจากโฟลเดอร์ iconon (Icons8) · ไม่ใช้รูปถ่ายแทนจานอาหาร · ไม่คิดเงิน</p>
+<p class="note">ร้านสมมติ · เดโมสั่งอาหาร · ไม่คิดเงิน</p>
 </main>
 <script>
 document.querySelectorAll('.item').forEach(function(row){
