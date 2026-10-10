@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 const widths = [360, 390] as const
-const paths = ['/', '/pricing', '/business-toolkit'] as const
+const paths = ['/', '/pricing', '/pricing?tab=photography', '/business-toolkit'] as const
 
 function overflowProbe() {
   const vw = document.documentElement.clientWidth

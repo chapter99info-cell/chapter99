@@ -43,6 +43,8 @@ describe('/v7 homepage', () => {
     expect(
       screen.getByText(`ร้านนวด เริ่ม ${money(fromPrices.massage)} · ร้านอาหาร เริ่ม ${money(fromPrices.restaurant)}`),
     ).toBeInTheDocument()
+    expect(screen.getByText(`ถ่ายภาพอย่างเดียว เริ่ม ${money(fromPrices.photography)}`)).toBeInTheDocument()
+    expect(document.querySelector('a[href="/pricing?tab=photography"]')).toBeTruthy()
     expect(document.querySelector('a[href="/pricing"]')).toBeTruthy()
     expect(document.querySelector(`a[href="${v7Copy.contact.sms}"]`)).toBeTruthy()
     expect(document.querySelector(`a[href="${v7Copy.contact.facebookInbox}"]`)).toBeTruthy()

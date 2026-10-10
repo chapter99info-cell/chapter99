@@ -1,5 +1,6 @@
 import { Camera, Clapperboard, CreditCard } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { LanguageProvider, useTranslation } from '../../cinematic/i18n/LanguageContext'
 import { squareFees, squareHardware, squarePlans, squareSetup } from '../../cinematic/data/packages'
 import { Footer } from '../../components/home-v7/Footer'
@@ -8,6 +9,8 @@ import { PressIcon } from '../../components/home-v7/PressIcon'
 import { StickyContact } from '../../components/home-v7/StickyContact'
 import {
   editsDisplay,
+  hoursDisplay,
+  isSegment,
   monthlyDisplay,
   plansFor,
   pricing,
@@ -21,8 +24,20 @@ import '../../styles/home-v7.css'
 
 function PricingInner() {
   const { lang, setLang, t } = useTranslation()
-  const [segment, setSegment] = useState<Segment>('massage')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const tab = searchParams.get('tab')
+  const [segment, setSegment] = useState<Segment>(isSegment(tab) ? tab : 'massage')
   const [menuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    if (isSegment(tab) && tab !== segment) setSegment(tab)
+  }, [tab, segment])
+
+  const selectSegment = (next: Segment) => {
+    setSegment(next)
+    if (next === 'massage') setSearchParams({}, { replace: true })
+    else setSearchParams({ tab: next }, { replace: true })
+  }
 
   useEffect(() => {
     const title = lang === 'th' ? 'Chapter99 — ราคาตามประเภทธุรกิจ' : 'Chapter99 — Prices by shop type'
@@ -87,24 +102,36 @@ function PricingInner() {
       <section className="sec" id="packages">
         <div className="wrap">
           <div className="price-seg" role="tablist" aria-label={lang === 'th' ? 'ประเภทธุรกิจ' : 'Shop type'}>
-            <button type="button" role="tab" aria-selected={segment === 'massage'} onClick={() => setSegment('massage')}>
+            <button type="button" role="tab" aria-selected={segment === 'massage'} onClick={() => selectSegment('massage')}>
               {t(copy.massage)}
             </button>
             <button
               type="button"
               role="tab"
               aria-selected={segment === 'restaurant'}
-              onClick={() => setSegment('restaurant')}
+              onClick={() => selectSegment('restaurant')}
             >
               {t(copy.restaurant)}
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={segment === 'photography'}
+              onClick={() => selectSegment('photography')}
+            >
+              {t(copy.photography)}
             </button>
           </div>
           <p className="price-swap">
             {t(copy.system[segment])}
-            <a className="demo-tag" href={demoHref[segment]} target="_blank" rel="noopener noreferrer">
-              {t(copy.demo)}
-            </a>
+            {segment !== 'photography' ? (
+              <a className="demo-tag" href={demoHref[segment]} target="_blank" rel="noopener noreferrer">
+                {t(copy.demo)}
+              </a>
+            ) : null}
           </p>
+
+          {segment === 'photography' ? <ApprovedPhotoStrip /> : null}
 
           <div className="xplans xplans--3">
             {plans.map((plan, index) => (
@@ -119,14 +146,22 @@ function PricingInner() {
                 </div>
                 <div className="amt">
                   <b>{setupDisplay(plan, lang)}</b>
-                  <span>{monthlyDisplay(plan, lang)}</span>
+                  {monthlyDisplay(plan, lang) ? <span>{monthlyDisplay(plan, lang)}</span> : null}
                 </div>
-                <div className="amt-note">{editsDisplay(plan, lang)}</div>
-                <ul>
-                  {plan.bullets.map((item) => (
-                    <li key={item.en}>{t(item)}</li>
-                  ))}
-                </ul>
+                <div className="amt-note">
+                  {segment === 'photography' ? hoursDisplay(plan, lang) : editsDisplay(plan, lang)}
+                </div>
+                {plan.fit ? (
+                  <p className="plan-fit">
+                    {t(copy.fit)} {t(plan.fit)}
+                  </p>
+                ) : (
+                  <ul>
+                    {plan.bullets.map((item) => (
+                      <li key={item.en}>{t(item)}</li>
+                    ))}
+                  </ul>
+                )}
                 <a
                   className={index === 1 ? 'btn btn--gold' : 'btn btn--dark'}
                   href={v7Copy.contact.facebookInbox}
@@ -135,18 +170,31 @@ function PricingInner() {
                 >
                   {t(copy.ctaFb)}
                 </a>
+                {segment === 'photography' ? (
+                  <a className="btn btn--line plan-sms" href={v7Copy.contact.sms}>
+                    {t(copy.sms)}
+                  </a>
+                ) : null}
               </article>
             ))}
           </div>
 
-          <p className="price-inc">{t(copy.gstLine)}</p>
+          {segment === 'photography' ? (
+            <div className="photo-scope">
+              {copy.photoScope.map((line) => (
+                <p key={line.en}>{t(line)}</p>
+              ))}
+            </div>
+          ) : (
+            <p className="price-inc">{t(copy.gstLine)}</p>
+          )}
 
           <div className="xaddon price-addons">
             <span className="xtag">{t(copy.optional)}</span>
-            <span>
+            <a className="addon-link" href="/pricing?tab=photography">
               <PressIcon icon={Camera} label={t(copy.photo)} />
               {t(copy.photo)} <b>{pricing.addons.photography.price}</b>
-            </span>
+            </a>
             <span>
               <PressIcon icon={Clapperboard} label={t(copy.reels)} />
               {t(copy.reels)} <b>{pricing.addons.reels.price}</b>
@@ -201,6 +249,40 @@ function PricingInner() {
       </main>
       <Footer />
       <StickyContact heroSelector=".price-v7 .price-hero" />
+    </div>
+  )
+}
+
+function ApprovedPhotoStrip() {
+  const { t } = useTranslation()
+  const [images, setImages] = useState<{ src: string; alt?: string }[]>([])
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    fetch('/portfolio/approved/manifest.json')
+      .then((res) => (res.ok ? res.json() : { images: [] }))
+      .then((data: { images?: { src: string; alt?: string }[] }) => {
+        setImages((data.images ?? []).filter((item) => item.src).slice(0, 6))
+      })
+      .catch(() => setImages([]))
+      .finally(() => setReady(true))
+  }, [])
+
+  if (!ready) return null
+  if (images.length === 0) {
+    return (
+      <p className="photo-fb">
+        <a href={v7Copy.contact.facebook} target="_blank" rel="noopener noreferrer">
+          {t(copy.fbWork)}
+        </a>
+      </p>
+    )
+  }
+  return (
+    <div className="photo-port" aria-label="ผลงานที่อนุมัติแล้ว">
+      {images.map((item) => (
+        <img key={item.src} src={item.src} alt={item.alt || ''} width={240} height={180} />
+      ))}
     </div>
   )
 }

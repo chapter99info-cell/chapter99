@@ -22,9 +22,26 @@ Do **not** sell or mention Loyalty or OTP/SMS features (not ready).
 | Order | A$899 | A$69 | 5 | Recommended · online order (pickup) |
 | Launch | from A$1,499 | A$119 | 8 | Photos ≤20 + 1 Reel · on-site ≤2 hrs |
 
+## Photography (one-time, GST-inclusive, time-based)
+
+| Plan | Price / session | Hours | Fit |
+|---|---:|---:|---|
+| Essential | A$349 | 1 | Shop, team, or hero product |
+| Half Day | A$690 | 4 | Recommended · shop, services, food, products |
+| Full Day | A$1,500 | 8 | Opening, rebrand, photo library |
+
+Scope rules:
+- Sell **time**, not a fixed photo count. Do not promise “X photos”.
+- 1 photographer, 1 location.
+- Deliver all selected files with light, colour, and crop.
+- No RAW files.
+- Detailed retouch (skin, cut-out, backdrop) quoted per image **before** work.
+- Video and travel outside Sydney are separate quotes.
+- Add-on “ถ่ายภาพร้าน” on web packages = Essential price (`pricing.photography.essential`).
+
 ## Add-ons (one-time)
 
-Photography A$349 · Reels A$349 · Square Setup A$199.  
+Photography A$349 (same as Essential) · Reels A$349 · Square Setup A$199.  
 Not charged twice if already included in the chosen package.
 
 ## Edit-round definition (customer-facing)
