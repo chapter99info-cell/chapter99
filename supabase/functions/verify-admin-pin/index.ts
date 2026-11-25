@@ -4,8 +4,9 @@ const MAX_ATTEMPTS = 5
 const LOCKOUT_MINUTES = 15
 const SESSION_HOURS = 8
 
+const ALLOWED_ORIGIN = Deno.env.get('CORS_ORIGIN') ?? 'https://www.chapter99info.com'
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
